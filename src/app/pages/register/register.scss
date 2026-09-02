@@ -1,0 +1,546 @@
+// =====================================================
+// CONTENEUR PRINCIPAL
+// =====================================================
+
+.register-container {
+
+  // La page occupe toute la hauteur.
+  min-height: 100vh;
+
+  // Centre la carte horizontalement.
+  display: flex;
+  justify-content: center;
+
+  // Centre la carte verticalement.
+  align-items: center;
+
+  // Fond légèrement gris.
+  background: #f5f6f7;
+
+  // Espace sur les petits écrans.
+  padding: 30px 20px;
+
+  // Empêche le padding de dépasser la taille.
+  box-sizing: border-box;
+}
+
+
+// =====================================================
+// CARTE D'INSCRIPTION
+// =====================================================
+
+.register-card {
+
+  // Largeur de la carte.
+  width: 100%;
+
+  // Largeur maximale.
+  max-width: 470px;
+
+  // Fond blanc.
+ 
+
+  // Coins plus arrondis pour un style moderne.
+  border-radius: 18px;
+
+  // Espace intérieur.
+  padding: 32px;
+
+  // Ombre légère.
+ 
+  // Gestion du padding.
+  box-sizing: border-box;
+}
+
+
+// =====================================================
+// EN-TÊTE
+// =====================================================
+
+.register-header {
+
+  // Centre le contenu.
+  text-align: center;
+
+  // Espace sous l'en-tête.
+  margin-bottom: 28px;
+}
+
+
+// =====================================================
+// NOM DE L'APPLICATION
+// =====================================================
+
+h1 {
+
+  // Couleur rouge de MyCampusGuide.
+  color: #c90000;
+
+  // Taille du nom.
+  font-size: 32px;
+
+  // Épaisseur.
+  font-weight: 700;
+
+  // Supprime les marges inutiles.
+  margin: 0 0 8px;
+}
+
+
+// =====================================================
+// TITRE
+// =====================================================
+
+h2 {
+
+  // Couleur sombre.
+  color: #1c1e21;
+
+  // Taille du titre.
+  font-size: 25px;
+
+  // Supprime les marges.
+  margin: 0 0 8px;
+
+  // Épaisseur.
+  font-weight: 600;
+}
+
+
+// =====================================================
+// DESCRIPTION
+// =====================================================
+
+.register-header p {
+
+  // Couleur grise.
+  color: #65676b;
+
+  // Taille du texte.
+  font-size: 14px;
+
+  // Hauteur de ligne.
+  line-height: 1.5;
+
+  // Supprime les marges.
+  margin: 0;
+}
+
+
+// =====================================================
+// PRÉNOM + NOM
+// =====================================================
+
+.name-row {
+
+  // Affiche les deux champs sur la même ligne.
+  display: grid;
+
+  // Deux colonnes égales.
+  grid-template-columns: 1fr 1fr;
+
+  // Espace entre les champs.
+  gap: 12px;
+}
+
+
+// =====================================================
+// GROUPE DE FORMULAIRE
+// =====================================================
+
+.form-group {
+
+  // Espace entre les champs.
+  margin-bottom: 17px;
+}
+
+
+// =====================================================
+// LABEL
+// =====================================================
+
+label {
+
+  // Le label occupe toute la largeur.
+  display: block;
+
+  // Espace sous le label.
+  margin-bottom: 7px;
+
+  // Texte légèrement épais.
+  font-size: 14px;
+
+  // Épaisseur du texte.
+  font-weight: 600;
+
+  // Couleur.
+  color: #333333;
+}
+
+
+// =====================================================
+// INPUTS
+// =====================================================
+
+input {
+
+  // Prend toute la largeur.
+  width: 100%;
+
+  // Hauteur confortable.
+  padding: 14px;
+
+  // Gestion de la largeur.
+  box-sizing: border-box;
+
+  // Bordure discrète.
+  border: 1px solid #ccd0d5;
+
+  // Coins arrondis.
+  border-radius: 10px;
+
+  // Taille du texte.
+  font-size: 15px;
+
+  // Fond légèrement gris.
+  background: #f7f8fa;
+
+  // Transition.
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s,
+    background 0.2s;
+}
+
+
+// =====================================================
+// PLACEHOLDER
+// =====================================================
+
+input::placeholder {
+
+  // Couleur du placeholder.
+  color: #8a8d91;
+}
+
+
+// =====================================================
+// INPUT AU FOCUS
+// =====================================================
+
+input:focus {
+
+  // Supprime le contour navigateur.
+  outline: none;
+
+  // Fond blanc.
+  background: #ffffff;
+
+  // Bordure rouge.
+  border-color: #c90000;
+
+  // Halo léger.
+  box-shadow:
+    0 0 0 3px rgba(201, 0, 0, 0.10);
+}
+
+
+// =====================================================
+// CONTENEUR MOT DE PASSE
+// =====================================================
+
+.password-container {
+
+  // Permet de positionner l'œil.
+  position: relative;
+}
+
+
+// =====================================================
+// INPUT MOT DE PASSE
+// =====================================================
+
+.password-container input {
+
+  // Espace supplémentaire à droite
+  // pour éviter que le texte touche l'œil.
+  padding-right: 48px;
+}
+
+
+// =====================================================
+// BOUTON ŒIL
+// =====================================================
+
+.password-toggle {
+
+  // Positionnement à l'intérieur du champ.
+  position: absolute;
+
+  // Centre verticalement.
+  top: 50%;
+  right: 12px;
+
+  transform: translateY(-50%);
+
+  // Taille du bouton.
+  width: 30px;
+  height: 30px;
+
+  // Supprime le style du bouton.
+  padding: 0;
+  border: none;
+
+  // Fond transparent.
+  background: transparent;
+
+  // Curseur.
+  cursor: pointer;
+
+  // Centre l'icône.
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+// =====================================================
+// SVG DE L'ŒIL
+// =====================================================
+
+.password-toggle svg {
+
+  // Taille de l'icône.
+  width: 20px;
+  height: 20px;
+
+  // Bordure de l'icône.
+  fill: none;
+
+  // Épaisseur des traits.
+  stroke: #65676b;
+
+  stroke-width: 1.8;
+
+  // Coins des traits.
+  stroke-linecap: round;
+
+  stroke-linejoin: round;
+
+  // Animation.
+  transition: stroke 0.2s;
+}
+
+
+// =====================================================
+// SURVOL DE L'ŒIL
+// =====================================================
+
+.password-toggle:hover svg {
+
+  // Devient rouge au survol.
+  stroke: #c90000;
+}
+
+
+// =====================================================
+// MESSAGE D'ERREUR
+// =====================================================
+
+.error {
+
+  // Texte rouge.
+  color: #c90000;
+
+  // Fond légèrement rouge.
+  background: #fff1f1;
+
+  // Bordure rouge.
+  border-left: 4px solid #c90000;
+
+  // Espace intérieur.
+  padding: 11px;
+
+  // Coins arrondis.
+  border-radius: 7px;
+
+  // Taille du texte.
+  font-size: 14px;
+
+  // Marge.
+  margin: 5px 0 17px;
+}
+
+
+// =====================================================
+// BOUTON INSCRIPTION
+// =====================================================
+
+.register-button {
+
+  // Prend toute la largeur.
+  width: 100%;
+
+  // Hauteur du bouton.
+  padding: 14px;
+
+  // Fond rouge.
+  background: #c90000;
+
+  // Texte blanc.
+  color: #ffffff;
+
+  // Supprime la bordure.
+  border: none;
+
+  // Coins arrondis.
+  border-radius: 9px;
+
+  // Taille du texte.
+  font-size: 16px;
+
+  // Texte épais.
+  font-weight: 600;
+
+  // Curseur.
+  cursor: pointer;
+
+  // Animation.
+  transition:
+    background 0.2s,
+    transform 0.2s;
+}
+
+
+// =====================================================
+// SURVOL DU BOUTON
+// =====================================================
+
+.register-button:hover {
+
+  // Rouge plus foncé.
+  background: #a80000;
+
+  // Petit déplacement.
+  transform: translateY(-1px);
+}
+
+
+// =====================================================
+// CLIC SUR LE BOUTON
+// =====================================================
+
+.register-button:active {
+
+  // Retour à la position initiale.
+  transform: translateY(0);
+}
+
+
+// =====================================================
+// LIEN DE CONNEXION
+// =====================================================
+
+.login-link {
+
+  // Séparation visuelle.
+  border-top: 1px solid #e4e6eb;
+
+  // Espace au-dessus.
+  margin-top: 24px;
+
+  // Espace intérieur.
+  padding-top: 20px;
+
+  // Centre le texte.
+  text-align: center;
+}
+
+
+// =====================================================
+// TEXTE DU LIEN
+// =====================================================
+
+.login-link p {
+
+  // Supprime la marge.
+  margin: 0;
+
+  // Taille du texte.
+  font-size: 14px;
+
+  // Couleur.
+  color: #65676b;
+}
+
+
+// =====================================================
+// LIEN "SE CONNECTER"
+// =====================================================
+
+.login-link a {
+
+  // Couleur rouge.
+  color: #c90000;
+
+  // Texte légèrement épais.
+  font-weight: 600;
+
+  // Pas de soulignement.
+  text-decoration: none;
+
+  // Espace avec le texte précédent.
+  margin-left: 4px;
+}
+
+
+// =====================================================
+// SURVOL DU LIEN
+// =====================================================
+
+.login-link a:hover {
+
+  // Souligne le lien au survol.
+  text-decoration: underline;
+}
+
+
+// =====================================================
+// RESPONSIVE
+// =====================================================
+
+@media (max-width: 600px) {
+
+  // Carte sur petit écran.
+  .register-card {
+
+    // Réduit l'espace intérieur.
+    padding: 25px 20px;
+
+    // Coins légèrement moins grands.
+    border-radius: 14px;
+  }
+
+
+  // Prénom et nom passent
+  // l'un sous l'autre.
+  .name-row {
+
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+
+  // Réduit légèrement le titre.
+  h1 {
+
+    font-size: 28px;
+  }
+
+
+  // Réduit légèrement le sous-titre.
+  h2 {
+
+    font-size: 22px;
+  }
+}

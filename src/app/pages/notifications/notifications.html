@@ -1,0 +1,230 @@
+<!--
+  Conteneur principal de la page
+  des notifications.
+-->
+<div class="notifications-container">
+
+
+  <!-- ============================= -->
+  <!-- EN-TÊTE                         -->
+  <!-- ============================= -->
+
+  <div class="notifications-header">
+
+    <!-- Titre de la page -->
+    <div>
+
+      <h1>Notifications</h1>
+
+      <p>
+        Retrouvez ici toutes vos notifications.
+      </p>
+
+    </div>
+
+
+    <!-- Compteur des notifications non lues -->
+    <div class="notification-counter">
+
+      <span>
+        {{ unreadCount }}
+      </span>
+
+      <small>
+        non lue{{ unreadCount > 1 ? 's' : '' }}
+      </small>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- ============================= -->
+  <!-- BOUTON ACTUALISER              -->
+  <!-- ============================= -->
+
+  <div class="actions">
+
+    <button
+      type="button"
+      (click)="refresh()"
+      [disabled]="loading"
+    >
+
+      ↻ Actualiser
+
+    </button>
+
+  </div>
+
+
+
+  <!-- ============================= -->
+  <!-- MESSAGE D'ERREUR               -->
+  <!-- ============================= -->
+
+  @if (errorMessage) {
+
+    <div class="error-message">
+
+      {{ errorMessage }}
+
+    </div>
+
+  }
+
+
+
+  <!-- ============================= -->
+  <!-- CHARGEMENT                     -->
+  <!-- ============================= -->
+
+  @if (loading) {
+
+    <div class="loading">
+
+      Chargement des notifications...
+
+    </div>
+
+  }
+
+
+
+  <!-- ============================= -->
+  <!-- AUCUNE NOTIFICATION            -->
+  <!-- ============================= -->
+
+  @if (!loading && notifications.length === 0) {
+
+    <div class="empty-state">
+
+      <div class="empty-icon">
+        🔔
+      </div>
+
+      <h2>
+        Aucune notification
+      </h2>
+
+      <p>
+        Vous n'avez actuellement aucune notification.
+      </p>
+
+    </div>
+
+  }
+
+
+
+  <!-- ============================= -->
+  <!-- LISTE DES NOTIFICATIONS        -->
+  <!-- ============================= -->
+
+  @if (!loading && notifications.length > 0) {
+
+    <div class="notifications-list">
+
+
+      <!-- Parcours de toutes les notifications -->
+      @for (notification of notifications; track notification.id) {
+
+        <div
+          class="notification-card"
+          [class.unread]="!notification.lu"
+        >
+
+
+          <!-- Icône de notification -->
+          <div class="notification-icon">
+
+            🔔
+
+          </div>
+
+
+          <!-- Contenu -->
+          <div class="notification-content">
+
+            <div class="notification-title-row">
+
+              <!-- Titre -->
+              <h3>
+                {{ notification.titre }}
+              </h3>
+
+
+              <!-- Badge non lue -->
+              @if (!notification.lu) {
+
+                <span class="unread-badge">
+                  Non lue
+                </span>
+
+              }
+
+            </div>
+
+
+            <!-- Message -->
+            <p>
+              {{ notification.message }}
+            </p>
+
+
+            <!-- Date -->
+            @if (notification.dateCreation) {
+
+              <small>
+
+                {{ notification.dateCreation | date:'dd/MM/yyyy HH:mm' }}
+
+              </small>
+
+            }
+
+
+            <!-- Actions -->
+            <div class="notification-actions">
+
+              <!-- Bouton marquer comme lue -->
+              @if (!notification.lu) {
+
+                <button
+                  type="button"
+                  class="read-button"
+                  (click)="markAsRead(notification)"
+                >
+
+                  ✓ Marquer comme lue
+
+                </button>
+
+              }
+
+
+              <!-- Bouton supprimer -->
+              <button
+                type="button"
+                class="delete-button"
+                (click)="deleteNotification(notification)"
+              >
+
+                🗑 Supprimer
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+  }
+
+</div>

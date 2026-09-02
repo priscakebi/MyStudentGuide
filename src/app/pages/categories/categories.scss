@@ -1,0 +1,467 @@
+/*
+ * ==========================================
+ * CONTENEUR PRINCIPAL
+ * ==========================================
+ */
+
+.categorie-container {
+
+  /*
+   * Largeur maximale de la page.
+   */
+  max-width: 1200px;
+
+  /*
+   * Centrage horizontal.
+   */
+  margin: 0 auto;
+
+  /*
+   * Espacement intérieur.
+   */
+  padding: 40px;
+
+}
+
+
+/*
+ * ==========================================
+ * EN-TÊTE
+ * ==========================================
+ */
+
+.page-header {
+
+  /*
+   * Marge sous l'en-tête.
+   */
+  margin-bottom: 35px;
+
+}
+
+
+.page-header h1 {
+
+  /*
+   * Couleur principale de MyCampusGuide.
+   */
+  color: #c62828;
+
+  /*
+   * Taille du titre.
+   */
+  font-size: 32px;
+
+  /*
+   * Suppression de la marge supérieure.
+   */
+  margin-top: 0;
+
+  /*
+   * Marge inférieure.
+   */
+  margin-bottom: 10px;
+
+}
+
+
+.page-header p {
+
+  /*
+   * Couleur du texte secondaire.
+   */
+  color: #666;
+
+  /*
+   * Taille du texte.
+   */
+  font-size: 16px;
+
+}
+
+
+/*
+ * ==========================================
+ * GRILLE DES CATÉGORIES
+ * ==========================================
+ */
+
+.categories-grid {
+
+  /*
+   * Utilisation d'une grille responsive.
+   */
+  display: grid;
+
+  /*
+   * Création de colonnes automatiques.
+   */
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(280px, 1fr)
+  );
+
+  /*
+   * Espacement entre les cartes.
+   */
+  gap: 25px;
+
+}
+
+
+/*
+ * ==========================================
+ * CARTE CATÉGORIE
+ * ==========================================
+ */
+
+.categorie-card {
+
+  /*
+   * Fond blanc.
+   */
+  background: #ffffff;
+
+  /*
+   * Bordure rouge légère.
+   */
+  border: 1px solid #f0b0b0;
+
+  /*
+   * Coins arrondis.
+   */
+  border-radius: 12px;
+
+  /*
+   * Espacement intérieur.
+   */
+  padding: 25px;
+
+  /*
+   * Organisation horizontale.
+   */
+  display: flex;
+
+  /*
+   * Espacement entre l'icône
+   * et le contenu.
+   */
+  gap: 20px;
+
+  /*
+   * Ombre légère.
+   */
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.08);
+
+  /*
+   * Animation lors du survol.
+   */
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+}
+
+
+/*
+ * Effet au survol d'une carte.
+ */
+
+.categorie-card:hover {
+
+  /*
+   * Petit déplacement vers le haut.
+   */
+  transform: translateY(-4px);
+
+  /*
+   * Ombre plus importante.
+   */
+  box-shadow:
+    0 8px 20px rgba(198, 40, 40, 0.15);
+
+}
+
+
+/*
+ * ==========================================
+ * ICÔNE
+ * ==========================================
+ */
+
+.categorie-icon {
+
+  /*
+   * Taille de l'icône.
+   */
+  width: 50px;
+
+  height: 50px;
+
+  /*
+   * Fond rouge très clair.
+   */
+  background: #fdeaea;
+
+  /*
+   * Coins arrondis.
+   */
+  border-radius: 10px;
+
+  /*
+   * Centrage de l'emoji.
+   */
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  /*
+   * Taille de l'emoji.
+   */
+  font-size: 25px;
+
+  /*
+   * Empêche l'icône de rétrécir.
+   */
+  flex-shrink: 0;
+
+}
+
+
+/*
+ * ==========================================
+ * CONTENU
+ * ==========================================
+ */
+
+.categorie-content {
+
+  /*
+   * Permet au contenu d'occuper
+   * l'espace disponible.
+   */
+  flex: 1;
+
+}
+
+
+.categorie-content h2 {
+
+  /*
+   * Couleur rouge principale.
+   */
+  color: #c62828;
+
+  /*
+   * Taille du titre.
+   */
+  font-size: 20px;
+
+  /*
+   * Marge supérieure supprimée.
+   */
+  margin-top: 0;
+
+  /*
+   * Marge inférieure.
+   */
+  margin-bottom: 10px;
+
+}
+
+
+.categorie-content p {
+
+  /*
+   * Couleur du texte.
+   */
+  color: #666;
+
+  /*
+   * Hauteur de ligne.
+   */
+  line-height: 1.5;
+
+  /*
+   * Suppression de la marge inférieure.
+   */
+  margin-bottom: 0;
+
+}
+
+
+/*
+ * ==========================================
+ * CHARGEMENT
+ * ==========================================
+ */
+
+.loading {
+
+  /*
+   * Centrage du message.
+   */
+  text-align: center;
+
+  /*
+   * Espacement.
+   */
+  padding: 50px;
+
+  /*
+   * Couleur rouge.
+   */
+  color: #c62828;
+
+}
+
+
+/*
+ * ==========================================
+ * MESSAGE D'ERREUR
+ * ==========================================
+ */
+
+.error-message {
+
+  /*
+   * Fond rouge très clair.
+   */
+  background: #fdeaea;
+
+  /*
+   * Bordure rouge.
+   */
+  border: 1px solid #ef9a9a;
+
+  /*
+   * Espacement intérieur.
+   */
+  padding: 20px;
+
+  /*
+   * Coins arrondis.
+   */
+  border-radius: 10px;
+
+  /*
+   * Couleur du texte.
+   */
+  color: #b71c1c;
+
+  /*
+   * Marge inférieure.
+   */
+  margin-bottom: 25px;
+
+}
+
+
+.error-message button {
+
+  /*
+   * Fond rouge.
+   */
+  background: #c62828;
+
+  /*
+   * Texte blanc.
+   */
+  color: white;
+
+  /*
+   * Suppression de la bordure.
+   */
+  border: none;
+
+  /*
+   * Espacement.
+   */
+  padding: 10px 20px;
+
+  /*
+   * Coins arrondis.
+   */
+  border-radius: 6px;
+
+  /*
+   * Curseur.
+   */
+  cursor: pointer;
+
+}
+
+
+/*
+ * ==========================================
+ * AUCUNE CATÉGORIE
+ * ==========================================
+ */
+
+.empty-message {
+
+  /*
+   * La zone occupe toute la largeur.
+   */
+  grid-column: 1 / -1;
+
+  /*
+   * Centrage.
+   */
+  text-align: center;
+
+  /*
+   * Espacement.
+   */
+  padding: 50px;
+
+  /*
+   * Couleur secondaire.
+   */
+  color: #777;
+
+}
+
+
+/*
+ * ==========================================
+ * RESPONSIVE
+ * ==========================================
+ */
+
+@media (max-width: 600px) {
+
+  .categorie-container {
+
+    /*
+     * Réduction des marges sur mobile.
+     */
+    padding: 20px;
+
+  }
+
+
+  .page-header h1 {
+
+    /*
+     * Titre légèrement plus petit.
+     */
+    font-size: 26px;
+
+  }
+
+
+  .categorie-card {
+
+    /*
+     * Passage en disposition verticale
+     * sur petit écran.
+     */
+    flex-direction: column;
+
+  }
+
+}

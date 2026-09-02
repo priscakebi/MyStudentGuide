@@ -1,0 +1,329 @@
+<!-- Conteneur principal de la page -->
+<div class="register-container">
+
+  <!-- Carte d'inscription -->
+  <div class="register-card">
+
+    <!-- ================================= -->
+    <!-- EN-TÊTE                           -->
+    <!-- ================================= -->
+
+    <div class="register-header">
+
+      <!-- Nom de l'application -->
+      <h1>MyCampusGuide</h1>
+
+      <!-- Titre -->
+      <h2>Créer un compte</h2>
+
+      <!-- Petite description -->
+      <p>
+        Inscrivez-vous pour commencer votre expérience
+        avec MyCampusGuide.
+      </p>
+
+    </div>
+
+
+    <!-- ================================= -->
+    <!-- FORMULAIRE                        -->
+    <!-- ================================= -->
+
+    <form (ngSubmit)="onRegister()">
+
+
+      <!-- ================================= -->
+      <!-- PRÉNOM + NOM                      -->
+      <!-- ================================= -->
+
+      <div class="name-row">
+
+        <!-- Prénom -->
+        <div class="form-group">
+
+          <label for="firstName">
+            Prénom
+          </label>
+
+          <input
+            id="firstName"
+            type="text"
+            name="firstName"
+            [(ngModel)]="firstName"
+            placeholder="Prénom"
+            autocomplete="given-name"
+            required
+          >
+
+        </div>
+
+
+        <!-- Nom -->
+        <div class="form-group">
+
+          <label for="lastName">
+            Nom
+          </label>
+
+          <input
+            id="lastName"
+            type="text"
+            name="lastName"
+            [(ngModel)]="lastName"
+            placeholder="Nom"
+            autocomplete="family-name"
+            required
+          >
+
+        </div>
+
+      </div>
+
+
+      <!-- ================================= -->
+      <!-- E-MAIL                             -->
+      <!-- ================================= -->
+
+      <div class="form-group">
+
+        <label for="email">
+          Adresse e-mail
+        </label>
+
+        <input
+          id="email"
+          type="email"
+          name="email"
+          [(ngModel)]="email"
+          placeholder="Votre adresse e-mail"
+          autocomplete="email"
+          required
+        >
+
+      </div>
+
+
+      <!-- ================================= -->
+      <!-- MOT DE PASSE                       -->
+      <!-- ================================= -->
+
+      <div class="form-group">
+
+        <label for="password">
+          Mot de passe
+        </label>
+
+        <div class="password-container">
+
+          <input
+            id="password"
+            [type]="passwordVisible ? 'text' : 'password'"
+            name="password"
+            [(ngModel)]="password"
+            placeholder="Nouveau mot de passe"
+            autocomplete="new-password"
+            required
+          >
+
+          <!-- Icône œil -->
+          <button
+            type="button"
+            class="password-toggle"
+            (click)="togglePassword()"
+            [attr.aria-label]="passwordVisible
+              ? 'Masquer le mot de passe'
+              : 'Afficher le mot de passe'"
+          >
+
+            @if (passwordVisible) {
+
+              <!-- Œil barré -->
+              <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path d="M3 3l18 18"></path>
+
+                <path
+                  d="M10.6 10.6a2 2 0 0 0 2.8 2.8"
+                ></path>
+
+                <path
+                  d="M9.9 5.2A10.8 10.8 0 0 1 12 5
+                  c5 0 8.5 4 9.8 7
+                  -.5 1.1-1.5 2.7-3.1 4.1"
+                ></path>
+
+                <path
+                  d="M6.1 6.1C4.4 7.4 3.1 9.2 2.2 12
+                  c1.3 3 4.8 7 9.8 7
+                  1.2 0 2.3-.2 3.3-.6"
+                ></path>
+              </svg>
+
+            } @else {
+
+              <!-- Œil normal -->
+              <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  d="M2.2 12
+                  C3.5 9 7 5 12 5
+                  s8.5 4 9.8 7
+                  C20.5 15 17 19 12 19
+                  s-8.5-4-9.8-7Z"
+                ></path>
+
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="3"
+                ></circle>
+              </svg>
+
+            }
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- ================================= -->
+      <!-- CONFIRMATION MOT DE PASSE          -->
+      <!-- ================================= -->
+
+      <div class="form-group">
+
+        <label for="confirmPassword">
+          Confirmer le mot de passe
+        </label>
+
+        <div class="password-container">
+
+          <input
+            id="confirmPassword"
+            [type]="confirmPasswordVisible
+              ? 'text'
+              : 'password'"
+            name="confirmPassword"
+            [(ngModel)]="confirmPassword"
+            placeholder="Confirmer votre mot de passe"
+            autocomplete="new-password"
+            required
+          >
+
+          <!-- Icône œil -->
+          <button
+            type="button"
+            class="password-toggle"
+            (click)="toggleConfirmPassword()"
+            [attr.aria-label]="confirmPasswordVisible
+              ? 'Masquer le mot de passe'
+              : 'Afficher le mot de passe'"
+          >
+
+            @if (confirmPasswordVisible) {
+
+              <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path d="M3 3l18 18"></path>
+
+                <path
+                  d="M10.6 10.6a2 2 0 0 0 2.8 2.8"
+                ></path>
+
+                <path
+                  d="M9.9 5.2A10.8 10.8 0 0 1 12 5
+                  c5 0 8.5 4 9.8 7
+                  -.5 1.1-1.5 2.7-3.1 4.1"
+                ></path>
+
+                <path
+                  d="M6.1 6.1C4.4 7.4 3.1 9.2 2.2 12
+                  c1.3 3 4.8 7 9.8 7
+                  1.2 0 2.3-.2 3.3-.6"
+                ></path>
+              </svg>
+
+            } @else {
+
+              <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  d="M2.2 12
+                  C3.5 9 7 5 12 5
+                  s8.5 4 9.8 7
+                  C20.5 15 17 19 12 19
+                  s-8.5-4-9.8-7Z"
+                ></path>
+
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="3"
+                ></circle>
+              </svg>
+
+            }
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- ================================= -->
+      <!-- MESSAGE D'ERREUR                   -->
+      <!-- ================================= -->
+
+      @if (errorMessage) {
+
+        <p class="error">
+          {{ errorMessage }}
+        </p>
+
+      }
+
+
+      <!-- ================================= -->
+      <!-- BOUTON INSCRIPTION                 -->
+      <!-- ================================= -->
+
+      <button
+        type="submit"
+        class="register-button"
+      >
+        Créer mon compte
+      </button>
+
+
+      <!-- ================================= -->
+      <!-- LIEN CONNEXION                     -->
+      <!-- ================================= -->
+
+      <div class="login-link">
+
+        <p>
+          Vous avez déjà un compte ?
+
+          <a routerLink="/login">
+            Se connecter
+          </a>
+        </p>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

@@ -1,0 +1,839 @@
+/**
+ * ==========================================================
+ * PAGE HOME
+ * ==========================================================
+ *
+ * Couleurs principales :
+ *
+ * Rouge : couleur principale de MyCampusGuide
+ * Blanc : couleur principale des surfaces
+ * Gris : couleur secondaire pour les textes
+ *
+ */
+
+
+/* ==========================================================
+   VARIABLES
+   ========================================================== */
+
+$red: #d71920;
+$red-dark: #b51218;
+$red-light: #fff1f2;
+
+$white: #ffffff;
+
+$gray-50: #f8f8f8;
+$gray-100: #f1f1f1;
+$gray-200: #e5e5e5;
+$gray-500: #737373;
+$gray-700: #404040;
+$gray-900: #171717;
+
+
+/* ==========================================================
+   CONTENEUR PRINCIPAL
+   ========================================================== */
+
+.home-container {
+
+  min-height: 100vh;
+
+  background: $gray-50;
+
+  color: $gray-900;
+
+  display: flex;
+
+  flex-direction: column;
+
+}
+
+
+/* ==========================================================
+   NAVBAR
+   ========================================================== */
+
+.navbar {
+
+  height: 72px;
+
+  background: $white;
+
+  border-bottom: 1px solid $gray-200;
+
+  display: flex;
+
+  align-items: center;
+
+  padding: 0 40px;
+
+  gap: 35px;
+
+  position: sticky;
+
+  top: 0;
+
+  z-index: 100;
+
+}
+
+
+/* ==========================================================
+   LOGO
+   ========================================================== */
+
+.logo {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  color: $red;
+
+  font-size: 20px;
+
+  font-weight: 800;
+
+  white-space: nowrap;
+
+}
+
+
+.logo-icon {
+
+  width: 38px;
+
+  height: 38px;
+
+  background: $red;
+
+  color: $white;
+
+  border-radius: 9px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 20px;
+
+}
+
+
+/* ==========================================================
+   RECHERCHE NAVBAR
+   ========================================================== */
+
+.navbar-search {
+
+  flex: 1;
+
+  max-width: 560px;
+
+  height: 42px;
+
+  background: $gray-100;
+
+  border-radius: 8px;
+
+  display: flex;
+
+  align-items: center;
+
+  padding: 0 14px;
+
+}
+
+
+.search-icon {
+
+  font-size: 17px;
+
+  margin-right: 9px;
+
+}
+
+
+.navbar-search input {
+
+  width: 100%;
+
+  border: none;
+
+  outline: none;
+
+  background: transparent;
+
+  font-size: 14px;
+
+}
+
+
+/* ==========================================================
+   ACTIONS NAVBAR
+   ========================================================== */
+
+.navbar-actions {
+
+  margin-left: auto;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+}
+
+
+.nav-button,
+.logout-button {
+
+  height: 40px;
+
+  padding: 0 15px;
+
+  border-radius: 7px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  text-decoration: none;
+
+}
+
+
+.nav-button {
+
+  color: $gray-700;
+
+  background: transparent;
+
+}
+
+
+.nav-button:hover {
+
+  background: $red-light;
+
+  color: $red;
+
+}
+
+
+.logout-button {
+
+  border: none;
+
+  background: $red;
+
+  color: $white;
+
+}
+
+
+.logout-button:hover {
+
+  background: $red-dark;
+
+}
+
+
+/* ==========================================================
+   CONTENU PRINCIPAL
+   ========================================================== */
+
+.main-content {
+
+  width: min(1200px, calc(100% - 48px));
+
+  margin: 0 auto;
+
+  padding: 55px 0 70px;
+
+  flex: 1;
+
+}
+
+
+/* ==========================================================
+   BIENVENUE
+   ========================================================== */
+
+.welcome-section {
+
+  text-align: center;
+
+  margin-bottom: 35px;
+
+}
+
+
+.welcome-small {
+
+  color: $red;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  text-transform: uppercase;
+
+  letter-spacing: 1px;
+
+  margin-bottom: 8px;
+
+}
+
+
+.welcome-section h1 {
+
+  margin: 0;
+
+  font-size: 38px;
+
+  font-weight: 800;
+
+}
+
+
+.welcome-description {
+
+  max-width: 620px;
+
+  margin: 14px auto 0;
+
+  color: $gray-500;
+
+  line-height: 1.6;
+
+  font-size: 16px;
+
+}
+
+
+/* ==========================================================
+   GRANDE RECHERCHE
+   ========================================================== */
+
+.main-search-section {
+
+  display: flex;
+
+  justify-content: center;
+
+  margin-bottom: 60px;
+
+}
+
+
+.main-search {
+
+  width: min(760px, 100%);
+
+  height: 58px;
+
+  background: $white;
+
+  border: 1px solid $gray-200;
+
+  border-radius: 10px;
+
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+
+  display: flex;
+
+  align-items: center;
+
+  padding: 0 8px 0 18px;
+
+}
+
+
+.main-search .search-icon {
+
+  font-size: 19px;
+
+}
+
+
+.main-search input {
+
+  flex: 1;
+
+  border: none;
+
+  outline: none;
+
+  font-size: 15px;
+
+  padding: 0 10px;
+
+}
+
+
+.main-search button {
+
+  height: 44px;
+
+  padding: 0 22px;
+
+  border: none;
+
+  border-radius: 7px;
+
+  background: $red;
+
+  color: $white;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+}
+
+
+.main-search button:hover {
+
+  background: $red-dark;
+
+}
+
+
+/* ==========================================================
+   SECTION DÉMARCHES
+   ========================================================== */
+
+.section-header {
+
+  display: flex;
+
+  align-items: flex-end;
+
+  justify-content: space-between;
+
+  margin-bottom: 25px;
+
+}
+
+
+.section-label {
+
+  color: $red;
+
+  font-size: 12px;
+
+  font-weight: 800;
+
+  letter-spacing: 1px;
+
+  margin: 0 0 5px;
+
+}
+
+
+.section-header h2 {
+
+  margin: 0;
+
+  font-size: 26px;
+
+}
+
+
+.see-all {
+
+  color: $red;
+
+  text-decoration: none;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+}
+
+
+.see-all:hover {
+
+  text-decoration: underline;
+
+}
+
+
+/* ==========================================================
+   GRILLE DES DÉMARCHES
+   ========================================================== */
+
+.demarches-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 20px;
+
+}
+
+
+/* ==========================================================
+   CARTE DÉMARCHE
+   ========================================================== */
+
+.demarche-card {
+
+  background: $white;
+
+  border: 1px solid $gray-200;
+
+  border-radius: 12px;
+
+  padding: 23px;
+
+  min-height: 285px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+
+}
+
+
+.demarche-card:hover {
+
+  transform: translateY(-4px);
+
+  border-color: rgba(215, 25, 32, 0.35);
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.08);
+
+}
+
+
+/* ==========================================================
+   ICÔNE DÉMARCHE
+   ========================================================== */
+
+.demarche-icon {
+
+  width: 48px;
+
+  height: 48px;
+
+  border-radius: 10px;
+
+  background: $red-light;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 23px;
+
+  margin-bottom: 18px;
+
+}
+
+
+/* ==========================================================
+   CATÉGORIE
+   ========================================================== */
+
+.categorie {
+
+  color: $red;
+
+  font-size: 12px;
+
+  font-weight: 800;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.6px;
+
+  margin-bottom: 8px;
+
+}
+
+
+/* ==========================================================
+   TITRE
+   ========================================================== */
+
+.demarche-card h3 {
+
+  margin: 0 0 10px;
+
+  font-size: 17px;
+
+  line-height: 1.35;
+
+}
+
+
+/* ==========================================================
+   DESCRIPTION
+   ========================================================== */
+
+.demarche-card p {
+
+  margin: 0;
+
+  color: $gray-500;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+
+  flex: 1;
+
+}
+
+
+/* ==========================================================
+   BOUTON DÉTAILS
+   ========================================================== */
+
+.details-button {
+
+  margin-top: 20px;
+
+  border: none;
+
+  background: transparent;
+
+  color: $red;
+
+  padding: 0;
+
+  text-align: left;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  font-size: 14px;
+
+}
+
+
+.details-button span {
+
+  margin-left: 5px;
+
+}
+
+
+.details-button:hover {
+
+  color: $red-dark;
+
+}
+
+
+/* ==========================================================
+   AUCUN RÉSULTAT
+   ========================================================== */
+
+.no-results {
+
+  background: $white;
+
+  border: 1px solid $gray-200;
+
+  border-radius: 12px;
+
+  padding: 60px 20px;
+
+  text-align: center;
+
+}
+
+
+.no-results-icon {
+
+  font-size: 35px;
+
+  margin-bottom: 15px;
+
+}
+
+
+.no-results h3 {
+
+  margin: 0 0 8px;
+
+}
+
+
+.no-results p {
+
+  margin: 0;
+
+  color: $gray-500;
+
+}
+
+
+/* ==========================================================
+   FOOTER
+   ========================================================== */
+
+.footer {
+
+  background: $white;
+
+  border-top: 1px solid $gray-200;
+
+  text-align: center;
+
+  padding: 22px;
+
+  color: $gray-500;
+
+  font-size: 13px;
+
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+   ========================================================== */
+
+@media (max-width: 1000px) {
+
+  .demarches-grid {
+
+    grid-template-columns:
+      repeat(2, 1fr);
+
+  }
+
+  .navbar {
+
+    padding: 0 20px;
+
+  }
+
+}
+
+
+@media (max-width: 700px) {
+
+  .navbar {
+
+    height: auto;
+
+    padding: 15px;
+
+    flex-wrap: wrap;
+
+  }
+
+
+  .logo {
+
+    width: 100%;
+
+  }
+
+
+  .navbar-search {
+
+    order: 3;
+
+    max-width: none;
+
+    width: 100%;
+
+  }
+
+
+  .navbar-actions {
+
+    margin-left: auto;
+
+  }
+
+
+  .main-content {
+
+    width: calc(100% - 30px);
+
+    padding-top: 35px;
+
+  }
+
+
+  .welcome-section h1 {
+
+    font-size: 30px;
+
+  }
+
+
+  .main-search {
+
+    height: auto;
+
+    padding: 10px;
+
+    flex-wrap: wrap;
+
+  }
+
+
+  .main-search input {
+
+    height: 40px;
+
+  }
+
+
+  .main-search button {
+
+    width: 100%;
+
+  }
+
+
+  .demarches-grid {
+
+    grid-template-columns: 1fr;
+
+  }
+
+
+  .section-header {
+
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+  }
+
+}

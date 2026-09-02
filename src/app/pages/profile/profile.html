@@ -1,0 +1,469 @@
+<!--
+  Conteneur principal de la page du profil.
+-->
+<div class="profile-container">
+
+
+  <!--
+    En-tête de la page.
+  -->
+  <div class="profile-header">
+
+    <div>
+
+      <h1>Mon profil</h1>
+
+      <p>
+        Gérez vos informations personnelles et universitaires.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!--
+    Message de chargement.
+  -->
+  @if (loading) {
+
+    <div class="loading">
+
+      Chargement...
+
+    </div>
+
+  }
+
+
+  <!--
+    Message d'erreur.
+  -->
+  @if (errorMessage) {
+
+    <div class="message error">
+
+      {{ errorMessage }}
+
+    </div>
+
+  }
+
+
+  <!--
+    Message de succès.
+  -->
+  @if (successMessage) {
+
+    <div class="message success">
+
+      {{ successMessage }}
+
+    </div>
+
+  }
+
+
+  <!--
+    Formulaire du profil.
+  -->
+  <form
+    class="profile-card"
+    (ngSubmit)="saveProfile()"
+  >
+
+
+    <!-- ============================= -->
+    <!-- INFORMATIONS PERSONNELLES      -->
+    <!-- ============================= -->
+
+    <section class="profile-section">
+
+      <div class="section-title">
+
+        <div class="section-icon">
+          👤
+        </div>
+
+        <div>
+
+          <h2>Informations personnelles</h2>
+
+          <p>
+            Vos informations personnelles.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="form-grid">
+
+
+        <!-- Nationalité -->
+        <div class="form-group">
+
+          <label for="nationalite">
+            Nationalité
+          </label>
+
+          <input
+            id="nationalite"
+            type="text"
+            name="nationalite"
+            [(ngModel)]="profile.nationalite"
+            placeholder="Ex : Ivoirienne"
+          >
+
+        </div>
+
+
+        <!-- Téléphone -->
+        <div class="form-group">
+
+          <label for="telephone">
+            Téléphone
+          </label>
+
+          <input
+            id="telephone"
+            type="tel"
+            name="telephone"
+            [(ngModel)]="profile.telephone"
+            placeholder="Ex : 06 12 34 56 78"
+          >
+
+        </div>
+
+
+        <!-- Adresse -->
+        <div class="form-group full-width">
+
+          <label for="adresse">
+            Adresse
+          </label>
+
+          <input
+            id="adresse"
+            type="text"
+            name="adresse"
+            [(ngModel)]="profile.adresse"
+            placeholder="Votre adresse en France"
+          >
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ============================= -->
+    <!-- INFORMATIONS ÉTUDIANTES        -->
+    <!-- ============================= -->
+
+    <section class="profile-section">
+
+      <div class="section-title">
+
+        <div class="section-icon">
+          🎓
+        </div>
+
+        <div>
+
+          <h2>Informations universitaires</h2>
+
+          <p>
+            Informations concernant vos études.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="form-grid">
+
+
+        <!-- Niveau d'études -->
+        <div class="form-group">
+
+          <label for="niveauEtudes">
+            Niveau d'études
+          </label>
+
+          <select
+            id="niveauEtudes"
+            name="niveauEtudes"
+            [(ngModel)]="profile.niveauEtudes"
+          >
+
+            <option value="">
+              Sélectionnez votre niveau
+            </option>
+
+            <option value="Bac+1">
+              Bac+1
+            </option>
+
+            <option value="Bac+2">
+              Bac+2
+            </option>
+
+            <option value="Bac+3">
+              Bac+3
+            </option>
+
+            <option value="Bac+4">
+              Bac+4
+            </option>
+
+            <option value="Bac+5">
+              Bac+5
+            </option>
+
+            <option value="Doctorat">
+              Doctorat
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- Université -->
+        <div class="form-group">
+
+          <label for="universite">
+            Université / École
+          </label>
+
+          <input
+            id="universite"
+            type="text"
+            name="universite"
+            [(ngModel)]="profile.universite"
+            placeholder="Nom de votre établissement"
+          >
+
+        </div>
+
+
+        <!-- Ville d'études -->
+        <div class="form-group">
+
+          <label for="villeEtudes">
+            Ville d'études
+          </label>
+
+          <input
+            id="villeEtudes"
+            type="text"
+            name="villeEtudes"
+            [(ngModel)]="profile.villeEtudes"
+            placeholder="Ex : Paris"
+          >
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ============================= -->
+    <!-- SÉJOUR EN FRANCE               -->
+    <!-- ============================= -->
+
+    <section class="profile-section">
+
+      <div class="section-title">
+
+        <div class="section-icon">
+          🇫🇷
+        </div>
+
+        <div>
+
+          <h2>Séjour en France</h2>
+
+          <p>
+            Informations concernant votre séjour.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="form-grid">
+
+
+        <!-- Type de visa -->
+        <div class="form-group">
+
+          <label for="typeVisa">
+            Type de visa
+          </label>
+
+          <select
+            id="typeVisa"
+            name="typeVisa"
+            [(ngModel)]="profile.typeVisa"
+          >
+
+            <option value="">
+              Sélectionnez votre visa
+            </option>
+
+            <option value="VLS_TS">
+              VLS-TS étudiant
+            </option>
+
+            <option value="VISA_LONG_SEJOUR">
+              Visa long séjour
+            </option>
+
+            <option value="TITRE_SEJOUR">
+              Titre de séjour
+            </option>
+
+            <option value="AUTRE">
+              Autre
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- Type de logement -->
+        <div class="form-group">
+
+          <label for="typeLogement">
+            Type de logement
+          </label>
+
+          <select
+            id="typeLogement"
+            name="typeLogement"
+            [(ngModel)]="profile.typeLogement"
+          >
+
+            <option value="">
+              Sélectionnez votre logement
+            </option>
+
+            <option value="RESIDENCE_ETUDIANTE">
+              Résidence étudiante
+            </option>
+
+            <option value="LOCATION">
+              Location
+            </option>
+
+            <option value="COLOCATION">
+              Colocation
+            </option>
+
+            <option value="HEBERGE">
+              Hébergé
+            </option>
+
+            <option value="AUTRE">
+              Autre
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- Date d'arrivée -->
+        <div class="form-group">
+
+          <label for="dateArriveeFrance">
+            Date d'arrivée en France
+          </label>
+
+          <input
+            id="dateArriveeFrance"
+            type="date"
+            name="dateArriveeFrance"
+            [(ngModel)]="profile.dateArriveeFrance"
+          >
+
+        </div>
+
+
+        <!-- Date expiration visa -->
+        <div class="form-group">
+
+          <label for="dateExpirationVisa">
+            Date d'expiration du visa
+          </label>
+
+          <input
+            id="dateExpirationVisa"
+            type="date"
+            name="dateExpirationVisa"
+            [(ngModel)]="profile.dateExpirationVisa"
+          >
+
+        </div>
+
+
+        <!-- Première arrivée -->
+        <div class="checkbox-group full-width">
+
+          <input
+            id="premiereArrivee"
+            type="checkbox"
+            name="premiereArrivee"
+            [(ngModel)]="profile.premiereArrivee"
+          >
+
+          <label for="premiereArrivee">
+
+            C'est ma première arrivée en France
+
+          </label>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ============================= -->
+    <!-- BOUTON ENREGISTRER              -->
+    <!-- ============================= -->
+
+    <div class="form-actions">
+
+      <button
+        type="submit"
+        class="save-button"
+        [disabled]="loading"
+      >
+
+        @if (loading) {
+
+          Enregistrement...
+
+        } @else {
+
+          Enregistrer les modifications
+
+        }
+
+      </button>
+
+    </div>
+
+  </form>
+
+</div>

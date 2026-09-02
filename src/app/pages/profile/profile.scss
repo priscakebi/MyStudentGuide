@@ -1,0 +1,459 @@
+/*
+ * Conteneur principal de la page.
+ */
+.profile-container {
+
+  min-height: 100vh;
+
+  padding: 40px;
+
+  background: #f8f8f8;
+
+  box-sizing: border-box;
+
+}
+
+
+/*
+ * En-tête de la page.
+ */
+.profile-header {
+
+  max-width: 1000px;
+
+  margin: 0 auto 30px;
+
+}
+
+
+.profile-header h1 {
+
+  margin: 0;
+
+  color: #b00020;
+
+  font-size: 32px;
+
+  font-weight: 700;
+
+}
+
+
+.profile-header p {
+
+  margin-top: 8px;
+
+  color: #666;
+
+  font-size: 15px;
+
+}
+
+
+/*
+ * Carte contenant le formulaire.
+ */
+.profile-card {
+
+  max-width: 1000px;
+
+  margin: 0 auto;
+
+  background: #ffffff;
+
+  border-radius: 14px;
+
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+
+  overflow: hidden;
+
+}
+
+
+/*
+ * Chaque grande section du profil.
+ */
+.profile-section {
+
+  padding: 30px;
+
+  border-bottom: 1px solid #eeeeee;
+
+}
+
+
+/*
+ * Titre de chaque section.
+ */
+.section-title {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+
+  margin-bottom: 25px;
+
+}
+
+
+.section-title h2 {
+
+  margin: 0;
+
+  color: #222;
+
+  font-size: 20px;
+
+}
+
+
+.section-title p {
+
+  margin: 5px 0 0;
+
+  color: #777;
+
+  font-size: 14px;
+
+}
+
+
+/*
+ * Petit carré rouge contenant l'icône.
+ */
+.section-icon {
+
+  width: 45px;
+
+  height: 45px;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  border-radius: 10px;
+
+  background: #b00020;
+
+  color: white;
+
+  font-size: 21px;
+
+}
+
+
+/*
+ * Organisation des champs
+ * sur deux colonnes.
+ */
+.form-grid {
+
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 20px;
+
+}
+
+
+/*
+ * Groupe contenant un label et un champ.
+ */
+.form-group {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+
+}
+
+
+/*
+ * Permet à un champ de prendre
+ * toute la largeur.
+ */
+.full-width {
+
+  grid-column: 1 / -1;
+
+}
+
+
+/*
+ * Labels.
+ */
+.form-group label {
+
+  color: #333;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+}
+
+
+/*
+ * Champs input et select.
+ */
+.form-group input,
+.form-group select {
+
+  width: 100%;
+
+  padding: 12px 14px;
+
+  border: 1px solid #dddddd;
+
+  border-radius: 8px;
+
+  background: #ffffff;
+
+  color: #333;
+
+  font-size: 14px;
+
+  box-sizing: border-box;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+
+}
+
+
+/*
+ * Effet lorsqu'un champ est sélectionné.
+ */
+.form-group input:focus,
+.form-group select:focus {
+
+  border-color: #b00020;
+
+  box-shadow: 0 0 0 3px rgba(176, 0, 32, 0.1);
+
+}
+
+
+/*
+ * Groupe de la case à cocher.
+ */
+.checkbox-group {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin-top: 5px;
+
+}
+
+
+.checkbox-group input {
+
+  width: 18px;
+
+  height: 18px;
+
+  accent-color: #b00020;
+
+}
+
+
+.checkbox-group label {
+
+  color: #444;
+
+  font-size: 14px;
+
+}
+
+
+/*
+ * Zone contenant le bouton.
+ */
+.form-actions {
+
+  display: flex;
+
+  justify-content: flex-end;
+
+  padding: 25px 30px;
+
+  background: #fafafa;
+
+}
+
+
+/*
+ * Bouton d'enregistrement.
+ */
+.save-button {
+
+  padding: 13px 25px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  background: #b00020;
+
+  color: white;
+
+  font-size: 15px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s,
+    transform 0.2s;
+
+}
+
+
+/*
+ * Effet au survol du bouton.
+ */
+.save-button:hover {
+
+  background: #8f001a;
+
+  transform: translateY(-1px);
+
+}
+
+
+/*
+ * Bouton désactivé pendant le chargement.
+ */
+.save-button:disabled {
+
+  background: #cccccc;
+
+  cursor: not-allowed;
+
+  transform: none;
+
+}
+
+
+/*
+ * Messages d'information.
+ */
+.message {
+
+  max-width: 1000px;
+
+  margin: 0 auto 20px;
+
+  padding: 14px 18px;
+
+  border-radius: 8px;
+
+  font-size: 14px;
+
+}
+
+
+.message.error {
+
+  background: #fdeaea;
+
+  color: #b00020;
+
+  border: 1px solid #f2bcbc;
+
+}
+
+
+.message.success {
+
+  background: #eaf8ee;
+
+  color: #176b35;
+
+  border: 1px solid #b9e4c5;
+
+}
+
+
+/*
+ * Message de chargement.
+ */
+.loading {
+
+  max-width: 1000px;
+
+  margin: 0 auto 20px;
+
+  padding: 15px;
+
+  text-align: center;
+
+  color: #b00020;
+
+  font-weight: 600;
+
+}
+
+
+/*
+ * Adaptation aux petits écrans.
+ */
+@media (max-width: 700px) {
+
+  .profile-container {
+
+    padding: 20px;
+
+  }
+
+
+  .form-grid {
+
+    grid-template-columns: 1fr;
+
+  }
+
+
+  .full-width {
+
+    grid-column: auto;
+
+  }
+
+
+  .profile-section {
+
+    padding: 20px;
+
+  }
+
+
+  .form-actions {
+
+    padding: 20px;
+
+  }
+
+
+  .save-button {
+
+    width: 100%;
+
+  }
+
+}

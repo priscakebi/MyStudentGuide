@@ -1,0 +1,482 @@
+// =====================================================
+// PAGE PRINCIPALE
+// =====================================================
+
+.login-page {
+
+  // Prend toute la hauteur de l'écran.
+  min-height: 100vh;
+
+  // Centre le formulaire horizontalement.
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  // Fond général blanc.
+  background: #ffffff;
+
+  // Gestion de la taille.
+  box-sizing: border-box;
+
+  // Espace intérieur sur petit écran.
+  padding: 40px 20px;
+}
+
+
+// =====================================================
+// SECTION CONNEXION
+// =====================================================
+
+.login-section {
+
+  // Prend toute la largeur disponible.
+  width: 100%;
+
+  // Centre le contenu.
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  // Fond blanc.
+  background: #ffffff;
+
+  // Suppression des anciennes dimensions.
+  box-sizing: border-box;
+}
+
+
+// =====================================================
+// CARTE DU FORMULAIRE
+// =====================================================
+
+.login-card {
+
+  // Largeur complète jusqu'à la largeur maximale.
+  width: 100%;
+
+  // Largeur maximale du formulaire.
+  max-width: 430px;
+}
+
+
+// =====================================================
+// NOM DE L'APPLICATION
+// =====================================================
+
+.login-card h1 {
+
+  // Couleur rouge.
+  color: #c90000;
+
+  // Grande taille.
+  font-size: 34px;
+
+  // Épaisseur.
+  font-weight: 700;
+
+  // Marge.
+  margin: 0 0 12px;
+
+  // Alignement centré.
+  text-align: center;
+}
+
+
+// =====================================================
+// TITRE
+// =====================================================
+
+.login-card h2 {
+
+  // Couleur sombre.
+  color: #1c1e21;
+
+  // Taille.
+  font-size: 28px;
+
+  // Marge.
+  margin: 0 0 8px;
+
+  // Alignement centré.
+  text-align: center;
+}
+
+
+// =====================================================
+// DESCRIPTION
+// =====================================================
+
+.login-description {
+
+  // Couleur grise.
+  color: #65676b;
+
+  // Taille.
+  font-size: 15px;
+
+  // Hauteur de ligne.
+  line-height: 1.5;
+
+  // Marge.
+  margin: 0 0 30px;
+
+  // Texte centré.
+  text-align: center;
+}
+
+
+// =====================================================
+// GROUPE DE FORMULAIRE
+// =====================================================
+
+.form-group {
+
+  // Espace entre les champs.
+  margin-bottom: 20px;
+}
+
+
+// =====================================================
+// LABEL
+// =====================================================
+
+label {
+
+  // Le label prend toute la largeur.
+  display: block;
+
+  // Espace sous le label.
+  margin-bottom: 8px;
+
+  // Texte semi-gras.
+  font-weight: 600;
+
+  // Taille.
+  font-size: 14px;
+
+  // Couleur.
+  color: #333333;
+}
+
+
+// =====================================================
+// INPUT
+// =====================================================
+
+input {
+
+  // Toute la largeur.
+  width: 100%;
+
+  // Taille intérieure.
+  padding: 14px 15px;
+
+  // Gestion de la largeur.
+  box-sizing: border-box;
+
+  // Bordure.
+  border: 1px solid #ccd0d5;
+
+  // Coins arrondis.
+  border-radius: 10px;
+
+  // Taille du texte.
+  font-size: 15px;
+
+  // Fond légèrement gris.
+  background: #f7f8fa;
+
+  // Animation.
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s,
+    background 0.2s;
+}
+
+
+// =====================================================
+// INPUT FOCUS
+// =====================================================
+
+input:focus {
+
+  // Supprime le contour du navigateur.
+  outline: none;
+
+  // Fond blanc.
+  background: #ffffff;
+
+  // Bordure rouge.
+  border-color: #c90000;
+
+  // Halo rouge.
+  box-shadow:
+    0 0 0 3px rgba(201, 0, 0, 0.10);
+}
+
+
+// =====================================================
+// CONTENEUR DU MOT DE PASSE
+// =====================================================
+
+.password-container {
+
+  // Permet de positionner le bouton œil.
+  position: relative;
+}
+
+
+// =====================================================
+// INPUT MOT DE PASSE
+// =====================================================
+
+.password-container input {
+
+  // Laisse de la place au bouton œil.
+  padding-right: 50px;
+}
+
+
+// =====================================================
+// BOUTON ŒIL
+// =====================================================
+
+.password-toggle {
+
+  // Positionnement dans le champ.
+  position: absolute;
+
+  right: 12px;
+  top: 50%;
+
+  // Centre verticalement.
+  transform: translateY(-50%);
+
+  // Taille.
+  width: 32px;
+  height: 32px;
+
+  // Supprime le style bouton.
+  border: none;
+
+  // Fond transparent.
+  background: transparent;
+
+  // Curseur.
+  cursor: pointer;
+
+  // Centre l'icône.
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+// =====================================================
+// ICÔNE SVG
+// =====================================================
+
+.password-toggle svg {
+
+  // Taille.
+  width: 20px;
+  height: 20px;
+
+  // Pas de remplissage.
+  fill: none;
+
+  // Couleur.
+  stroke: #65676b;
+
+  // Épaisseur.
+  stroke-width: 1.8;
+
+  // Extrémités arrondies.
+  stroke-linecap: round;
+
+  stroke-linejoin: round;
+}
+
+
+// =====================================================
+// SURVOL ICÔNE
+// =====================================================
+
+.password-toggle:hover svg {
+
+  // Devient rouge au survol.
+  stroke: #c90000;
+}
+
+
+// =====================================================
+// MOT DE PASSE OUBLIÉ
+// =====================================================
+
+.forgot-password {
+
+  // Alignement à droite.
+  text-align: right;
+
+  // Marge.
+  margin-top: -5px;
+
+  margin-bottom: 20px;
+}
+
+
+// =====================================================
+// LIENS
+// =====================================================
+
+.forgot-password a,
+.register-link a {
+
+  // Rouge.
+  color: #c90000;
+
+  // Pas de soulignement.
+  text-decoration: none;
+
+  // Texte légèrement épais.
+  font-weight: 600;
+
+  // Animation.
+  transition: color 0.2s;
+}
+
+
+// =====================================================
+// SURVOL DES LIENS
+// =====================================================
+
+.forgot-password a:hover,
+.register-link a:hover {
+
+  // Rouge foncé.
+  color: #a80000;
+
+  // Soulignement.
+  text-decoration: underline;
+}
+
+
+// =====================================================
+// MESSAGE D'ERREUR
+// =====================================================
+
+.error {
+
+  // Texte rouge.
+  color: #c90000;
+
+  // Fond rouge très clair.
+  background: #fff1f1;
+
+  // Bordure gauche.
+  border-left: 4px solid #c90000;
+
+  // Espace intérieur.
+  padding: 11px;
+
+  // Coins arrondis.
+  border-radius: 7px;
+
+  // Taille.
+  font-size: 14px;
+
+  // Marge.
+  margin-bottom: 18px;
+}
+
+
+// =====================================================
+// BOUTON DE CONNEXION
+// =====================================================
+
+.login-button {
+
+  // Toute la largeur.
+  width: 100%;
+
+  // Taille intérieure.
+  padding: 14px;
+
+  // Fond rouge.
+  background: #c90000;
+
+  // Texte blanc.
+  color: #ffffff;
+
+  // Pas de bordure.
+  border: none;
+
+  // Coins arrondis.
+  border-radius: 9px;
+
+  // Taille du texte.
+  font-size: 16px;
+
+  // Épaisseur.
+  font-weight: 600;
+
+  // Curseur.
+  cursor: pointer;
+
+  // Animation.
+  transition:
+    background 0.2s,
+    transform 0.2s;
+}
+
+
+// =====================================================
+// SURVOL BOUTON
+// =====================================================
+
+.login-button:hover {
+
+  // Rouge plus foncé.
+  background: #a80000;
+
+  // Petit déplacement.
+  transform: translateY(-1px);
+}
+
+
+// =====================================================
+// RESPONSIVE
+// =====================================================
+
+@media (max-width: 500px) {
+
+  .login-page {
+
+    // Moins d'espace sur mobile.
+    padding: 25px 20px;
+  }
+
+
+  .login-card {
+
+    // Empêche le formulaire
+    // de toucher les bords.
+    max-width: 100%;
+  }
+
+
+  .login-card h1 {
+
+    // Titre légèrement plus petit.
+    font-size: 30px;
+  }
+
+
+  .login-card h2 {
+
+    // Titre de connexion plus petit.
+    font-size: 25px;
+  }
+}

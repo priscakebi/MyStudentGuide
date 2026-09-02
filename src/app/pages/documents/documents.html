@@ -1,0 +1,431 @@
+<!--
+  Conteneur principal de la page des documents.
+-->
+<div class="documents-container">
+
+
+  <!-- ============================= -->
+  <!-- EN-TÊTE DE LA PAGE            -->
+  <!-- ============================= -->
+
+  <div class="page-header">
+
+    <div>
+
+      <!-- Titre de la page -->
+      <h1>Mes documents</h1>
+
+      <!-- Petite description -->
+      <p>
+        Gérez les documents associés à vos démarches administratives.
+      </p>
+
+    </div>
+
+
+    <!-- Bouton permettant d'ajouter un document -->
+    <button
+      class="btn-primary"
+      type="button"
+      (click)="openAddForm()"
+    >
+      + Ajouter un document
+    </button>
+
+  </div>
+
+
+
+  <!-- ============================= -->
+  <!-- MESSAGES                      -->
+  <!-- ============================= -->
+
+  @if (successMessage) {
+
+    <div class="success-message">
+
+      {{ successMessage }}
+
+    </div>
+
+  }
+
+
+  @if (errorMessage) {
+
+    <div class="error-message">
+
+      {{ errorMessage }}
+
+    </div>
+
+  }
+
+
+
+  <!-- ============================= -->
+  <!-- CHARGEMENT                    -->
+  <!-- ============================= -->
+
+  @if (loading && documents.length === 0) {
+
+    <div class="loading">
+
+      Chargement des documents...
+
+    </div>
+
+  }
+
+
+
+  <!-- ============================= -->
+  <!-- FORMULAIRE                    -->
+  <!-- ============================= -->
+
+  @if (showForm) {
+
+    <div class="form-card">
+
+      <div class="form-header">
+
+        <h2>
+
+          @if (editingId !== null) {
+            Modifier le document
+          } @else {
+            Ajouter un document
+          }
+
+        </h2>
+
+
+        <!-- Bouton de fermeture -->
+        <button
+          type="button"
+          class="close-button"
+          (click)="closeForm()"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <form (ngSubmit)="saveDocument()">
+
+
+        <!-- Nom du fichier -->
+        <div class="form-group">
+
+          <label for="nomFichier">
+            Nom du fichier
+          </label>
+
+          <input
+            id="nomFichier"
+            type="text"
+            name="nomFichier"
+            [(ngModel)]="documentForm.nomFichier"
+            placeholder="Ex : certificat_scolarite.pdf"
+            required
+          >
+
+        </div>
+
+
+
+        <!-- Nom de stockage -->
+        <div class="form-group">
+
+          <label for="nomStockage">
+            Nom de stockage
+          </label>
+
+          <input
+            id="nomStockage"
+            type="text"
+            name="nomStockage"
+            [(ngModel)]="documentForm.nomStockage"
+            placeholder="Ex : certificat-123.pdf"
+            required
+          >
+
+        </div>
+
+
+
+        <!-- Type du fichier -->
+        <div class="form-group">
+
+          <label for="typeFichier">
+            Type de fichier
+          </label>
+
+          <select
+            id="typeFichier"
+            name="typeFichier"
+            [(ngModel)]="documentForm.typeFichier"
+            required
+          >
+
+            <option value="">
+              Sélectionner un type
+            </option>
+
+            <option value="application/pdf">
+              PDF
+            </option>
+
+            <option value="image/jpeg">
+              JPEG
+            </option>
+
+            <option value="image/png">
+              PNG
+            </option>
+
+          </select>
+
+        </div>
+
+
+
+        <!-- Taille -->
+        <div class="form-group">
+
+          <label for="taille">
+            Taille du fichier (octets)
+          </label>
+
+          <input
+            id="taille"
+            type="number"
+            name="taille"
+            [(ngModel)]="documentForm.taille"
+            min="1"
+            required
+          >
+
+        </div>
+
+
+
+        <!-- Chemin du fichier -->
+        <div class="form-group">
+
+          <label for="cheminFichier">
+            Chemin du fichier
+          </label>
+
+          <input
+            id="cheminFichier"
+            type="text"
+            name="cheminFichier"
+            [(ngModel)]="documentForm.cheminFichier"
+            placeholder="/uploads/documents/fichier.pdf"
+            required
+          >
+
+        </div>
+
+
+
+        <!-- ID de la démarche -->
+        <div class="form-group">
+
+          <label for="demarcheId">
+            ID de la démarche
+          </label>
+
+          <input
+            id="demarcheId"
+            type="number"
+            name="demarcheId"
+            [(ngModel)]="documentForm.demarcheId"
+            placeholder="Ex : 1"
+          >
+
+          <small>
+            Indiquez l'identifiant de la démarche associée.
+          </small>
+
+        </div>
+
+
+
+        <!-- Boutons -->
+        <div class="form-actions">
+
+          <button
+            type="button"
+            class="btn-secondary"
+            (click)="closeForm()"
+          >
+            Annuler
+          </button>
+
+
+          <button
+            type="submit"
+            class="btn-primary"
+            [disabled]="loading"
+          >
+
+            @if (editingId !== null) {
+              Modifier
+            } @else {
+              Ajouter
+            }
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  }
+
+
+
+  <!-- ============================= -->
+  <!-- LISTE DES DOCUMENTS           -->
+  <!-- ============================= -->
+
+  @if (!loading || documents.length > 0) {
+
+    @if (documents.length > 0) {
+
+      <div class="documents-grid">
+
+        @for (document of documents; track document.id) {
+
+          <div class="document-card">
+
+
+            <!-- Icône du document -->
+            <div class="document-icon">
+
+              📄
+
+            </div>
+
+
+            <!-- Informations -->
+            <div class="document-info">
+
+              <h3>
+
+                {{ document.nomFichier }}
+
+              </h3>
+
+
+              <p>
+
+                <strong>Type :</strong>
+
+                {{ getFileType(document.typeFichier) }}
+
+              </p>
+
+
+              <p>
+
+                <strong>Taille :</strong>
+
+                {{ formatFileSize(document.taille) }}
+
+              </p>
+
+
+              @if (document.dateUpload) {
+
+                <p>
+
+                  <strong>Ajouté le :</strong>
+
+                  {{ document.dateUpload | date:'dd/MM/yyyy à HH:mm' }}
+
+                </p>
+
+              }
+
+
+              @if (document.demarcheId) {
+
+                <p>
+
+                  <strong>Démarche :</strong>
+
+                  #{{ document.demarcheId }}
+
+                </p>
+
+              }
+
+            </div>
+
+
+            <!-- Actions -->
+            <div class="document-actions">
+
+              <button
+                type="button"
+                class="btn-edit"
+                (click)="editDocument(document)"
+              >
+                Modifier
+              </button>
+
+
+              <button
+                type="button"
+                class="btn-delete"
+                (click)="deleteDocument(document.id)"
+              >
+                Supprimer
+              </button>
+
+            </div>
+
+          </div>
+
+        }
+
+      </div>
+
+    } @else {
+
+      <!-- Aucun document -->
+      <div class="empty-state">
+
+        <div class="empty-icon">
+          📁
+        </div>
+
+        <h2>
+          Aucun document
+        </h2>
+
+        <p>
+          Vous n'avez encore aucun document enregistré.
+        </p>
+
+        <button
+          type="button"
+          class="btn-primary"
+          (click)="openAddForm()"
+        >
+          Ajouter mon premier document
+        </button>
+
+      </div>
+
+    }
+
+  }
+
+</div>

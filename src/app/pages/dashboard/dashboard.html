@@ -1,0 +1,490 @@
+<!--
+  Conteneur principal du tableau de bord.
+-->
+<div class="dashboard-container">
+
+  <!-- ================================================= -->
+  <!-- SIDEBAR                                            -->
+  <!-- ================================================= -->
+
+  <aside class="sidebar">
+
+    <!-- Logo de l'application -->
+    <div class="sidebar-header">
+
+      <h1>MyCampusGuide</h1>
+
+      <p>Espace étudiant</p>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- MENU DE NAVIGATION                                -->
+    <!-- ================================================= -->
+
+    <nav class="sidebar-menu">
+
+      <!-- Tableau de bord -->
+      <a
+        routerLink="/dashboard"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="menu-item"
+      >
+
+        <span class="menu-icon">⌂</span>
+
+        <span>Tableau de bord</span>
+
+      </a>
+
+
+      <!-- Profil -->
+      <a
+        routerLink="/dashboard/profile"
+        routerLinkActive="active"
+        class="menu-item"
+      >
+
+        <span class="menu-icon">👤</span>
+
+        <span>Mon profil</span>
+
+      </a>
+
+
+      <!-- Démarches -->
+      <a
+        routerLink="/dashboard/demarches"
+        routerLinkActive="active"
+        class="menu-item"
+      >
+
+        <span class="menu-icon">📋</span>
+
+        <span>Mes démarches</span>
+
+      </a>
+
+
+      <!-- Catégories -->
+      <a
+        routerLink="/dashboard/categories"
+        routerLinkActive="active"
+        class="menu-item"
+      >
+
+        <span class="menu-icon">📁</span>
+
+        <span>Catégories</span>
+
+      </a>
+
+
+      <!-- Documents -->
+      <a
+        routerLink="/dashboard/documents"
+        routerLinkActive="active"
+        class="menu-item"
+      >
+
+        <span class="menu-icon">📄</span>
+
+        <span>Mes documents</span>
+
+      </a>
+
+
+      <!-- Notifications -->
+      <a
+        routerLink="/dashboard/notifications"
+        routerLinkActive="active"
+        class="menu-item"
+      >
+
+        <span class="menu-icon">🔔</span>
+
+        <span>
+          Notifications
+
+          <!-- Badge des notifications non lues -->
+          @if (unreadCount > 0) {
+
+            <span class="notification-badge">
+              {{ unreadCount }}
+            </span>
+
+          }
+
+        </span>
+
+      </a>
+
+    </nav>
+
+
+    <!-- ================================================= -->
+    <!-- BAS DE LA SIDEBAR                                 -->
+    <!-- ================================================= -->
+
+    <div class="sidebar-footer">
+
+      <!-- Informations utilisateur -->
+      <div class="user-info">
+
+        <strong>
+          {{ userName }}
+        </strong>
+
+        @if (userEmail) {
+
+          <small>
+            {{ userEmail }}
+          </small>
+
+        }
+
+      </div>
+
+
+      <!-- Déconnexion -->
+      <button
+        type="button"
+        class="logout-button"
+        (click)="logout()"
+      >
+
+        <span class="menu-icon">↪</span>
+
+        <span>Déconnexion</span>
+
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <!-- ================================================= -->
+  <!-- ZONE PRINCIPALE                                    -->
+  <!-- ================================================= -->
+
+  <main class="main-content">
+
+    <!-- ================================================= -->
+    <!-- EN-TÊTE FIXE                                      -->
+    <!-- ================================================= -->
+
+    <header class="dashboard-header">
+
+      <div class="header-title">
+
+        <!-- Nom de l'application au centre -->
+        <h1>MyCampusGuide</h1>
+
+        <p>
+          Espace étudiant
+        </p>
+
+      </div>
+
+    </header>
+
+
+    <!-- ================================================= -->
+    <!-- CONTENU DU DASHBOARD                              -->
+    <!-- ================================================= -->
+
+    <!--
+      Le contenu d'accueil s'affiche uniquement
+      lorsque l'utilisateur est sur /dashboard.
+    -->
+    @if (isDashboardHome()) {
+
+      <section class="welcome-section">
+
+        <h2>
+          Bienvenue {{ userName }} 👋
+        </h2>
+
+        <p>
+          Retrouvez ici toutes les informations importantes
+          concernant votre vie étudiante et vos démarches
+          administratives.
+        </p>
+
+      </section>
+
+
+      <!-- ================================================= -->
+      <!-- CARTES DES FONCTIONNALITÉS                         -->
+      <!-- ================================================= -->
+
+      <section class="dashboard-cards">
+
+        <!-- Profil -->
+        <a
+          routerLink="/dashboard/profile"
+          class="dashboard-card"
+        >
+
+          <div class="card-icon">
+            👤
+          </div>
+
+          <div class="card-content">
+
+            <h3>Mon profil</h3>
+
+            <p>
+              Consultez et modifiez vos informations personnelles
+              et universitaires.
+            </p>
+
+          </div>
+
+        </a>
+
+
+        <!-- Démarches -->
+        <a
+          routerLink="/dashboard/demarches"
+          class="dashboard-card"
+        >
+
+          <div class="card-icon">
+            📋
+          </div>
+
+          <div class="card-content">
+
+            <h3>Mes démarches</h3>
+
+            <p>
+              Suivez vos démarches administratives,
+              leurs statuts et leurs dates limites.
+            </p>
+
+          </div>
+
+        </a>
+
+
+        <!-- Catégories -->
+        <a
+          routerLink="/dashboard/categories"
+          class="dashboard-card"
+        >
+
+          <div class="card-icon">
+            📁
+          </div>
+
+          <div class="card-content">
+
+            <h3>Catégories</h3>
+
+            <p>
+              Consultez les différentes catégories
+              de démarches administratives.
+            </p>
+
+          </div>
+
+        </a>
+
+
+        <!-- Documents -->
+        <a
+          routerLink="/dashboard/documents"
+          class="dashboard-card"
+        >
+
+          <div class="card-icon">
+            📄
+          </div>
+
+          <div class="card-content">
+
+            <h3>Mes documents</h3>
+
+            <p>
+              Retrouvez les documents nécessaires
+              à vos démarches.
+            </p>
+
+          </div>
+
+        </a>
+
+
+        <!-- Notifications -->
+        <a
+          routerLink="/dashboard/notifications"
+          class="dashboard-card"
+        >
+
+          <div class="card-icon">
+            🔔
+          </div>
+
+          <div class="card-content">
+
+            <h3>Notifications</h3>
+
+            <p>
+              Consultez vos notifications et les informations
+              importantes concernant votre compte.
+            </p>
+
+          </div>
+
+        </a>
+
+      </section>
+
+
+      <!-- ================================================= -->
+      <!-- ACCÈS RAPIDE AUX DÉMARCHES                         -->
+      <!-- ================================================= -->
+
+      <section class="quick-section">
+
+        <div class="section-header">
+
+          <div>
+
+            <h2>
+              Mes démarches
+            </h2>
+
+            <p>
+              Accédez rapidement au suivi de vos démarches.
+            </p>
+
+          </div>
+
+
+          <a
+            routerLink="/dashboard/demarches"
+            class="view-link"
+          >
+            Voir toutes les démarches →
+          </a>
+
+        </div>
+
+
+        <div class="empty-card">
+
+          <span class="empty-icon">
+            📋
+          </span>
+
+          <h3>
+            Consulter mes démarches
+          </h3>
+
+          <p>
+            Retrouvez toutes vos démarches administratives
+            dans votre espace étudiant.
+          </p>
+
+          <a
+            routerLink="/dashboard/demarches"
+            class="primary-button"
+          >
+            Voir mes démarches
+          </a>
+
+        </div>
+
+      </section>
+
+
+      <!-- ================================================= -->
+      <!-- ACCÈS RAPIDE AUX DOCUMENTS                         -->
+      <!-- ================================================= -->
+
+      <section class="quick-section">
+
+        <div class="section-header">
+
+          <div>
+
+            <h2>
+              Mes documents
+            </h2>
+
+            <p>
+              Gérez les documents nécessaires à vos démarches.
+            </p>
+
+          </div>
+
+
+          <a
+            routerLink="/dashboard/documents"
+            class="view-link"
+          >
+            Voir mes documents →
+          </a>
+
+        </div>
+
+
+        <div class="empty-card">
+
+          <span class="empty-icon">
+            📄
+          </span>
+
+          <h3>
+            Gérer mes documents
+          </h3>
+
+          <p>
+            Consultez les documents associés
+            à vos démarches administratives.
+          </p>
+
+          <a
+            routerLink="/dashboard/documents"
+            class="primary-button"
+          >
+            Mes documents
+          </a>
+
+        </div>
+
+      </section>
+
+    }
+
+
+    <!-- ================================================= -->
+    <!-- ROUTER OUTLET                                     -->
+    <!-- ================================================= -->
+
+    <!--
+      IMPORTANT :
+
+      Lorsque l'utilisateur clique sur :
+
+      /dashboard/profile
+
+      Angular conserve le Dashboard et affiche
+      Profile ici.
+
+      Même chose pour :
+      /dashboard/demarches
+      /dashboard/categories
+      /dashboard/documents
+      /dashboard/notifications
+    -->
+    <router-outlet></router-outlet>
+
+  </main>
+
+</div>

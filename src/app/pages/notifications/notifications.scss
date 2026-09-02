@@ -1,0 +1,527 @@
+/*
+ * Conteneur principal de la page
+ * des notifications.
+ */
+.notifications-container {
+
+  min-height: 100vh;
+
+  padding: 40px;
+
+  background-color: #f8f8f8;
+
+  box-sizing: border-box;
+
+}
+
+
+/*
+ * En-tête de la page.
+ */
+.notifications-header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 30px;
+
+}
+
+
+/*
+ * Titre principal.
+ */
+.notifications-header h1 {
+
+  margin: 0;
+
+  color: #c00000;
+
+  font-size: 32px;
+
+}
+
+
+/*
+ * Sous-titre.
+ */
+.notifications-header p {
+
+  margin-top: 8px;
+
+  color: #666;
+
+}
+
+
+/*
+ * Compteur des notifications non lues.
+ */
+.notification-counter {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  background-color: #ffffff;
+
+  border: 2px solid #c00000;
+
+  border-radius: 10px;
+
+  padding: 12px 18px;
+
+}
+
+
+/*
+ * Nombre de notifications.
+ */
+.notification-counter span {
+
+  font-size: 24px;
+
+  font-weight: bold;
+
+  color: #c00000;
+
+}
+
+
+/*
+ * Texte du compteur.
+ */
+.notification-counter small {
+
+  color: #555;
+
+}
+
+
+/*
+ * Zone contenant les actions.
+ */
+.actions {
+
+  margin-bottom: 25px;
+
+}
+
+
+/*
+ * Bouton actualiser.
+ */
+.actions button {
+
+  background-color: #c00000;
+
+  color: white;
+
+  border: none;
+
+  border-radius: 8px;
+
+  padding: 11px 20px;
+
+  cursor: pointer;
+
+  font-size: 15px;
+
+}
+
+
+/*
+ * Effet au survol.
+ */
+.actions button:hover {
+
+  background-color: #990000;
+
+}
+
+
+/*
+ * Bouton désactivé.
+ */
+.actions button:disabled {
+
+  opacity: 0.6;
+
+  cursor: not-allowed;
+
+}
+
+
+/*
+ * Message d'erreur.
+ */
+.error-message {
+
+  background-color: #ffe5e5;
+
+  color: #b00000;
+
+  border-left: 4px solid #c00000;
+
+  padding: 15px;
+
+  border-radius: 6px;
+
+  margin-bottom: 20px;
+
+}
+
+
+/*
+ * Message de chargement.
+ */
+.loading {
+
+  text-align: center;
+
+  padding: 40px;
+
+  color: #666;
+
+}
+
+
+/*
+ * État lorsqu'il n'y a aucune notification.
+ */
+.empty-state {
+
+  background-color: #ffffff;
+
+  border-radius: 12px;
+
+  padding: 50px;
+
+  text-align: center;
+
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+
+}
+
+
+/*
+ * Icône de l'état vide.
+ */
+.empty-icon {
+
+  font-size: 45px;
+
+  margin-bottom: 15px;
+
+}
+
+
+/*
+ * Titre de l'état vide.
+ */
+.empty-state h2 {
+
+  margin-bottom: 10px;
+
+  color: #333;
+
+}
+
+
+/*
+ * Texte de l'état vide.
+ */
+.empty-state p {
+
+  color: #777;
+
+}
+
+
+/*
+ * Liste des notifications.
+ */
+.notifications-list {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 15px;
+
+}
+
+
+/*
+ * Carte d'une notification.
+ */
+.notification-card {
+
+  display: flex;
+
+  gap: 18px;
+
+  background-color: #ffffff;
+
+  padding: 20px;
+
+  border-radius: 12px;
+
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+
+  border-left: 4px solid transparent;
+
+  transition: 0.2s;
+
+}
+
+
+/*
+ * Notification non lue.
+ */
+.notification-card.unread {
+
+  border-left-color: #c00000;
+
+  background-color: #fffafa;
+
+}
+
+
+/*
+ * Effet au survol.
+ */
+.notification-card:hover {
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.12);
+
+}
+
+
+/*
+ * Icône de notification.
+ */
+.notification-icon {
+
+  width: 45px;
+
+  height: 45px;
+
+  min-width: 45px;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  background-color: #ffe5e5;
+
+  border-radius: 50%;
+
+  font-size: 20px;
+
+}
+
+
+/*
+ * Contenu de la notification.
+ */
+.notification-content {
+
+  flex: 1;
+
+}
+
+
+/*
+ * Ligne contenant le titre
+ * et le badge.
+ */
+.notification-title-row {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+}
+
+
+/*
+ * Titre de la notification.
+ */
+.notification-title-row h3 {
+
+  margin: 0;
+
+  color: #333;
+
+}
+
+
+/*
+ * Badge "Non lue".
+ */
+.unread-badge {
+
+  background-color: #c00000;
+
+  color: white;
+
+  font-size: 12px;
+
+  padding: 4px 8px;
+
+  border-radius: 20px;
+
+}
+
+
+/*
+ * Message de la notification.
+ */
+.notification-content p {
+
+  margin: 10px 0;
+
+  color: #555;
+
+  line-height: 1.5;
+
+}
+
+
+/*
+ * Date de création.
+ */
+.notification-content small {
+
+  color: #888;
+
+}
+
+
+/*
+ * Zone des boutons.
+ */
+.notification-actions {
+
+  display: flex;
+
+  gap: 10px;
+
+  margin-top: 15px;
+
+}
+
+
+/*
+ * Bouton "Marquer comme lue".
+ */
+.read-button {
+
+  background-color: #c00000;
+
+  color: white;
+
+  border: none;
+
+  border-radius: 6px;
+
+  padding: 8px 12px;
+
+  cursor: pointer;
+
+}
+
+
+/*
+ * Bouton supprimer.
+ */
+.delete-button {
+
+  background-color: white;
+
+  color: #c00000;
+
+  border: 1px solid #c00000;
+
+  border-radius: 6px;
+
+  padding: 8px 12px;
+
+  cursor: pointer;
+
+}
+
+
+/*
+ * Effet au survol des boutons.
+ */
+.read-button:hover {
+
+  background-color: #990000;
+
+}
+
+
+.delete-button:hover {
+
+  background-color: #ffe5e5;
+
+}
+
+
+/*
+ * Adaptation aux écrans plus petits.
+ */
+@media (max-width: 700px) {
+
+  .notifications-container {
+
+    padding: 20px;
+
+  }
+
+
+  .notifications-header {
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 20px;
+
+  }
+
+
+  .notification-card {
+
+    flex-direction: column;
+
+  }
+
+
+  .notification-actions {
+
+    flex-direction: column;
+
+  }
+
+
+  .notification-actions button {
+
+    width: 100%;
+
+  }
+
+}

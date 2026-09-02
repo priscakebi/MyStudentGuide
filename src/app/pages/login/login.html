@@ -1,0 +1,263 @@
+<!-- ===================================================== -->
+<!-- PAGE DE CONNEXION -->
+<!-- ===================================================== -->
+
+<div class="login-page">
+
+
+  <!-- ===================================================== -->
+  <!-- SECTION CONNEXION -->
+  <!-- ===================================================== -->
+
+  <section class="login-section">
+
+
+    <!-- ===================================================== -->
+    <!-- CARTE DU FORMULAIRE -->
+    <!-- ===================================================== -->
+
+    <div class="login-card">
+
+
+      <!-- Nom de l'application -->
+      <h1>
+        MyCampusGuide
+      </h1>
+
+
+      <!-- Titre -->
+      <h2>
+        Connexion
+      </h2>
+
+
+      <!-- Description -->
+      <p class="login-description">
+        Connectez-vous à votre espace étudiant
+      </p>
+
+
+      <!-- ===================================================== -->
+      <!-- FORMULAIRE -->
+      <!-- ===================================================== -->
+
+      <form
+        (ngSubmit)="onLogin()"
+      >
+
+
+        <!-- ===================================================== -->
+        <!-- EMAIL -->
+        <!-- ===================================================== -->
+
+        <div class="form-group">
+
+          <label for="email">
+            Adresse e-mail
+          </label>
+
+          <input
+            id="email"
+            type="email"
+            name="email"
+            [(ngModel)]="email"
+            placeholder="Votre adresse e-mail"
+            required
+          >
+
+        </div>
+
+
+        <!-- ===================================================== -->
+        <!-- MOT DE PASSE -->
+        <!-- ===================================================== -->
+
+        <div class="form-group">
+
+          <label for="password">
+            Mot de passe
+          </label>
+
+
+          <!-- Conteneur du mot de passe -->
+          <div class="password-container">
+
+
+            <!--
+              Le type du champ change automatiquement.
+
+              passwordVisible = false
+              → password
+
+              passwordVisible = true
+              → text
+            -->
+            <input
+              id="password"
+              [type]="passwordVisible ? 'text' : 'password'"
+              name="password"
+              [(ngModel)]="password"
+              placeholder="Votre mot de passe"
+              required
+            >
+
+
+            <!-- ================================================= -->
+            <!-- BOUTON ŒIL -->
+            <!-- ================================================= -->
+
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="togglePassword()"
+              [attr.aria-label]="passwordVisible
+                ? 'Masquer le mot de passe'
+                : 'Afficher le mot de passe'"
+            >
+
+
+              <!-- ================================ -->
+              <!-- ŒIL OUVERT -->
+              <!-- ================================ -->
+
+              @if (passwordVisible) {
+
+                <svg
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+
+                  <path
+                    d="M2 12s3.5-6 10-6
+                       10 6 10 6-3.5 6-10 6
+                       -10-6-10-6Z"
+                  />
+
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="3"
+                  />
+
+                </svg>
+
+              }
+
+
+              <!-- ================================ -->
+              <!-- ŒIL FERMÉ -->
+              <!-- ================================ -->
+
+              @else {
+
+                <svg
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+
+                  <path
+                    d="M3 3l18 18"
+                  />
+
+                  <path
+                    d="M10.6 5.2
+                       A10.5 10.5 0 0 1 12 5
+                       c6.5 0 10 7 10 7
+                       a17.5 17.5 0 0 1-3.2 3.9"
+                  />
+
+                  <path
+                    d="M6.2 6.3
+                       C3.6 8.1 2 12 2 12
+                       s3.5 7 10 7
+                       c1.7 0 3.2-.4 4.5-1"
+                  />
+
+                </svg>
+
+              }
+
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- ===================================================== -->
+        <!-- MOT DE PASSE OUBLIÉ -->
+        <!-- ===================================================== -->
+
+        <div class="forgot-password">
+
+          <a
+            href="javascript:void(0)"
+            (click)="forgotPassword()"
+          >
+            Mot de passe oublié ?
+          </a>
+
+        </div>
+
+
+        <!-- ===================================================== -->
+        <!-- MESSAGE D'ERREUR -->
+        <!-- ===================================================== -->
+
+        @if (errorMessage) {
+
+          <p class="error">
+            {{ errorMessage }}
+          </p>
+
+        }
+
+
+        <!-- ===================================================== -->
+        <!-- BOUTON SE CONNECTER -->
+        <!-- ===================================================== -->
+
+        <button
+          type="submit"
+          class="login-button"
+          [disabled]="loading"
+        >
+
+          @if (loading) {
+
+            Connexion...
+
+          } @else {
+
+            Se connecter
+
+          }
+
+        </button>
+
+
+        <!-- ===================================================== -->
+        <!-- INSCRIPTION -->
+        <!-- ===================================================== -->
+
+        <p class="register-link">
+
+          Vous n'avez pas encore de compte ?
+
+          <a
+            href="javascript:void(0)"
+            (click)="goToRegister()"
+          >
+            S'inscrire
+          </a>
+
+        </p>
+
+
+      </form>
+
+    </div>
+
+  </section>
+
+</div>
