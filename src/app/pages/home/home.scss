@@ -1,421 +1,668 @@
-/**
- * ==========================================================
- * PAGE HOME
- * ==========================================================
- *
- * Couleurs principales :
- *
- * Rouge : couleur principale de MyCampusGuide
- * Blanc : couleur principale des surfaces
- * Gris : couleur secondaire pour les textes
- *
- */
-
-
-/* ==========================================================
+/* ================================================================
    VARIABLES
-   ========================================================== */
+   ================================================================ */
 
-$red: #d71920;
-$red-dark: #b51218;
-$red-light: #fff1f2;
+$blue: #1646a0;
+$blue-dark: #0d2f70;
+$blue-light: #eaf1ff;
+
+$red: #e63946;
+$red-dark: #c92535;
+$red-light: #fff0f1;
 
 $white: #ffffff;
 
-$gray-50: #f8f8f8;
-$gray-100: #f1f1f1;
-$gray-200: #e5e5e5;
-$gray-500: #737373;
-$gray-700: #404040;
-$gray-900: #171717;
+$background: #f5f7fb;
+$surface: #ffffff;
+
+$text-dark: #172033;
+$text: #344054;
+$text-light: #667085;
+
+$border: #e6eaf0;
+
+$success: #16845b;
+
+$shadow-sm: 0 4px 16px rgba(20, 44, 90, 0.06);
+$shadow-md: 0 12px 35px rgba(20, 44, 90, 0.10);
+$shadow-lg: 0 20px 55px rgba(20, 44, 90, 0.14);
+
+$radius-sm: 10px;
+$radius-md: 16px;
+$radius-lg: 24px;
+
+$transition: 0.25s ease;
 
 
-/* ==========================================================
+/* ================================================================
    CONTENEUR PRINCIPAL
-   ========================================================== */
+   ================================================================ */
 
 .home-container {
 
   min-height: 100vh;
 
-  background: $gray-50;
+  background: $background;
 
-  color: $gray-900;
+  color: $text;
+}
+
+
+/* ================================================================
+   CONTENU PRINCIPAL
+   ================================================================ */
+
+.main-content {
+
+  width: 100%;
+
+  overflow: hidden;
+}
+
+
+/* ================================================================
+   HERO / HEADER DE LA PAGE
+   ================================================================ */
+
+.hero-section {
+
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  min-height: 390px;
+
+  padding: 70px 8%;
+
+  background:
+    linear-gradient(
+      115deg,
+      $blue-dark 0%,
+      $blue 55%,
+      #245bb8 100%
+    );
+
+  color: $white;
+
+  overflow: hidden;
+
+  /* Petite touche rouge sous le header */
+  border-bottom: 5px solid $red;
+}
+
+
+/* Contenu texte du hero */
+
+.hero-content {
+
+  position: relative;
+
+  z-index: 3;
+
+  max-width: 720px;
+}
+
+
+/* Petit label */
+
+.hero-label {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  margin-bottom: 20px;
+
+  padding: 8px 15px;
+
+  border-radius: 30px;
+
+  background: rgba(255, 255, 255, 0.12);
+
+  border: 1px solid rgba(255, 255, 255, 0.22);
+
+  color: $white;
+
+  font-size: 0.78rem;
+
+  font-weight: 700;
+
+  letter-spacing: 0.12em;
+
+  backdrop-filter: blur(8px);
+}
+
+
+/* Titre principal */
+
+.hero-section h1 {
+
+  margin: 0;
+
+  font-size: clamp(2.4rem, 4vw, 4rem);
+
+  line-height: 1.08;
+
+  font-weight: 800;
+
+  letter-spacing: -0.04em;
+
+  color: $white;
+}
+
+
+/* Nom de l'utilisateur */
+
+.user-name {
+
+  color: #ffffff;
+
+  position: relative;
+}
+
+
+/*
+
+  Petite ligne rouge sous le prénom/nom.
+
+  Elle permet d'introduire le rouge sans
+  modifier fortement la couleur du texte.
+
+*/
+
+.user-name::after {
+
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+
+  right: 0;
+
+  bottom: -5px;
+
+  height: 4px;
+
+  background: $red;
+
+  border-radius: 10px;
+}
+
+
+/* Emoji */
+
+.wave {
+
+  display: inline-block;
+
+  margin-left: 6px;
+
+  font-size: 0.85em;
+}
+
+
+/* Description */
+
+.hero-description {
+
+  max-width: 650px;
+
+  margin: 24px 0 0;
+
+  color: rgba(255, 255, 255, 0.86);
+
+  font-size: 1.08rem;
+
+  line-height: 1.8;
+
+  font-weight: 400;
+}
+
+
+/* Partie importante de la phrase */
+
+.hero-description strong {
+
+  color: $white;
+
+  font-weight: 700;
+}
+
+
+/* Petit indicateur sous le texte */
+
+.hero-highlight {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin-top: 25px;
+
+  padding: 10px 16px;
+
+  border-radius: 30px;
+
+  background: rgba(255, 255, 255, 0.09);
+
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
+  font-size: 0.88rem;
+
+  color: rgba(255, 255, 255, 0.9);
+}
+
+
+.highlight-dot {
+
+  width: 9px;
+
+  height: 9px;
+
+  border-radius: 50%;
+
+  background: $red;
+
+  box-shadow: 0 0 0 5px rgba(230, 57, 70, 0.18);
+}
+
+
+/* ================================================================
+   DÉCORATION DU HERO
+   ================================================================ */
+
+.hero-decoration {
+
+  position: relative;
+
+  width: 320px;
+
+  height: 260px;
+
+  flex-shrink: 0;
+}
+
+
+/* Cercles décoratifs */
+
+.decoration-circle {
+
+  position: absolute;
+
+  border-radius: 50%;
+}
+
+
+.circle-blue {
+
+  width: 250px;
+
+  height: 250px;
+
+  top: -30px;
+
+  right: 0;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+
+.circle-red {
+
+  width: 95px;
+
+  height: 95px;
+
+  right: 35px;
+
+  bottom: 0;
+
+  background: $red;
+
+  opacity: 0.9;
+
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.18);
+}
+
+
+/* Carte flottante */
+
+.guide-card {
+
+  position: absolute;
+
+  top: 65px;
+
+  right: 35px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+
+  width: 245px;
+
+  padding: 18px;
+
+  border-radius: $radius-md;
+
+  background: $white;
+
+  box-shadow: $shadow-lg;
+
+  transform: rotate(-3deg);
+}
+
+
+/* Icône */
+
+.guide-icon {
+
+  width: 50px;
+
+  height: 50px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 14px;
+
+  background: $blue-light;
+
+  font-size: 1.5rem;
+}
+
+
+/* Texte de la carte */
+
+.guide-card-content {
 
   display: flex;
 
   flex-direction: column;
 
+  gap: 4px;
 }
 
 
-/* ==========================================================
-   NAVBAR
-   ========================================================== */
+.guide-card-content span {
 
-.navbar {
-
-  height: 72px;
-
-  background: $white;
-
-  border-bottom: 1px solid $gray-200;
-
-  display: flex;
-
-  align-items: center;
-
-  padding: 0 40px;
-
-  gap: 35px;
-
-  position: sticky;
-
-  top: 0;
-
-  z-index: 100;
-
-}
-
-
-/* ==========================================================
-   LOGO
-   ========================================================== */
-
-.logo {
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 10px;
-
-  color: $red;
-
-  font-size: 20px;
+  font-size: 0.68rem;
 
   font-weight: 800;
 
-  white-space: nowrap;
-
-}
-
-
-.logo-icon {
-
-  width: 38px;
-
-  height: 38px;
-
-  background: $red;
-
-  color: $white;
-
-  border-radius: 9px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  font-size: 20px;
-
-}
-
-
-/* ==========================================================
-   RECHERCHE NAVBAR
-   ========================================================== */
-
-.navbar-search {
-
-  flex: 1;
-
-  max-width: 560px;
-
-  height: 42px;
-
-  background: $gray-100;
-
-  border-radius: 8px;
-
-  display: flex;
-
-  align-items: center;
-
-  padding: 0 14px;
-
-}
-
-
-.search-icon {
-
-  font-size: 17px;
-
-  margin-right: 9px;
-
-}
-
-
-.navbar-search input {
-
-  width: 100%;
-
-  border: none;
-
-  outline: none;
-
-  background: transparent;
-
-  font-size: 14px;
-
-}
-
-
-/* ==========================================================
-   ACTIONS NAVBAR
-   ========================================================== */
-
-.navbar-actions {
-
-  margin-left: auto;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 10px;
-
-}
-
-
-.nav-button,
-.logout-button {
-
-  height: 40px;
-
-  padding: 0 15px;
-
-  border-radius: 7px;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 7px;
-
-  font-size: 14px;
-
-  font-weight: 600;
-
-  cursor: pointer;
-
-  text-decoration: none;
-
-}
-
-
-.nav-button {
-
-  color: $gray-700;
-
-  background: transparent;
-
-}
-
-
-.nav-button:hover {
-
-  background: $red-light;
+  letter-spacing: 0.08em;
 
   color: $red;
-
 }
 
 
-.logout-button {
+.guide-card-content strong {
 
-  border: none;
+  font-size: 0.9rem;
 
-  background: $red;
+  line-height: 1.35;
 
-  color: $white;
-
+  color: $text-dark;
 }
 
 
-.logout-button:hover {
+/* ================================================================
+   SECTIONS COMMUNES
+   ================================================================ */
 
-  background: $red-dark;
+.why-section,
+.assigned-section,
+.how-section,
+.about-section {
 
+  padding: 85px 8%;
 }
 
 
-/* ==========================================================
-   CONTENU PRINCIPAL
-   ========================================================== */
+/* En-têtes des sections */
 
-.main-content {
+.section-heading {
 
-  width: min(1200px, calc(100% - 48px));
+  max-width: 700px;
 
-  margin: 0 auto;
-
-  padding: 55px 0 70px;
-
-  flex: 1;
-
-}
-
-
-/* ==========================================================
-   BIENVENUE
-   ========================================================== */
-
-.welcome-section {
+  margin: 0 auto 50px;
 
   text-align: center;
-
-  margin-bottom: 35px;
-
 }
 
 
-.welcome-small {
+.section-label {
+
+  display: inline-block;
+
+  margin-bottom: 12px;
 
   color: $red;
 
-  font-size: 13px;
+  font-size: 0.75rem;
 
-  font-weight: 700;
+  font-weight: 800;
+
+  letter-spacing: 0.12em;
 
   text-transform: uppercase;
-
-  letter-spacing: 1px;
-
-  margin-bottom: 8px;
-
 }
 
 
-.welcome-section h1 {
+.section-heading h2,
+.section-header h2,
+.about-content h2 {
 
   margin: 0;
 
-  font-size: 38px;
+  color: $text-dark;
+
+  font-size: clamp(1.9rem, 3vw, 2.7rem);
+
+  line-height: 1.2;
 
   font-weight: 800;
 
+  letter-spacing: -0.025em;
 }
 
 
-.welcome-description {
+/* Partie bleue des titres */
 
-  max-width: 620px;
+.section-heading h2 span,
+.about-content h2 span {
 
-  margin: 14px auto 0;
-
-  color: $gray-500;
-
-  line-height: 1.6;
-
-  font-size: 16px;
-
+  color: $blue;
 }
 
 
-/* ==========================================================
-   GRANDE RECHERCHE
-   ========================================================== */
+.section-heading p {
 
-.main-search-section {
+  margin: 18px auto 0;
 
-  display: flex;
+  max-width: 600px;
 
-  justify-content: center;
+  color: $text-light;
 
-  margin-bottom: 60px;
+  font-size: 1rem;
 
+  line-height: 1.7;
 }
 
 
-.main-search {
+/* ================================================================
+   SECTION POURQUOI
+   ================================================================ */
 
-  width: min(760px, 100%);
+.why-section {
 
-  height: 58px;
+  background: $white;
+}
+
+
+.why-grid {
+
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 25px;
+
+  max-width: 1200px;
+
+  margin: 0 auto;
+}
+
+
+.why-card {
+
+  position: relative;
+
+  padding: 32px;
 
   background: $white;
 
-  border: 1px solid $gray-200;
+  border: 1px solid $border;
 
-  border-radius: 10px;
+  border-radius: $radius-md;
 
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+  box-shadow: $shadow-sm;
+
+  transition:
+    transform $transition,
+    box-shadow $transition;
+
+  overflow: hidden;
+}
+
+
+/*
+
+  Petite barre supérieure.
+
+  Les cartes alternent entre bleu et rouge.
+
+*/
+
+.why-card:nth-child(odd)::before {
+
+  background: $blue;
+}
+
+
+.why-card:nth-child(even)::before {
+
+  background: $red;
+}
+
+
+.why-card::before {
+
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+
+  left: 0;
+
+  right: 0;
+
+  height: 4px;
+}
+
+
+.why-card:hover {
+
+  transform: translateY(-6px);
+
+  box-shadow: $shadow-md;
+}
+
+
+/* Icônes */
+
+.why-icon {
+
+  width: 55px;
+
+  height: 55px;
 
   display: flex;
 
   align-items: center;
 
-  padding: 0 8px 0 18px;
+  justify-content: center;
 
+  margin-bottom: 20px;
+
+  border-radius: 15px;
+
+  font-size: 1.45rem;
 }
 
 
-.main-search .search-icon {
+.blue-icon {
 
-  font-size: 19px;
-
+  background: $blue-light;
 }
 
 
-.main-search input {
+.red-icon {
 
-  flex: 1;
-
-  border: none;
-
-  outline: none;
-
-  font-size: 15px;
-
-  padding: 0 10px;
-
+  background: $red-light;
 }
 
 
-.main-search button {
+.why-card h3 {
 
-  height: 44px;
+  margin: 0 0 12px;
 
-  padding: 0 22px;
+  color: $text-dark;
 
-  border: none;
+  font-size: 1.12rem;
 
-  border-radius: 7px;
-
-  background: $red;
-
-  color: $white;
-
-  font-weight: 700;
-
-  cursor: pointer;
-
+  font-weight: 750;
 }
 
 
-.main-search button:hover {
+.why-card p {
 
-  background: $red-dark;
+  margin: 0;
 
+  color: $text-light;
+
+  font-size: 0.94rem;
+
+  line-height: 1.7;
 }
 
 
-/* ==========================================================
-   SECTION DÉMARCHES
-   ========================================================== */
+/* ================================================================
+   SECTION MON PARCOURS
+   ================================================================ */
+
+.assigned-section {
+
+  background: $background;
+}
+
+
+/* En-tête de la section */
 
 .section-header {
 
@@ -425,124 +672,102 @@ $gray-900: #171717;
 
   justify-content: space-between;
 
-  margin-bottom: 25px;
+  gap: 30px;
 
-}
-
-
-.section-label {
-
-  color: $red;
-
-  font-size: 12px;
-
-  font-weight: 800;
-
-  letter-spacing: 1px;
-
-  margin: 0 0 5px;
-
+  margin-bottom: 40px;
 }
 
 
 .section-header h2 {
 
-  margin: 0;
-
-  font-size: 26px;
-
+  margin-top: 3px;
 }
 
 
-.see-all {
+.section-header p {
 
-  color: $red;
+  margin: 12px 0 0;
 
-  text-decoration: none;
+  color: $text-light;
 
-  font-size: 14px;
-
-  font-weight: 700;
-
+  line-height: 1.6;
 }
 
 
-.see-all:hover {
+/* ================================================================
+   CARTE MON PARCOURS
+   ================================================================ */
 
-  text-decoration: underline;
+.journey-card {
 
-}
-
-
-/* ==========================================================
-   GRILLE DES DÉMARCHES
-   ========================================================== */
-
-.demarches-grid {
-
-  display: grid;
-
-  grid-template-columns:
-    repeat(4, 1fr);
-
-  gap: 20px;
-
-}
-
-
-/* ==========================================================
-   CARTE DÉMARCHE
-   ========================================================== */
-
-.demarche-card {
-
-  background: $white;
-
-  border: 1px solid $gray-200;
-
-  border-radius: 12px;
-
-  padding: 23px;
-
-  min-height: 285px;
+  position: relative;
 
   display: flex;
 
-  flex-direction: column;
+  align-items: center;
+
+  gap: 30px;
+
+  width: min(850px, 100%);
+
+  margin: 0 auto;
+
+  padding: 34px 40px;
+
+  background: $white;
+
+  border: 1px solid $border;
+
+  border-radius: 20px;
+
+  box-shadow: $shadow-sm;
+
+  overflow: hidden;
 
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    border-color 0.2s ease;
-
+    transform $transition,
+    box-shadow $transition,
+    border-color $transition;
 }
 
 
-.demarche-card:hover {
+/* Petite barre rouge sur le côté gauche */
+
+.journey-card::before {
+
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+
+  left: 0;
+
+  width: 4px;
+
+  height: 100%;
+
+  background: $red;
+}
+
+
+/* Animation au survol */
+
+.journey-card:hover {
 
   transform: translateY(-4px);
 
-  border-color: rgba(215, 25, 32, 0.35);
+  box-shadow: $shadow-md;
 
-  box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.08);
-
+  border-color: #dce1e9;
 }
 
 
-/* ==========================================================
-   ICÔNE DÉMARCHE
-   ========================================================== */
+/* ================================================================
+   ICÔNE DU PARCOURS
+   ================================================================ */
 
-.demarche-icon {
-
-  width: 48px;
-
-  height: 48px;
-
-  border-radius: 10px;
-
-  background: $red-light;
+.journey-icon {
 
   display: flex;
 
@@ -550,290 +775,803 @@ $gray-900: #171717;
 
   justify-content: center;
 
-  font-size: 23px;
+  width: 68px;
 
-  margin-bottom: 18px;
+  height: 68px;
 
+  flex-shrink: 0;
+
+  border-radius: 18px;
+
+  background: $blue-light;
+
+  font-size: 1.7rem;
+
+  transition: transform $transition;
 }
 
 
-/* ==========================================================
-   CATÉGORIE
-   ========================================================== */
+/* Petite animation de l'icône au survol */
 
-.categorie {
+.journey-card:hover .journey-icon {
 
-  color: $red;
+  transform: translateY(-3px) rotate(-2deg);
+}
 
-  font-size: 12px;
+
+/* ================================================================
+   CONTENU DU PARCOURS
+   ================================================================ */
+
+.journey-content {
+
+  flex: 1;
+}
+
+
+/* Petit label */
+
+.journey-label {
+
+  display: block;
+
+  margin-bottom: 7px;
+
+  font-size: 0.67rem;
 
   font-weight: 800;
 
-  text-transform: uppercase;
+  letter-spacing: 0.12em;
 
-  letter-spacing: 0.6px;
-
-  margin-bottom: 8px;
-
+  color: $red;
 }
 
 
-/* ==========================================================
-   TITRE
-   ========================================================== */
+/* Titre */
 
-.demarche-card h3 {
+.journey-content h3 {
 
-  margin: 0 0 10px;
+  margin: 0 0 9px;
 
-  font-size: 17px;
+  color: $text-dark;
 
-  line-height: 1.35;
+  font-size: 1.25rem;
 
+  line-height: 1.3;
 }
 
 
-/* ==========================================================
-   DESCRIPTION
-   ========================================================== */
+/* Description */
 
-.demarche-card p {
+.journey-content p {
+
+  max-width: 620px;
 
   margin: 0;
 
-  color: $gray-500;
+  color: $text-light;
 
-  font-size: 14px;
+  font-size: 0.9rem;
 
-  line-height: 1.5;
-
-  flex: 1;
-
+  line-height: 1.65;
 }
 
 
-/* ==========================================================
-   BOUTON DÉTAILS
-   ========================================================== */
+/* ================================================================
+   BOUTON COMMENCER
+   ================================================================ */
 
-.details-button {
+.journey-button {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 10px;
 
   margin-top: 20px;
 
-  border: none;
+  padding: 11px 20px;
 
-  background: transparent;
+  border: 1px solid rgba(230, 57, 70, 0.2);
+
+  border-radius: 10px;
+
+  background: $red-light;
 
   color: $red;
 
-  padding: 0;
+  font-size: 0.84rem;
 
-  text-align: left;
-
-  font-weight: 700;
+  font-weight: 800;
 
   cursor: pointer;
 
-  font-size: 14px;
-
+  transition:
+    transform $transition,
+    background $transition,
+    color $transition,
+    border-color $transition,
+    box-shadow $transition;
 }
 
 
-.details-button span {
+/* Flèche du bouton */
 
-  margin-left: 5px;
+.journey-button span {
 
+  font-size: 1rem;
+
+  transition: transform $transition;
 }
 
 
-.details-button:hover {
+/* Survol du bouton */
 
-  color: $red-dark;
+.journey-button:hover {
 
+  background: $red;
+
+  color: $white;
+
+  border-color: $red;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 7px 18px rgba(230, 57, 70, 0.18);
 }
 
 
-/* ==========================================================
-   AUCUN RÉSULTAT
-   ========================================================== */
+/* Animation de la flèche */
 
-.no-results {
+.journey-button:hover span {
+
+  transform: translateX(4px);
+}
+
+
+/* ================================================================
+   COMMENT ÇA MARCHE
+   ================================================================ */
+
+.how-section {
 
   background: $white;
-
-  border: 1px solid $gray-200;
-
-  border-radius: 12px;
-
-  padding: 60px 20px;
-
-  text-align: center;
-
 }
 
 
-.no-results-icon {
+.steps-container {
 
-  font-size: 35px;
+  display: grid;
 
-  margin-bottom: 15px;
+  grid-template-columns: repeat(3, 1fr);
 
+  gap: 25px;
+
+  max-width: 1200px;
+
+  margin: 0 auto;
 }
 
 
-.no-results h3 {
+.step-card {
 
-  margin: 0 0 8px;
+  display: flex;
 
+  gap: 20px;
+
+  padding: 28px;
+
+  background: $background;
+
+  border-radius: $radius-md;
+
+  border: 1px solid $border;
+
+  transition:
+    transform $transition,
+    box-shadow $transition;
 }
 
 
-.no-results p {
+.step-card:hover {
+
+  transform: translateY(-4px);
+
+  box-shadow: $shadow-sm;
+}
+
+
+.step-number {
+
+  flex-shrink: 0;
+
+  color: $red;
+
+  font-size: 1.5rem;
+
+  font-weight: 850;
+
+  line-height: 1;
+}
+
+
+.step-content h3 {
+
+  margin: 0 0 10px;
+
+  color: $text-dark;
+
+  font-size: 1.05rem;
+
+  font-weight: 750;
+}
+
+
+.step-content p {
 
   margin: 0;
 
-  color: $gray-500;
+  color: $text-light;
 
+  font-size: 0.9rem;
+
+  line-height: 1.65;
 }
 
 
-/* ==========================================================
-   FOOTER
-   ========================================================== */
+/* ================================================================
+   SECTION OBJECTIF
+   ================================================================ */
 
-.footer {
+.about-section {
+
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 60px;
+
+  background: $blue-dark;
+
+  color: $white;
+
+  overflow: hidden;
+}
+
+
+.about-content {
+
+  position: relative;
+
+  z-index: 2;
+
+  max-width: 700px;
+}
+
+
+.about-content .section-label {
+
+  color: #ff8b94;
+}
+
+
+.about-content h2 {
+
+  color: $white;
+}
+
+
+.about-content h2 span {
+
+  color: #ff6b75;
+}
+
+
+.about-content p {
+
+  max-width: 650px;
+
+  margin: 20px 0 0;
+
+  color: rgba(255, 255, 255, 0.78);
+
+  font-size: 1rem;
+
+  line-height: 1.8;
+}
+
+
+/* Décoration */
+
+.about-decoration {
+
+  position: relative;
+
+  width: 250px;
+
+  height: 200px;
+
+  flex-shrink: 0;
+}
+
+
+.about-shape {
+
+  position: absolute;
+
+  border-radius: 50%;
+}
+
+
+.blue-shape {
+
+  width: 180px;
+
+  height: 180px;
+
+  right: 20px;
+
+  top: 0;
+
+  background: rgba(255, 255, 255, 0.08);
+}
+
+
+.red-shape {
+
+  width: 75px;
+
+  height: 75px;
+
+  right: 0;
+
+  bottom: 0;
+
+  background: $red;
+}
+
+
+.about-icon {
+
+  position: absolute;
+
+  top: 55px;
+
+  right: 75px;
+
+  width: 85px;
+
+  height: 85px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 22px;
 
   background: $white;
 
-  border-top: 1px solid $gray-200;
+  box-shadow: $shadow-lg;
 
-  text-align: center;
-
-  padding: 22px;
-
-  color: $gray-500;
-
-  font-size: 13px;
-
+  font-size: 2.2rem;
 }
 
 
-/* ==========================================================
-   RESPONSIVE
-   ========================================================== */
+/* ================================================================
+   RESPONSIVE TABLETTE
+   ================================================================ */
 
 @media (max-width: 1000px) {
 
-  .demarches-grid {
+  .hero-section {
 
-    grid-template-columns:
-      repeat(2, 1fr);
-
+    padding: 60px 6%;
   }
 
-  .navbar {
 
-    padding: 0 20px;
+  .hero-decoration {
 
+    width: 260px;
   }
 
+
+  .why-section,
+  .assigned-section,
+  .how-section,
+  .about-section {
+
+    padding: 70px 6%;
+  }
+
+
+  .why-grid,
+  .steps-container {
+
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+
+  /*
+
+    La carte du parcours reste centrée
+    sur tablette.
+
+  */
+
+  .journey-card {
+
+    width: min(850px, 100%);
+  }
+
+
+  .about-decoration {
+
+    display: none;
+  }
 }
 
 
+/* ================================================================
+   RESPONSIVE MOBILE
+   ================================================================ */
+
 @media (max-width: 700px) {
 
-  .navbar {
+  .hero-section {
 
-    height: auto;
+    min-height: auto;
 
-    padding: 15px;
-
-    flex-wrap: wrap;
-
+    padding: 55px 6% 60px;
   }
 
 
-  .logo {
+  .hero-section h1 {
 
-    width: 100%;
-
+    font-size: 2.35rem;
   }
 
 
-  .navbar-search {
+  .hero-description {
 
-    order: 3;
-
-    max-width: none;
-
-    width: 100%;
-
+    font-size: 0.98rem;
   }
 
 
-  .navbar-actions {
+  /*
 
-    margin-left: auto;
+    Sur mobile, la décoration est masquée afin
+    de laisser davantage d'espace au texte.
 
+  */
+
+  .hero-decoration {
+
+    display: none;
   }
 
 
-  .main-content {
+  .why-section,
+  .assigned-section,
+  .how-section,
+  .about-section {
 
-    width: calc(100% - 30px);
-
-    padding-top: 35px;
-
+    padding: 55px 6%;
   }
 
 
-  .welcome-section h1 {
-
-    font-size: 30px;
-
-  }
-
-
-  .main-search {
-
-    height: auto;
-
-    padding: 10px;
-
-    flex-wrap: wrap;
-
-  }
-
-
-  .main-search input {
-
-    height: 40px;
-
-  }
-
-
-  .main-search button {
-
-    width: 100%;
-
-  }
-
-
-  .demarches-grid {
-
-    grid-template-columns: 1fr;
-
-  }
-
+  /* ------------------------------------------------------------
+     EN-TÊTE MON PARCOURS
+     ------------------------------------------------------------ */
 
   .section-header {
 
     align-items: flex-start;
 
     flex-direction: column;
-
-    gap: 10px;
-
   }
 
+
+  /* ------------------------------------------------------------
+     CARTE MON PARCOURS
+     ------------------------------------------------------------ */
+
+  .journey-card {
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 20px;
+
+    width: 100%;
+
+    padding: 30px 25px;
+  }
+
+
+  .journey-icon {
+
+    width: 58px;
+
+    height: 58px;
+
+    border-radius: 15px;
+
+    font-size: 1.45rem;
+  }
+
+
+  .journey-content {
+
+    width: 100%;
+  }
+
+
+  .journey-content h3 {
+
+    font-size: 1.1rem;
+  }
+
+
+  .journey-content p {
+
+    font-size: 0.86rem;
+  }
+
+
+  .journey-button {
+
+    width: 100%;
+  }
+
+
+  /* ------------------------------------------------------------
+     AUTRES SECTIONS
+     ------------------------------------------------------------ */
+
+  .why-grid,
+  .steps-container {
+
+    grid-template-columns: 1fr;
+  }
+
+
+  .step-card {
+
+    padding: 23px;
+  }
+
+
+  .about-section {
+
+    min-height: 300px;
+  }
+}
+
+
+/* ================================================================
+   TRÈS PETITS ÉCRANS
+   ================================================================ */
+
+@media (max-width: 420px) {
+
+  .hero-section h1 {
+
+    font-size: 2rem;
+  }
+
+
+  .hero-label {
+
+    font-size: 0.68rem;
+  }
+
+
+  .hero-description {
+
+    font-size: 0.92rem;
+  }
+
+
+  .section-heading h2,
+  .section-header h2,
+  .about-content h2 {
+
+    font-size: 1.75rem;
+  }
+
+
+  /*
+
+    Sur les très petits écrans,
+    le bouton prend toute la largeur.
+
+  */
+
+  .journey-card {
+
+    padding: 25px 20px;
+  }
+
+
+  .journey-button {
+
+    width: 100%;
+
+    min-height: 44px;
+  }
+}
+
+
+/* ================================================================
+   BOUTONS D'ACTION (hero + bandeau final)
+   ================================================================ */
+
+.hero-actions {
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 12px;
+
+  margin-top: 28px;
+}
+
+.hero-button {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 13px 24px;
+
+  border: 2px solid transparent;
+
+  border-radius: $radius-sm;
+
+  font-size: 0.95rem;
+
+  font-weight: 800;
+
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition:
+    transform $transition,
+    background $transition,
+    color $transition,
+    box-shadow $transition;
+}
+
+.hero-button.primary {
+
+  background: $red;
+
+  color: $white;
+
+  box-shadow: 0 8px 22px rgba(230, 57, 70, 0.35);
+}
+
+.hero-button.primary:hover:not(:disabled) {
+
+  background: $red-dark;
+
+  transform: translateY(-2px);
+}
+
+.hero-button.secondary {
+
+  background: rgba(255, 255, 255, 0.1);
+
+  border-color: rgba(255, 255, 255, 0.55);
+
+  color: $white;
+}
+
+.hero-button.secondary:hover {
+
+  background: rgba(255, 255, 255, 0.2);
+
+  transform: translateY(-2px);
+}
+
+.hero-button:disabled,
+.journey-button:disabled {
+
+  opacity: 0.6;
+
+  cursor: not-allowed;
+}
+
+.hero-button:focus-visible,
+.journey-button:focus-visible {
+
+  outline: 3px solid rgba(22, 70, 160, 0.45);
+
+  outline-offset: 3px;
+}
+
+
+/* ================================================================
+   BANDEAU FINAL D'APPEL À L'ACTION
+   ================================================================ */
+
+.cta-section {
+
+  padding: 20px 5% 80px;
+}
+
+.cta-card {
+
+  max-width: 900px;
+
+  margin: 0 auto;
+
+  padding: 48px 32px;
+
+  text-align: center;
+
+  border-radius: $radius-lg;
+
+  background: linear-gradient(135deg, $blue-dark, $blue);
+
+  color: $white;
+
+  box-shadow: $shadow-lg;
+}
+
+.cta-card h2 {
+
+  margin: 0 0 12px;
+
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+.cta-card p {
+
+  max-width: 560px;
+
+  margin: 0 auto 26px;
+
+  color: rgba(255, 255, 255, 0.85);
+
+  line-height: 1.6;
+}
+
+.cta-actions {
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  justify-content: center;
+
+  gap: 12px;
+}
+
+@media (max-width: 700px) {
+
+  .hero-actions,
+  .cta-actions {
+
+    flex-direction: column;
+  }
+
+  .hero-button {
+
+    width: 100%;
+  }
 }

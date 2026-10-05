@@ -1,0 +1,296 @@
+<!-- ========================================================= -->
+<!-- CONTENU DE LA PAGE CATÉGORIES                             -->
+<!-- ========================================================= -->
+
+<div class="categories-page">
+
+
+  <!-- ======================================================= -->
+  <!-- MESSAGE D'INFORMATION / ERREUR                          -->
+  <!-- ======================================================= -->
+
+  @if (message) {
+
+    <div
+      class="message"
+      [class.success]="messageType === 'success'"
+      [class.error]="messageType === 'error'"
+    >
+      {{ message }}
+    </div>
+
+  }
+
+
+  <!-- ======================================================= -->
+  <!-- FORMULAIRE                                               -->
+  <!-- ======================================================= -->
+
+  <section class="form-card">
+
+    <div class="card-header">
+
+      <div>
+
+        <h2>
+          {{ isEditing ? 'Modifier une catégorie' : 'Ajouter une catégorie' }}
+        </h2>
+
+        <p>
+          {{
+            isEditing
+              ? 'Modifiez les informations de cette catégorie.'
+              : 'Ajoutez une nouvelle catégorie de démarches.'
+          }}
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- FORMULAIRE ANGULAR                                    -->
+    <!-- ===================================================== -->
+
+    <form
+      (ngSubmit)="isEditing ? updateCategorie() : createCategorie()"
+      class="category-form"
+    >
+
+      <!-- =================================================== -->
+      <!-- NOM                                                  -->
+      <!-- =================================================== -->
+
+      <div class="form-group">
+
+        <label for="nom">
+          Nom de la catégorie
+        </label>
+
+        <input
+          id="nom"
+          type="text"
+          name="nom"
+          [(ngModel)]="categorieForm.nom"
+          placeholder="Ex : Titre de séjour"
+          required
+        />
+
+      </div>
+
+
+      <!-- =================================================== -->
+      <!-- DESCRIPTION                                          -->
+      <!-- =================================================== -->
+
+      <div class="form-group">
+
+        <label for="description">
+          Description
+        </label>
+
+        <textarea
+          id="description"
+          name="description"
+          [(ngModel)]="categorieForm.description"
+          placeholder="Décrivez cette catégorie..."
+          rows="4"
+        ></textarea>
+
+      </div>
+
+
+      <!-- =================================================== -->
+      <!-- BOUTONS                                              -->
+      <!-- =================================================== -->
+
+      <div class="form-actions">
+
+        <!-- ------------------------------------------------- -->
+        <!-- BOUTON AJOUT                                      -->
+        <!-- ------------------------------------------------- -->
+
+        @if (!isEditing) {
+
+          <button
+            type="submit"
+            class="btn-primary"
+            [disabled]="loading"
+          >
+            {{ loading ? 'Création...' : 'Ajouter la catégorie' }}
+          </button>
+
+        }
+
+
+        <!-- ------------------------------------------------- -->
+        <!-- BOUTONS MODIFICATION                              -->
+        <!-- ------------------------------------------------- -->
+
+        @if (isEditing) {
+
+          <button
+            type="submit"
+            class="btn-primary"
+            [disabled]="loading"
+          >
+            {{ loading ? 'Modification...' : 'Modifier la catégorie' }}
+          </button>
+
+
+          <button
+            type="button"
+            class="btn-secondary"
+            (click)="resetForm()"
+          >
+            Annuler
+          </button>
+
+        }
+
+      </div>
+
+    </form>
+
+  </section>
+
+
+  <!-- ======================================================= -->
+  <!-- LISTE DES CATÉGORIES                                    -->
+  <!-- ======================================================= -->
+
+  <section class="categories-card">
+
+    <div class="card-header categories-header">
+
+      <div>
+
+        <h2>
+          Catégories existantes
+        </h2>
+
+        <p>
+          {{ categories.length }}
+          catégorie{{ categories.length > 1 ? 's' : '' }}
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- CHARGEMENT                                             -->
+    <!-- ===================================================== -->
+
+    @if (loading && categories.length === 0) {
+
+      <div class="loading">
+        Chargement des catégories...
+      </div>
+
+    }
+
+
+    <!-- ===================================================== -->
+    <!-- AUCUNE CATÉGORIE                                       -->
+    <!-- ===================================================== -->
+
+    @if (!loading && categories.length === 0) {
+
+      <div class="empty-state">
+
+        <div class="empty-icon">
+          ▦
+        </div>
+
+        <h3>
+          Aucune catégorie
+        </h3>
+
+        <p>
+          Vous n'avez encore créé aucune catégorie.
+        </p>
+
+      </div>
+
+    }
+
+
+    <!-- ===================================================== -->
+    <!-- LISTE                                                  -->
+    <!-- ===================================================== -->
+
+    @if (categories.length > 0) {
+
+      <div class="categories-list">
+
+        @for (categorie of categories; track categorie.id) {
+
+          <article class="category-item">
+
+            <!-- ============================================= -->
+            <!-- INFORMATIONS                                  -->
+            <!-- ============================================= -->
+
+            <div class="category-info">
+
+              <div class="category-icon">
+                ▦
+              </div>
+
+              <div class="category-text">
+
+                <h3>
+                  {{ categorie.nom }}
+                </h3>
+
+                <p>
+                  {{
+                    categorie.description ||
+                    'Aucune description disponible.'
+                  }}
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <!-- ============================================= -->
+            <!-- ACTIONS                                        -->
+            <!-- ============================================= -->
+
+            <div class="category-actions">
+
+              <button
+                type="button"
+                class="btn-edit"
+                (click)="editCategorie(categorie)"
+              >
+                Modifier
+              </button>
+
+
+              <button
+                type="button"
+                class="btn-delete"
+                (click)="deleteCategorie(categorie.id)"
+              >
+                Supprimer
+              </button>
+
+            </div>
+
+          </article>
+
+        }
+
+      </div>
+
+    }
+
+  </section>
+
+</div>

@@ -1,0 +1,713 @@
+<!-- ========================================================= -->
+<!-- CONTENEUR PRINCIPAL DU DASHBOARD ADMINISTRATEUR           -->
+<!-- ========================================================= -->
+
+<div class="admin-container">
+
+
+  <!-- ========================================================= -->
+  <!-- SIDEBAR ADMINISTRATEUR                                    -->
+  <!-- ========================================================= -->
+
+  <aside class="sidebar">
+
+
+    <!-- ======================================================= -->
+    <!-- LOGO                                                    -->
+    <!-- ======================================================= -->
+
+    <div class="logo">
+
+      <span>
+        MyStudent
+      </span>
+
+      <strong>
+        Guide
+      </strong>
+
+    </div>
+
+
+    <!-- ======================================================= -->
+    <!-- MENU DE NAVIGATION                                      -->
+    <!-- ======================================================= -->
+
+    <!--
+      Cette zone est volontairement séparée de la partie basse.
+
+      La barre de défilement sera appliquée uniquement
+      à cette zone lorsque le nombre de rubriques devient
+      trop important pour la hauteur de l'écran.
+    -->
+    <nav class="sidebar-nav">
+
+
+      <!-- ===================================================== -->
+      <!-- DASHBOARD                                             -->
+      <!-- ===================================================== -->
+
+      <a
+        routerLink="/admin"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="nav-item"
+      >
+
+        <span class="icon">
+          🏠
+        </span>
+
+        <span>
+          Dashboard
+        </span>
+
+      </a>
+
+
+      <!-- ===================================================== -->
+      <!-- CATÉGORIES                                            -->
+      <!-- ===================================================== -->
+
+      <a
+        routerLink="/admin/categories-admin"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+
+        <span class="icon">
+          📁
+        </span>
+
+        <span>
+          Catégories
+        </span>
+
+      </a>
+
+
+      <!-- ===================================================== -->
+      <!-- DÉMARCHES                                             -->
+      <!-- ===================================================== -->
+
+      <a
+        routerLink="/admin/demarches-admin"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+
+        <span class="icon">
+          📋
+        </span>
+
+        <span>
+          Démarches
+        </span>
+
+      </a>
+
+
+      <!-- ===================================================== -->
+      <!-- UTILISATEURS                                          -->
+      <!-- ===================================================== -->
+
+      <a
+        routerLink="/admin/users"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+
+        <span class="icon">
+          👥
+        </span>
+
+        <span>
+          Utilisateurs
+        </span>
+
+      </a>
+
+
+      <!-- ===================================================== -->
+      <!-- NOTIFICATIONS                                         -->
+      <!-- ===================================================== -->
+
+      <a
+        routerLink="/admin/notifications"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+
+        <span class="icon">
+          🔔
+        </span>
+
+        <span>
+          Notifications
+        </span>
+
+      </a>
+
+
+      <!-- ===================================================== -->
+      <!-- DOCUMENTS                                             -->
+      <!-- ===================================================== -->
+
+      <a
+        routerLink="/admin/documents"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+
+        <span class="icon">
+          📄
+        </span>
+
+        <span>
+          Documents
+        </span>
+
+      </a>
+
+
+    </nav>
+
+
+    <!-- ======================================================= -->
+    <!-- PARTIE BASSE DE LA SIDEBAR                              -->
+    <!-- ======================================================= -->
+
+    <!--
+      Cette partie reste fixe.
+
+      Elle ne défile donc pas avec le menu principal.
+    -->
+    <div class="sidebar-bottom">
+
+
+      <!-- ===================================================== -->
+      <!-- MON COMPTE                                            -->
+      <!-- ===================================================== -->
+
+      <a
+        routerLink="/admin/account"
+        routerLinkActive="active"
+        class="sidebar-action"
+      >
+
+        <span class="icon">
+          👤
+        </span>
+
+        <span>
+          Mon compte
+        </span>
+
+      </a>
+
+
+
+      <!-- ===================================================== -->
+      <!-- INFORMATIONS ADMINISTRATEUR                            -->
+      <!-- ===================================================== -->
+
+      <div class="admin-sidebar-info">
+
+
+        <!-- Avatar -->
+
+        <div class="admin-avatar">
+
+          A
+
+        </div>
+
+
+        <!-- Nom et email -->
+
+        <div class="admin-sidebar-text">
+
+          <strong>
+            {{ adminName }}
+          </strong>
+
+          @if (adminEmail) {
+
+            <span>
+              {{ adminEmail }}
+            </span>
+
+          }
+
+        </div>
+
+      </div>
+
+
+      <!-- ===================================================== -->
+      <!-- BOUTON DE DÉCONNEXION                                  -->
+      <!-- ===================================================== -->
+
+      <button
+        type="button"
+        class="logout-button"
+        (click)="logout()"
+      >
+
+        <span class="icon">
+          🚪
+        </span>
+
+        <span>
+          Déconnexion
+        </span>
+
+      </button>
+
+
+    </div>
+
+  </aside>
+
+
+  <!-- ========================================================= -->
+  <!-- CONTENU PRINCIPAL                                        -->
+  <!-- ========================================================= -->
+
+  <main class="main-content">
+
+
+    <!-- ======================================================= -->
+    <!-- TOPBAR                                                  -->
+    <!-- ======================================================= -->
+
+    <header class="topbar">
+
+      <div class="topbar-left">
+
+        <h1>
+          {{ pageTitle }}
+        </h1>
+
+        <p>
+          {{ pageDescription }}
+        </p>
+
+      </div>
+
+
+      <!-- ===================================================== -->
+      <!-- PROFIL ADMINISTRATEUR                                 -->
+      <!-- ===================================================== -->
+
+      <div class="admin-profile">
+
+        <div class="admin-avatar">
+          A
+        </div>
+
+        <div class="admin-info">
+
+          <strong>
+            {{ adminName }}
+          </strong>
+
+          <span>
+            Administrateur
+          </span>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <!-- ======================================================= -->
+    <!-- CONTENU DU DASHBOARD                                    -->
+    <!-- ======================================================= -->
+
+    @if (isDashboardHome()) {
+
+      <section class="content">
+
+
+        <!-- =================================================== -->
+        <!-- MESSAGE D'INFORMATION / ERREUR                      -->
+        <!-- =================================================== -->
+
+        @if (message) {
+
+          <div
+            class="message"
+            [class.success]="messageType === 'success'"
+            [class.error]="messageType === 'error'"
+          >
+
+            {{ message }}
+
+          </div>
+
+        }
+
+
+        <!-- =================================================== -->
+        <!-- TITRE DE BIENVENUE                                  -->
+        <!-- =================================================== -->
+
+        <section class="welcome-section">
+
+          <div>
+
+            <h2>
+              Bienvenue, {{ adminName }} 👋
+            </h2>
+
+            <p>
+              Voici un aperçu de l'activité de votre plateforme.
+            </p>
+
+          </div>
+
+
+          <!-- Bouton d'actualisation -->
+
+          <button
+            type="button"
+            class="refresh-button"
+            (click)="refreshStatistics()"
+            [disabled]="loading"
+          >
+
+            <span class="refresh-icon">
+              🔄
+            </span>
+
+            <span>
+              {{ loading ? 'Actualisation...' : 'Actualiser' }}
+            </span>
+
+          </button>
+
+        </section>
+
+
+        <!-- =================================================== -->
+        <!-- CARTES STATISTIQUES                                 -->
+        <!-- =================================================== -->
+
+        <section class="statistics-grid">
+
+
+          <!-- UTILISATEURS -->
+
+          <article class="stat-card">
+
+            <div class="stat-icon users-icon">
+              👥
+            </div>
+
+            <div class="stat-content">
+
+              <span class="stat-label">
+                Utilisateurs
+              </span>
+
+              <strong class="stat-value">
+                {{ nombreUtilisateurs }}
+              </strong>
+
+              <span class="stat-description">
+                utilisateurs enregistrés
+              </span>
+
+            </div>
+
+          </article>
+
+
+          <!-- DÉMARCHES -->
+
+          <article class="stat-card">
+
+            <div class="stat-icon demarches-icon">
+              📋
+            </div>
+
+            <div class="stat-content">
+
+              <span class="stat-label">
+                Démarches
+              </span>
+
+              <strong class="stat-value">
+                {{ nombreDemarches }}
+              </strong>
+
+              <span class="stat-description">
+                démarches disponibles
+              </span>
+
+            </div>
+
+          </article>
+
+
+          <!-- CATÉGORIES -->
+
+          <article class="stat-card">
+
+            <div class="stat-icon categories-icon">
+              📁
+            </div>
+
+            <div class="stat-content">
+
+              <span class="stat-label">
+                Catégories
+              </span>
+
+              <strong class="stat-value">
+                {{ nombreCategories }}
+              </strong>
+
+              <span class="stat-description">
+                catégories disponibles
+              </span>
+
+            </div>
+
+          </article>
+
+
+          <!-- NOTIFICATIONS -->
+
+          <article class="stat-card">
+
+            <div class="stat-icon notifications-icon">
+              🔔
+            </div>
+
+            <div class="stat-content">
+
+              <span class="stat-label">
+                Notifications
+              </span>
+
+              <strong class="stat-value">
+                {{ nombreNotifications }}
+              </strong>
+
+              <span class="stat-description">
+                notifications
+              </span>
+
+            </div>
+
+          </article>
+
+
+        </section>
+
+
+        <!-- =================================================== -->
+        <!-- ACCÈS RAPIDES                                       -->
+        <!-- =================================================== -->
+
+        <section class="quick-section">
+
+          <div class="section-header">
+
+            <div>
+
+              <h2>
+                Gestion de la plateforme
+              </h2>
+
+              <p>
+                Accédez rapidement aux principales fonctionnalités.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <!-- ================================================= -->
+          <!-- GRILLE DES ACCÈS RAPIDES                          -->
+          <!-- ================================================= -->
+
+          <div class="quick-grid">
+
+
+            <!-- CATÉGORIES -->
+
+            <a
+              routerLink="/admin/categories-admin"
+              class="quick-card"
+            >
+
+              <div class="quick-icon">
+                📁
+              </div>
+
+              <div class="quick-content">
+
+                <h3>
+                  Catégories
+                </h3>
+
+                <p>
+                  Créez, modifiez et supprimez les catégories
+                  de démarches administratives.
+                </p>
+
+                <span class="quick-link">
+                  Gérer les catégories →
+                </span>
+
+              </div>
+
+            </a>
+
+
+            <!-- DÉMARCHES -->
+
+            <a
+              routerLink="/admin/demarches-admin"
+              class="quick-card"
+            >
+
+              <div class="quick-icon">
+                📋
+              </div>
+
+              <div class="quick-content">
+
+                <h3>
+                  Démarches
+                </h3>
+
+                <p>
+                  Ajoutez et gérez les démarches proposées
+                  aux étudiants.
+                </p>
+
+                <span class="quick-link">
+                  Gérer les démarches →
+                </span>
+
+              </div>
+
+            </a>
+
+
+            <!-- UTILISATEURS -->
+
+            <a
+              routerLink="/admin/users"
+              class="quick-card"
+            >
+
+              <div class="quick-icon">
+                👥
+              </div>
+
+              <div class="quick-content">
+
+                <h3>
+                  Utilisateurs
+                </h3>
+
+                <p>
+                  Consultez les utilisateurs inscrits
+                  sur la plateforme.
+                </p>
+
+                <span class="quick-link">
+                  Gérer les utilisateurs →
+                </span>
+
+              </div>
+
+            </a>
+
+
+            <!-- NOTIFICATIONS -->
+
+            <a
+              routerLink="/admin/notifications"
+              class="quick-card"
+            >
+
+              <div class="quick-icon">
+                🔔
+              </div>
+
+              <div class="quick-content">
+
+                <h3>
+                  Notifications
+                </h3>
+
+                <p>
+                  Consultez et gérez les notifications
+                  de la plateforme.
+                </p>
+
+                <span class="quick-link">
+                  Gérer les notifications →
+                </span>
+
+              </div>
+
+            </a>
+
+
+          </div>
+
+        </section>
+
+
+        <!-- =================================================== -->
+        <!-- CARTE D'INFORMATION                                 -->
+        <!-- =================================================== -->
+
+        <section class="info-card">
+
+          <div class="info-icon">
+            ℹ️
+          </div>
+
+          <div>
+
+            <h3>
+              Espace administrateur
+            </h3>
+
+            <p>
+              Depuis cet espace, vous pouvez gérer les contenus
+              proposés aux étudiants et suivre l'activité
+              générale de la plateforme.
+            </p>
+
+          </div>
+
+        </section>
+
+
+      </section>
+
+    }
+
+
+    <!-- ======================================================= -->
+    <!-- ROUTER OUTLET                                           -->
+    <!-- ======================================================= -->
+
+    <router-outlet></router-outlet>
+
+
+  </main>
+
+</div>

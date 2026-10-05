@@ -1,144 +1,132 @@
-// Permet de déclarer notre service comme injectable dans toute l'application.
 import { Injectable, inject } from '@angular/core';
-
-// HttpClient permet d'effectuer les requêtes HTTP vers notre API Spring Boot.
 import { HttpClient } from '@angular/common/http';
-
-// Observable représente la réponse asynchrone de notre requête HTTP.
 import { Observable, tap } from 'rxjs';
 
+import { environment } from '../../environments/environment';
 
-// Interface représentant les données envoyées à l'API lors de la connexion.
+/** Données envoyées à l'API lors de la connexion. */
 export interface LoginRequest {
-
-  // Adresse e-mail de l'utilisateur.
   email: string;
-
-  // Mot de passe de l'utilisateur.
   password: string;
 }
 
-
-// Interface représentant exactement la réponse envoyée par notre API.
-export interface LoginResponse {
-
-  // Token JWT permettant d'authentifier les prochaines requêtes.
-  token: string;
-
-  // Identifiant de l'utilisateur connecté.
-  userId: number;
-
-  // Adresse e-mail de l'utilisateur connecté.
+/** Données envoyées à l'API lors de l'inscription. */
+export interface RegisterRequest {
+  prenom: string;
+  nom: string;
   email: string;
+  password: string;
+}
 
-  // Rôle de l'utilisateur : ETUDIANT, ADMIN, etc.
+/** Réponse de l'API après connexion ou inscription. */
+export interface LoginResponse {
+  token: string;
+  userId: number;
+  email: string;
   role: string;
 }
 
-
-// Indique qu'Angular peut utiliser ce service dans toute l'application.
+/**
+ * Service central d'authentification.
+ *
+ * Il est le seul à lire / écrire la session dans le localStorage :
+ * les guards, l'interceptor et les pages passent par lui.
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  // Injection de HttpClient pour communiquer avec Spring Boot.
   private http = inject(HttpClient);
 
-  // Adresse de base de notre API Spring Boot.
-  private apiUrl = 'http://localhost:8080/api/auth';
+  private apiUrl = `${environment.apiUrl}/auth`;
 
-
-  // Méthode permettant de connecter un utilisateur.
+  /** Connexion : enregistre la session si l'API répond OK. */
   login(credentials: LoginRequest): Observable<LoginResponse> {
-
-    // Envoie une requête POST vers /api/auth/login.
     return this.http
-      .post<LoginResponse>(
-        `${this.apiUrl}/login`,
-        credentials
-      )
-
-      // Exécute ce code lorsque l'API renvoie une réponse positive.
-      .pipe(
-
-        tap((response) => {
-
-          // Enregistre le token JWT dans le navigateur.
-          localStorage.setItem('token', response.token);
-
-          // Enregistre également l'identifiant de l'utilisateur.
-          localStorage.setItem(
-            'userId',
-            response.userId.toString()
-          );
-
-          // Enregistre l'adresse e-mail.
-          localStorage.setItem(
-            'email',
-            response.email
-          );
-
-          // Enregistre le rôle de l'utilisateur.
-          localStorage.setItem(
-            'role',
-            response.role
-          );
-        })
-      );
+      .post<LoginResponse>(`${this.apiUrl}/login`, credentials)
+      .pipe(tap((response) => this.saveSession(response)));
   }
 
-
-  // Récupère le token JWT enregistré dans le navigateur.
-  getToken(): string | null {
-
-    return localStorage.getItem('token');
+  /** Inscription : l'API renvoie directement un JWT, l'étudiant est connecté. */
+  register(data: RegisterRequest): Observable<LoginResponse> {
+    return this.http
+      .post<LoginResponse>(`${this.apiUrl}/register`, data)
+      .pipe(tap((response) => this.saveSession(response)));
   }
 
-
-  // Vérifie si un utilisateur possède actuellement un token.
-  isLoggedIn(): boolean {
-
-    return this.getToken() !== null;
+  /** Enregistre le token et les informations de l'utilisateur. */
+  saveSession(response: LoginResponse): void {
+    localStorage.setItem('token', response.token);
+    localStorage.setItem('userId', response.userId.toString());
+    localStorage.setItem('email', response.email);
+    localStorage.setItem('role', response.role);
   }
 
-
-  // Déconnecte l'utilisateur.
+  /** Supprime toute la session. */
   logout(): void {
-
-    // Supprime toutes les informations enregistrées lors de la connexion.
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
     localStorage.removeItem('email');
     localStorage.removeItem('role');
   }
 
-
-  // Récupère l'identifiant de l'utilisateur connecté.
-  getUserId(): number | null {
-
-    const userId = localStorage.getItem('userId');
-
-    // Si aucun identifiant n'est enregistré, retourne null.
-    if (!userId) {
-      return null;
-    }
-
-    // Transforme la valeur stockée en chaîne de caractères en nombre.
-    return Number(userId);
+  getToken(): string | null {
+    return localStorage.getItem('token');
   }
 
+  /**
+   * Un utilisateur est connecté s'il possède un token NON expiré.
+   * Si le token est expiré, la session est nettoyée automatiquement.
+   */
+  isLoggedIn(): boolean {
+    const token = this.getToken();
 
-  // Récupère le rôle de l'utilisateur connecté.
+    if (!token) {
+      return false;
+    }
+
+    if (this.isTokenExpired(token)) {
+      this.logout();
+      return false;
+    }
+
+    return true;
+  }
+
+  /** Vrai si l'utilisateur connecté est administrateur. */
+  isAdmin(): boolean {
+    const role = this.getRole();
+    return this.isLoggedIn() && (role === 'ADMIN' || role === 'ROLE_ADMIN');
+  }
+
+  getUserId(): number | null {
+    const userId = localStorage.getItem('userId');
+    return userId ? Number(userId) : null;
+  }
+
   getRole(): string | null {
-
     return localStorage.getItem('role');
   }
 
-
-  // Récupère l'e-mail de l'utilisateur connecté.
   getEmail(): string | null {
-
     return localStorage.getItem('email');
+  }
+
+  /**
+   * Lit la date d'expiration (claim "exp") dans le JWT.
+   * Un token illisible est considéré comme expiré.
+   * (Simple confort côté interface : la vraie vérification reste celle du backend.)
+   */
+  private isTokenExpired(token: string): boolean {
+    try {
+      const payload = token.split('.')[1];
+      const json = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
+      const { exp } = JSON.parse(json);
+
+      return typeof exp === 'number' && exp * 1000 <= Date.now();
+    } catch {
+      return true;
+    }
   }
 }

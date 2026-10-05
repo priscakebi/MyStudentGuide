@@ -1,0 +1,762 @@
+<!-- =========================================================
+     PAGE DE GESTION DES UTILISATEURS
+
+     Cette page est affichée dans le router-outlet
+     du AdminDashboard.
+
+     Elle ne contient donc PAS :
+     - de sidebar
+     - de dashboard
+     - de bouton Dashboard
+
+     Le sidebar est géré uniquement par AdminDashboard.
+     ========================================================= -->
+
+<section class="users-page">
+
+
+  <!-- =======================================================
+       EN-TÊTE DE LA PAGE
+       ======================================================= -->
+
+  <div class="page-header">
+
+    <!-- Bouton d'actualisation -->
+    <button
+      type="button"
+      class="refresh-button"
+      (click)="refreshUsers()"
+      [disabled]="loading"
+    >
+
+      <span class="refresh-icon">
+        ↻
+      </span>
+
+      <span>
+        {{ loading ? 'Actualisation...' : 'Actualiser' }}
+      </span>
+
+    </button>
+
+  </div>
+
+
+  <!-- =======================================================
+       CARTE RÉCAPITULATIVE
+       ======================================================= -->
+
+  <section class="users-summary">
+
+    <div class="summary-card">
+
+      <div class="summary-icon">
+        ♙
+      </div>
+
+      <div class="summary-content">
+
+        <span class="summary-title">
+          Utilisateurs inscrits
+        </span>
+
+        <strong class="summary-value">
+          {{ users.length }}
+        </strong>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       MESSAGE DE SUCCÈS
+       ======================================================= -->
+
+  @if (successMessage) {
+
+    <div class="alert alert-success">
+
+      <span class="alert-icon">
+        ✓
+      </span>
+
+      <span>
+        {{ successMessage }}
+      </span>
+
+    </div>
+
+  }
+
+
+  <!-- =======================================================
+       MESSAGE D'ERREUR
+       ======================================================= -->
+
+  @if (errorMessage) {
+
+    <div class="alert alert-error">
+
+      <span class="alert-icon">
+        !
+      </span>
+
+      <span>
+        {{ errorMessage }}
+      </span>
+
+    </div>
+
+  }
+
+
+  <!-- =======================================================
+       CHARGEMENT
+       ======================================================= -->
+
+  @if (loading) {
+
+    <div class="loading-container">
+
+      <div class="spinner"></div>
+
+      <p>
+        Chargement des utilisateurs...
+      </p>
+
+    </div>
+
+  }
+
+
+  <!-- =======================================================
+       LISTE DES UTILISATEURS
+       ======================================================= -->
+
+  @if (!loading && users.length > 0) {
+
+    <div class="users-table-container">
+
+      <table class="users-table">
+
+        <!-- -------------------------------------------------
+             EN-TÊTE DU TABLEAU
+             ------------------------------------------------- -->
+
+        <thead>
+
+          <tr>
+
+            <th>
+              ID
+            </th>
+
+            <th>
+              Utilisateur
+            </th>
+
+            <th>
+              Email
+            </th>
+
+            <th>
+              Rôle
+            </th>
+
+            <th>
+              Date de création
+            </th>
+
+            <th>
+              Actions
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <!-- -------------------------------------------------
+             CORPS DU TABLEAU
+             ------------------------------------------------- -->
+
+        <tbody>
+
+          @for (user of users; track user.id) {
+
+            <tr>
+
+              <!-- =================================================
+                   ID
+                   ================================================= -->
+
+              <td class="user-id">
+                #{{ user.id }}
+              </td>
+
+
+              <!-- =================================================
+                   UTILISATEUR
+                   ================================================= -->
+
+              <td>
+
+                <div class="user-info">
+
+                  <!-- Avatar -->
+                  <div class="user-avatar">
+
+                    {{
+                      user.prenom.charAt(0).toUpperCase()
+                    }}{{
+                      user.nom.charAt(0).toUpperCase()
+                    }}
+
+                  </div>
+
+
+                  <!-- Nom et prénom -->
+                  <div class="user-name">
+
+                    <strong>
+                      {{ user.prenom }} {{ user.nom }}
+                    </strong>
+
+                    <span>
+                      Compte utilisateur
+                    </span>
+
+                  </div>
+
+                </div>
+
+              </td>
+
+
+              <!-- =================================================
+                   EMAIL
+                   ================================================= -->
+
+              <td class="user-email">
+                {{ user.email }}
+              </td>
+
+
+              <!-- =================================================
+                   RÔLE
+                   ================================================= -->
+
+              <td>
+
+                @if (
+                  user.role === 'ADMIN' ||
+                  user.role === 'ROLE_ADMIN'
+                ) {
+
+                  <span class="role-badge role-admin">
+                    Administrateur
+                  </span>
+
+                } @else if (
+                  user.role === 'ETUDIANT' ||
+                  user.role === 'ROLE_ETUDIANT'
+                ) {
+
+                  <span class="role-badge role-etudiant">
+                    Étudiant
+                  </span>
+
+                } @else {
+
+                  <span class="role-badge role-default">
+                    {{ user.role }}
+                  </span>
+
+                }
+
+              </td>
+
+
+              <!-- =================================================
+                   DATE DE CRÉATION
+                   ================================================= -->
+
+              <td>
+
+                @if (user.createdAt) {
+
+                  <span class="creation-date">
+                    {{ user.createdAt | date:'dd/MM/yyyy' }}
+                  </span>
+
+                } @else {
+
+                  <span class="not-available">
+                    Non disponible
+                  </span>
+
+                }
+
+              </td>
+
+
+              <!-- =================================================
+                   ACTIONS
+                   ================================================= -->
+
+              <td>
+
+                <div class="user-actions">
+
+
+                  <!-- ---------------------------------------------
+                       BOUTON GÉRER
+                       --------------------------------------------- -->
+
+                  @if (
+                    user.role === 'ETUDIANT' ||
+                    user.role === 'ROLE_ETUDIANT'
+                  ) {
+
+                    <button
+                      type="button"
+                      class="manage-button"
+                      (click)="selectStudent(user)"
+                    >
+
+                      <span>
+                        ⚙
+                      </span>
+
+                      <span>
+                        Gérer
+                      </span>
+
+                    </button>
+
+                  }
+
+
+                  <!-- ---------------------------------------------
+                       BOUTON SUPPRIMER
+                       --------------------------------------------- -->
+
+                  <button
+                    type="button"
+                    class="delete-button"
+                    (click)="deleteUser(user)"
+                    [disabled]="loading"
+                  >
+
+                    <span class="delete-icon">
+                      🗑
+                    </span>
+
+                    <span>
+                      Supprimer
+                    </span>
+
+                  </button>
+
+
+                </div>
+
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  }
+
+
+  <!-- =======================================================
+       GESTION DE L'ÉTUDIANT SÉLECTIONNÉ
+       ======================================================= -->
+
+  @if (selectedStudent) {
+
+    <section class="student-management">
+
+
+      <!-- =====================================================
+           EN-TÊTE
+           ===================================================== -->
+
+      <div class="student-management-header">
+
+        <div>
+
+          <span class="section-label">
+            Gestion de l'étudiant
+          </span>
+
+          <h2>
+            {{ selectedStudent.prenom }}
+            {{ selectedStudent.nom }}
+          </h2>
+
+          <p>
+            {{ selectedStudent.email }}
+          </p>
+
+        </div>
+
+
+        <!-- Bouton pour fermer la gestion -->
+        <button
+          type="button"
+          class="close-button"
+          (click)="closeStudentManagement()"
+        >
+
+          ✕
+
+        </button>
+
+      </div>
+
+
+      <!-- =====================================================
+           DÉMARCHES ATTRIBUÉES
+           ===================================================== -->
+
+      <div class="student-demarches-section">
+
+        <div class="section-title">
+
+          <div>
+
+            <span class="section-label">
+              Suivi administratif
+            </span>
+
+            <h3>
+              Démarches attribuées
+            </h3>
+
+          </div>
+
+          <span class="demarches-count">
+            {{ studentDemarches.length }}
+          </span>
+
+        </div>
+
+
+        <!-- ---------------------------------------------------
+             CHARGEMENT DES DÉMARCHES
+             --------------------------------------------------- -->
+
+        @if (loadingStudentDemarches) {
+
+          <div class="student-loading">
+
+            <div class="spinner"></div>
+
+            <p>
+              Chargement des démarches...
+            </p>
+
+          </div>
+
+        }
+
+
+        <!-- ---------------------------------------------------
+             LISTE DES DÉMARCHES
+             --------------------------------------------------- -->
+
+        @if (
+          !loadingStudentDemarches &&
+          studentDemarches.length > 0
+        ) {
+
+          <div class="student-demarches-list">
+
+            @for (
+              studentDemarche of studentDemarches;
+              track studentDemarche.id
+            ) {
+
+              <div class="student-demarche-card">
+
+
+                <!-- Informations de la démarche -->
+                <div class="student-demarche-content">
+
+                  <h4>
+                    {{ studentDemarche.demarche.titre }}
+                  </h4>
+
+                  @if (studentDemarche.demarche.description) {
+
+                    <p>
+                      {{ studentDemarche.demarche.description }}
+                    </p>
+
+                  }
+
+                  <div class="student-demarche-meta">
+
+                    <span>
+                      Statut :
+                    </span>
+
+                    <strong>
+                      {{ studentDemarche.statut }}
+                    </strong>
+
+                  </div>
+
+                </div>
+
+
+                <!-- Bouton de suppression -->
+                <button
+                  type="button"
+                  class="remove-demarche-button"
+                  (click)="deleteStudentDemarche(studentDemarche)"
+                >
+
+                  Retirer
+
+                </button>
+
+              </div>
+
+            }
+
+          </div>
+
+        }
+
+
+        <!-- ---------------------------------------------------
+             AUCUNE DÉMARCHE
+             --------------------------------------------------- -->
+
+        @if (
+          !loadingStudentDemarches &&
+          studentDemarches.length === 0
+        ) {
+
+          <div class="student-empty-state">
+
+            <div class="empty-icon">
+              📋
+            </div>
+
+            <h4>
+              Aucune démarche attribuée
+            </h4>
+
+            <p>
+              Cet étudiant n'a encore aucune démarche
+              administrative à effectuer.
+            </p>
+
+          </div>
+
+        }
+
+      </div>
+
+
+      <!-- =====================================================
+           ATTRIBUTION D'UNE DÉMARCHE
+           ===================================================== -->
+
+      @if (selectedStudentProfileId) {
+
+        <div class="assign-demarche-section">
+
+
+          <!-- -------------------------------------------------
+               TITRE
+               ------------------------------------------------- -->
+
+          <div class="section-title">
+
+            <div>
+
+              <span class="section-label">
+                Attribution
+              </span>
+
+              <h3>
+                Attribuer une démarche
+              </h3>
+
+            </div>
+
+          </div>
+
+
+          <!-- -------------------------------------------------
+               FORMULAIRE
+               ------------------------------------------------- -->
+
+          <div class="assign-demarche-form">
+
+
+            <!-- Sélection de la démarche -->
+            <div class="form-group">
+
+              <label for="demarche-select">
+                Démarche
+              </label>
+
+              <select
+                id="demarche-select"
+                [(ngModel)]="selectedDemarcheId"
+                [disabled]="assigningDemarche"
+              >
+
+                <option [ngValue]="null">
+                  Sélectionner une démarche
+                </option>
+
+                @for (
+                  demarche of availableDemarches;
+                  track demarche.id
+                ) {
+
+                  <option
+                    [ngValue]="demarche.id"
+                  >
+                    {{ demarche.titre }}
+                  </option>
+
+                }
+
+              </select>
+
+            </div>
+
+
+            <!-- -------------------------------------------------
+                 BOUTON D'ATTRIBUTION
+                 ------------------------------------------------- -->
+
+            <button
+              type="button"
+              class="assign-button"
+              (click)="assignDemarche(selectedDemarcheId)"
+              [disabled]="
+                assigningDemarche ||
+                !selectedDemarcheId
+              "
+            >
+
+              @if (assigningDemarche) {
+
+                <span>
+                  Attribution...
+                </span>
+
+              } @else {
+
+                <span>
+                  + Attribuer la démarche
+                </span>
+
+              }
+
+            </button>
+
+          </div>
+
+
+          <!-- -------------------------------------------------
+               AUCUNE DÉMARCHE DISPONIBLE
+               ------------------------------------------------- -->
+
+          @if (
+            availableDemarches.length === 0 &&
+            !loadingStudentDemarches
+          ) {
+
+            <div class="no-demarche-available">
+
+              <span>
+                ✓
+              </span>
+
+              <p>
+                Toutes les démarches disponibles sont
+                déjà attribuées à cet étudiant.
+              </p>
+
+            </div>
+
+          }
+
+        </div>
+
+      } @else {
+
+        <!-- ---------------------------------------------------
+             PAS DE PROFIL ÉTUDIANT
+             --------------------------------------------------- -->
+
+        <div class="no-profile-message">
+
+          <span>
+            !
+          </span>
+
+          <p>
+            Cet étudiant ne possède pas encore de profil étudiant.
+            Il doit d'abord compléter son profil avant de recevoir
+            une démarche administrative.
+          </p>
+
+        </div>
+
+      }
+
+    </section>
+
+  }
+
+
+  <!-- =======================================================
+       AUCUN UTILISATEUR
+       ======================================================= -->
+
+  @if (
+    !loading &&
+    users.length === 0 &&
+    !errorMessage
+  ) {
+
+    <div class="empty-state">
+
+      <div class="empty-icon">
+        ♙
+      </div>
+
+      <h3>
+        Aucun utilisateur
+      </h3>
+
+      <p>
+        Aucun utilisateur n'est actuellement enregistré
+        sur la plateforme.
+      </p>
+
+    </div>
+
+  }
+
+</section>

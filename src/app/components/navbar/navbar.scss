@@ -1,0 +1,407 @@
+/* ================================================================
+   COULEURS
+   ================================================================ */
+
+$blue: #1646a0;
+$blue-dark: #0d2f70;
+
+$red: #e63946;
+$red-dark: #c92535;
+
+$white: #ffffff;
+
+$text: #344054;
+$text-dark: #172033;
+
+$border: #e6eaf0;
+
+$shadow: 0 3px 15px rgba(20, 44, 90, 0.07);
+
+$transition: 0.25s ease;
+
+
+/* ================================================================
+   NAVBAR
+   ================================================================ */
+
+.navbar {
+  position: sticky;
+
+  top: 0;
+
+  z-index: 1000;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  min-height: 72px;
+
+  padding: 0 5%;
+
+  background: $white;
+
+  border-bottom: 1px solid $border;
+
+  /*
+    Petite touche rouge très discrète.
+    La navbar reste principalement blanche et bleue.
+  */
+  border-top: 3px solid $red;
+
+  box-shadow: $shadow;
+}
+
+
+/* ================================================================
+   LOGO
+   ================================================================ */
+
+.navbar-logo {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  color: $blue-dark;
+
+  text-decoration: none;
+
+  font-size: 1.15rem;
+
+  font-weight: 800;
+}
+
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 11px;
+
+  background: linear-gradient(
+    135deg,
+    $blue 0%,
+    $blue 65%,
+    $red 65%,
+    $red 100%
+  );
+
+  color: $white;
+
+  font-size: 1.15rem;
+}
+
+
+.logo-text {
+  color: $blue-dark;
+}
+
+
+/* ================================================================
+   LIENS
+   ================================================================ */
+
+.navbar-links {
+  display: flex;
+
+  align-items: center;
+
+  gap: 5px;
+}
+
+
+.nav-link {
+  position: relative;
+
+  padding: 25px 14px;
+
+  color: $text;
+
+  text-decoration: none;
+
+  font-size: 0.9rem;
+
+  font-weight: 600;
+
+  transition: color $transition;
+}
+
+
+/* Effet au survol */
+
+.nav-link:hover {
+  color: $blue;
+}
+
+
+/* Soulignement */
+
+.nav-link::after {
+  content: "";
+
+  position: absolute;
+
+  left: 14px;
+  right: 14px;
+
+  bottom: 0;
+
+  height: 3px;
+
+  border-radius: 4px 4px 0 0;
+
+  background: $red;
+
+  transform: scaleX(0);
+
+  transition: transform $transition;
+}
+
+
+/* Page active */
+
+.nav-link.active {
+  color: $blue-dark;
+
+  font-weight: 750;
+}
+
+
+.nav-link.active::after {
+  transform: scaleX(1);
+}
+
+
+/* ================================================================
+   UTILISATEUR
+   ================================================================ */
+
+.navbar-user {
+  display: flex;
+
+  align-items: center;
+
+  gap: 18px;
+}
+
+
+.profile-link {
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  color: $text-dark;
+
+  text-decoration: none;
+
+  font-size: 0.88rem;
+
+  font-weight: 650;
+}
+
+
+.profile-link:hover {
+  color: $blue;
+}
+
+
+/* Avatar */
+
+.profile-avatar {
+  width: 37px;
+  height: 37px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: $red;
+
+  color: $white;
+
+  font-size: 0.82rem;
+
+  font-weight: 800;
+}
+
+
+/* Nom */
+
+.profile-name {
+  max-width: 130px;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+
+/* ============================================================
+   BOUTON SE CONNECTER
+   ============================================================ */
+
+/*
+ * Bouton affiché lorsque personne n'est connecté.
+ *
+ * Il permet d'accéder à la page de connexion.
+ */
+.login-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px 20px;
+
+  background: $blue;
+  color: $white;
+
+  border-radius: 8px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-decoration: none;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/*
+ * Effet au survol.
+ */
+.login-button:hover {
+  background: $blue-dark;
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 4px 12px rgba(22, 70, 160, 0.2);
+}
+
+
+/* ================================================================
+   BOUTON DÉCONNEXION
+   ================================================================ */
+
+.logout-button {
+  padding: 9px 14px;
+
+  border: 1px solid rgba(230, 57, 70, 0.25);
+
+  border-radius: 9px;
+
+  background: $white;
+
+  color: $red;
+
+  cursor: pointer;
+
+  font-family: inherit;
+
+  font-size: 0.82rem;
+
+  font-weight: 700;
+
+  transition:
+    background $transition,
+    color $transition,
+    transform $transition;
+}
+
+
+.logout-button:hover {
+  background: $red;
+
+  color: $white;
+
+  transform: translateY(-1px);
+}
+
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+
+@media (max-width: 1000px) {
+
+  .navbar {
+    padding: 0 3%;
+  }
+
+  .nav-link {
+    padding-left: 9px;
+    padding-right: 9px;
+  }
+
+}
+
+
+@media (max-width: 800px) {
+
+  .navbar {
+    gap: 15px;
+  }
+
+  .logo-text {
+    display: none;
+  }
+
+  .nav-link {
+    padding-left: 7px;
+    padding-right: 7px;
+
+    font-size: 0.82rem;
+  }
+
+  .profile-name {
+    display: none;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .navbar {
+    padding: 0 15px;
+  }
+
+  .navbar-links {
+    gap: 0;
+  }
+
+  .nav-link {
+    padding-left: 5px;
+    padding-right: 5px;
+
+    font-size: 0.72rem;
+  }
+
+  .navbar-user {
+    gap: 8px;
+  }
+
+  .logout-button {
+    padding: 8px 9px;
+
+    font-size: 0.72rem;
+  }
+
+}

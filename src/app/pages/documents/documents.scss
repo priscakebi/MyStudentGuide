@@ -1,549 +1,774 @@
 /*
- * Conteneur principal de la page.
+ * Styles de la page "Mes documents".
+ *
+ * IMPORTANT :
+ * La navbar et le footer sont gérés par le composant global
+ * de l'application.
+ *
+ * Ce fichier contient uniquement les styles propres
+ * à la page "Mes documents".
  */
-.documents-container {
 
-  padding: 30px;
 
-  min-height: 100vh;
+/* ====================================================================== */
+/* VARIABLES */
+/* ====================================================================== */
 
-  background: #f8f9fa;
+$blue: #1646a0;
+$blue-dark: #0d2f70;
+$blue-light: #eaf1ff;
 
+$red: #e63946;
+$red-light: #fff0f1;
+
+$white: #ffffff;
+
+$background: #f5f7fb;
+
+$text-dark: #172033;
+$text: #344054;
+$text-light: #667085;
+
+$border: #e6eaf0;
+
+$shadow-sm: 0 4px 16px rgba(20, 44, 90, 0.06);
+$shadow-md: 0 12px 35px rgba(20, 44, 90, 0.10);
+
+$radius-md: 16px;
+$radius-lg: 22px;
+
+$transition: 0.25s ease;
+
+
+/* ====================================================================== */
+/* CONTENU DE LA PAGE */
+/* ====================================================================== */
+
+/*
+ * Conteneur principal de la page.
+ *
+ * La largeur est légèrement augmentée afin de donner
+ * suffisamment d'espace aux deux cartes affichées
+ * sur une même ligne.
+ */
+.documents-content {
+
+  width: 100%;
+
+  max-width: 1250px;
+
+  margin: 0 auto;
+
+  padding: 55px 30px 80px;
+
+  box-sizing: border-box;
+
+  /*
+   * Permet au contenu de prendre la place disponible
+   * entre la navbar et le footer.
+   */
+  min-height: calc(100vh - 76px);
 }
 
 
-/*
- * ================================
- * EN-TÊTE
- * ================================
- */
+/* ====================================================================== */
+/* HEADER DE PAGE */
+/* ====================================================================== */
 
 .page-header {
 
   display: flex;
 
-  justify-content: space-between;
-
   align-items: center;
 
   gap: 20px;
 
   margin-bottom: 30px;
+}
 
+
+/*
+ * Icône principale de la page.
+ */
+.header-icon {
+
+  width: 64px;
+
+  height: 64px;
+
+  border-radius: 18px;
+
+  background: $blue-light;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 28px;
+
+  flex-shrink: 0;
 }
 
 
 .page-header h1 {
 
-  margin: 0;
+  margin: 0 0 8px;
 
-  color: #b00020;
+  color: $text-dark;
 
-  font-size: 30px;
+  font-size: 32px;
 
+  font-weight: 800;
 }
 
 
 .page-header p {
 
-  margin-top: 8px;
-
-  color: #666;
-
-}
-
-
-
-/*
- * ================================
- * BOUTONS
- * ================================
- */
-
-button {
-
-  border: none;
-
-  border-radius: 8px;
-
-  padding: 11px 18px;
-
-  font-size: 14px;
-
-  cursor: pointer;
-
-  transition: 0.2s;
-
-}
-
-
-.btn-primary {
-
-  background: #c00020;
-
-  color: white;
-
-}
-
-
-.btn-primary:hover {
-
-  background: #a0001b;
-
-}
-
-
-.btn-primary:disabled {
-
-  opacity: 0.6;
-
-  cursor: not-allowed;
-
-}
-
-
-.btn-secondary {
-
-  background: #eeeeee;
-
-  color: #333;
-
-}
-
-
-.btn-secondary:hover {
-
-  background: #dddddd;
-
-}
-
-
-
-/*
- * ================================
- * MESSAGES
- * ================================
- */
-
-.success-message {
-
-  padding: 14px 18px;
-
-  margin-bottom: 20px;
-
-  border-radius: 8px;
-
-  background: #e8f5e9;
-
-  color: #2e7d32;
-
-}
-
-
-.error-message {
-
-  padding: 14px 18px;
-
-  margin-bottom: 20px;
-
-  border-radius: 8px;
-
-  background: #ffebee;
-
-  color: #c62828;
-
-}
-
-
-
-/*
- * ================================
- * FORMULAIRE
- * ================================
- */
-
-.form-card {
-
-  background: white;
-
-  padding: 25px;
-
-  border-radius: 12px;
-
-  margin-bottom: 30px;
-
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-
-}
-
-
-.form-header {
-
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: center;
-
-  margin-bottom: 25px;
-
-}
-
-
-.form-header h2 {
-
   margin: 0;
 
-  color: #333;
+  color: $text-light;
 
+  font-size: 16px;
+
+  line-height: 1.6;
 }
 
 
-.close-button {
+/* ====================================================================== */
+/* BLOC INFORMATION */
+/* ====================================================================== */
 
-  background: transparent;
-
-  color: #777;
-
-  font-size: 25px;
-
-  padding: 2px 8px;
-
-}
-
-
-.close-button:hover {
-
-  color: #c00020;
-
-}
-
-
-.form-group {
-
-  margin-bottom: 20px;
-
-}
-
-
-.form-group label {
-
-  display: block;
-
-  margin-bottom: 7px;
-
-  font-weight: 600;
-
-  color: #333;
-
-}
-
-
-.form-group input,
-
-.form-group select {
-
-  width: 100%;
-
-  padding: 12px;
-
-  box-sizing: border-box;
-
-  border: 1px solid #ddd;
-
-  border-radius: 7px;
-
-  font-size: 14px;
-
-}
-
-
-.form-group input:focus,
-
-.form-group select:focus {
-
-  outline: none;
-
-  border-color: #c00020;
-
-  box-shadow: 0 0 0 2px rgba(192, 0, 32, 0.08);
-
-}
-
-
-.form-group small {
-
-  display: block;
-
-  margin-top: 6px;
-
-  color: #777;
-
-}
-
-
-.form-actions {
+/*
+ * Bloc expliquant le fonctionnement de la page.
+ */
+.information-box {
 
   display: flex;
 
-  justify-content: flex-end;
+  gap: 18px;
 
-  gap: 10px;
+  padding: 24px;
 
-  margin-top: 25px;
+  margin-bottom: 35px;
 
+  background: $blue-light;
+
+  border: 1px solid rgba(22, 70, 160, 0.10);
+
+  border-radius: $radius-md;
 }
 
 
+.information-icon {
+
+  font-size: 24px;
+
+  flex-shrink: 0;
+}
+
+
+.information-box h2 {
+
+  margin: 0 0 8px;
+
+  color: $blue-dark;
+
+  font-size: 17px;
+}
+
+
+.information-box p {
+
+  margin: 4px 0;
+
+  color: $text;
+
+  font-size: 14px;
+
+  line-height: 1.6;
+}
+
+
+/* ====================================================================== */
+/* LISTE DES DÉMARCHES */
+/* ====================================================================== */
 
 /*
- * ================================
- * LISTE DES DOCUMENTS
- * ================================
+ * Les démarches sont affichées sous forme de deux cartes
+ * par ligne.
+ *
+ * Chaque carte conserve sa propre hauteur en fonction
+ * du nombre de documents qu'elle contient.
  */
-
-.documents-grid {
+.documents-list {
 
   display: grid;
 
-  grid-template-columns: repeat(
-    auto-fill,
-    minmax(300px, 1fr)
-  );
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 
-  gap: 20px;
+  gap: 30px;
 
+  width: 100%;
+
+  /*
+   * Empêche les cartes d'une même ligne de s'étirer
+   * pour prendre la hauteur de la carte voisine.
+   */
+  align-items: start;
 }
 
 
-.document-card {
+/* ====================================================================== */
+/* CARTE D'UNE DÉMARCHE */
+/* ====================================================================== */
+
+/*
+ * Chaque carte représente une démarche administrative
+ * et contient la liste de ses documents requis.
+ *
+ * La hauteur est automatiquement déterminée
+ * par le contenu de la carte.
+ */
+.demarche-card {
+
+  background: $white;
+
+  border: 1px solid $border;
+
+  border-radius: $radius-lg;
+
+  box-shadow: $shadow-sm;
+
+  overflow: hidden;
+
+  transition: $transition;
+
+  /*
+   * La carte ne possède pas de hauteur fixe.
+   * Elle s'adapte donc au contenu.
+   */
+  height: fit-content;
+
+  /*
+   * Empêche une éventuelle règle héritée
+   * d'imposer une hauteur minimale.
+   */
+  min-height: 0;
+}
+
+
+.demarche-card:hover {
+
+  box-shadow: $shadow-md;
+
+  transform: translateY(-2px);
+}
+
+
+/* ====================================================================== */
+/* EN-TÊTE D'UNE DÉMARCHE */
+/* ====================================================================== */
+
+.demarche-header {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 16px;
+
+  padding: 24px 28px;
+
+  background:
+    linear-gradient(
+      135deg,
+      $blue-light,
+      $white
+    );
+
+  border-bottom: 1px solid $border;
+}
+
+
+/*
+ * Icône représentant la démarche.
+ */
+.demarche-icon {
+
+  width: 50px;
+
+  height: 50px;
+
+  border-radius: 14px;
+
+  background: $white;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 22px;
+
+  box-shadow: $shadow-sm;
+
+  flex-shrink: 0;
+}
+
+
+.demarche-header h2 {
+
+  margin: 0 0 5px;
+
+  color: $text-dark;
+
+  font-size: 19px;
+
+  font-weight: 700;
+}
+
+
+.demarche-header span {
+
+  color: $text-light;
+
+  font-size: 13px;
+}
+
+
+/* ====================================================================== */
+/* LISTE DES DOCUMENTS */
+/* ====================================================================== */
+
+/*
+ * Zone contenant les documents requis
+ * pour une démarche.
+ */
+.documents-items {
+
+  padding: 8px 28px 20px;
+}
+
+
+/*
+ * Chaque document reste présenté sous forme
+ * de ligne à l'intérieur de la carte.
+ */
+.document-item {
+
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 16px;
+
+  padding: 20px 0;
+
+  border-bottom: 1px solid $border;
+}
+
+
+.document-item:last-child {
+
+  border-bottom: none;
+}
+
+
+/* ====================================================================== */
+/* ICÔNE DU DOCUMENT */
+/* ====================================================================== */
+
+.document-icon {
+
+  width: 44px;
+
+  height: 44px;
+
+  border-radius: 12px;
+
+  background: #f8f9fc;
+
+  border: 1px solid $border;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 19px;
+
+  flex-shrink: 0;
+}
+
+
+/* ====================================================================== */
+/* INFORMATIONS DU DOCUMENT */
+/* ====================================================================== */
+
+.document-information {
+
+  flex: 1;
+
+  min-width: 0;
+}
+
+
+.document-title-row {
+
+  display: flex;
+
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 10px;
+
+  margin-bottom: 6px;
+}
+
+
+.document-information h3 {
+
+  margin: 0;
+
+  color: $text-dark;
+
+  font-size: 15px;
+
+  font-weight: 700;
+}
+
+
+.document-information p {
+
+  margin: 0 0 9px;
+
+  color: $text-light;
+
+  font-size: 14px;
+
+  line-height: 1.6;
+}
+
+
+/* ====================================================================== */
+/* BADGE "REQUIS" */
+/* ====================================================================== */
+
+.required-badge {
+
+  padding: 4px 9px;
+
+  border-radius: 20px;
+
+  background: $red-light;
+
+  color: $red;
+
+  font-size: 11px;
+
+  font-weight: 700;
+}
+
+
+/* ====================================================================== */
+/* TYPE DU DOCUMENT */
+/* ====================================================================== */
+
+/*
+ * Affiche le type du document enregistré
+ * dans l'enum DocumentType du backend.
+ */
+.document-type {
+
+  display: inline-block;
+
+  padding: 4px 9px;
+
+  border-radius: 7px;
+
+  background: #f2f4f7;
+
+  color: $text-light;
+
+  font-size: 11px;
+
+  font-weight: 600;
+}
+
+
+/* ====================================================================== */
+/* CHARGEMENT */
+/* ====================================================================== */
+
+.loading-container {
+
+  min-height: 300px;
 
   display: flex;
 
   flex-direction: column;
 
-  background: white;
-
-  border-radius: 12px;
-
-  padding: 20px;
-
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
-
-  border-top: 4px solid #c00020;
-
-}
-
-
-.document-icon {
-
-  width: 55px;
-
-  height: 55px;
-
-  display: flex;
+  align-items: center;
 
   justify-content: center;
 
-  align-items: center;
+  gap: 15px;
 
-  border-radius: 10px;
-
-  background: #fff0f2;
-
-  font-size: 28px;
-
-  margin-bottom: 15px;
-
+  color: $text-light;
 }
-
-
-.document-info {
-
-  flex: 1;
-
-}
-
-
-.document-info h3 {
-
-  margin: 0 0 15px;
-
-  color: #333;
-
-  word-break: break-word;
-
-}
-
-
-.document-info p {
-
-  margin: 8px 0;
-
-  color: #666;
-
-  font-size: 14px;
-
-}
-
-
-.document-info strong {
-
-  color: #333;
-
-}
-
 
 
 /*
- * ================================
- * ACTIONS
- * ================================
+ * Animation du cercle de chargement.
  */
+.loader {
 
-.document-actions {
+  width: 38px;
+
+  height: 38px;
+
+  border: 4px solid $blue-light;
+
+  border-top-color: $blue;
+
+  border-radius: 50%;
+
+  animation: spin 0.8s linear infinite;
+}
+
+
+@keyframes spin {
+
+  to {
+
+    transform: rotate(360deg);
+  }
+}
+
+
+/* ====================================================================== */
+/* ERREUR */
+/* ====================================================================== */
+
+.error-box {
+
+  padding: 20px;
 
   display: flex;
 
-  gap: 10px;
+  align-items: center;
 
-  margin-top: 20px;
+  gap: 12px;
 
+  background: $red-light;
+
+  border: 1px solid rgba(230, 57, 70, 0.15);
+
+  border-radius: $radius-md;
+
+  color: $red;
 }
 
 
-.btn-edit {
+.error-box p {
 
-  flex: 1;
+  margin: 0;
 
-  background: #f5f5f5;
-
-  color: #333;
-
+  font-size: 14px;
 }
 
 
-.btn-edit:hover {
+.error-icon {
 
-  background: #e5e5e5;
-
+  font-size: 20px;
 }
 
 
-.btn-delete {
-
-  flex: 1;
-
-  background: #c00020;
-
-  color: white;
-
-}
-
-
-.btn-delete:hover {
-
-  background: #a0001b;
-
-}
-
-
-
-/*
- * ================================
- * ÉTAT VIDE
- * ================================
- */
+/* ====================================================================== */
+/* ÉTAT VIDE */
+/* ====================================================================== */
 
 .empty-state {
 
+  padding: 70px 30px;
+
+  background: $white;
+
+  border: 1px solid $border;
+
+  border-radius: $radius-lg;
+
+  box-shadow: $shadow-sm;
+
   text-align: center;
-
-  background: white;
-
-  padding: 60px 30px;
-
-  border-radius: 12px;
-
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
-
 }
 
 
 .empty-icon {
 
-  font-size: 55px;
+  font-size: 45px;
 
   margin-bottom: 15px;
-
 }
 
 
 .empty-state h2 {
 
-  margin-bottom: 10px;
+  margin: 0 0 8px;
 
-  color: #333;
+  color: $text-dark;
 
+  font-size: 20px;
 }
 
 
 .empty-state p {
 
-  color: #777;
+  margin: 0;
 
-  margin-bottom: 25px;
+  color: $text-light;
 
+  font-size: 14px;
 }
 
 
+/* ====================================================================== */
+/* RESPONSIVE */
+/* ====================================================================== */
 
 /*
- * ================================
- * CHARGEMENT
- * ================================
+ * Sur les écrans intermédiaires, on conserve deux démarches
+ * par ligne mais avec un espacement légèrement réduit.
  */
+@media (max-width: 900px) {
 
-.loading {
+  .documents-content {
 
-  text-align: center;
+    padding: 45px 25px 60px;
+  }
 
-  padding: 40px;
 
-  color: #777;
+  .documents-list {
 
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 22px;
+  }
 }
 
 
-
 /*
- * ================================
- * RESPONSIVE
- * ================================
+ * Adaptation de l'affichage sur les petits écrans.
  */
-
 @media (max-width: 700px) {
 
-  .documents-container {
+  .documents-content {
 
-    padding: 20px;
-
+    padding: 35px 18px 50px;
   }
 
 
   .page-header {
 
-    flex-direction: column;
-
     align-items: flex-start;
-
   }
 
 
-  .documents-grid {
+  .page-header h1 {
+
+    font-size: 26px;
+  }
+
+
+  .page-header p {
+
+    font-size: 14px;
+  }
+
+
+  .header-icon {
+
+    width: 52px;
+
+    height: 52px;
+
+    font-size: 23px;
+  }
+
+
+  .information-box {
+
+    padding: 18px;
+  }
+
+
+  .demarche-header {
+
+    padding: 20px;
+  }
+
+
+  .documents-items {
+
+    padding: 5px 20px 15px;
+  }
+}
+
+
+/*
+ * Sur mobile, une seule démarche est affichée par ligne.
+ */
+@media (max-width: 600px) {
+
+  .documents-list {
 
     grid-template-columns: 1fr;
 
+    gap: 20px;
+  }
+}
+
+
+/*
+ * Ajustements pour les très petits écrans.
+ */
+@media (max-width: 480px) {
+
+  .page-header {
+
+    gap: 12px;
   }
 
+
+  .page-header h1 {
+
+    font-size: 23px;
+  }
+
+
+  .document-item {
+
+    gap: 11px;
+  }
+
+
+  .document-icon {
+
+    width: 38px;
+
+    height: 38px;
+
+    font-size: 16px;
+  }
+
+
+  .document-information h3 {
+
+    font-size: 14px;
+  }
 }

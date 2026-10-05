@@ -5,226 +5,418 @@
 <div class="notifications-container">
 
 
-  <!-- ============================= -->
-  <!-- EN-TÊTE                         -->
-  <!-- ============================= -->
+  <!-- ============================================================
+       VUE DÉTAIL D'UNE NOTIFICATION
+       ============================================================ -->
 
-  <div class="notifications-header">
+  @if (selectedNotification) {
 
-    <!-- Titre de la page -->
-    <div>
+    <div class="notification-detail">
 
-      <h1>Notifications</h1>
 
-      <p>
-        Retrouvez ici toutes vos notifications.
-      </p>
+      <!-- ============================= -->
+      <!-- RETOUR À LA LISTE              -->
+      <!-- ============================= -->
 
-    </div>
+      <button
+        type="button"
+        class="back-button"
+        (click)="closeNotification()"
+      >
 
+        ← Retour aux notifications
 
-    <!-- Compteur des notifications non lues -->
-    <div class="notification-counter">
+      </button>
 
-      <span>
-        {{ unreadCount }}
-      </span>
 
-      <small>
-        non lue{{ unreadCount > 1 ? 's' : '' }}
-      </small>
+      <!-- ============================= -->
+      <!-- CONTENU DE LA NOTIFICATION     -->
+      <!-- ============================= -->
 
-    </div>
+      <div class="notification-detail-card">
 
-  </div>
 
+        <!-- Icône -->
+        <div class="notification-detail-icon">
 
-
-  <!-- ============================= -->
-  <!-- BOUTON ACTUALISER              -->
-  <!-- ============================= -->
-
-  <div class="actions">
-
-    <button
-      type="button"
-      (click)="refresh()"
-      [disabled]="loading"
-    >
-
-      ↻ Actualiser
-
-    </button>
-
-  </div>
-
-
-
-  <!-- ============================= -->
-  <!-- MESSAGE D'ERREUR               -->
-  <!-- ============================= -->
-
-  @if (errorMessage) {
-
-    <div class="error-message">
-
-      {{ errorMessage }}
-
-    </div>
-
-  }
-
-
-
-  <!-- ============================= -->
-  <!-- CHARGEMENT                     -->
-  <!-- ============================= -->
-
-  @if (loading) {
-
-    <div class="loading">
-
-      Chargement des notifications...
-
-    </div>
-
-  }
-
-
-
-  <!-- ============================= -->
-  <!-- AUCUNE NOTIFICATION            -->
-  <!-- ============================= -->
-
-  @if (!loading && notifications.length === 0) {
-
-    <div class="empty-state">
-
-      <div class="empty-icon">
-        🔔
-      </div>
-
-      <h2>
-        Aucune notification
-      </h2>
-
-      <p>
-        Vous n'avez actuellement aucune notification.
-      </p>
-
-    </div>
-
-  }
-
-
-
-  <!-- ============================= -->
-  <!-- LISTE DES NOTIFICATIONS        -->
-  <!-- ============================= -->
-
-  @if (!loading && notifications.length > 0) {
-
-    <div class="notifications-list">
-
-
-      <!-- Parcours de toutes les notifications -->
-      @for (notification of notifications; track notification.id) {
-
-        <div
-          class="notification-card"
-          [class.unread]="!notification.lu"
-        >
-
-
-          <!-- Icône de notification -->
-          <div class="notification-icon">
-
-            🔔
-
-          </div>
-
-
-          <!-- Contenu -->
-          <div class="notification-content">
-
-            <div class="notification-title-row">
-
-              <!-- Titre -->
-              <h3>
-                {{ notification.titre }}
-              </h3>
-
-
-              <!-- Badge non lue -->
-              @if (!notification.lu) {
-
-                <span class="unread-badge">
-                  Non lue
-                </span>
-
-              }
-
-            </div>
-
-
-            <!-- Message -->
-            <p>
-              {{ notification.message }}
-            </p>
-
-
-            <!-- Date -->
-            @if (notification.dateCreation) {
-
-              <small>
-
-                {{ notification.dateCreation | date:'dd/MM/yyyy HH:mm' }}
-
-              </small>
-
-            }
-
-
-            <!-- Actions -->
-            <div class="notification-actions">
-
-              <!-- Bouton marquer comme lue -->
-              @if (!notification.lu) {
-
-                <button
-                  type="button"
-                  class="read-button"
-                  (click)="markAsRead(notification)"
-                >
-
-                  ✓ Marquer comme lue
-
-                </button>
-
-              }
-
-
-              <!-- Bouton supprimer -->
-              <button
-                type="button"
-                class="delete-button"
-                (click)="deleteNotification(notification)"
-              >
-
-                🗑 Supprimer
-
-              </button>
-
-            </div>
-
-          </div>
+          🔔
 
         </div>
 
-      }
+
+        <!-- Titre -->
+        <div class="notification-detail-title">
+
+          <h1>
+            {{ selectedNotification.titre }}
+          </h1>
+
+          <!--
+            Ce badge ne s'affiche que si, pour une raison quelconque,
+            la notification n'a pas encore été marquée comme lue.
+          -->
+          @if (!selectedNotification.lu) {
+
+            <span class="unread-badge">
+              Non lue
+            </span>
+
+          }
+
+        </div>
+
+
+        <!-- Date -->
+        @if (selectedNotification.dateCreation) {
+
+          <div class="notification-detail-date">
+
+            {{ selectedNotification.dateCreation | date:'dd/MM/yyyy HH:mm' }}
+
+          </div>
+
+        }
+
+
+        <!-- Séparateur -->
+        <div class="notification-detail-divider"></div>
+
+
+        <!-- Message complet -->
+        <div class="notification-detail-message">
+
+          <p>
+            {{ selectedNotification.message }}
+          </p>
+
+        </div>
+
+
+        <!-- ============================= -->
+        <!-- ACTIONS                         -->
+        <!-- ============================= -->
+
+        <div class="notification-detail-actions">
+
+
+          <!--
+            Ce bouton est surtout utile si la notification
+            n'a pas pu être marquée comme lue automatiquement.
+          -->
+          @if (!selectedNotification.lu) {
+
+            <button
+              type="button"
+              class="read-button"
+              (click)="markAsRead(selectedNotification)"
+            >
+
+              ✓ Marquer comme lue
+
+            </button>
+
+          }
+
+
+          <!-- Suppression -->
+          <button
+            type="button"
+            class="delete-button"
+            (click)="deleteNotification(selectedNotification)"
+          >
+
+            🗑 Supprimer
+
+          </button>
+
+        </div>
+
+
+      </div>
 
     </div>
+
+  }
+
+
+  <!-- ============================================================
+       VUE LISTE DES NOTIFICATIONS
+       ============================================================ -->
+
+  @if (!selectedNotification) {
+
+
+    <!-- ============================= -->
+    <!-- EN-TÊTE                        -->
+    <!-- ============================= -->
+
+    <div class="notifications-header">
+
+
+      <!-- Titre de la page -->
+      <div>
+
+        <h1>
+          Notifications
+        </h1>
+
+        <p>
+          Retrouvez ici toutes vos notifications.
+        </p>
+
+      </div>
+
+
+      <!-- Compteur des notifications non lues -->
+      <div class="notification-counter">
+
+        <span>
+          {{ unreadCount }}
+        </span>
+
+        <small>
+          non lue{{ unreadCount > 1 ? 's' : '' }}
+        </small>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- ============================= -->
+    <!-- BOUTON ACTUALISER              -->
+    <!-- ============================= -->
+
+    <div class="actions">
+
+      <button
+        type="button"
+        (click)="refresh()"
+        [disabled]="loading"
+      >
+
+        ↻ Actualiser
+
+      </button>
+
+    </div>
+
+
+
+    <!-- ============================= -->
+    <!-- MESSAGE D'ERREUR               -->
+    <!-- ============================= -->
+
+    @if (errorMessage) {
+
+      <div class="error-message">
+
+        {{ errorMessage }}
+
+      </div>
+
+    }
+
+
+
+    <!-- ============================= -->
+    <!-- CHARGEMENT                     -->
+    <!-- ============================= -->
+
+    @if (loading) {
+
+      <div class="loading">
+
+        Chargement des notifications...
+
+      </div>
+
+    }
+
+
+
+    <!-- ============================= -->
+    <!-- AUCUNE NOTIFICATION             -->
+    <!-- ============================= -->
+
+    @if (!loading && notifications.length === 0) {
+
+      <div class="empty-state">
+
+        <div class="empty-icon">
+          🔔
+        </div>
+
+        <h2>
+          Aucune notification
+        </h2>
+
+        <p>
+          Vous n'avez actuellement aucune notification.
+        </p>
+
+      </div>
+
+    }
+
+
+
+    <!-- ============================= -->
+    <!-- LISTE DES NOTIFICATIONS        -->
+    <!-- ============================= -->
+
+    @if (!loading && notifications.length > 0) {
+
+      <div class="notifications-list">
+
+
+        <!-- Parcours de toutes les notifications -->
+        @for (
+          notification of notifications;
+          track notification.id
+        ) {
+
+
+          <!--
+            Toute la carte est cliquable.
+
+            Lorsqu'on clique dessus :
+            - la notification s'ouvre ;
+            - si elle était non lue, elle devient automatiquement lue.
+          -->
+          <div
+            class="notification-card"
+            [class.unread]="!notification.lu"
+            (click)="openNotification(notification)"
+          >
+
+
+            <!-- ============================= -->
+            <!-- ICÔNE                          -->
+            <!-- ============================= -->
+
+            <div class="notification-icon">
+
+              🔔
+
+            </div>
+
+
+            <!-- ============================= -->
+            <!-- CONTENU                        -->
+            <!-- ============================= -->
+
+            <div class="notification-content">
+
+
+              <!-- Titre + badge -->
+              <div class="notification-title-row">
+
+                <h3>
+                  {{ notification.titre }}
+                </h3>
+
+
+                <!-- Badge non lue -->
+                @if (!notification.lu) {
+
+                  <span class="unread-badge">
+                    Non lue
+                  </span>
+
+                }
+
+              </div>
+
+
+              <!--
+                Aperçu du message.
+                Le message complet sera visible
+                lorsque l'utilisateur ouvrira la notification.
+              -->
+              <p>
+                {{ notification.message }}
+              </p>
+
+
+              <!-- Date -->
+              @if (notification.dateCreation) {
+
+                <small>
+
+                  {{ notification.dateCreation | date:'dd/MM/yyyy HH:mm' }}
+
+                </small>
+
+              }
+
+
+              <!-- ============================= -->
+              <!-- ACTIONS                         -->
+              <!-- ============================= -->
+
+              <div class="notification-actions">
+
+
+                <!--
+                  Bouton "Marquer comme lue".
+
+                  stopPropagation() est important :
+                  il empêche le clic sur ce bouton
+                  d'ouvrir également la notification.
+                -->
+                @if (!notification.lu) {
+
+                  <button
+                    type="button"
+                    class="read-button"
+                    (click)="
+                      markAsRead(notification);
+                      $event.stopPropagation()
+                    "
+                  >
+
+                    ✓ Marquer comme lue
+
+                  </button>
+
+                }
+
+
+                <!--
+                  Bouton supprimer.
+
+                  stopPropagation() empêche le clic
+                  d'ouvrir la notification.
+                -->
+                <button
+                  type="button"
+                  class="delete-button"
+                  (click)="
+                    deleteNotification(notification);
+                    $event.stopPropagation()
+                  "
+                >
+
+                  🗑 Supprimer
+
+                </button>
+
+
+              </div>
+
+            </div>
+
+          </div>
+
+        }
+
+      </div>
+
+    }
 
   }
 
 </div>
+

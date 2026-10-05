@@ -1,0 +1,685 @@
+<!-- ========================================================= -->
+<!-- CONTENU DE LA GESTION DES DÉMARCHES                      -->
+<!-- ========================================================= -->
+
+<section class="content">
+
+
+  <!-- ======================================================= -->
+  <!-- MESSAGE DE RETOUR                                       -->
+  <!-- ======================================================= -->
+
+  @if (message) {
+
+    <div
+      class="message"
+      [class.success]="messageType === 'success'"
+      [class.error]="messageType === 'error'"
+    >
+      {{ message }}
+    </div>
+
+  }
+
+
+  <!-- ======================================================= -->
+  <!-- FORMULAIRE DE GESTION                                   -->
+  <!-- ======================================================= -->
+
+  <section class="form-card">
+
+    <!-- ===================================================== -->
+    <!-- EN-TÊTE DU FORMULAIRE                                 -->
+    <!-- ===================================================== -->
+
+    <div class="card-header">
+
+      <div>
+
+        <h2>
+          {{
+            isEditing
+              ? 'Modifier une démarche'
+              : 'Ajouter une démarche'
+          }}
+        </h2>
+
+        <p>
+          {{
+            isEditing
+              ? 'Modifiez les informations de la démarche.'
+              : 'Ajoutez une nouvelle démarche administrative.'
+          }}
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- FORMULAIRE                                             -->
+    <!-- ===================================================== -->
+
+    <form
+      class="demarche-form"
+      (ngSubmit)="
+        isEditing
+          ? updateDemarche()
+          : createDemarche()
+      "
+    >
+
+
+      <!-- =================================================== -->
+      <!-- TITRE                                                -->
+      <!-- =================================================== -->
+
+      <div class="form-group">
+
+        <label for="titre">
+          Titre de la démarche
+        </label>
+
+        <input
+          id="titre"
+          type="text"
+          name="titre"
+          [(ngModel)]="demarcheForm.titre"
+          placeholder="Ex : Renouvellement du titre de séjour"
+          required
+        />
+
+      </div>
+
+
+      <!-- =================================================== -->
+      <!-- DESCRIPTION                                          -->
+      <!-- =================================================== -->
+
+      <div class="form-group">
+
+        <label for="description">
+          Description
+        </label>
+
+        <textarea
+          id="description"
+          name="description"
+          [(ngModel)]="demarcheForm.description"
+          placeholder="Décrivez la démarche et les informations importantes..."
+          rows="5"
+          required
+        ></textarea>
+
+        <small>
+          Présentez ici les informations générales permettant
+          à l'étudiant de comprendre la démarche.
+        </small>
+
+      </div>
+
+
+      <!-- =================================================== -->
+      <!-- CATÉGORIE                                            -->
+      <!-- =================================================== -->
+
+      <div class="form-group">
+
+        <label for="categorie">
+          Catégorie
+        </label>
+
+        <select
+          id="categorie"
+          name="categorie"
+          [(ngModel)]="demarcheForm.categorieId"
+          required
+        >
+
+          <!-- Valeur par défaut -->
+          <option [ngValue]="0">
+            Sélectionnez une catégorie
+          </option>
+
+
+          <!-- Liste des catégories -->
+          @for (
+            categorie of categories;
+            track categorie.id
+          ) {
+
+            <option [ngValue]="categorie.id">
+              {{ categorie.nom }}
+            </option>
+
+          }
+
+        </select>
+
+      </div>
+
+
+      <!-- =================================================== -->
+      <!-- DATE LIMITE                                          -->
+      <!-- =================================================== -->
+
+      <div class="form-group">
+
+        <label for="dateLimite">
+          Date limite
+        </label>
+
+        <input
+          id="dateLimite"
+          type="date"
+          name="dateLimite"
+          [(ngModel)]="demarcheForm.dateLimite"
+        />
+
+        <small>
+          Laissez vide si la démarche ne possède pas
+          de date limite.
+        </small>
+
+      </div>
+
+
+      <!-- =================================================== -->
+      <!-- BOUTONS                                              -->
+      <!-- =================================================== -->
+
+      <div class="form-actions">
+
+
+        <!-- ------------------------------------------------- -->
+        <!-- BOUTON DE CRÉATION                                -->
+        <!-- ------------------------------------------------- -->
+
+        @if (!isEditing) {
+
+          <button
+            type="submit"
+            class="btn-primary"
+            [disabled]="loading"
+          >
+
+            {{
+              loading
+                ? 'Création...'
+                : 'Ajouter la démarche'
+            }}
+
+          </button>
+
+        }
+
+
+        <!-- ------------------------------------------------- -->
+        <!-- BOUTONS DE MODIFICATION                           -->
+        <!-- ------------------------------------------------- -->
+
+        @if (isEditing) {
+
+          <button
+            type="submit"
+            class="btn-primary"
+            [disabled]="loading"
+          >
+
+            {{
+              loading
+                ? 'Modification...'
+                : 'Modifier la démarche'
+            }}
+
+          </button>
+
+
+          <!-- Annulation de la modification -->
+          <button
+            type="button"
+            class="btn-secondary"
+            (click)="resetForm()"
+          >
+            Annuler
+          </button>
+
+        }
+
+      </div>
+
+    </form>
+
+  </section>
+
+
+  <!-- ======================================================= -->
+  <!-- LISTE DES DÉMARCHES                                     -->
+  <!-- ======================================================= -->
+
+  <section class="demarches-card">
+
+
+    <!-- ===================================================== -->
+    <!-- EN-TÊTE DE LA LISTE                                   -->
+    <!-- ===================================================== -->
+
+    <div class="card-header demarches-header">
+
+      <div>
+
+        <h2>
+          Démarches existantes
+        </h2>
+
+        <p>
+          {{ demarches.length }}
+          démarche{{ demarches.length > 1 ? 's' : '' }}
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- CHARGEMENT                                             -->
+    <!-- ===================================================== -->
+
+    @if (loading && demarches.length === 0) {
+
+      <div class="loading">
+        Chargement des démarches...
+      </div>
+
+    }
+
+
+    <!-- ===================================================== -->
+    <!-- AUCUNE DÉMARCHE                                        -->
+    <!-- ===================================================== -->
+
+    @if (!loading && demarches.length === 0) {
+
+      <div class="empty-state">
+
+        <div class="empty-icon">
+          ▤
+        </div>
+
+        <h3>
+          Aucune démarche
+        </h3>
+
+        <p>
+          Vous n'avez encore créé aucune démarche.
+        </p>
+
+      </div>
+
+    }
+
+
+    <!-- ===================================================== -->
+    <!-- LISTE                                                  -->
+    <!-- ===================================================== -->
+
+    @if (demarches.length > 0) {
+
+      <div class="demarches-list">
+
+
+        @for (
+          demarche of demarches;
+          track demarche.id
+        ) {
+
+          <!-- ================================================= -->
+          <!-- CARTE D'UNE DÉMARCHE                              -->
+          <!-- ================================================= -->
+
+          <article class="demarche-item">
+
+
+            <!-- ================================================= -->
+            <!-- INFORMATIONS PRINCIPALES                          -->
+            <!-- ================================================= -->
+
+            <div class="demarche-info">
+
+
+              <!-- ------------------------------------------------ -->
+              <!-- ICÔNE                                            -->
+              <!-- ------------------------------------------------ -->
+
+              <div class="demarche-icon">
+                ▤
+              </div>
+
+
+              <!-- ------------------------------------------------ -->
+              <!-- INFORMATIONS TEXTUELLES                          -->
+              <!-- ------------------------------------------------ -->
+
+              <div class="demarche-text">
+
+
+                <!-- ============================================= -->
+                <!-- TITRE                                          -->
+                <!-- ============================================= -->
+
+                <h3>
+                  {{ demarche.titre }}
+                </h3>
+
+
+                <!-- ============================================= -->
+                <!-- DESCRIPTION COURTE                             -->
+                <!-- ============================================= -->
+
+                <p class="description">
+                  {{ demarche.description }}
+                </p>
+
+
+                <!-- ============================================= -->
+                <!-- INFORMATIONS RAPIDES                           -->
+                <!-- ============================================= -->
+
+                <div class="demarche-meta">
+
+
+                  <!-- ------------------------------------------------ -->
+                  <!-- CATÉGORIE                                         -->
+                  <!-- ------------------------------------------------ -->
+
+                  @if (demarche.categorie) {
+
+                    <span class="meta-item">
+
+                      <strong>
+                        Catégorie :
+                      </strong>
+
+                      {{ demarche.categorie.nom }}
+
+                    </span>
+
+                  }
+
+
+                  <!-- ------------------------------------------------ -->
+                  <!-- DATE DE CRÉATION                                  -->
+                  <!-- ------------------------------------------------ -->
+
+                  @if (demarche.dateCreation) {
+
+                    <span class="meta-item">
+
+                      <strong>
+                        Créée le :
+                      </strong>
+
+                      {{ demarche.dateCreation }}
+
+                    </span>
+
+                  }
+
+
+                  <!-- ------------------------------------------------ -->
+                  <!-- DATE LIMITE                                       -->
+                  <!-- ------------------------------------------------ -->
+
+                  @if (demarche.dateLimite) {
+
+                    <span class="meta-item">
+
+                      <strong>
+                        Date limite :
+                      </strong>
+
+                      {{ demarche.dateLimite }}
+
+                    </span>
+
+                  }
+
+                </div>
+
+
+                <!-- ================================================= -->
+                <!-- DÉTAILS DE LA DÉMARCHE                            -->
+                <!-- ================================================= -->
+
+                <details class="demarche-details">
+
+
+                  <!-- ------------------------------------------------ -->
+                  <!-- BOUTON POUR OUVRIR LES DÉTAILS                  -->
+                  <!-- ------------------------------------------------ -->
+
+                  <summary>
+                    <span class="details-icon">
+                      +
+                    </span>
+
+                    <span>
+                      Voir les détails
+                    </span>
+                  </summary>
+
+
+                  <!-- ------------------------------------------------ -->
+                  <!-- CONTENU DES DÉTAILS                              -->
+                  <!-- ------------------------------------------------ -->
+
+                  <div class="details-content">
+
+
+                    <!-- ============================================= -->
+                    <!-- IDENTIFIANT                                    -->
+                    <!-- ============================================= -->
+
+                    <div class="detail-row">
+
+                      <span class="detail-label">
+                        Identifiant
+                      </span>
+
+                      <span class="detail-value">
+                        #{{ demarche.id }}
+                      </span>
+
+                    </div>
+
+
+                    <!-- ============================================= -->
+                    <!-- TITRE                                           -->
+                    <!-- ============================================= -->
+
+                    <div class="detail-row">
+
+                      <span class="detail-label">
+                        Titre
+                      </span>
+
+                      <span class="detail-value">
+                        {{ demarche.titre }}
+                      </span>
+
+                    </div>
+
+
+                    <!-- ============================================= -->
+                    <!-- CATÉGORIE                                      -->
+                    <!-- ============================================= -->
+
+                    <div class="detail-row">
+
+                      <span class="detail-label">
+                        Catégorie
+                      </span>
+
+                      <span class="detail-value">
+
+                        @if (demarche.categorie) {
+
+                          {{ demarche.categorie.nom }}
+
+                        } @else {
+
+                          Aucune catégorie
+
+                        }
+
+                      </span>
+
+                    </div>
+
+
+                    <!-- ============================================= -->
+                    <!-- DESCRIPTION COMPLÈTE                           -->
+                    <!-- ============================================= -->
+
+                    <div class="detail-block">
+
+                      <span class="detail-label">
+                        Description
+                      </span>
+
+                      <p class="detail-description">
+                        {{ demarche.description }}
+                      </p>
+
+                    </div>
+
+
+                    <!-- ============================================= -->
+                    <!-- DATE DE CRÉATION                               -->
+                    <!-- ============================================= -->
+
+                    <div class="detail-row">
+
+                      <span class="detail-label">
+                        Date de création
+                      </span>
+
+                      <span class="detail-value">
+
+                        @if (demarche.dateCreation) {
+
+                          {{ demarche.dateCreation }}
+
+                        } @else {
+
+                          Non renseignée
+
+                        }
+
+                      </span>
+
+                    </div>
+
+
+                    <!-- ============================================= -->
+                    <!-- DATE LIMITE                                    -->
+                    <!-- ============================================= -->
+
+                    <div class="detail-row">
+
+                      <span class="detail-label">
+                        Date limite
+                      </span>
+
+                      <span class="detail-value">
+
+                        @if (demarche.dateLimite) {
+
+                          {{ demarche.dateLimite }}
+
+                        } @else {
+
+                          Aucune date limite
+
+                        }
+
+                      </span>
+
+                    </div>
+
+
+                    <!-- ============================================= -->
+                    <!-- INFORMATIONS FUTURES                           -->
+                    <!-- ============================================= -->
+
+                    <!--
+                      Cette partie pourra ensuite accueillir
+                      les informations supplémentaires de la démarche,
+                      par exemple :
+
+                      - les documents requis ;
+                      - les étapes de la démarche ;
+                      - les liens officiels ;
+                      - les informations importantes.
+
+                      Ces éléments ne sont pas affichés ici tant que
+                      leurs propriétés ne sont pas présentes dans
+                      l'objet Demarche récupéré par l'API.
+                    -->
+
+                  </div>
+
+                </details>
+
+              </div>
+
+            </div>
+
+
+            <!-- ================================================= -->
+            <!-- ACTIONS                                            -->
+            <!-- ================================================= -->
+
+            <div class="demarche-actions">
+
+
+              <!-- ------------------------------------------------ -->
+              <!-- MODIFIER                                          -->
+              <!-- ------------------------------------------------ -->
+
+              <button
+                type="button"
+                class="btn-edit"
+                (click)="editDemarche(demarche)"
+              >
+                Modifier
+              </button>
+
+
+              <!-- ------------------------------------------------ -->
+              <!-- SUPPRIMER                                         -->
+              <!-- ------------------------------------------------ -->
+
+              <button
+                type="button"
+                class="btn-delete"
+                (click)="deleteDemarche(demarche.id)"
+              >
+                Supprimer
+              </button>
+
+            </div>
+
+          </article>
+
+        }
+
+      </div>
+
+    }
+
+  </section>
+
+</section>

@@ -1,253 +1,953 @@
 /*
- * Conteneur principal de la page.
- */
-.profile-container {
+  ============================================================
+  PAGE PROFIL
+  ============================================================
 
-  min-height: 100vh;
+  Style principal :
+  - rouge : couleur principale de MyStudentGuide
+  - blanc : cartes et zones de contenu
+  - bleu : utilisé très légèrement pour certains éléments
+  - gris : arrière-plan et textes secondaires
 
-  padding: 40px;
+  Le design est responsive afin de fonctionner :
+  - sur ordinateur ;
+  - sur tablette ;
+  - sur mobile.
+*/
 
-  background: #f8f8f8;
+
+// ============================================================
+// VARIABLES
+// ============================================================
+
+$red: #d62828;
+$red-dark: #b71c1c;
+$red-light: #fff1f1;
+
+$blue: #183b56;
+$blue-light: #eef5f9;
+
+$white: #ffffff;
+
+$background: #f7f8fa;
+
+$text-dark: #20252b;
+$text: #3f464d;
+$text-light: #747b82;
+
+$border: #e5e7eb;
+
+$success: #16803c;
+$success-light: #edf9f1;
+
+$error: #c62828;
+$error-light: #fff1f1;
+
+$shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
+
+
+// ============================================================
+// PAGE PRINCIPALE
+// ============================================================
+
+.profile-page {
+
+  width: 100%;
+  min-height: 100%;
+
+  padding: 32px;
+
+  background: $background;
 
   box-sizing: border-box;
 
+  overflow-x: hidden;
 }
 
 
-/*
- * En-tête de la page.
- */
+// ============================================================
+// EN-TÊTE
+// ============================================================
+
 .profile-header {
 
-  max-width: 1000px;
+  display: flex;
+  align-items: center;
 
-  margin: 0 auto 30px;
+  gap: 20px;
 
+  margin-bottom: 28px;
+
+  padding: 28px;
+
+  background: $white;
+
+  border: 1px solid $border;
+
+  border-radius: 18px;
+
+  box-shadow: $shadow;
 }
 
 
-.profile-header h1 {
+// Icône de l'en-tête
 
-  margin: 0;
+.header-icon {
 
-  color: #b00020;
+  width: 64px;
+  height: 64px;
 
-  font-size: 32px;
+  flex: 0 0 64px;
 
-  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
+  border-radius: 16px;
+
+  background: $red-light;
+
+  color: $red;
+
+  font-size: 28px;
 }
 
 
-.profile-header p {
+// Contenu
 
-  margin-top: 8px;
+.header-content {
 
-  color: #666;
+  min-width: 0;
 
-  font-size: 15px;
+  .eyebrow {
 
+    margin: 0 0 5px;
+
+    color: $red;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.2px;
+  }
+
+  h1 {
+
+    margin: 0 0 6px;
+
+    color: $text-dark;
+
+    font-size: 30px;
+
+    font-weight: 800;
+  }
+
+  p {
+
+    margin: 0;
+
+    color: $text-light;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+  }
 }
 
 
-/*
- * Carte contenant le formulaire.
- */
-.profile-card {
+// ============================================================
+// CARTES D'ÉTAT
+// ============================================================
 
-  max-width: 1000px;
-
-  margin: 0 auto;
-
-  background: #ffffff;
-
-  border-radius: 14px;
-
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-
-  overflow: hidden;
-
-}
-
-
-/*
- * Chaque grande section du profil.
- */
-.profile-section {
-
-  padding: 30px;
-
-  border-bottom: 1px solid #eeeeee;
-
-}
-
-
-/*
- * Titre de chaque section.
- */
-.section-title {
+.state-card {
 
   display: flex;
 
   align-items: center;
-
-  gap: 15px;
-
-  margin-bottom: 25px;
-
-}
-
-
-.section-title h2 {
-
-  margin: 0;
-
-  color: #222;
-
-  font-size: 20px;
-
-}
-
-
-.section-title p {
-
-  margin: 5px 0 0;
-
-  color: #777;
-
-  font-size: 14px;
-
-}
-
-
-/*
- * Petit carré rouge contenant l'icône.
- */
-.section-icon {
-
-  width: 45px;
-
-  height: 45px;
-
-  display: flex;
 
   justify-content: center;
 
-  align-items: center;
+  gap: 12px;
 
-  border-radius: 10px;
+  min-height: 180px;
 
-  background: #b00020;
+  padding: 30px;
 
-  color: white;
+  background: $white;
 
-  font-size: 21px;
+  border: 1px solid $border;
 
+  border-radius: 18px;
+
+  color: $text-light;
 }
 
 
-/*
- * Organisation des champs
- * sur deux colonnes.
- */
+// ============================================================
+// LOADER
+// ============================================================
+
+.loader {
+
+  width: 22px;
+  height: 22px;
+
+  border: 3px solid #eeeeee;
+
+  border-top-color: $red;
+
+  border-radius: 50%;
+
+  animation: spin 0.8s linear infinite;
+}
+
+
+.button-loader {
+
+  width: 15px;
+  height: 15px;
+
+  border: 2px solid rgba(255, 255, 255, 0.45);
+
+  border-top-color: $white;
+
+  border-radius: 50%;
+
+  animation: spin 0.7s linear infinite;
+}
+
+
+@keyframes spin {
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+// ============================================================
+// MESSAGES
+// ============================================================
+
+.message {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin-bottom: 20px;
+
+  padding: 14px 18px;
+
+  border-radius: 12px;
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+
+.message-icon {
+
+  width: 25px;
+  height: 25px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 25px;
+
+  border-radius: 50%;
+
+  font-weight: 800;
+}
+
+
+.success-message {
+
+  background: $success-light;
+
+  border: 1px solid rgba(22, 128, 60, 0.15);
+
+  color: $success;
+
+  .message-icon {
+
+    background: rgba(22, 128, 60, 0.12);
+  }
+}
+
+
+.error-message {
+
+  background: $error-light;
+
+  border: 1px solid rgba(198, 40, 40, 0.15);
+
+  color: $error;
+
+  .message-icon {
+
+    background: rgba(198, 40, 40, 0.12);
+  }
+}
+
+
+// ============================================================
+// CARTE PROFIL
+// ============================================================
+
+.profile-card {
+
+  width: 100%;
+
+  box-sizing: border-box;
+
+  background: $white;
+
+  border: 1px solid $border;
+
+  border-radius: 18px;
+
+  box-shadow: $shadow;
+}
+
+
+// ============================================================
+// EN-TÊTE D'UNE CARTE
+// ============================================================
+
+.card-heading {
+
+  padding: 28px 30px;
+
+  border-bottom: 1px solid $border;
+
+  .section-label {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: $red;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+  }
+
+  h2 {
+
+    margin: 0 0 6px;
+
+    color: $text-dark;
+
+    font-size: 22px;
+
+    font-weight: 800;
+  }
+
+  p {
+
+    margin: 0;
+
+    max-width: 700px;
+
+    color: $text-light;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+  }
+}
+
+
+// ============================================================
+// FORMULAIRE
+// ============================================================
+
+.form-section {
+
+  padding: 30px;
+
+  border-bottom: 1px solid $border;
+
+  &:last-of-type {
+
+    border-bottom: none;
+  }
+}
+
+
+// Titre d'une section du formulaire
+
+.form-section-title {
+
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 14px;
+
+  margin-bottom: 24px;
+}
+
+
+// Numéro de section
+
+.section-number {
+
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 38px;
+
+  border-radius: 10px;
+
+  background: $red-light;
+
+  color: $red;
+
+  font-size: 12px;
+
+  font-weight: 800;
+}
+
+
+.form-section-title {
+
+  h3 {
+
+    margin: 0 0 4px;
+
+    color: $text-dark;
+
+    font-size: 17px;
+
+    font-weight: 800;
+  }
+
+  p {
+
+    margin: 0;
+
+    color: $text-light;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+  }
+}
+
+
+// ============================================================
+// GRILLE DU FORMULAIRE
+// ============================================================
+
 .form-grid {
 
   display: grid;
 
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 
-  gap: 20px;
-
+  gap: 22px;
 }
 
 
-/*
- * Groupe contenant un label et un champ.
- */
+// Champ qui prend toute la largeur
+
+.full-width {
+
+  grid-column: 1 / -1;
+}
+
+
+// ============================================================
+// CHAMPS
+// ============================================================
+
 .form-group {
 
   display: flex;
 
   flex-direction: column;
 
-  gap: 8px;
+  min-width: 0;
 
+  label {
+
+    margin-bottom: 8px;
+
+    color: $text-dark;
+
+    font-size: 13px;
+
+    font-weight: 700;
+  }
+
+  input,
+  select {
+
+    width: 100%;
+
+    min-height: 48px;
+
+    box-sizing: border-box;
+
+    padding: 0 14px;
+
+    border: 1px solid #d9dde2;
+
+    border-radius: 10px;
+
+    background: $white;
+
+    color: $text-dark;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    outline: none;
+
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease,
+      background 0.2s ease;
+
+    &:focus {
+
+      border-color: $red;
+
+      box-shadow: 0 0 0 3px rgba(214, 40, 40, 0.10);
+    }
+
+    &::placeholder {
+
+      color: #a2a7ad;
+    }
+  }
+
+  select {
+
+    cursor: pointer;
+  }
 }
 
 
-/*
- * Permet à un champ de prendre
- * toute la largeur.
- */
-.full-width {
+// Champ obligatoire
 
-  grid-column: 1 / -1;
+.required {
 
+  color: $red;
 }
 
 
-/*
- * Labels.
- */
-.form-group label {
+// Message sous le champ
 
-  color: #333;
+.field-hint {
 
-  font-size: 14px;
+  margin-top: 6px;
 
-  font-weight: 600;
+  color: $error;
 
+  font-size: 12px;
+
+  line-height: 1.4;
 }
 
 
-/*
- * Champs input et select.
- */
-.form-group input,
-.form-group select {
+// ============================================================
+// CHECKBOX PREMIÈRE ARRIVÉE
+// ============================================================
 
-  width: 100%;
+.arrival-group {
+
+  justify-content: flex-start;
+}
+
+
+.checkbox-card {
+
+  display: flex;
+
+  flex-direction: row !important;
+
+  align-items: center;
+
+  gap: 12px;
+
+  min-height: 70px;
+
+  margin: 0 !important;
 
   padding: 12px 14px;
 
-  border: 1px solid #dddddd;
-
-  border-radius: 8px;
-
-  background: #ffffff;
-
-  color: #333;
-
-  font-size: 14px;
-
   box-sizing: border-box;
 
-  outline: none;
+  border: 1px solid $border;
+
+  border-radius: 10px;
+
+  background: #fafafa;
+
+  cursor: pointer;
 
   transition:
-    border-color 0.2s,
-    box-shadow 0.2s;
+    border-color 0.2s ease,
+    background 0.2s ease;
 
+  &:hover {
+
+    border-color: rgba(214, 40, 40, 0.35);
+
+    background: $red-light;
+  }
+
+  &.checked {
+
+    border-color: rgba(214, 40, 40, 0.35);
+
+    background: $red-light;
+  }
 }
 
 
-/*
- * Effet lorsqu'un champ est sélectionné.
- */
-.form-group input:focus,
-.form-group select:focus {
+// Checkbox native cachée
 
-  border-color: #b00020;
+.checkbox-card input {
 
-  box-shadow: 0 0 0 3px rgba(176, 0, 32, 0.1);
+  position: absolute;
 
+  opacity: 0;
+
+  width: 1px;
+  height: 1px;
 }
 
 
-/*
- * Groupe de la case à cocher.
- */
-.checkbox-group {
+// Checkbox personnalisée
+
+.custom-checkbox {
+
+  width: 22px;
+  height: 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 22px;
+
+  border: 2px solid #cfd4d9;
+
+  border-radius: 6px;
+
+  background: $white;
+
+  color: transparent;
+
+  font-size: 12px;
+
+  font-weight: 900;
+}
+
+
+// Lorsque la checkbox est sélectionnée
+
+.checkbox-card.checked {
+
+  .custom-checkbox {
+
+    border-color: $red;
+
+    background: $red;
+
+    color: $white;
+  }
+}
+
+
+// Contenu de la checkbox
+
+.checkbox-content {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 3px;
+
+  min-width: 0;
+
+  strong {
+
+    color: $text-dark;
+
+    font-size: 13px;
+
+    font-weight: 700;
+  }
+
+  small {
+
+    color: $text-light;
+
+    font-size: 11px;
+
+    line-height: 1.4;
+  }
+}
+
+
+// ============================================================
+// ACTIONS DU FORMULAIRE
+// ============================================================
+
+.form-actions {
+
+  display: flex;
+
+  justify-content: flex-end;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 22px 30px;
+
+  background: #fafafa;
+
+  border-top: 1px solid $border;
+
+  border-radius: 0 0 18px 18px;
+}
+
+
+// ============================================================
+// BOUTONS
+// ============================================================
+
+.btn {
+
+  min-height: 46px;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  padding: 0 20px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  font-family: inherit;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.15s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:disabled {
+
+    opacity: 0.55;
+
+    cursor: not-allowed;
+  }
+
+  &:not(:disabled):hover {
+
+    transform: translateY(-1px);
+  }
+}
+
+
+.btn-primary {
+
+  background: $red;
+
+  color: $white;
+
+  box-shadow: 0 5px 14px rgba(214, 40, 40, 0.18);
+
+  &:not(:disabled):hover {
+
+    background: $red-dark;
+
+    box-shadow: 0 7px 18px rgba(214, 40, 40, 0.22);
+  }
+}
+
+
+.btn-secondary {
+
+  background: $white;
+
+  color: $text;
+
+  border: 1px solid $border;
+
+  &:not(:disabled):hover {
+
+    background: #f5f5f5;
+  }
+}
+
+
+// ============================================================
+// AFFICHAGE DU PROFIL
+// ============================================================
+
+.profile-display {
+
+  overflow: hidden;
+}
+
+
+// ============================================================
+// RÉSUMÉ DU PROFIL
+// ============================================================
+
+.profile-summary {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 18px;
+
+  padding: 28px 30px;
+
+  border-bottom: 1px solid $border;
+}
+
+
+// Avatar
+
+.avatar {
+
+  width: 68px;
+  height: 68px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 68px;
+
+  border-radius: 50%;
+
+  background: $red;
+
+  color: $white;
+
+  font-size: 27px;
+
+  font-weight: 800;
+
+  box-shadow: 0 6px 18px rgba(214, 40, 40, 0.20);
+}
+
+
+// Identité
+
+.profile-identity {
+
+  flex: 1;
+
+  min-width: 0;
+
+  .section-label {
+
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: $red;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+  }
+
+  h2 {
+
+    margin: 0 0 4px;
+
+    color: $text-dark;
+
+    font-size: 22px;
+
+    font-weight: 800;
+  }
+
+  p {
+
+    margin: 0;
+
+    color: $text-light;
+
+    font-size: 13px;
+  }
+}
+
+
+// Bouton modifier
+
+.edit-button {
+
+  flex-shrink: 0;
+}
+
+
+// ============================================================
+// INFORMATIONS
+// ============================================================
+
+.profile-information {
+
+  padding: 0 30px;
+}
+
+
+.information-block {
+
+  padding: 26px 0;
+
+  border-bottom: 1px solid $border;
+
+  &:last-child {
+
+    border-bottom: none;
+  }
+}
+
+
+// Titre
+
+.information-title {
 
   display: flex;
 
@@ -255,205 +955,507 @@
 
   gap: 10px;
 
-  margin-top: 5px;
+  margin-bottom: 20px;
 
+  h3 {
+
+    margin: 0;
+
+    color: $text-dark;
+
+    font-size: 15px;
+
+    font-weight: 800;
+  }
 }
 
 
-.checkbox-group input {
+// Icône
 
-  width: 18px;
+.information-icon {
 
-  height: 18px;
+  width: 34px;
+  height: 34px;
 
-  accent-color: #b00020;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
+  border-radius: 9px;
+
+  background: $blue-light;
+
+  font-size: 16px;
 }
 
 
-.checkbox-group label {
+// Grille
 
-  color: #444;
+.information-grid {
 
-  font-size: 14px;
+  display: grid;
 
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 20px 40px;
 }
 
 
-/*
- * Zone contenant le bouton.
- */
-.form-actions {
+// Élément
+
+.information-item {
+
+  min-width: 0;
 
   display: flex;
 
-  justify-content: flex-end;
+  flex-direction: column;
 
-  padding: 25px 30px;
+  gap: 6px;
 
-  background: #fafafa;
+  &.full-width {
 
+    grid-column: 1 / -1;
+  }
+
+  strong {
+
+    overflow-wrap: anywhere;
+
+    color: $text-dark;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    line-height: 1.5;
+  }
 }
 
 
-/*
- * Bouton d'enregistrement.
- */
-.save-button {
+// Libellé
 
-  padding: 13px 25px;
+.information-label {
 
-  border: none;
+  color: $text-light;
 
-  border-radius: 8px;
+  font-size: 11px;
 
-  background: #b00020;
+  font-weight: 700;
 
-  color: white;
+  text-transform: uppercase;
 
-  font-size: 15px;
-
-  font-weight: 600;
-
-  cursor: pointer;
-
-  transition:
-    background 0.2s,
-    transform 0.2s;
-
+  letter-spacing: 0.4px;
 }
 
 
-/*
- * Effet au survol du bouton.
- */
-.save-button:hover {
+// Statut première arrivée
 
-  background: #8f001a;
+.status-yes {
 
-  transform: translateY(-1px);
-
+  color: $success !important;
 }
 
 
-/*
- * Bouton désactivé pendant le chargement.
- */
-.save-button:disabled {
+.status-no {
 
-  background: #cccccc;
-
-  cursor: not-allowed;
-
-  transform: none;
-
+  color: $text-light !important;
 }
 
 
-/*
- * Messages d'information.
- */
-.message {
+// ============================================================
+// PROFIL VIDE
+// ============================================================
 
-  max-width: 1000px;
+.empty-profile {
 
-  margin: 0 auto 20px;
+  display: flex;
 
-  padding: 14px 18px;
+  flex-direction: column;
 
-  border-radius: 8px;
+  align-items: center;
 
-  font-size: 14px;
+  justify-content: center;
 
-}
+  min-height: 300px;
 
+  padding: 40px;
 
-.message.error {
-
-  background: #fdeaea;
-
-  color: #b00020;
-
-  border: 1px solid #f2bcbc;
-
-}
-
-
-.message.success {
-
-  background: #eaf8ee;
-
-  color: #176b35;
-
-  border: 1px solid #b9e4c5;
-
-}
-
-
-/*
- * Message de chargement.
- */
-.loading {
-
-  max-width: 1000px;
-
-  margin: 0 auto 20px;
-
-  padding: 15px;
+  box-sizing: border-box;
 
   text-align: center;
 
-  color: #b00020;
+  background: $white;
 
-  font-weight: 600;
+  border: 1px solid $border;
 
+  border-radius: 18px;
+
+  box-shadow: $shadow;
 }
 
 
-/*
- * Adaptation aux petits écrans.
- */
-@media (max-width: 700px) {
+.empty-icon {
 
-  .profile-container {
+  width: 70px;
+  height: 70px;
 
-    padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
+  margin-bottom: 18px;
+
+  border-radius: 50%;
+
+  background: $red-light;
+
+  font-size: 28px;
+}
+
+
+.empty-profile {
+
+  h2 {
+
+    margin: 0 0 8px;
+
+    color: $text-dark;
+
+    font-size: 20px;
+  }
+
+  p {
+
+    max-width: 550px;
+
+    margin: 0 0 22px;
+
+    color: $text-light;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+  }
+}
+
+
+// ============================================================
+// RESPONSIVE TABLETTE
+// ============================================================
+
+@media (max-width: 900px) {
+
+  .profile-page {
+
+    padding: 24px;
+  }
+
+
+  .profile-header {
+
+    padding: 24px;
+  }
+
+
+  .form-section {
+
+    padding: 24px;
+  }
+
+
+  .card-heading {
+
+    padding: 24px;
   }
 
 
   .form-grid {
 
     grid-template-columns: 1fr;
-
   }
 
 
   .full-width {
 
     grid-column: auto;
-
   }
 
 
-  .profile-section {
+  .information-grid {
+
+    grid-template-columns: 1fr;
+
+    gap: 18px;
+  }
+
+
+  .information-item.full-width {
+
+    grid-column: auto;
+  }
+
+}
+
+
+// ============================================================
+// RESPONSIVE MOBILE
+// ============================================================
+
+@media (max-width: 700px) {
+
+  .profile-page {
+
+    padding: 16px;
+  }
+
+
+  .profile-header {
+
+    align-items: flex-start;
 
     padding: 20px;
 
+    gap: 14px;
+  }
+
+
+  .header-icon {
+
+    width: 48px;
+    height: 48px;
+
+    flex-basis: 48px;
+
+    border-radius: 12px;
+
+    font-size: 22px;
+  }
+
+
+  .header-content {
+
+    h1 {
+
+      font-size: 24px;
+    }
+
+    p {
+
+      font-size: 13px;
+    }
+  }
+
+
+  .profile-card {
+
+    border-radius: 14px;
+  }
+
+
+  .card-heading {
+
+    padding: 20px;
+
+    h2 {
+
+      font-size: 19px;
+    }
+  }
+
+
+  .form-section {
+
+    padding: 20px;
+  }
+
+
+  .form-section-title {
+
+    gap: 10px;
+  }
+
+
+  .section-number {
+
+    width: 34px;
+    height: 34px;
+
+    flex-basis: 34px;
   }
 
 
   .form-actions {
 
-    padding: 20px;
+    flex-direction: column-reverse;
 
+    align-items: stretch;
+
+    padding: 18px 20px;
+
+    border-radius: 0 0 14px 14px;
   }
 
 
-  .save-button {
+  .form-actions .btn {
+
+    width: 100%;
+  }
+
+
+  .profile-summary {
+
+    flex-wrap: wrap;
+
+    padding: 20px;
+  }
+
+
+  .avatar {
+
+    width: 56px;
+    height: 56px;
+
+    flex-basis: 56px;
+
+    font-size: 22px;
+  }
+
+
+  .profile-identity {
+
+    flex: 1 1 calc(100% - 80px);
+  }
+
+
+  .edit-button {
 
     width: 100%;
 
+    margin-top: 8px;
+  }
+
+
+  .profile-information {
+
+    padding: 0 20px;
+  }
+
+
+  .information-block {
+
+    padding: 22px 0;
+  }
+
+}
+
+
+// ============================================================
+// PETITS ÉCRANS
+// ============================================================
+
+@media (max-width: 420px) {
+
+  .profile-page {
+
+    padding: 10px;
+  }
+
+
+  .profile-header {
+
+    padding: 17px;
+
+    border-radius: 12px;
+  }
+
+
+  .header-icon {
+
+    width: 42px;
+    height: 42px;
+
+    flex-basis: 42px;
+
+    font-size: 18px;
+  }
+
+
+  .header-content {
+
+    h1 {
+
+      font-size: 21px;
+    }
+
+    p {
+
+      font-size: 12px;
+    }
+  }
+
+
+  .card-heading {
+
+    padding: 18px;
+  }
+
+
+  .form-section {
+
+    padding: 18px;
+  }
+
+
+  .form-group {
+
+    input,
+    select {
+
+      min-height: 45px;
+
+      font-size: 13px;
+    }
+  }
+
+
+  .checkbox-card {
+
+    align-items: flex-start !important;
+
+    padding: 12px;
+  }
+
+
+  .checkbox-content {
+
+    strong {
+
+      font-size: 12px;
+    }
+
+    small {
+
+      font-size: 10px;
+    }
+  }
+
+
+  .profile-summary {
+
+    padding: 18px;
+  }
+
+
+  .profile-information {
+
+    padding: 0 18px;
+  }
+
+
+  .empty-profile {
+
+    padding: 30px 18px;
   }
 
 }

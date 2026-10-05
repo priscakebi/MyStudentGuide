@@ -1,0 +1,445 @@
+/* ========================================= */
+/* MESSAGES */
+/* ========================================= */
+
+.message {
+  margin-bottom: 20px;
+
+  padding: 14px 18px;
+
+  border-radius: 8px;
+
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.message.success {
+  background: #e9f8ee;
+  color: #217a3c;
+
+  border: 1px solid #b9e8c7;
+}
+
+.message.error {
+  background: #fff0f0;
+  color: #c90000;
+
+  border: 1px solid #ffcaca;
+}
+
+
+/* ========================================= */
+/* CARTES */
+/* ========================================= */
+
+.form-card,
+.categories-card {
+  background: white;
+
+  border-radius: 12px;
+
+  padding: 25px;
+
+  margin-bottom: 25px;
+
+  border: 1px solid #e9e9e9;
+}
+
+.card-header {
+  margin-bottom: 25px;
+}
+
+.card-header h2 {
+  margin: 0;
+
+  font-size: 19px;
+  font-weight: 700;
+
+  color: #222;
+}
+
+.card-header p {
+  margin: 6px 0 0;
+
+  color: #777;
+
+  font-size: 13px;
+}
+
+
+/* ========================================= */
+/* FORMULAIRE DES CATÉGORIES */
+/* ========================================= */
+
+.category-form {
+  display: flex;
+  flex-direction: column;
+
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 14px;
+
+  font-weight: 600;
+
+  color: #333;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 13px 14px;
+
+  border: 1px solid #ddd;
+  border-radius: 8px;
+
+  outline: none;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  transition: 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #c90000;
+
+  box-shadow: 0 0 0 3px rgba(201, 0, 0, 0.08);
+}
+
+.form-group textarea {
+  resize: vertical;
+
+  min-height: 100px;
+}
+
+
+/* ========================================= */
+/* BOUTONS DU FORMULAIRE */
+/* ========================================= */
+
+.form-actions {
+  display: flex;
+
+  gap: 10px;
+
+  margin-top: 5px;
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 12px 20px;
+
+  border-radius: 8px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.btn-primary {
+  border: 1px solid #c90000;
+
+  background: #c90000;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #a90000;
+  border-color: #a90000;
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  border: 1px solid #ddd;
+
+  background: white;
+  color: #555;
+}
+
+.btn-secondary:hover {
+  background: #f5f5f5;
+}
+
+
+/* ========================================= */
+/* HEADER DES CATÉGORIES */
+/* ========================================= */
+
+.categories-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.categories-header p {
+  color: #c90000;
+
+  font-weight: 600;
+}
+
+
+/* ========================================= */
+/* LISTE DES CATÉGORIES */
+/* ========================================= */
+
+.categories-list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+.category-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 18px;
+
+  border: 1px solid #ededed;
+
+  border-radius: 10px;
+
+  transition: 0.2s ease;
+}
+
+.category-item:hover {
+  border-color: #ddd;
+
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+}
+
+
+/* ========================================= */
+/* INFORMATIONS DE LA CATÉGORIE */
+/* ========================================= */
+
+.category-info {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 15px;
+
+  min-width: 0;
+}
+
+.category-icon {
+  width: 42px;
+  height: 42px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 9px;
+
+  background: #fff0f0;
+  color: #c90000;
+
+  font-size: 19px;
+}
+
+.category-text {
+  min-width: 0;
+}
+
+.category-text h3 {
+  margin: 0 0 5px;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  color: #222;
+}
+
+.category-text p {
+  margin: 0;
+
+  color: #777;
+
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+
+/* ========================================= */
+/* ACTIONS */
+/* ========================================= */
+
+.category-actions {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  flex-shrink: 0;
+}
+
+.btn-edit,
+.btn-delete {
+  padding: 9px 13px;
+
+  border-radius: 7px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.btn-edit {
+  border: 1px solid #ddd;
+
+  background: white;
+  color: #555;
+}
+
+.btn-edit:hover {
+  background: #f5f5f5;
+
+  border-color: #ccc;
+}
+
+.btn-delete {
+  border: 1px solid #ffd0d0;
+
+  background: #fff4f4;
+
+  color: #c90000;
+}
+
+.btn-delete:hover {
+  background: #c90000;
+
+  color: white;
+
+  border-color: #c90000;
+}
+
+
+/* ========================================= */
+/* CHARGEMENT */
+/* ========================================= */
+
+.loading {
+  padding: 35px;
+
+  text-align: center;
+
+  color: #777;
+
+  font-size: 14px;
+}
+
+
+/* ========================================= */
+/* ÉTAT VIDE */
+/* ========================================= */
+
+.empty-state {
+  padding: 50px 20px;
+
+  text-align: center;
+}
+
+.empty-icon {
+  width: 55px;
+  height: 55px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto 15px;
+
+  border-radius: 50%;
+
+  background: #fff0f0;
+  color: #c90000;
+
+  font-size: 24px;
+}
+
+.empty-state h3 {
+  margin: 0 0 7px;
+
+  font-size: 16px;
+}
+
+.empty-state p {
+  margin: 0;
+
+  color: #777;
+
+  font-size: 13px;
+}
+
+/* ========================================================= */
+/* ESPACE ENTRE LA TOPBAR ET LE FORMULAIRE                  */
+/* ========================================================= */
+
+.form-card {
+  margin-top: 45px;
+}
+
+/* ========================================= */
+/* RESPONSIVE CATÉGORIES */
+/* ========================================= */
+
+@media (max-width: 900px) {
+
+  .category-item {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .category-actions {
+    width: 100%;
+  }
+}
+
+
+@media (max-width: 650px) {
+
+  .form-card,
+  .categories-card {
+    padding: 18px;
+  }
+
+  .category-actions {
+    flex-direction: column;
+  }
+
+  .btn-edit,
+  .btn-delete {
+    width: 100%;
+  }
+}

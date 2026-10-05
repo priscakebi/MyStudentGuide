@@ -1,306 +1,607 @@
 <!--
   Conteneur principal de la page d'accueil.
+  Il englobe la navbar, le contenu principal et le footer.
 -->
 <div class="home-container">
 
 
-  <!-- ====================================================== -->
-  <!-- BARRE DE NAVIGATION -->
-  <!-- ====================================================== -->
-
-  <header class="navbar">
-
-
-    <!-- Logo de l'application -->
-    <div class="logo">
-
-      <div class="logo-icon">
-        🎓
-      </div>
-
-      <span>
-        MyCampusGuide
-      </span>
-
-    </div>
-
-
-    <!-- Barre de recherche dans la navigation -->
-    <div class="navbar-search">
-
-      <span class="search-icon">
-        🔍
-      </span>
-
-      <input
-        type="text"
-        [(ngModel)]="searchTerm"
-        (input)="searchDemarches()"
-        placeholder="Rechercher une démarche..."
-      >
-
-    </div>
-
-
-    <!-- Actions de navigation -->
-    <div class="navbar-actions">
-
-
-      <!-- Bouton Profil -->
-      <a
-        routerLink="/dashboard/profile"
-        class="nav-button"
-      >
-
-        <span>
-          👤
-        </span>
-
-        <span>
-          Profil
-        </span>
-
-      </a>
-
-
-      <!-- Bouton Déconnexion -->
-      <button
-        type="button"
-        class="logout-button"
-        (click)="logout()"
-      >
-
-        <span>
-          🚪
-        </span>
-
-        <span>
-          Déconnexion
-        </span>
-
-      </button>
-
-    </div>
-
-  </header>
-
-
-
-  <!-- ====================================================== -->
-  <!-- CONTENU PRINCIPAL -->
-  <!-- ====================================================== -->
+  <!-- ========================================================= -->
+  <!-- CONTENU PRINCIPAL                                         -->
+  <!-- ========================================================= -->
 
   <main class="main-content">
 
 
-    <!-- ================================================== -->
-    <!-- SECTION DE BIENVENUE -->
-    <!-- ================================================== -->
+    <!-- ========================================================= -->
+    <!-- SECTION HERO / HEADER                                     -->
+    <!-- ========================================================= -->
 
-    <section class="welcome-section">
+    <section class="hero-section">
 
-      <p class="welcome-small">
-        Bienvenue sur MyCampusGuide
-      </p>
+      <div class="hero-content">
 
-      <h1>
-        Bonjour {{ userName }} 👋
-      </h1>
-
-      <p class="welcome-description">
-
-        Retrouvez facilement les démarches
-        administratives importantes pour votre
-        vie étudiante en France.
-
-      </p>
-
-    </section>
-
-
-
-    <!-- ================================================== -->
-    <!-- GRANDE BARRE DE RECHERCHE -->
-    <!-- ================================================== -->
-
-    <section class="main-search-section">
-
-      <div class="main-search">
-
-        <span class="search-icon">
-          🔍
+        <!-- Petit label au-dessus du titre -->
+        <span class="hero-label">
+          VOTRE GUIDE ADMINISTRATIF
         </span>
 
-        <input
-          type="text"
-          [(ngModel)]="searchTerm"
-          (input)="searchDemarches()"
-          placeholder="Que recherchez-vous ? Exemple : CAF, titre de séjour..."
-        >
 
-        <button
-          type="button"
-          (click)="searchDemarches()"
-        >
-          Rechercher
-        </button>
+        <!-- Titre principal -->
+        <h1>
 
-      </div>
+          @if (isLoggedIn) {
 
-    </section>
+            Bonjour
 
+            <!--
+              Prénom de l'étudiant connecté.
+            -->
+            <span class="user-name">
+              {{ userName }}
+            </span>
 
+            <span class="wave">
+              👋
+            </span>
 
-    <!-- ================================================== -->
-    <!-- DÉMARCHES RECOMMANDÉES -->
-    <!-- ================================================== -->
+          } @else {
 
-    <section class="demarches-section">
+            Bienvenue sur
 
+            <span class="user-name">
+              MyStudentGuide
+            </span>
 
-      <div class="section-header">
+          }
 
-        <div>
-
-          <p class="section-label">
-            POUR VOUS
-          </p>
-
-          <h2>
-            Démarches recommandées
-          </h2>
-
-        </div>
+        </h1>
 
 
-        <!-- Lien vers toutes les démarches -->
-        <a
-          routerLink="/dashboard/demarches"
-          class="see-all"
-        >
-          Voir toutes les démarches →
-        </a>
+        <!-- Texte de présentation -->
+        <p class="hero-description">
 
-      </div>
+          MyStudentGuide vous accompagne dans vos démarches
+          administratives et votre installation en France,
+          <strong>étape par étape.</strong>
 
+        </p>
 
 
-      <!-- ================================================== -->
-      <!-- LISTE DES DÉMARCHES -->
-      <!-- ================================================== -->
+        <!-- Boutons d'action : dépendent de la connexion -->
+        <div class="hero-actions">
 
-      @if (filteredDemarches.length > 0) {
+          @if (isLoggedIn) {
 
-        <div class="demarches-grid">
+            <button
+              type="button"
+              class="hero-button primary"
+              [disabled]="startingJourney"
+              (click)="startJourney()"
+            >
+              {{ startingJourney ? 'Chargement...' : 'Continuer mon parcours' }}
+            </button>
 
+          } @else {
 
-          @for (
-            demarche of filteredDemarches;
-            track demarche.id
-          ) {
+            <a routerLink="/login" class="hero-button primary">
+              Se connecter
+            </a>
 
-
-            <!-- Carte d'une démarche -->
-            <article class="demarche-card">
-
-
-              <!-- Icône -->
-              <div class="demarche-icon">
-
-                {{ demarche.icon }}
-
-              </div>
-
-
-              <!-- Catégorie -->
-              <span class="categorie">
-
-                {{ demarche.categorie }}
-
-              </span>
-
-
-              <!-- Titre -->
-              <h3>
-
-                {{ demarche.titre }}
-
-              </h3>
-
-
-              <!-- Description -->
-              <p>
-
-                {{ demarche.description }}
-
-              </p>
-
-
-              <!-- Bouton -->
-              <button
-                type="button"
-                class="details-button"
-                (click)="openDemarche(demarche)"
-              >
-
-                Voir la démarche
-
-                <span>
-                  →
-                </span>
-
-              </button>
-
-            </article>
+            <a routerLink="/register" class="hero-button secondary">
+              Créer un compte
+            </a>
 
           }
 
         </div>
 
-      }
 
+        <!-- Petit indicateur visuel -->
+        <div class="hero-highlight">
 
-      <!-- ================================================== -->
-      <!-- AUCUN RÉSULTAT -->
-      <!-- ================================================== -->
+          <span class="highlight-dot"></span>
 
-      @else {
-
-        <div class="no-results">
-
-          <div class="no-results-icon">
-            🔍
-          </div>
-
-          <h3>
-            Aucune démarche trouvée
-          </h3>
-
-          <p>
-            Essayez avec un autre mot-clé.
-          </p>
+          <span>
+            Votre parcours étudiant, simplifié
+          </span>
 
         </div>
 
-      }
+      </div>
+
+
+      <!-- Illustration décorative du header -->
+      <div class="hero-decoration">
+
+        <div class="decoration-circle circle-blue"></div>
+
+        <div class="decoration-circle circle-red"></div>
+
+
+        <!-- Carte décorative -->
+        <div class="guide-card">
+
+          <div class="guide-icon">
+            🎓
+          </div>
+
+          <div class="guide-card-content">
+
+            <span>
+              MYSTUDENTGUIDE
+            </span>
+
+            <strong>
+              Votre parcours en France
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
 
     </section>
 
 
+
+    <!-- ========================================================= -->
+    <!-- SECTION POURQUOI MYSTUDENTGUIDE                             -->
+    <!-- ========================================================= -->
+
+    <section class="why-section">
+
+      <div class="section-heading">
+
+        <span class="section-label">
+          POURQUOI MYSTUDENTGUIDE ?
+        </span>
+
+
+        <h2>
+
+          Simplifiez votre installation
+
+          <span>
+            en France
+          </span>
+
+        </h2>
+
+
+        <p>
+
+          Toutes les informations essentielles pour vous aider
+          à comprendre et réaliser vos démarches administratives.
+
+        </p>
+
+      </div>
+
+
+      <div class="why-grid">
+
+
+        <!-- ===================================================== -->
+        <!-- CARTE 1                                               -->
+        <!-- ===================================================== -->
+
+        <article class="why-card">
+
+          <div class="why-icon blue-icon">
+            📋
+          </div>
+
+
+          <h3>
+            Des démarches adaptées
+          </h3>
+
+
+          <p>
+
+            Retrouvez uniquement les démarches qui vous concernent
+            selon votre situation étudiante.
+
+          </p>
+
+        </article>
+
+
+
+        <!-- ===================================================== -->
+        <!-- CARTE 2                                               -->
+        <!-- ===================================================== -->
+
+        <article class="why-card">
+
+          <div class="why-icon red-icon">
+            🧭
+          </div>
+
+
+          <h3>
+            Un parcours guidé
+          </h3>
+
+
+          <p>
+
+            Avancez étape par étape et visualisez facilement
+            l'évolution de vos démarches.
+
+          </p>
+
+        </article>
+
+
+
+        <!-- ===================================================== -->
+        <!-- CARTE 3                                               -->
+        <!-- ===================================================== -->
+
+        <article class="why-card">
+
+          <div class="why-icon blue-icon">
+            🔗
+          </div>
+
+
+          <h3>
+            Des informations fiables
+          </h3>
+
+
+          <p>
+
+            Accédez aux informations nécessaires et aux liens
+            officiels pour effectuer vos démarches.
+
+          </p>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ========================================================= -->
+    <!-- MON PARCOURS                                              -->
+    <!-- ========================================================= -->
+
+    <section class="assigned-section">
+
+      <!-- ------------------------------------------------------- -->
+      <!-- EN-TÊTE DE LA SECTION                                   -->
+      <!-- ------------------------------------------------------- -->
+
+      <div class="section-header">
+
+        <div>
+
+          <!-- Petit label -->
+          <span class="section-label">
+            MON PARCOURS
+          </span>
+
+
+          <!-- Titre -->
+          <h2>
+            Commencez votre parcours
+          </h2>
+
+
+          <!-- Explication -->
+          <p>
+
+            Quelques informations sur votre situation nous permettent
+            de vous proposer les démarches adaptées à votre parcours
+            d'étudiant en France.
+
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- ------------------------------------------------------- -->
+      <!-- CARTE DU PARCOURS                                       -->
+      <!-- ------------------------------------------------------- -->
+
+      <div class="journey-card">
+
+
+        <!-- Icône de la carte -->
+        <div class="journey-icon">
+          🎓
+        </div>
+
+
+        <!-- Contenu de la carte -->
+        <div class="journey-content">
+
+
+          <!-- Petit label -->
+          <span class="journey-label">
+            VOTRE PARCOURS ÉTUDIANT
+          </span>
+
+
+          <!-- Titre -->
+          <h3>
+            Un parcours adapté à votre situation
+          </h3>
+
+
+          <!-- Explication -->
+          <p>
+
+            Complétez votre profil pour que MyStudentGuide puisse
+            identifier les démarches qui vous concernent et vous
+            accompagner étape par étape.
+
+          </p>
+
+
+          <!-- --------------------------------------------------- -->
+          <!-- BOUTON COMMENCER                                    -->
+          <!-- --------------------------------------------------- -->
+
+          <!--
+            Le bouton appelle startJourney().
+
+            La méthode vérifie automatiquement :
+
+            1. Aucun token
+               → /login
+
+            2. Token présent mais aucun profil
+               → /dashboard/profile
+
+            3. Profil existant
+               → /dashboard/demarches
+          -->
+          <button
+            type="button"
+            class="journey-button"
+            [disabled]="startingJourney"
+            (click)="startJourney()"
+          >
+
+            {{ !isLoggedIn ? 'Se connecter pour commencer' : (startingJourney ? 'Chargement...' : 'Commencer') }}
+
+            <span>
+              →
+            </span>
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ========================================================= -->
+    <!-- COMMENT ÇA MARCHE ?                                       -->
+    <!-- ========================================================= -->
+
+    <section class="how-section">
+
+      <div class="section-heading">
+
+        <span class="section-label">
+          COMMENT ÇA MARCHE ?
+        </span>
+
+
+        <h2>
+
+          Un parcours simple en
+
+          <span>
+            3 étapes
+          </span>
+
+        </h2>
+
+      </div>
+
+
+      <div class="steps-container">
+
+
+        <!-- ===================================================== -->
+        <!-- ÉTAPE 1                                               -->
+        <!-- ===================================================== -->
+
+        <article class="step-card">
+
+          <div class="step-number">
+            01
+          </div>
+
+
+          <div class="step-content">
+
+            <h3>
+              Consultez vos démarches
+            </h3>
+
+
+            <p>
+
+              Retrouvez les démarches administratives qui
+              correspondent à votre situation.
+
+            </p>
+
+          </div>
+
+        </article>
+
+
+
+        <!-- ===================================================== -->
+        <!-- ÉTAPE 2                                               -->
+        <!-- ===================================================== -->
+
+        <article class="step-card">
+
+          <div class="step-number">
+            02
+          </div>
+
+
+          <div class="step-content">
+
+            <h3>
+              Commencez une démarche
+            </h3>
+
+
+            <p>
+
+              Depuis votre espace démarches, cliquez sur
+              « Commencer » pour passer la démarche en cours.
+
+            </p>
+
+          </div>
+
+        </article>
+
+
+
+        <!-- ===================================================== -->
+        <!-- ÉTAPE 3                                               -->
+        <!-- ===================================================== -->
+
+        <article class="step-card">
+
+          <div class="step-number">
+            03
+          </div>
+
+
+          <div class="step-content">
+
+            <h3>
+              Suivez votre progression
+            </h3>
+
+
+            <p>
+
+              Consultez les informations, les étapes, les documents
+              nécessaires et les liens officiels.
+
+            </p>
+
+          </div>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ========================================================= -->
+    <!-- OBJECTIF                                                  -->
+    <!-- ========================================================= -->
+
+    <section class="about-section">
+
+      <div class="about-content">
+
+        <span class="section-label">
+          NOTRE OBJECTIF
+        </span>
+
+
+        <h2>
+
+          Vous aider à vous concentrer sur
+
+          <span>
+            vos études
+          </span>
+
+        </h2>
+
+
+        <p>
+
+          S'installer dans un nouveau pays implique de nombreuses
+          démarches administratives. MyStudentGuide centralise les
+          informations essentielles afin de rendre votre parcours
+          plus clair et plus simple.
+
+        </p>
+
+      </div>
+
+
+      <!-- Illustration de la section -->
+      <div class="about-decoration">
+
+        <div class="about-shape blue-shape"></div>
+
+        <div class="about-shape red-shape"></div>
+
+
+        <div class="about-icon">
+          🎓
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ======================================================
+         APPEL À L'ACTION FINAL (visiteurs non connectés)
+         ====================================================== -->
+
+    @if (!isLoggedIn) {
+
+      <section class="cta-section">
+
+        <div class="cta-card">
+
+          <h2>Prêt à simplifier vos démarches ?</h2>
+
+          <p>
+            Créez votre compte gratuitement, renseignez votre profil
+            et suivez vos démarches étape par étape.
+          </p>
+
+          <div class="cta-actions">
+
+            <a routerLink="/register" class="hero-button primary">
+              Créer mon compte
+            </a>
+
+            <a routerLink="/login" class="hero-button secondary">
+              J'ai déjà un compte
+            </a>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    }
+
   </main>
-
-
-  <!-- ====================================================== -->
-  <!-- FOOTER -->
-  <!-- ====================================================== -->
-
-  <footer class="footer">
-
-    <p>
-      © 2026 MyCampusGuide — Votre guide étudiant en France
-    </p>
-
-  </footer>
 
 
 </div>

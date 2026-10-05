@@ -1,0 +1,647 @@
+<!-- ============================================================
+     PAGE ADMINISTRATION DES DOCUMENTS REQUIS
+     ============================================================ -->
+
+<div class="documents-admin-page">
+
+  <!-- ==========================================================
+       EN-TÊTE DE LA PAGE
+       ========================================================== -->
+
+  <div class="page-header">
+
+    <!-- Bouton d'ajout -->
+    <button
+      type="button"
+      class="btn-primary"
+      (click)="openAddForm()"
+    >
+      <span class="button-icon">+</span>
+      Ajouter un document
+    </button>
+
+  </div>
+
+
+  <!-- ==========================================================
+       MESSAGES
+       ========================================================== -->
+
+  <!-- Message de succès -->
+  <div
+    *ngIf="successMessage"
+    class="alert alert-success"
+  >
+    <span class="alert-icon">✓</span>
+
+    <span>
+      {{ successMessage }}
+    </span>
+  </div>
+
+
+  <!-- Message d'erreur -->
+  <div
+    *ngIf="errorMessage"
+    class="alert alert-error"
+  >
+    <span class="alert-icon">!</span>
+
+    <span>
+      {{ errorMessage }}
+    </span>
+  </div>
+
+
+  <!-- ==========================================================
+       FORMULAIRE D'AJOUT / MODIFICATION
+       ========================================================== -->
+
+  <section
+    *ngIf="showForm"
+    class="document-form-card"
+  >
+
+    <!-- --------------------------------------------------------
+         EN-TÊTE DU FORMULAIRE
+         -------------------------------------------------------- -->
+
+    <div class="form-header">
+
+      <div class="form-title">
+
+        <div class="form-icon">
+          📄
+        </div>
+
+        <div>
+
+          <h2>
+            {{ editingId
+              ? 'Modifier un document'
+              : 'Ajouter un document'
+            }}
+          </h2>
+
+          <p>
+            Renseignez les informations du document requis.
+          </p>
+
+        </div>
+
+      </div>
+
+      <!-- Bouton de fermeture -->
+      <button
+        type="button"
+        class="close-button"
+        (click)="closeForm()"
+        aria-label="Fermer"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <!-- --------------------------------------------------------
+         INFORMATION EXPLICATIVE
+         -------------------------------------------------------- -->
+
+    <div class="form-information">
+
+      <span class="information-icon">
+        i
+      </span>
+
+      <p>
+        Le document créé sera associé à une démarche.
+        Il pourra ensuite être attribué aux étudiants concernés
+        par cette démarche.
+      </p>
+
+    </div>
+
+
+    <!-- ========================================================
+         FORMULAIRE
+         ======================================================== -->
+
+    <form
+      class="document-form"
+      (ngSubmit)="saveDocument()"
+    >
+
+
+      <!-- ======================================================
+           SECTION : INFORMATIONS DU DOCUMENT
+           ====================================================== -->
+
+      <div class="form-section">
+
+        <div class="form-section-header">
+
+          <h3>
+            Informations du document
+          </h3>
+
+          <p>
+            Décrivez précisément la pièce demandée à l'étudiant.
+          </p>
+
+        </div>
+
+
+        <!-- ----------------------------------------------------
+             NOM DU DOCUMENT
+             ---------------------------------------------------- -->
+
+        <div class="form-group">
+
+          <label for="nom">
+
+            Nom du document
+
+            <span class="required">
+              *
+            </span>
+
+          </label>
+
+          <input
+            id="nom"
+            type="text"
+            name="nom"
+            [(ngModel)]="documentForm.nom"
+            placeholder="Exemple : Passeport"
+            autocomplete="off"
+            required
+          />
+
+          <small class="field-help">
+            Indiquez le nom clairement identifiable du document.
+          </small>
+
+        </div>
+
+
+        <!-- ----------------------------------------------------
+             DESCRIPTION
+             ---------------------------------------------------- -->
+
+        <div class="form-group">
+
+          <label for="description">
+            Description
+          </label>
+
+          <textarea
+            id="description"
+            name="description"
+            [(ngModel)]="documentForm.description"
+            placeholder="Exemple : Passeport en cours de validité permettant de justifier l'identité de l'étudiant."
+            rows="5"
+          ></textarea>
+
+          <small class="field-help">
+            Ajoutez les précisions utiles concernant le document
+            ou les conditions à respecter.
+          </small>
+
+        </div>
+
+
+        <!-- ----------------------------------------------------
+             TYPE DU DOCUMENT
+             ---------------------------------------------------- -->
+
+        <div class="form-group">
+
+          <label for="type">
+
+            Type de document
+
+            <span class="required">
+              *
+            </span>
+
+          </label>
+
+          <select
+            id="type"
+            name="type"
+            [(ngModel)]="documentForm.type"
+            required
+          >
+
+            <option value="">
+              Sélectionnez un type de document
+            </option>
+
+            <option
+              *ngFor="let type of documentTypes"
+              [value]="type"
+            >
+              {{ getDocumentTypeLabel(type) }}
+            </option>
+
+          </select>
+
+          <small class="field-help">
+            Sélectionnez la catégorie correspondant au document.
+          </small>
+
+        </div>
+
+      </div>
+
+
+      <!-- ======================================================
+           SECTION : DÉMARCHE ASSOCIÉE
+           ====================================================== -->
+
+      <div class="form-section">
+
+        <div class="form-section-header">
+
+          <h3>
+            Démarche concernée
+          </h3>
+
+          <p>
+            Indiquez pour quelle démarche ce document est nécessaire.
+          </p>
+
+        </div>
+
+
+        <!-- ----------------------------------------------------
+             SÉLECTION DE LA DÉMARCHE
+             ---------------------------------------------------- -->
+
+        <div class="form-group">
+
+          <label for="demarcheId">
+
+            Démarche associée
+
+            <span class="required">
+              *
+            </span>
+
+          </label>
+
+          <select
+            id="demarcheId"
+            name="demarcheId"
+            [(ngModel)]="documentForm.demarcheId"
+            required
+          >
+
+            <option [ngValue]="0">
+              Sélectionnez une démarche
+            </option>
+
+            <option
+              *ngFor="let demarche of demarches"
+              [ngValue]="demarche.id"
+            >
+              {{ demarche.titre }}
+            </option>
+
+          </select>
+
+          <!-- Aucun résultat -->
+          <small
+            *ngIf="demarches.length === 0"
+            class="field-help field-error"
+          >
+            Aucune démarche disponible.
+            Vous devez d'abord créer une démarche.
+          </small>
+
+        </div>
+
+
+        <!-- ----------------------------------------------------
+             APERÇU DE LA DÉMARCHE
+             ---------------------------------------------------- -->
+
+        <div
+          *ngIf="documentForm.demarcheId"
+          class="demarche-preview"
+        >
+
+          <div class="preview-icon">
+            📋
+          </div>
+
+          <div class="preview-content">
+
+            <span class="preview-label">
+              Démarche sélectionnée
+            </span>
+
+            <strong>
+              {{
+                demarches
+                  .find(d => d.id === documentForm.demarcheId)
+                  ?.titre
+                  || 'Démarche sélectionnée'
+              }}
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ======================================================
+           RAPPEL
+           ====================================================== -->
+
+      <div class="form-notice">
+
+        <div class="notice-icon">
+          ✓
+        </div>
+
+        <div>
+
+          <strong>
+            Document réutilisable
+          </strong>
+
+          <p>
+            Ce document est enregistré comme document requis
+            de la démarche. Il pourra être attribué aux étudiants
+            concernés sans avoir à le recréer pour chaque profil.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- ======================================================
+           BOUTONS DU FORMULAIRE
+           ====================================================== -->
+
+      <div class="form-actions">
+
+        <!-- Annuler -->
+        <button
+          type="button"
+          class="btn-secondary"
+          (click)="closeForm()"
+        >
+          Annuler
+        </button>
+
+
+        <!-- Enregistrer -->
+        <button
+          type="submit"
+          class="btn-primary"
+          [disabled]="loading"
+        >
+
+          <span *ngIf="!loading">
+
+            {{ editingId
+              ? 'Enregistrer les modifications'
+              : 'Créer le document'
+            }}
+
+          </span>
+
+          <span
+            *ngIf="loading"
+            class="button-loading"
+          >
+            Enregistrement...
+          </span>
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </section>
+
+
+  <!-- ==========================================================
+       CHARGEMENT
+       ========================================================== -->
+
+  <div
+    *ngIf="loading && documents.length === 0"
+    class="loading-state"
+  >
+
+    <div class="loading-spinner"></div>
+
+    <p>
+      Chargement des documents...
+    </p>
+
+  </div>
+
+
+  <!-- ==========================================================
+       LISTE DES DOCUMENTS
+       ========================================================== -->
+
+  <section
+    *ngIf="!loading || documents.length > 0"
+    class="documents-section"
+  >
+
+    <!-- En-tête -->
+    <div class="section-header">
+
+      <div>
+
+        <h2>
+          Documents enregistrés
+        </h2>
+
+        <p>
+          Consultez et gérez les documents requis
+          associés aux démarches.
+        </p>
+
+      </div>
+
+      <!-- Nombre de documents -->
+      <div class="document-count">
+
+        <strong>
+          {{ documents.length }}
+        </strong>
+
+        <span>
+          {{ documents.length > 1 ? 'documents' : 'document' }}
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <!-- ========================================================
+         AUCUN DOCUMENT
+         ======================================================== -->
+
+    <div
+      *ngIf="documents.length === 0 && !loading"
+      class="empty-state"
+    >
+
+      <div class="empty-icon">
+        📄
+      </div>
+
+      <h3>
+        Aucun document requis
+      </h3>
+
+      <p>
+        Vous n'avez encore créé aucun document.
+        Ajoutez les pièces nécessaires aux démarches
+        administratives.
+      </p>
+
+      <button
+        type="button"
+        class="btn-primary"
+        (click)="openAddForm()"
+      >
+        <span class="button-icon">+</span>
+        Ajouter le premier document
+      </button>
+
+    </div>
+
+
+    <!-- ========================================================
+         DOCUMENTS
+         ======================================================== -->
+
+    <div
+      *ngIf="documents.length > 0"
+      class="documents-list"
+    >
+
+      <article
+        *ngFor="let document of documents"
+        class="document-card"
+      >
+
+        <!-- ----------------------------------------------------
+             EN-TÊTE DE LA CARTE
+             ---------------------------------------------------- -->
+
+        <div class="document-card-header">
+
+          <div class="document-title-area">
+
+            <div class="document-icon">
+              📄
+            </div>
+
+            <div class="document-title">
+
+              <h3>
+                {{ document.nom }}
+              </h3>
+
+              <span class="document-type">
+                {{ getDocumentTypeLabel(document.type) }}
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <!-- Actions -->
+          <div class="document-actions">
+
+            <button
+              type="button"
+              class="btn-action btn-edit"
+              (click)="editDocument(document)"
+            >
+              Modifier
+            </button>
+
+            <button
+              type="button"
+              class="btn-action btn-delete"
+              (click)="deleteDocument(document.id!)"
+            >
+              Supprimer
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- ----------------------------------------------------
+             CONTENU
+             ---------------------------------------------------- -->
+
+        <div class="document-card-body">
+
+          <!-- Description -->
+          <div
+            *ngIf="document.description"
+            class="document-description"
+          >
+
+            <span class="info-label">
+              Description
+            </span>
+
+            <p>
+              {{ document.description }}
+            </p>
+
+          </div>
+
+
+          <!-- Démarche -->
+          <div class="document-info">
+
+            <span class="info-label">
+              Démarche associée
+            </span>
+
+            <div class="demarche-badge">
+
+              <span class="demarche-icon">
+                📋
+              </span>
+
+              <span>
+                {{ getDemarcheTitle(document) }}
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    </div>
+
+  </section>
+
+</div>

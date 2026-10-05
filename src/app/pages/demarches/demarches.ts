@@ -1,374 +1,649 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+// ============================================================
+// IMPORTS
+// ============================================================
+
+// Permet de créer un composant Angular
+// et d'utiliser le cycle de vie OnInit.
+import {
+  Component,
+  OnInit
+} from '@angular/core';
+
+// Permet d'utiliser les fonctionnalités communes
+// d'Angular dans le template.
+// NgClass est notamment utilisé pour appliquer
+// dynamiquement la classe CSS du statut.
+import {
+  CommonModule
+} from '@angular/common';
+
+// Permet d'effectuer les requêtes HTTP
+// vers le backend Spring Boot.
+import {
+  HttpClient,
+  HttpHeaders
+} from '@angular/common/http';
+
+// Permet de naviguer vers les différentes
+// pages de l'application.
+import {
+  Router
+} from '@angular/router';
+import { environment } from '../../../environments/environment';
+
+
+// ============================================================
+// INTERFACES
+// ============================================================
 
 /**
- * Interface représentant une catégorie de démarche.
+ * Représente le profil étudiant récupéré
+ * depuis le backend.
  *
- * Elle correspond aux données retournées
- * par l'API des catégories.
+ * Pour cette page, nous avons uniquement
+ * besoin de l'identifiant du profil.
  */
-interface Categorie {
+interface StudentProfile {
 
+  /**
+   * Identifiant du profil étudiant.
+   *
+   * Cet identifiant permet ensuite de récupérer
+   * les démarches associées à l'étudiant.
+   */
   id: number;
-
-  nom: string;
-
-  description?: string;
-
 }
 
 
 /**
- * Interface représentant une démarche administrative.
+ * Représente une démarche attribuée
+ * à un étudiant.
  *
- * Elle correspond aux informations retournées
- * par l'API des démarches.
+ * Cette interface correspond aux données
+ * renvoyées par l'API StudentDemarche.
  */
-interface Demarche {
+interface StudentDemarche {
 
+  /**
+   * Identifiant de l'association entre
+   * l'étudiant et la démarche.
+   *
+   * Exemple :
+   *
+   * studentDemarche.id = 6
+   */
   id: number;
 
-  titre: string;
 
-  description: string;
-
+  /**
+   * Statut actuel de la démarche
+   * pour l'étudiant.
+   *
+   * Exemples :
+   *
+   * A_FAIRE
+   * EN_COURS
+   * TERMINEE
+   * NON_CONCERNEE
+   */
   statut: string;
 
-  dateCreation: string;
 
-  dateLimite?: string;
+  /**
+   * Informations concernant la démarche générale.
+   *
+   * La démarche générale est indépendante
+   * de l'étudiant.
+   *
+   * Plusieurs étudiants peuvent donc suivre
+   * la même démarche.
+   */
+  demarche: {
 
-  categorie?: Categorie;
+    /**
+     * Identifiant de la démarche générale.
+     *
+     * Cet identifiant est utilisé pour ouvrir
+     * la page de détails de la démarche.
+     */
+    id: number;
 
+
+    /**
+     * Titre de la démarche.
+     */
+    titre: string;
+
+
+    /**
+     * Description de la démarche.
+     */
+    description: string;
+  };
 }
 
 
+// ============================================================
+// COMPOSANT
+// ============================================================
+
 /**
- * Composant responsable de l'affichage
- * des démarches administratives de l'étudiant.
+ * Composant représentant la page
+ * "Mes démarches".
+ *
+ * Cette page permet à l'étudiant connecté de :
+ *
+ * - consulter ses démarches ;
+ * - voir leur statut ;
+ * - ouvrir le détail d'une démarche ;
+ * - accéder à son espace de suivi.
  */
 @Component({
 
+  /**
+   * Sélecteur du composant.
+   */
   selector: 'app-demarches',
 
+
+  /**
+   * Le composant fonctionne en mode standalone.
+   */
   standalone: true,
 
+
+  /**
+   * Modules nécessaires au template.
+   *
+   * CommonModule permet notamment d'utiliser
+   * [ngClass] dans le HTML.
+   */
   imports: [
     CommonModule
   ],
 
+
+  /**
+   * Template HTML associé au composant.
+   */
   templateUrl: './demarches.html',
 
-  styleUrl: './demarches.scss'
 
+  /**
+   * Feuille de style associée au composant.
+   */
+  styleUrl: './demarches.scss'
 })
 export class Demarches implements OnInit {
 
 
+  // ============================================================
+  // CONFIGURATION
+  // ============================================================
+
   /**
    * URL de base de l'API Spring Boot.
+   *
+   * Les différentes requêtes de cette page
+   * utilisent cette URL.
    */
-  private apiUrl = 'http://localhost:8080/api';
+  private apiUrl = environment.apiUrl;
+
+
+  // ============================================================
+  // DONNÉES
+  // ============================================================
+
+  /**
+   * Liste des démarches attribuées
+   * à l'étudiant connecté.
+   *
+   * Au démarrage du composant, la liste est vide.
+   *
+   * Elle est remplie après la réponse
+   * du backend.
+   */
+  studentDemarches: StudentDemarche[] = [];
 
 
   /**
-   * Liste des démarches récupérées
-   * depuis l'API.
+   * Indique si les données sont en cours
+   * de récupération.
+   *
+   * true :
+   * le chargement est en cours.
+   *
+   * false :
+   * le chargement est terminé.
    */
-  demarches: Demarche[] = [];
+  isLoading = false;
 
 
   /**
-   * Message affiché en cas d'erreur.
+   * Message d'erreur à afficher dans l'interface.
+   *
+   * Une chaîne vide signifie qu'il n'y a
+   * actuellement aucune erreur.
    */
   errorMessage = '';
 
 
-  /**
-   * Indique si les démarches sont
-   * actuellement en cours de chargement.
-   */
-  loading = false;
-
+  // ============================================================
+  // CONSTRUCTEUR
+  // ============================================================
 
   /**
-   * Permet de filtrer les démarches
-   * selon leur statut.
+   * Injecte les services nécessaires.
    *
-   * Valeur "TOUTES" = aucun filtre.
-   */
-  selectedStatus = 'TOUTES';
-
-
-  /**
-   * Constructeur.
+   * HttpClient :
+   * permet d'appeler l'API Spring Boot.
    *
-   * @param http service Angular permettant
-   *             de communiquer avec l'API
+   * Router :
+   * permet de naviguer entre les pages Angular.
    */
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
+
+  // ============================================================
+  // INITIALISATION
+  // ============================================================
 
   /**
    * Méthode exécutée automatiquement
-   * lors du chargement de la page.
+   * lors de l'initialisation du composant.
+   *
+   * Elle lance le chargement des démarches
+   * de l'étudiant connecté.
    */
   ngOnInit(): void {
 
-    this.loadDemarches();
-
+    this.loadStudentDemarches();
   }
 
 
+  // ============================================================
+  // RÉCUPÉRATION DU TOKEN
+  // ============================================================
+
   /**
-   * Récupère le JWT enregistré
-   * après la connexion.
+   * Récupère le token JWT enregistré
+   * dans le localStorage du navigateur.
+   *
+   * Le token est nécessaire pour authentifier
+   * les requêtes envoyées au backend.
+   *
+   * @returns
+   * Le token JWT s'il existe,
+   * sinon null.
    */
   private getToken(): string | null {
 
     return localStorage.getItem('token');
-
   }
 
 
+  // ============================================================
+  // CHARGEMENT DES DÉMARCHES
+  // ============================================================
+
   /**
-   * Récupère toutes les démarches
-   * de l'utilisateur connecté.
+   * Récupère les démarches de l'étudiant connecté.
    *
-   * Endpoint :
+   * Le fonctionnement se fait en deux étapes :
    *
-   * GET /api/demarches
+   * 1. récupérer le profil étudiant connecté ;
+   *
+   * 2. récupérer les démarches associées
+   *    à l'identifiant de ce profil.
    */
-  loadDemarches(): void {
+  loadStudentDemarches(): void {
 
-    const token = this.getToken();
-
-
-    /**
-     * Vérification de la présence du JWT.
-     */
-    if (!token) {
-
-      this.errorMessage =
-        'Vous devez être connecté pour accéder à vos démarches.';
-
-      return;
-
-    }
-
+    // ----------------------------------------------------------
+    // INITIALISATION
+    // ----------------------------------------------------------
 
     /**
-     * Création de l'en-tête Authorization.
+     * Supprime une éventuelle ancienne erreur.
      */
-    const headers = new HttpHeaders({
-
-      Authorization: `Bearer ${token}`
-
-    });
-
-
-    this.loading = true;
-
     this.errorMessage = '';
 
 
     /**
-     * Appel GET vers l'API.
+     * Active l'indicateur de chargement.
      */
-    this.http.get<Demarche[]>(
-
-      `${this.apiUrl}/demarches`,
-
-      { headers }
-
-    ).subscribe({
-
-      /**
-       * Les démarches ont été récupérées
-       * correctement.
-       */
-      next: (data) => {
-
-        this.demarches = data;
-
-        this.loading = false;
-
-      },
-
-
-      /**
-       * Gestion des erreurs.
-       */
-      error: (error) => {
-
-        console.error(
-          'Erreur lors du chargement des démarches :',
-          error
-        );
-
-        this.errorMessage =
-          'Impossible de charger vos démarches.';
-
-        this.loading = false;
-
-      }
-
-    });
-
-  }
-
-
-  /**
-   * Retourne uniquement les démarches
-   * correspondant au filtre sélectionné.
-   */
-  get filteredDemarches(): Demarche[] {
-
-    /**
-     * Si "TOUTES" est sélectionné,
-     * toutes les démarches sont affichées.
-     */
-    if (this.selectedStatus === 'TOUTES') {
-
-      return this.demarches;
-
-    }
+    this.isLoading = true;
 
 
     /**
-     * Sinon, on filtre selon le statut.
+     * Récupère le token JWT.
      */
-    return this.demarches.filter(
-
-      demarche =>
-        demarche.statut === this.selectedStatus
-
-    );
-
-  }
-
-
-  /**
-   * Compte le nombre de démarches
-   * correspondant à un statut.
-   *
-   * @param statut statut recherché
-   */
-  countByStatus(statut: string): number {
-
-    return this.demarches.filter(
-
-      demarche =>
-        demarche.statut === statut
-
-    ).length;
-
-  }
-
-
-  /**
-   * Retourne le nombre total
-   * de démarches.
-   */
-  get totalDemarches(): number {
-
-    return this.demarches.length;
-
-  }
-
-
-  /**
-   * Retourne le nombre de démarches
-   * terminées.
-   */
-  get completedDemarches(): number {
-
-    return this.countByStatus('TERMINEE');
-
-  }
-
-
-  /**
-   * Retourne le nombre de démarches
-   * encore à faire.
-   */
-  get todoDemarches(): number {
-
-    return this.countByStatus('A_FAIRE');
-
-  }
-
-
-  /**
-   * Retourne le nombre de démarches
-   * actuellement en cours.
-   */
-  get inProgressDemarches(): number {
-
-    return this.countByStatus('EN_COURS');
-
-  }
-
-
-  /**
-   * Permet de modifier le statut
-   * d'une démarche.
-   *
-   * Cette méthode sera reliée à ton endpoint
-   * de modification du statut.
-   *
-   * IMPORTANT :
-   * l'URL exacte dépend de ton controller Spring Boot.
-   */
-  updateStatus(
-    demarche: Demarche,
-    nouveauStatut: string
-  ): void {
-
     const token = this.getToken();
 
 
+    // ----------------------------------------------------------
+    // VÉRIFICATION DU TOKEN
+    // ----------------------------------------------------------
+
     /**
-     * Vérification du JWT.
+     * Si aucun token n'est présent,
+     * l'utilisateur n'est pas authentifié.
      */
     if (!token) {
 
+      /**
+       * Le chargement est terminé
+       * puisqu'il est impossible de continuer.
+       */
+      this.isLoading = false;
+
+
+      /**
+       * Message affiché à l'utilisateur.
+       */
       this.errorMessage =
-        'Vous devez être connecté.';
+        'Votre session a expiré. Veuillez vous reconnecter.';
+
 
       return;
-
     }
 
 
+    // ----------------------------------------------------------
+    // HEADERS HTTP
+    // ----------------------------------------------------------
+
     /**
-     * Préparation de l'en-tête Authorization.
+     * Création des headers HTTP.
+     *
+     * Le JWT est envoyé dans :
+     *
+     * Authorization: Bearer <token>
+     *
+     * Spring Security peut ainsi identifier
+     * l'utilisateur connecté.
      */
     const headers = new HttpHeaders({
-
       Authorization: `Bearer ${token}`
-
     });
 
 
-    /**
-     * Pour l'instant, on met à jour
-     * directement l'objet affiché.
-     *
-     * Lorsque nous brancherons précisément
-     * l'endpoint PATCH/PUT de ton API,
-     * cette partie pourra être remplacée
-     * par l'appel HTTP correspondant.
-     */
-    demarche.statut = nouveauStatut;
+    // ==========================================================
+    // ÉTAPE 1
+    // RÉCUPÉRER LE PROFIL ÉTUDIANT
+    // ==========================================================
 
+    this.http.get<StudentProfile>(
+      `${this.apiUrl}/student-profiles/me`,
+      { headers }
+    ).subscribe({
+
+      // --------------------------------------------------------
+      // SUCCÈS
+      // --------------------------------------------------------
+
+      /**
+       * Cette fonction est appelée lorsque
+       * le backend retourne correctement
+       * le profil étudiant.
+       */
+      next: (profile) => {
+
+        /**
+         * Log de diagnostic.
+         *
+         * Permet de vérifier que le profil
+         * arrive correctement dans Angular.
+         */
+        console.log(
+          '✅ PROFIL REÇU PAR ANGULAR :',
+          profile
+        );
+
+
+        // ------------------------------------------------------
+        // VÉRIFICATION DU PROFIL
+        // ------------------------------------------------------
+
+        /**
+         * Vérifie que le profil existe
+         * et possède un identifiant.
+         */
+        if (!profile?.id) {
+
+          /**
+           * Arrête le chargement.
+           */
+          this.isLoading = false;
+
+
+          /**
+           * Réinitialise les démarches.
+           */
+          this.studentDemarches = [];
+
+
+          /**
+           * Message affiché dans l'interface.
+           */
+          this.errorMessage =
+            'Votre profil étudiant est introuvable.';
+
+
+          return;
+        }
+
+
+        // ======================================================
+        // ÉTAPE 2
+        // RÉCUPÉRER LES DÉMARCHES
+        // ======================================================
+
+        this.http.get<StudentDemarche[]>(
+          `${this.apiUrl}/student-demarches/student/${profile.id}`,
+          { headers }
+        ).subscribe({
+
+          // ----------------------------------------------------
+          // SUCCÈS
+          // ----------------------------------------------------
+
+          /**
+           * Cette fonction est appelée lorsque
+           * les démarches ont été récupérées.
+           */
+          next: (studentDemarches) => {
+
+            /**
+             * Log de diagnostic.
+             *
+             * Permet de vérifier que les démarches
+             * arrivent correctement dans Angular.
+             */
+            console.log(
+              '✅ DÉMARCHES REÇUES PAR ANGULAR :',
+              studentDemarches
+            );
+
+
+            // --------------------------------------------------
+            // STOCKAGE DES DONNÉES
+            // --------------------------------------------------
+
+            /**
+             * Stocke les démarches dans la propriété
+             * utilisée par le template HTML.
+             *
+             * Si l'API renvoie null ou undefined,
+             * on utilise un tableau vide.
+             */
+            this.studentDemarches =
+              studentDemarches ?? [];
+
+
+            // --------------------------------------------------
+            // FIN DU CHARGEMENT
+            // --------------------------------------------------
+
+            /**
+             * Les données ont été récupérées.
+             *
+             * Le template Angular peut maintenant
+             * afficher la liste.
+             */
+            this.isLoading = false;
+
+
+            /**
+             * Log permettant de vérifier l'état final.
+             */
+            console.log(
+              '✅ CHARGEMENT DES DÉMARCHES TERMINÉ :',
+              this.isLoading
+            );
+
+
+            /**
+             * Log supplémentaire permettant de vérifier
+             * le nombre de démarches reçues.
+             */
+            console.log(
+              '📋 NOMBRE DE DÉMARCHES :',
+              this.studentDemarches.length
+            );
+          },
+
+
+          // ----------------------------------------------------
+          // ERREUR
+          // ----------------------------------------------------
+
+          /**
+           * Cette fonction est appelée si la requête
+           * des démarches échoue.
+           */
+          error: (error) => {
+
+            /**
+             * Affiche l'erreur dans la console
+             * pour faciliter le diagnostic.
+             */
+            console.error(
+              '❌ ERREUR LORS DU CHARGEMENT DES DÉMARCHES :',
+              error
+            );
+
+
+            /**
+             * Arrête le chargement.
+             */
+            this.isLoading = false;
+
+
+            /**
+             * Réinitialise la liste.
+             */
+            this.studentDemarches = [];
+
+
+            /**
+             * Message affiché dans l'interface.
+             */
+            this.errorMessage =
+              'Impossible de charger vos démarches.';
+          }
+        });
+      },
+
+
+      // ========================================================
+      // ERREUR DE RÉCUPÉRATION DU PROFIL
+      // ========================================================
+
+      /**
+       * Cette fonction est appelée si la requête
+       * du profil étudiant échoue.
+       */
+      error: (error) => {
+
+        /**
+         * Affiche l'erreur dans la console.
+         */
+        console.error(
+          '❌ ERREUR LORS DE LA RÉCUPÉRATION DU PROFIL :',
+          error
+        );
+
+
+        /**
+         * Arrête le chargement.
+         */
+        this.isLoading = false;
+
+
+        /**
+         * Réinitialise les démarches.
+         */
+        this.studentDemarches = [];
+
+
+        // ------------------------------------------------------
+        // PROFIL NON TROUVÉ
+        // ------------------------------------------------------
+
+        /**
+         * Un statut HTTP 404 signifie qu'aucun profil
+         * étudiant n'a encore été créé.
+         */
+        if (error.status === 404) {
+
+          return;
+        }
+
+
+        // ------------------------------------------------------
+        // AUTRE ERREUR
+        // ------------------------------------------------------
+
+        /**
+         * Message affiché pour les autres erreurs.
+         */
+        this.errorMessage =
+          'Impossible de récupérer votre profil étudiant.';
+      }
+    });
   }
 
 
+  // ============================================================
+  // LABEL DU STATUT
+  // ============================================================
+
   /**
-   * Permet d'afficher un libellé
-   * plus compréhensible pour le statut.
+   * Transforme le statut technique provenant
+   * du backend en texte lisible.
+   *
+   * Exemples :
+   *
+   * A_FAIRE
+   * → À faire
+   *
+   * EN_COURS
+   * → En cours
+   *
+   * TERMINEE
+   * → Terminée
+   *
+   * NON_CONCERNEE
+   * → Non concernée
+   *
+   * @param statut
+   * Statut reçu depuis l'API.
+   *
+   * @returns
+   * Texte affiché dans l'interface.
    */
   getStatusLabel(statut: string): string {
 
@@ -377,48 +652,186 @@ export class Demarches implements OnInit {
       case 'A_FAIRE':
         return 'À faire';
 
+
       case 'EN_COURS':
         return 'En cours';
+
 
       case 'TERMINEE':
         return 'Terminée';
 
+
       case 'NON_CONCERNEE':
         return 'Non concernée';
 
+
       default:
         return statut;
-
     }
-
   }
 
 
+  // ============================================================
+  // CLASSE CSS DU STATUT
+  // ============================================================
+
   /**
-   * Retourne une classe CSS correspondant
+   * Retourne la classe CSS correspondant
    * au statut de la démarche.
+   *
+   * IMPORTANT :
+   *
+   * Les noms retournés ici correspondent
+   * exactement aux classes présentes dans
+   * demarches.scss.
+   *
+   * A_FAIRE
+   * → status-a-faire
+   *
+   * EN_COURS
+   * → status-en-cours
+   *
+   * TERMINEE
+   * → status-terminee
+   *
+   * NON_CONCERNEE
+   * → status-non-concernee
+   *
+   * @param statut
+   * Statut reçu depuis le backend.
+   *
+   * @returns
+   * Nom de la classe CSS.
    */
   getStatusClass(statut: string): string {
 
     switch (statut) {
 
       case 'A_FAIRE':
-        return 'status-todo';
+        return 'status-a-faire';
+
 
       case 'EN_COURS':
-        return 'status-progress';
+        return 'status-en-cours';
+
 
       case 'TERMINEE':
-        return 'status-completed';
+        return 'status-terminee';
+
 
       case 'NON_CONCERNEE':
-        return 'status-not-concerned';
+        return 'status-non-concernee';
 
+
+      /**
+       * Si le backend retourne un statut inconnu,
+       * on utilise par défaut le style "À faire".
+       */
       default:
-        return '';
-
+        return 'status-a-faire';
     }
-
   }
 
+
+  // ============================================================
+  // SUIVRE LES DÉMARCHES
+  // ============================================================
+
+  /**
+   * Redirige l'étudiant vers son Dashboard.
+   *
+   * Le Dashboard permet de suivre plus précisément
+   * l'évolution de ses démarches.
+   */
+  suivreMesDemarches(): void {
+
+    this.router.navigate([
+      '/dashboard'
+    ]);
+  }
+
+
+  // ============================================================
+  // COMMENCER UNE DÉMARCHE
+  // ============================================================
+
+  /**
+   * Méthode appelée lorsque l'utilisateur clique
+   * sur "Commencer".
+   *
+   * Pour le moment, cette méthode affiche simplement
+   * la démarche sélectionnée dans la console.
+   *
+   * La logique permettant de modifier le statut
+   * pourra être ajoutée ultérieurement.
+   *
+   * @param studentDemarche
+   * Démarche sélectionnée par l'utilisateur.
+   */
+  commencerDemarche(
+    studentDemarche: StudentDemarche
+  ): void {
+
+    console.log(
+      '➡️ DÉMARCHE SÉLECTIONNÉE :',
+      studentDemarche
+    );
+  }
+
+
+  // ============================================================
+  // VOIR LES DÉTAILS
+  // ============================================================
+
+  /**
+   * Navigue vers la page de détails
+   * de la démarche sélectionnée.
+   *
+   * IMPORTANT :
+   *
+   * studentDemarche.id
+   * correspond à l'association entre
+   * l'étudiant et la démarche.
+   *
+   * studentDemarche.demarche.id
+   * correspond à la démarche générale.
+   *
+   * Nous utilisons donc :
+   *
+   * studentDemarche.demarche.id
+   *
+   * pour construire l'URL.
+   *
+   * Exemple :
+   *
+   * studentDemarche.id = 6
+   * studentDemarche.demarche.id = 2
+   *
+   * Navigation :
+   *
+   * /demarches/2
+   */
+  voirPlus(
+    studentDemarche: StudentDemarche
+  ): void {
+
+    /**
+     * Affiche l'identifiant utilisé
+     * pour la navigation.
+     */
+    console.log(
+      '➡️ NAVIGATION VERS LA DÉMARCHE :',
+      studentDemarche.demarche.id
+    );
+
+
+    /**
+     * Ouvre la page de détail
+     * de la démarche générale.
+     */
+    this.router.navigate([
+      '/demarches',
+      studentDemarche.demarche.id
+    ]);
+  }
 }

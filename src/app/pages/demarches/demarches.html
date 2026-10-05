@@ -1,437 +1,421 @@
-<!--
-  Conteneur principal de la page des démarches.
--->
-<div class="demarches-container">
+<!-- ============================================================
+     PAGE : MES DÉMARCHES
+     ============================================================ -->
+
+<div class="demarches-page">
 
 
-  <!-- ============================= -->
-  <!-- EN-TÊTE DE LA PAGE             -->
-  <!-- ============================= -->
+  <!-- ==========================================================
+       HERO
+       ========================================================== -->
 
-  <header class="page-header">
+  <section class="hero">
 
-    <div>
+    <!-- Contenu textuel du hero -->
+    <div class="hero-content">
 
-      <h1>Mes démarches</h1>
-
-      <p>
-        Suivez et gérez toutes vos démarches administratives.
-      </p>
-
-    </div>
-
-  </header>
-
-
-  <!-- ============================= -->
-  <!-- STATISTIQUES                   -->
-  <!-- ============================= -->
-
-  <section class="statistics">
-
-
-    <!-- Total -->
-    <div
-      class="stat-card"
-      (click)="selectedStatus = 'TOUTES'"
-    >
-
-      <div class="stat-icon">
-        📋
-      </div>
-
-      <div>
-
-        <span class="stat-number">
-          {{ totalDemarches }}
-        </span>
-
-        <span class="stat-label">
-          Total
-        </span>
-
-      </div>
-
-    </div>
-
-
-    <!-- À faire -->
-    <div
-      class="stat-card"
-      (click)="selectedStatus = 'A_FAIRE'"
-    >
-
-      <div class="stat-icon">
-        ⏳
-      </div>
-
-      <div>
-
-        <span class="stat-number">
-          {{ todoDemarches }}
-        </span>
-
-        <span class="stat-label">
-          À faire
-        </span>
-
-      </div>
-
-    </div>
-
-
-    <!-- En cours -->
-    <div
-      class="stat-card"
-      (click)="selectedStatus = 'EN_COURS'"
-    >
-
-      <div class="stat-icon">
-        🔄
-      </div>
-
-      <div>
-
-        <span class="stat-number">
-          {{ inProgressDemarches }}
-        </span>
-
-        <span class="stat-label">
-          En cours
-        </span>
-
-      </div>
-
-    </div>
-
-
-    <!-- Terminées -->
-    <div
-      class="stat-card"
-      (click)="selectedStatus = 'TERMINEE'"
-    >
-
-      <div class="stat-icon">
-        ✓
-      </div>
-
-      <div>
-
-        <span class="stat-number">
-          {{ completedDemarches }}
-        </span>
-
-        <span class="stat-label">
-          Terminées
-        </span>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- ============================= -->
-  <!-- FILTRES                        -->
-  <!-- ============================= -->
-
-  <section class="filter-section">
-
-    <div class="filter-title">
-
-      <h2>Mes démarches</h2>
-
-      <span>
-        {{ filteredDemarches.length }}
-        démarche(s)
+      <!-- Petit label -->
+      <span class="hero-label">
+        MON ESPACE ADMINISTRATIF
       </span>
 
+      <!-- Titre principal -->
+      <h1>
+        Mes démarches
+      </h1>
+
+      <!-- Description -->
+      <p>
+        Retrouvez ici les démarches administratives
+        qui vous concernent et suivez leur progression
+        simplement.
+      </p>
+
     </div>
 
 
-    <div class="filters">
+    <!-- Illustration décorative -->
+    <div class="hero-visual">
 
-      <button
-        type="button"
-        [class.active]="selectedStatus === 'TOUTES'"
-        (click)="selectedStatus = 'TOUTES'"
-      >
-        Toutes
-      </button>
+      <!-- Cercles décoratifs -->
+      <div class="circle circle-one"></div>
+
+      <div class="circle circle-two"></div>
 
 
-      <button
-        type="button"
-        [class.active]="selectedStatus === 'A_FAIRE'"
-        (click)="selectedStatus = 'A_FAIRE'"
-      >
-        À faire
-      </button>
+      <!-- Carte illustrative -->
+      <div class="hero-card">
 
+        <div class="hero-card-icon">
+          ✓
+        </div>
 
-      <button
-        type="button"
-        [class.active]="selectedStatus === 'EN_COURS'"
-        (click)="selectedStatus = 'EN_COURS'"
-      >
-        En cours
-      </button>
+        <div class="hero-card-text">
 
+          <strong>
+            Vos démarches
+          </strong>
 
-      <button
-        type="button"
-        [class.active]="selectedStatus === 'TERMINEE'"
-        (click)="selectedStatus = 'TERMINEE'"
-      >
-        Terminées
-      </button>
+          <span>
+            Tout au même endroit
+          </span>
 
+        </div>
 
-      <button
-        type="button"
-        [class.active]="selectedStatus === 'NON_CONCERNEE'"
-        (click)="selectedStatus = 'NON_CONCERNEE'"
-      >
-        Non concernées
-      </button>
+      </div>
 
     </div>
 
   </section>
 
 
-  <!-- ============================= -->
-  <!-- CHARGEMENT                     -->
-  <!-- ============================= -->
+  <!-- ==========================================================
+       CONTENU PRINCIPAL
+       ========================================================== -->
 
-  @if (loading) {
+  <main class="main-content">
 
-    <div class="loading">
 
-      <div class="loader"></div>
+    <!-- ========================================================
+         EN-TÊTE DE LA SECTION
+         ======================================================== -->
 
-      <p>
-        Chargement de vos démarches...
-      </p>
+    <div class="section-header">
+
+      <div>
+
+        <span class="section-label">
+          VOTRE SUIVI
+        </span>
+
+        <h2>
+          Les démarches qui vous concernent
+        </h2>
+
+        <p>
+          Consultez l'état de chaque démarche et
+          accédez aux informations nécessaires.
+        </p>
+
+      </div>
 
     </div>
 
-  }
+
+    <!-- ========================================================
+         CHARGEMENT
+         ======================================================== -->
+
+    @if (isLoading) {
+
+      <div class="state-card loading-card">
+
+        <!-- Spinner -->
+        <div class="spinner"></div>
+
+        <h3>
+          Chargement de vos démarches...
+        </h3>
+
+        <p>
+          Nous récupérons vos démarches.
+        </p>
+
+      </div>
+
+    }
 
 
-  <!-- ============================= -->
-  <!-- ERREUR                         -->
-  <!-- ============================= -->
+    <!-- ========================================================
+         ERREUR
+         ======================================================== -->
 
-  @if (errorMessage) {
+    @if (!isLoading && errorMessage) {
 
-    <div class="message error">
+      <div class="state-card error-card">
 
-      {{ errorMessage }}
+        <div class="state-icon">
+          !
+        </div>
 
-    </div>
+        <h3>
+          Impossible de charger vos démarches
+        </h3>
 
-  }
+        <p>
+          {{ errorMessage }}
+        </p>
 
+        <button
+          type="button"
+          class="button button-primary"
+          (click)="loadStudentDemarches()"
+        >
+          Réessayer
+        </button>
 
-  <!-- ============================= -->
-  <!-- LISTE DES DÉMARCHES            -->
-  <!-- ============================= -->
+      </div>
 
-  @if (!loading && filteredDemarches.length > 0) {
-
-    <section class="demarches-list">
-
-
-      @for (
-        demarche of filteredDemarches;
-        track demarche.id
-      ) {
-
-        <article class="demarche-card">
-
-
-          <!-- Partie gauche -->
-          <div class="demarche-content">
+    }
 
 
-            <div class="demarche-top">
+    <!-- ========================================================
+         AUCUNE DÉMARCHE
+         ======================================================== -->
 
-              <h3>
-                {{ demarche.titre }}
-              </h3>
+    @if (
+      !isLoading &&
+      !errorMessage &&
+      studentDemarches.length === 0
+    ) {
+
+      <div class="state-card empty-card">
+
+        <div class="state-icon">
+          ✓
+        </div>
+
+        <h3>
+          Aucune démarche
+        </h3>
+
+        <p>
+          Vous n'avez actuellement aucune démarche
+          administrative à suivre.
+        </p>
+
+      </div>
+
+    }
 
 
-              <!-- Statut -->
-              <span
-                class="status"
-                [ngClass]="getStatusClass(demarche.statut)"
-              >
+    <!-- ========================================================
+         LISTE DES DÉMARCHES
+         ======================================================== -->
 
-                {{ getStatusLabel(demarche.statut) }}
+    @if (
+      !isLoading &&
+      !errorMessage &&
+      studentDemarches.length > 0
+    ) {
 
-              </span>
+      <div class="demarches-list">
+
+
+        <!-- ====================================================
+             CARTE D'UNE DÉMARCHE
+             ==================================================== -->
+
+        @for (
+          studentDemarche of studentDemarches;
+          track studentDemarche.id
+        ) {
+
+          <article class="demarche-card">
+
+
+            <!-- ------------------------------------------------
+                 NUMÉRO
+                 ------------------------------------------------ -->
+
+            <div class="demarche-number">
+
+              {{ $index + 1 }}
 
             </div>
 
 
-            <!-- Description -->
-            <p class="description">
+            <!-- ------------------------------------------------
+                 CONTENU DE LA CARTE
+                 ------------------------------------------------ -->
 
-              {{ demarche.description }}
-
-            </p>
-
-
-            <!-- Informations -->
             <div class="demarche-info">
 
 
-              <!-- Catégorie -->
-              @if (demarche.categorie) {
+              <!-- ----------------------------------------------
+                   STATUT
+                   ---------------------------------------------- -->
 
-                <span>
+              <span
+                class="status-badge"
+                [ngClass]="
+                  getStatusClass(studentDemarche.statut)
+                "
+              >
 
-                  🗂️
+                {{ getStatusLabel(studentDemarche.statut) }}
 
-                  {{ demarche.categorie.nom }}
-
-                </span>
-
-              }
-
-
-              <!-- Date de création -->
-              @if (demarche.dateCreation) {
-
-                <span>
-
-                  📅
-
-                  Créée le
-                  {{ demarche.dateCreation | date:'dd/MM/yyyy' }}
-
-                </span>
-
-              }
+              </span>
 
 
-              <!-- Date limite -->
-              @if (demarche.dateLimite) {
+              <!-- ----------------------------------------------
+                   TITRE
+                   ---------------------------------------------- -->
 
-                <span>
+              <h3>
+                {{ studentDemarche.demarche.titre }}
+              </h3>
 
-                  ⏰
 
-                  Date limite :
-                  {{ demarche.dateLimite | date:'dd/MM/yyyy' }}
+              <!-- ----------------------------------------------
+                   DESCRIPTION
+                   ---------------------------------------------- -->
 
-                </span>
+              <p>
+                {{ studentDemarche.demarche.description }}
+              </p>
 
-              }
+
+              <!-- ----------------------------------------------
+                   IDENTIFIANT
+                   ---------------------------------------------- -->
+
+              <span class="demarche-reference">
+
+                Démarche #{{ studentDemarche.demarche.id }}
+
+              </span>
 
             </div>
 
-          </div>
+
+            <!-- ------------------------------------------------
+                 ACTIONS
+                 ------------------------------------------------ -->
+
+            <div class="demarche-actions">
 
 
-          <!-- Partie droite -->
-          <div class="demarche-actions">
+              <!-- Bouton détails -->
+
+              <button
+                type="button"
+                class="button button-secondary"
+                (click)="voirPlus(studentDemarche)"
+              >
+
+                Voir les détails
+
+                <span class="button-arrow">
+                  →
+                </span>
+
+              </button>
 
 
-            <!--
-              Sélection permettant de modifier
-              rapidement le statut.
-            -->
-            <select
-              [value]="demarche.statut"
-              (change)="
-                updateStatus(
-                  demarche,
-                  $any($event.target).value
-                )
-              "
-            >
+              <!-- ----------------------------------------------
+                   BOUTON COMMENCER
+                   ---------------------------------------------- -->
 
-              <option value="A_FAIRE">
-                À faire
-              </option>
+              @if (
+                studentDemarche.statut === 'A_FAIRE' ||
+                studentDemarche.statut === 'EN_COURS'
+              ) {
 
-              <option value="EN_COURS">
-                En cours
-              </option>
+                <button
+                  type="button"
+                  class="button button-primary"
+                  (click)="commencerDemarche(studentDemarche)"
+                >
 
-              <option value="TERMINEE">
-                Terminée
-              </option>
+                  @if (
+                    studentDemarche.statut === 'A_FAIRE'
+                  ) {
+                    Commencer
+                  } @else {
+                    Continuer
+                  }
 
-              <option value="NON_CONCERNEE">
-                Non concernée
-              </option>
+                </button>
 
-            </select>
+              }
 
 
-            <!--
-              Bouton permettant d'accéder
-              au détail de la démarche.
-            -->
-            <button
-              type="button"
-              class="detail-button"
-            >
+              <!-- ----------------------------------------------
+                   DÉMARCHE TERMINÉE
+                   ---------------------------------------------- -->
 
-              Voir le détail
+              @if (
+                studentDemarche.statut === 'TERMINEE'
+              ) {
 
-              <span>
-                →
-              </span>
+                <span class="completed-label">
 
-            </button>
+                  ✓ Démarche terminée
 
-          </div>
+                </span>
 
-        </article>
-
-      }
-
-    </section>
-
-  }
+              }
 
 
-  <!-- ============================= -->
-  <!-- AUCUNE DÉMARCHE                -->
-  <!-- ============================= -->
+            </div>
 
-  @if (!loading && filteredDemarches.length === 0) {
+          </article>
 
-    <div class="empty-state">
+        }
 
-      <div class="empty-icon">
-        📋
       </div>
 
-      <h2>
-        Aucune démarche
-      </h2>
+    }
 
-      <p>
-        Aucune démarche ne correspond au filtre sélectionné.
-      </p>
 
-      <button
-        type="button"
-        (click)="selectedStatus = 'TOUTES'"
-      >
+    <!-- ========================================================
+         SECTION DE SUIVI
+         ======================================================== -->
 
-        Afficher toutes les démarches
+    @if (
+      !isLoading &&
+      !errorMessage &&
+      studentDemarches.length > 0
+    ) {
 
-      </button>
+      <section class="tracking-section">
 
-    </div>
+        <div class="tracking-icon">
+          ✓
+        </div>
 
-  }
+
+        <div class="tracking-content">
+
+          <div class="tracking-text">
+
+            <span class="section-label">
+              BESOIN D'UN SUIVI PLUS COMPLET ?
+            </span>
+
+            <h2>
+              Suivez l'avancement de vos démarches
+            </h2>
+
+            <p>
+              Retrouvez votre progression et les informations
+              importantes depuis votre espace personnel.
+            </p>
+
+          </div>
+
+
+          <button
+            type="button"
+            class="button tracking-button"
+            (click)="suivreMesDemarches()"
+          >
+
+            Mon espace
+
+            <span class="button-arrow">
+              →
+            </span>
+
+          </button>
+
+        </div>
+
+      </section>
+
+    }
+
+  </main>
 
 </div>

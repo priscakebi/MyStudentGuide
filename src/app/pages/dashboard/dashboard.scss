@@ -1,87 +1,335 @@
 /*
  * ==========================================================
+ * VARIABLES
+ * ==========================================================
+ *
+ * Palette principale de MyStudentGuide.
+ *
+ * Bleu :
+ * couleur principale de l'application.
+ *
+ * Rouge :
+ * couleur d'accent et éléments importants.
+ *
+ * Blanc :
+ * couleur principale des surfaces.
+ */
+
+$blue: #1646a0;
+$blue-dark: #0d2f70;
+$blue-light: #eaf1ff;
+
+$red: #e63946;
+$red-dark: #c92535;
+$red-light: #fff0f1;
+
+$white: #ffffff;
+
+$background: #f5f7fb;
+
+$text-dark: #172033;
+$text: #344054;
+$text-light: #667085;
+
+$border: #e6eaf0;
+
+$success: #16845b;
+
+$shadow-sm: 0 4px 16px rgba(20, 44, 90, 0.06);
+$shadow-md: 0 12px 35px rgba(20, 44, 90, 0.10);
+
+$radius-sm: 10px;
+$radius-md: 16px;
+$radius-lg: 22px;
+
+$transition: 0.25s ease;
+
+
+/*
+ * ==========================================================
  * CONTENEUR PRINCIPAL
  * ==========================================================
  */
 
 .dashboard-container {
 
+  /*
+   * Le Dashboard occupe au minimum
+   * toute la hauteur de l'écran.
+   */
   min-height: 100vh;
 
+  /*
+   * Organisation horizontale :
+   *
+   * Sidebar | Contenu
+   */
   display: flex;
 
-  background: #f7f7f7;
+  background: $background;
 
-  color: #222;
-
+  color: $text-dark;
 }
 
 
 /*
  * ==========================================================
- * NAVIGATION LATÉRALE
+ * SIDEBAR
  * ==========================================================
  */
 
 .sidebar {
 
-  width: 250px;
+  /*
+   * Largeur fixe de la sidebar.
+   */
+  width: 280px;
 
   min-height: 100vh;
+
+  /*
+   * Organisation verticale :
+   *
+   * Logo
+   * Utilisateur
+   * Menu
+   * Footer
+   */
+  display: flex;
+
+  flex-direction: column;
+
+  flex-shrink: 0;
+
+  background: $white;
+
+  border-right: 1px solid $border;
+
+  /*
+   * Elle reste visible lorsque
+   * l'utilisateur fait défiler le contenu.
+   */
+  position: sticky;
+
+  top: 0;
+
+  height: 100vh;
+
+  /*
+   * Permet de faire défiler la sidebar
+   * sur les petits écrans si nécessaire.
+   */
+  overflow-y: auto;
+}
+
+
+/*
+ * ==========================================================
+ * EN-TÊTE DE LA SIDEBAR
+ * ==========================================================
+ */
+
+.sidebar-header {
+
+  padding: 24px 22px;
+
+  border-bottom: 1px solid $border;
+}
+
+
+/*
+ * Logo de la sidebar.
+ */
+
+.sidebar-logo {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  text-decoration: none;
+
+  color: $text-dark;
+}
+
+
+/*
+ * Icône du logo.
+ */
+
+.sidebar-logo-icon {
+
+  width: 44px;
+
+  height: 44px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 13px;
+
+  background: linear-gradient(
+    135deg,
+    $blue,
+    $blue-dark
+  );
+
+  color: $white;
+
+  font-size: 21px;
+
+  box-shadow: 0 6px 15px rgba(22, 70, 160, 0.20);
+}
+
+
+/*
+ * Texte du logo.
+ */
+
+.sidebar-logo-text {
 
   display: flex;
 
   flex-direction: column;
 
-  background: #ffffff;
+  gap: 2px;
+}
 
-  border-right: 1px solid #eeeeee;
 
-  position: fixed;
+.sidebar-logo-text strong {
 
-  left: 0;
+  color: $blue-dark;
 
-  top: 0;
+  font-size: 17px;
 
-  bottom: 0;
+  font-weight: 800;
 
+  letter-spacing: -0.3px;
+}
+
+
+.sidebar-logo-text span {
+
+  color: $text-light;
+
+  font-size: 12px;
 }
 
 
 /*
- * En-tête de la sidebar
+ * ==========================================================
+ * UTILISATEUR
+ * ==========================================================
  */
 
-.sidebar-header {
+.sidebar-user {
 
-  padding: 30px 25px;
+  display: flex;
 
-  border-bottom: 1px solid #eeeeee;
+  align-items: center;
 
+  gap: 12px;
+
+  margin: 20px 16px;
+
+  padding: 14px;
+
+  background: linear-gradient(
+    135deg,
+    $blue-light,
+    #f8faff
+  );
+
+  border: 1px solid #dce7ff;
+
+  border-radius: $radius-md;
 }
 
 
-.sidebar-header h1 {
+/*
+ * Avatar.
+ */
 
-  margin: 0;
+.sidebar-avatar {
 
-  color: #c90000;
+  width: 42px;
 
-  font-size: 24px;
+  height: 42px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: linear-gradient(
+    135deg,
+    $red,
+    $red-dark
+  );
+
+  color: $white;
+
+  font-size: 16px;
+
+  font-weight: 800;
+
+  box-shadow: 0 5px 12px rgba(230, 57, 70, 0.20);
+}
+
+
+/*
+ * Informations utilisateur.
+ */
+
+.sidebar-user-info {
+
+  min-width: 0;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+
+.sidebar-user-info strong {
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+
+  color: $text-dark;
+
+  font-size: 14px;
 
   font-weight: 700;
-
 }
 
 
-.sidebar-header p {
+.sidebar-user-info span {
 
-  margin: 6px 0 0;
+  overflow: hidden;
 
-  color: #777;
+  text-overflow: ellipsis;
 
-  font-size: 13px;
+  white-space: nowrap;
 
+  color: $text-light;
+
+  font-size: 11px;
 }
 
 
@@ -95,12 +343,23 @@
 
   flex: 1;
 
-  padding: 20px 12px;
+  display: flex;
 
+  flex-direction: column;
+
+  gap: 6px;
+
+  padding: 4px 14px 20px;
 }
 
 
+/*
+ * Élément de menu.
+ */
+
 .menu-item {
+
+  position: relative;
 
   display: flex;
 
@@ -108,72 +367,169 @@
 
   gap: 12px;
 
-  padding: 13px 15px;
+  min-height: 48px;
 
-  margin-bottom: 6px;
+  padding: 0 14px;
 
-  border-radius: 8px;
+  border-radius: 12px;
 
   text-decoration: none;
 
-  color: #555;
+  color: $text;
 
-  font-size: 15px;
+  font-size: 14px;
 
-  font-weight: 500;
+  font-weight: 600;
 
-  transition: 0.2s ease;
-
+  transition:
+    background $transition,
+    color $transition,
+    transform $transition;
 }
 
 
-.menu-item:hover {
-
-  background: #fff0f0;
-
-  color: #c90000;
-
-}
-
-
-.menu-item.active {
-
-  background: #c90000;
-
-  color: #ffffff;
-
-}
-
+/*
+ * Icône du menu.
+ */
 
 .menu-icon {
 
-  width: 22px;
+  width: 24px;
 
-  text-align: center;
+  display: flex;
 
-  font-size: 17px;
+  align-items: center;
 
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  font-size: 18px;
+}
+
+
+/*
+ * Texte du menu.
+ */
+
+.menu-label {
+
+  flex: 1;
+}
+
+
+/*
+ * Effet au survol.
+ */
+
+.menu-item:hover {
+
+  background: $red-light;
+
+  color: $red;
+
+  transform: translateX(3px);
+}
+
+
+/*
+ * Élément actif.
+ */
+
+.menu-item.active {
+
+  background: linear-gradient(
+    135deg,
+    $blue,
+    $blue-dark
+  );
+
+  color: $white;
+
+  box-shadow:
+    0 7px 18px rgba(22, 70, 160, 0.18);
+}
+
+
+/*
+ * Petite barre rouge indiquant
+ * la section actuellement sélectionnée.
+ */
+
+.menu-item.active::before {
+
+  content: '';
+
+  position: absolute;
+
+  left: -14px;
+
+  top: 9px;
+
+  width: 4px;
+
+  height: 30px;
+
+  border-radius: 0 5px 5px 0;
+
+  background: $red;
 }
 
 
 /*
  * ==========================================================
- * PIED DE LA SIDEBAR
+ * BADGE NOTIFICATIONS
+ * ==========================================================
+ */
+
+.notification-badge {
+
+  min-width: 22px;
+
+  height: 22px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 0 6px;
+
+  border-radius: 20px;
+
+  background: $red;
+
+  color: $white;
+
+  font-size: 11px;
+
+  font-weight: 800;
+
+  box-shadow:
+    0 3px 8px rgba(230, 57, 70, 0.25);
+}
+
+
+/*
+ * ==========================================================
+ * FOOTER SIDEBAR
  * ==========================================================
  */
 
 .sidebar-footer {
 
-  padding: 15px 12px;
+  padding: 16px 14px 20px;
 
-  border-top: 1px solid #eeeeee;
-
+  border-top: 1px solid $border;
 }
 
 
-.logout-button {
+/*
+ * Lien retour accueil.
+ */
 
-  width: 100%;
+.footer-link {
 
   display: flex;
 
@@ -181,33 +537,85 @@
 
   gap: 12px;
 
-  padding: 13px 15px;
+  min-height: 45px;
+
+  padding: 0 14px;
+
+  border-radius: 11px;
+
+  color: $text;
+
+  text-decoration: none;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  transition:
+    background $transition,
+    color $transition;
+}
+
+
+.footer-link:hover {
+
+  background: $blue-light;
+
+  color: $blue;
+}
+
+
+/*
+ * ==========================================================
+ * BOUTON DÉCONNEXION
+ * ==========================================================
+ */
+
+.logout-button {
+
+  width: 100%;
+
+  min-height: 45px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin-top: 6px;
+
+  padding: 0 14px;
 
   border: none;
 
-  border-radius: 8px;
+  border-radius: 11px;
 
   background: transparent;
 
-  color: #555;
+  color: $text;
 
   cursor: pointer;
 
-  font-size: 15px;
+  font-family: inherit;
+
+  font-size: 14px;
+
+  font-weight: 600;
 
   text-align: left;
 
-  transition: 0.2s ease;
-
+  transition:
+    background $transition,
+    color $transition;
 }
 
 
 .logout-button:hover {
 
-  background: #fff0f0;
+  background: $red-light;
 
-  color: #c90000;
-
+  color: $red;
 }
 
 
@@ -217,518 +625,793 @@
  * ==========================================================
  */
 
-.main-content {
+.dashboard-main {
 
-  margin-left: 250px;
+  /*
+   * Le contenu occupe tout l'espace disponible
+   * à droite de la sidebar.
+   */
+  flex: 1;
 
-  width: calc(100% - 250px);
+  min-width: 0;
 
-  padding: 35px 45px;
+  min-height: 100vh;
 
+  padding: 36px 42px;
+
+  /*
+   * Fond légèrement dynamique.
+   */
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(22, 70, 160, 0.05),
+      transparent 32%
+    ),
+    $background;
 }
 
 
 /*
  * ==========================================================
- * EN-TÊTE
+ * RESPONSIVE — TABLETTES
  * ==========================================================
  */
 
-.dashboard-header {
-
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: center;
-
-  margin-bottom: 30px;
-
-}
-
-
-.dashboard-header h2 {
-
-  margin: 0 0 8px;
-
-  font-size: 30px;
-
-  color: #222;
-
-}
-
-
-.dashboard-header p {
-
-  margin: 0;
-
-  color: #777;
-
-}
-
-
-.profile-button {
-
-  padding: 11px 18px;
-
-  border: 1px solid #c90000;
-
-  border-radius: 8px;
-
-  color: #c90000;
-
-  background: #ffffff;
-
-  text-decoration: none;
-
-  font-weight: 600;
-
-  transition: 0.2s ease;
-
-}
-
-
-.profile-button:hover {
-
-  background: #c90000;
-
-  color: #ffffff;
-
-}
-
-
-/*
- * ==========================================================
- * SECTION DE BIENVENUE
- * ==========================================================
- */
-
-.welcome-section {
-
-  padding: 25px;
-
-  margin-bottom: 25px;
-
-  background: #c90000;
-
-  color: #ffffff;
-
-  border-radius: 12px;
-
-}
-
-
-.welcome-section h3 {
-
-  margin: 0 0 8px;
-
-  font-size: 21px;
-
-}
-
-
-.welcome-section p {
-
-  margin: 0;
-
-  line-height: 1.6;
-
-  opacity: 0.95;
-
-}
-
-
-/*
- * ==========================================================
- * CARTES PRINCIPALES
- * ==========================================================
- */
-
-.dashboard-cards {
-
-  display: grid;
-
-  grid-template-columns: repeat(2, 1fr);
-
-  gap: 20px;
-
-  margin-bottom: 35px;
-
-}
-
-
-.dashboard-card {
-
-  display: flex;
-
-  align-items: flex-start;
-
-  gap: 18px;
-
-  padding: 25px;
-
-  background: #ffffff;
-
-  border-radius: 12px;
-
-  border: 1px solid #eeeeee;
-
-  text-decoration: none;
-
-  color: inherit;
-
-  transition: 0.2s ease;
-
-}
-
-
-.dashboard-card:hover {
-
-  border-color: #c90000;
-
-  transform: translateY(-2px);
-
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-
-}
-
-
-.card-icon {
-
-  width: 50px;
-
-  height: 50px;
-
-  display: flex;
-
-  justify-content: center;
-
-  align-items: center;
-
-  flex-shrink: 0;
-
-  background: #fff0f0;
-
-  border-radius: 10px;
-
-  font-size: 23px;
-
-}
-
-
-.card-content h3 {
-
-  margin: 0 0 8px;
-
-  color: #222;
-
-}
-
-
-.card-content p {
-
-  margin: 0;
-
-  color: #777;
-
-  line-height: 1.5;
-
-  font-size: 14px;
-
-}
-
-
-/*
- * ==========================================================
- * SECTIONS RAPIDES
- * ==========================================================
- */
-
-.quick-section {
-
-  margin-bottom: 30px;
-
-}
-
-
-.section-header {
-
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: center;
-
-  margin-bottom: 15px;
-
-}
-
-
-.section-header h3 {
-
-  margin: 0 0 5px;
-
-  font-size: 20px;
-
-}
-
-
-.section-header p {
-
-  margin: 0;
-
-  color: #777;
-
-  font-size: 14px;
-
-}
-
-
-.view-link {
-
-  color: #c90000;
-
-  text-decoration: none;
-
-  font-weight: 600;
-
-  font-size: 14px;
-
-}
-
-
-.view-link:hover {
-
-  text-decoration: underline;
-
-}
-
-
-/*
- * ==========================================================
- * CARTE VIDE
- * ==========================================================
- */
-
-.empty-card {
-
-  padding: 35px;
-
-  background: #ffffff;
-
-  border: 1px solid #eeeeee;
-
-  border-radius: 12px;
-
-  text-align: center;
-
-}
-
-
-.empty-icon {
-
-  display: block;
-
-  font-size: 35px;
-
-  margin-bottom: 10px;
-
-}
-
-
-.empty-card h4 {
-
-  margin: 0 0 8px;
-
-  font-size: 18px;
-
-}
-
-
-.empty-card p {
-
-  margin: 0 auto 20px;
-
-  max-width: 550px;
-
-  color: #777;
-
-  line-height: 1.5;
-
-}
-
-
-/*
- * ==========================================================
- * BOUTON PRINCIPAL
- * ==========================================================
- */
-
-.primary-button {
-
-  display: inline-block;
-
-  padding: 11px 20px;
-
-  background: #c90000;
-
-  color: #ffffff;
-
-  border-radius: 8px;
-
-  text-decoration: none;
-
-  font-weight: 600;
-
-  transition: 0.2s ease;
-
-}
-
-
-.primary-button:hover {
-
-  background: #a80000;
-
-}
-
-
-/*
- * ==========================================================
- * RESPONSIVE
- * ==========================================================
- */
-
-/*
- * Tablettes
- */
-
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
 
   .sidebar {
 
-    width: 210px;
-
+    width: 240px;
   }
 
-  .main-content {
 
-    margin-left: 210px;
+  .dashboard-main {
 
-    width: calc(100% - 210px);
-
-    padding: 25px;
-
+    padding: 30px;
   }
-
-  .dashboard-cards {
-
-    grid-template-columns: 1fr;
-
-  }
-
 }
 
 
 /*
- * Téléphones
+ * ==========================================================
+ * RESPONSIVE — PETITS ÉCRANS
+ * ==========================================================
  */
 
-@media (max-width: 650px) {
+@media (max-width: 760px) {
+
+  .dashboard-container {
+
+    /*
+     * La sidebar passe au-dessus
+     * du contenu sur mobile.
+     */
+    flex-direction: column;
+  }
+
 
   .sidebar {
 
-    width: 70px;
+    width: 100%;
 
+    min-height: auto;
+
+    height: auto;
+
+    position: relative;
+
+    border-right: none;
+
+    border-bottom: 1px solid $border;
+
+    overflow: visible;
   }
+
 
   .sidebar-header {
 
-    padding: 20px 10px;
-
-    text-align: center;
-
+    padding: 16px 20px;
   }
 
-  .sidebar-header h1 {
 
-    font-size: 0;
+  .sidebar-user {
 
+    margin: 12px 20px;
   }
 
-  .sidebar-header h1::after {
 
-    content: 'MCG';
-
-    font-size: 18px;
-
-    color: #c90000;
-
-  }
-
-  .sidebar-header p {
-
-    display: none;
-
-  }
-
+  /*
+   * Le menu devient horizontal
+   * et peut défiler sur les petits écrans.
+   */
   .sidebar-menu {
 
-    padding: 15px 8px;
+    flex-direction: row;
 
+    overflow-x: auto;
+
+    padding: 5px 20px 14px;
   }
+
 
   .menu-item {
 
-    justify-content: center;
+    flex-shrink: 0;
 
-    padding: 13px 5px;
+    min-width: max-content;
 
+    padding: 0 14px;
   }
 
-  .menu-item span:last-child {
 
-    display: none;
+  /*
+   * La barre active devient horizontale.
+   */
+  .menu-item.active::before {
 
+    left: 10px;
+
+    right: 10px;
+
+    bottom: -5px;
+
+    top: auto;
+
+    width: auto;
+
+    height: 3px;
+
+    border-radius: 5px;
   }
 
+
+  .sidebar-footer {
+
+    display: flex;
+
+    gap: 8px;
+
+    padding: 10px 20px 15px;
+  }
+
+
+  .footer-link,
   .logout-button {
 
+    flex: 1;
+
     justify-content: center;
 
-    padding: 13px 5px;
-
   }
 
-  .logout-button span:last-child {
+
+  .dashboard-main {
+
+    min-height: auto;
+
+    padding: 25px 20px;
+  }
+}
+
+
+/*
+ * ==========================================================
+ * RESPONSIVE — TÉLÉPHONES
+ * ==========================================================
+ */
+
+@media (max-width: 480px) {
+
+  .sidebar-logo-text span {
 
     display: none;
-
   }
 
-  .main-content {
 
-    margin-left: 70px;
+  .sidebar-user {
 
-    width: calc(100% - 70px);
-
-    padding: 20px;
-
+    padding: 11px;
   }
 
-  .dashboard-header {
 
-    align-items: flex-start;
+  .sidebar-user-info span {
 
-    gap: 15px;
+    display: none;
+  }
 
+
+  .sidebar-menu {
+
+    padding-left: 12px;
+
+    padding-right: 12px;
+  }
+
+
+  .menu-item {
+
+    min-height: 44px;
+
+    padding: 0 12px;
+  }
+
+
+  .menu-label {
+
+    font-size: 13px;
+  }
+
+
+  .dashboard-main {
+
+    padding: 20px 14px;
+  }
+
+
+  .sidebar-footer {
+
+    padding-left: 12px;
+
+    padding-right: 12px;
+  }
+
+
+  .footer-link,
+  .logout-button {
+
+    font-size: 13px;
+
+    padding: 0 10px;
+  }
+}
+
+/*
+ * ==========================================================
+ * PAGE "MON ESPACE"
+ * ==========================================================
+ *
+ * Cette section correspond à la page principale
+ * de l'espace personnel :
+ *
+ * /dashboard
+ *
+ * Elle contient le message de bienvenue.
+ */
+
+/*
+ * Conteneur de la page "Mon espace".
+ *
+ * Le contenu est centré horizontalement et verticalement
+ * dans la zone principale du Dashboard.
+ */
+.dashboard-welcome {
+
+  /*
+   * Largeur maximale de la carte.
+   *
+   * Cela évite que le texte s'étale sur toute
+   * la largeur de l'écran.
+   */
+  width: 100%;
+  max-width: 760px;
+
+  /*
+   * Centre automatiquement la carte horizontalement.
+   */
+  margin: 120px auto 0;
+
+  /*
+   * Espacement intérieur de la carte.
+   */
+  padding: 50px 55px;
+
+  /*
+   * Fond blanc pour faire ressortir la carte
+   * du fond général du Dashboard.
+   */
+  background: $white;
+
+  /*
+   * Bordure très légère.
+   */
+  border: 1px solid $border;
+
+  /*
+   * Coins arrondis.
+   */
+  border-radius: $radius-lg;
+
+  /*
+   * Ombre douce donnant un effet de carte.
+   */
+  box-shadow: $shadow-md;
+
+  /*
+   * Centre le contenu textuel.
+   */
+  text-align: center;
+
+  /*
+   * Empêche la carte de dépasser de son conteneur
+   * lorsque l'écran est plus petit.
+   */
+  box-sizing: border-box;
+
+  /*
+   * Animation légère lors de l'affichage.
+   */
+  animation: welcomeAppear 0.4s ease-out;
+}
+
+
+/*
+ * ==========================================================
+ * ICÔNE DE BIENVENUE
+ * ==========================================================
+ */
+
+.dashboard-welcome::before {
+
+  /*
+   * Petit symbole affiché au-dessus du titre.
+   */
+  content: '👋';
+
+  /*
+   * Permet de contrôler correctement
+   * la taille et les marges.
+   */
+  display: flex;
+
+  /*
+   * Centre l'icône.
+   */
+  align-items: center;
+  justify-content: center;
+
+  /*
+   * Taille du cercle.
+   */
+  width: 68px;
+  height: 68px;
+
+  /*
+   * Centre le cercle horizontalement.
+   */
+  margin: 0 auto 22px;
+
+  /*
+   * Fond bleu très clair.
+   */
+  background: $blue-light;
+
+  /*
+   * Cercle parfaitement rond.
+   */
+  border-radius: 50%;
+
+  /*
+   * Taille de l'emoji.
+   */
+  font-size: 30px;
+
+  /*
+   * Petite ombre autour du cercle.
+   */
+  box-shadow:
+    0 8px 20px rgba(22, 70, 160, 0.10);
+}
+
+
+/*
+ * ==========================================================
+ * TITRE
+ * ==========================================================
+ */
+
+.dashboard-welcome h1 {
+
+  /*
+   * Supprime la marge par défaut du navigateur.
+   */
+  margin: 0;
+
+  /*
+   * Taille du titre.
+   */
+  font-size: 30px;
+
+  /*
+   * Épaisseur du titre.
+   */
+  font-weight: 800;
+
+  /*
+   * Couleur principale.
+   */
+  color: $blue-dark;
+
+  /*
+   * Espacement entre les lettres.
+   */
+  letter-spacing: -0.6px;
+
+  /*
+   * Hauteur de ligne.
+   */
+  line-height: 1.3;
+}
+
+
+/*
+ * ==========================================================
+ * TEXTE DE PRÉSENTATION
+ * ==========================================================
+ */
+
+.dashboard-welcome p {
+
+  /*
+   * Largeur maximale du paragraphe.
+   *
+   * Le texte ne prend donc pas toute la largeur
+   * de la carte.
+   */
+  max-width: 590px;
+
+  /*
+   * Centre le paragraphe.
+   */
+  margin: 20px auto 0;
+
+  /*
+   * Taille du texte.
+   */
+  font-size: 16px;
+
+  /*
+   * Hauteur de ligne confortable.
+   */
+  line-height: 1.8;
+
+  /*
+   * Couleur secondaire.
+   */
+  color: $text;
+
+  /*
+   * Évite que le texte soit trop compact.
+   */
+  letter-spacing: 0.1px;
+}
+
+
+/*
+ * ==========================================================
+ * PETIT MESSAGE COMPLÉMENTAIRE
+ * ==========================================================
+ *
+ * Cette classe peut être utilisée si tu souhaites
+ * ajouter une petite phrase sous le texte principal.
+ */
+
+.dashboard-welcome-subtitle {
+
+  margin-top: 24px;
+
+  padding-top: 20px;
+
+  border-top: 1px solid $border;
+
+  color: $text-light;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+
+/*
+ * ==========================================================
+ * ANIMATION D'APPARITION
+ * ==========================================================
+ */
+
+@keyframes welcomeAppear {
+
+  /*
+   * État initial.
+   */
+  from {
+
+    opacity: 0;
+
+    transform: translateY(12px);
+  }
+
+  /*
+   * État final.
+   */
+  to {
+
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
+
+
+/*
+ * ==========================================================
+ * RESPONSIVE — TABLETTES
+ * ==========================================================
+ */
+
+@media (max-width: 760px) {
+
+  .dashboard-welcome {
+
+    /*
+     * Réduit l'espace autour de la carte
+     * sur les écrans plus petits.
+     */
+    margin-top: 60px;
+
+    padding: 40px 30px;
+  }
+
+
+  .dashboard-welcome h1 {
+
+    font-size: 26px;
+  }
+
+
+  .dashboard-welcome p {
+
+    font-size: 15px;
+
+    line-height: 1.7;
+  }
+}
+
+
+/*
+ * ==========================================================
+ * RESPONSIVE — TÉLÉPHONES
+ * ==========================================================
+ */
+
+@media (max-width: 480px) {
+
+  .dashboard-welcome {
+
+    /*
+     * Réduit encore l'espace supérieur
+     * sur les téléphones.
+     */
+    margin-top: 35px;
+
+    /*
+     * Réduit les marges internes.
+     */
+    padding: 32px 22px;
+
+    /*
+     * Coins légèrement moins arrondis
+     * sur petit écran.
+     */
+    border-radius: $radius-md;
+  }
+
+
+  .dashboard-welcome::before {
+
+    /*
+     * Réduit la taille de l'icône.
+     */
+    width: 58px;
+    height: 58px;
+
+    font-size: 26px;
+
+    margin-bottom: 18px;
+  }
+
+
+  .dashboard-welcome h1 {
+
+    font-size: 23px;
+
+    letter-spacing: -0.3px;
+  }
+
+
+  .dashboard-welcome p {
+
+    font-size: 14px;
+
+    line-height: 1.7;
+  }
+}
+
+// ============================================================
+// BARRE MOBILE
+// ============================================================
+
+// Par défaut, la barre mobile est cachée.
+// Elle sera affichée uniquement sur téléphone.
+.mobile-header {
+  display: none;
+}
+
+
+// ============================================================
+// RESPONSIVE MOBILE
+// ============================================================
+
+// À partir de cette largeur, on considère que l'écran
+// est suffisamment petit pour utiliser le menu burger.
+@media (max-width: 768px) {
+
+  // ----------------------------------------------------------
+  // BARRE DU HAUT
+  // ----------------------------------------------------------
+
+  .mobile-header {
+    display: flex;
+    align-items: center;
+
+    height: 64px;
+    padding: 0 20px;
+
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  
+
+ 
+// ============================================================
+// MENU MOBILE
+// ============================================================
+
+@media (max-width: 768px) {
+
+  // ----------------------------------------------------------
+  // SIDEBAR MOBILE
+  // ----------------------------------------------------------
+
+  .sidebar {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 280px;
+    height: 100vh;
+
+    z-index: 2000;
+
+    display: flex;
     flex-direction: column;
 
+    background: #ffffff;
+
+    // Par défaut, la sidebar est placée hors de l'écran.
+    transform: translateX(-100%);
+
+    // Animation d'ouverture / fermeture.
+    transition: transform 0.3s ease;
+
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.12);
   }
 
-  .dashboard-header h2 {
 
-    font-size: 25px;
+  // ----------------------------------------------------------
+  // SIDEBAR OUVERTE
+  // ----------------------------------------------------------
 
+  // Lorsque menuOpen = true, Angular ajoute :
+  //
+  // .sidebar.mobile-open
+  //
+  // La sidebar revient alors dans l'écran.
+
+  .sidebar.mobile-open {
+    transform: translateX(0);
   }
 
+
+  // ----------------------------------------------------------
+  // CONTENU PRINCIPAL
+  // ----------------------------------------------------------
+
+  .dashboard-main {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+  // ----------------------------------------------------------
+  // BOUTON BURGER
+  // ----------------------------------------------------------
+
+  .burger-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+
+    margin-right: 14px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: transparent;
+
+    font-size: 26px;
+    color: #172033;
+
+    cursor: pointer;
+  }
+
+
+  // Effet visuel lorsque l'utilisateur touche le bouton.
+  .burger-button:hover {
+    background: #f1f3f6;
+  }
+
+
+  // ----------------------------------------------------------
+  // LOGO MOBILE
+  // ----------------------------------------------------------
+
+  .mobile-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    text-decoration: none;
+
+    color: #172033;
+  }
+
+
+  .mobile-logo-icon {
+    font-size: 22px;
+  }
+
+
+  .mobile-logo strong {
+    font-size: 17px;
+  }
+
+
+  // ----------------------------------------------------------
+  // SIDEBAR
+  // ----------------------------------------------------------
+
+  // Sur téléphone, la sidebar classique est cachée.
+  .sidebar {
+    display: none;
+  }
+
+
+  // ----------------------------------------------------------
+  // CONTENU PRINCIPAL
+  // ----------------------------------------------------------
+
+  // Le contenu prend maintenant toute la largeur.
+  .dashboard-main {
+    width: 100%;
+    min-width: 0;
+  }
 }

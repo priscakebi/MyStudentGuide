@@ -1,0 +1,947 @@
+<!--
+  Page "Mon compte".
+
+  Cette page permet à l'étudiant :
+  - de consulter les informations de son compte ;
+  - de modifier son prénom, son nom et son adresse e-mail ;
+  - de modifier son mot de passe ;
+  - de demander la suppression de son compte.
+
+  La modification des informations personnelles utilise
+  le formulaire accountForm défini dans account.ts.
+-->
+
+<div class="account-page">
+
+  <!-- ============================================================
+       EN-TÊTE DE LA PAGE
+       ============================================================ -->
+
+  <header class="page-header">
+
+    <div class="header-content">
+
+      <!-- Petit indicateur visuel de la section -->
+      <div class="header-icon">
+        ⚙️
+      </div>
+
+      <div>
+        <span class="eyebrow">ESPACE PERSONNEL</span>
+
+        <h1>Mon compte</h1>
+
+        <p>
+          Gérez les informations de votre compte et vos paramètres de sécurité.
+        </p>
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- ============================================================
+       CONTENU PRINCIPAL
+       ============================================================ -->
+
+  <div class="account-content">
+
+
+    <!-- ==========================================================
+         INFORMATIONS DU COMPTE
+         ========================================================== -->
+
+    <section class="account-card">
+
+      <!-- En-tête de la carte -->
+      <div class="card-header">
+
+        <div class="card-icon blue">
+          👤
+        </div>
+
+        <div>
+          <h2>Informations du compte</h2>
+
+          <p>
+            Consultez et modifiez les informations associées à votre compte.
+          </p>
+        </div>
+
+      </div>
+
+
+      <!-- ========================================================
+           MODE CONSULTATION
+           ======================================================== -->
+
+      @if (!showEditAccountForm) {
+
+        <div class="account-information">
+
+          <!-- Prénom -->
+          <div class="information-item">
+
+            <span class="information-label">
+              Prénom
+            </span>
+
+            <span class="information-value">
+              {{ firstName || 'Non renseigné' }}
+            </span>
+
+          </div>
+
+
+          <!-- Nom -->
+          <div class="information-item">
+
+            <span class="information-label">
+              Nom
+            </span>
+
+            <span class="information-value">
+              {{ lastName || 'Non renseigné' }}
+            </span>
+
+          </div>
+
+
+          <!-- Adresse e-mail -->
+          <div class="information-item">
+
+            <span class="information-label">
+              Adresse e-mail
+            </span>
+
+            <span class="information-value">
+              {{ email || 'Non renseignée' }}
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- ======================================================
+             BOUTON MODIFIER
+             ====================================================== -->
+
+        <div class="form-actions">
+
+          <!--
+            Ouvre le formulaire de modification
+            des informations personnelles.
+          -->
+          <button
+            type="button"
+            class="submit-button"
+            (click)="openEditAccount()"
+          >
+            Modifier mes informations
+          </button>
+
+        </div>
+
+      }
+
+
+      <!-- ========================================================
+           MODE MODIFICATION
+           ======================================================== -->
+
+      @if (showEditAccountForm) {
+
+        <form
+          [formGroup]="accountForm"
+          (ngSubmit)="updateAccountInformation()"
+          class="account-form"
+        >
+
+          <!-- ====================================================
+               PRÉNOM
+               ==================================================== -->
+
+          <div class="form-group">
+
+            <label for="prenom">
+              Prénom
+            </label>
+
+            <input
+              id="prenom"
+              type="text"
+              formControlName="prenom"
+              placeholder="Entrez votre prénom"
+              autocomplete="given-name"
+            />
+
+            <!--
+              Affiche l'erreur lorsque le champ a été touché
+              et qu'il ne respecte pas les règles définies
+              dans account.ts.
+            -->
+            @if (
+              accountForm.get('prenom')?.touched &&
+              accountForm.get('prenom')?.invalid
+            ) {
+
+              <small class="field-error">
+
+                @if (accountForm.get('prenom')?.hasError('required')) {
+                  Le prénom est obligatoire.
+                }
+
+                @if (accountForm.get('prenom')?.hasError('minlength')) {
+                  Le prénom doit contenir au moins 2 caractères.
+                }
+
+              </small>
+
+            }
+
+          </div>
+
+
+          <!-- ====================================================
+               NOM
+               ==================================================== -->
+
+          <div class="form-group">
+
+            <label for="nom">
+              Nom
+            </label>
+
+            <input
+              id="nom"
+              type="text"
+              formControlName="nom"
+              placeholder="Entrez votre nom"
+              autocomplete="family-name"
+            />
+
+            <!--
+              Affiche l'erreur lorsque le champ a été touché
+              et qu'il ne respecte pas les règles définies
+              dans account.ts.
+            -->
+            @if (
+              accountForm.get('nom')?.touched &&
+              accountForm.get('nom')?.invalid
+            ) {
+
+              <small class="field-error">
+
+                @if (accountForm.get('nom')?.hasError('required')) {
+                  Le nom est obligatoire.
+                }
+
+                @if (accountForm.get('nom')?.hasError('minlength')) {
+                  Le nom doit contenir au moins 2 caractères.
+                }
+
+              </small>
+
+            }
+
+          </div>
+
+
+          <!-- ====================================================
+               ADRESSE E-MAIL
+               ==================================================== -->
+
+          <div class="form-group">
+
+            <label for="email">
+              Adresse e-mail
+            </label>
+
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+              placeholder="Entrez votre adresse e-mail"
+              autocomplete="email"
+            />
+
+            <!--
+              Affiche l'erreur lorsque l'adresse e-mail
+              est obligatoire ou invalide.
+            -->
+            @if (
+              accountForm.get('email')?.touched &&
+              accountForm.get('email')?.invalid
+            ) {
+
+              <small class="field-error">
+
+                @if (accountForm.get('email')?.hasError('required')) {
+                  L'adresse e-mail est obligatoire.
+                }
+
+                @if (accountForm.get('email')?.hasError('email')) {
+                  Veuillez saisir une adresse e-mail valide.
+                }
+
+              </small>
+
+            }
+
+          </div>
+
+
+          <!-- ====================================================
+               ACTIONS DE MODIFICATION
+               ==================================================== -->
+
+          <div class="form-actions">
+
+            <!--
+              Annule les modifications et restaure
+              les anciennes informations du compte.
+            -->
+            <button
+              type="button"
+              class="cancel-button"
+              (click)="cancelEditAccount()"
+              [disabled]="isUpdatingAccount"
+            >
+              Annuler
+            </button>
+
+
+            <!--
+              Enregistre les nouvelles informations.
+            -->
+            <button
+              type="submit"
+              class="submit-button"
+              [disabled]="accountForm.invalid || isUpdatingAccount"
+            >
+
+              @if (isUpdatingAccount) {
+
+                <span>
+                  Modification...
+                </span>
+
+              } @else {
+
+                <span>
+                  Enregistrer les modifications
+                </span>
+
+              }
+
+            </button>
+
+          </div>
+
+        </form>
+
+      }
+
+    </section>
+
+
+
+    <!-- ==========================================================
+         SÉCURITÉ / MOT DE PASSE
+         ========================================================== -->
+
+    <section class="account-card security-card">
+
+      <div class="card-header">
+
+        <div class="card-icon red">
+          🔐
+        </div>
+
+        <div>
+          <h2>Mot de passe</h2>
+
+          <p>
+            Modifiez régulièrement votre mot de passe pour sécuriser
+            votre compte.
+          </p>
+        </div>
+
+      </div>
+
+
+      <!-- ========================================================
+           MESSAGES
+           ======================================================== -->
+
+      <!-- Message de succès -->
+      @if (successMessage) {
+
+        <div class="message success-message">
+
+          <span class="message-icon">
+            ✓
+          </span>
+
+          <span>
+            {{ successMessage }}
+          </span>
+
+        </div>
+
+      }
+
+
+      <!-- Message d'erreur -->
+      @if (errorMessage) {
+
+        <div class="message error-message">
+
+          <span class="message-icon">
+            !
+          </span>
+
+          <span>
+            {{ errorMessage }}
+          </span>
+
+        </div>
+
+      }
+
+
+      <!-- ========================================================
+           FORMULAIRE DE CHANGEMENT DE MOT DE PASSE
+           ======================================================== -->
+
+      <form
+        [formGroup]="passwordForm"
+        (ngSubmit)="changePassword()"
+        class="password-form"
+      >
+
+        <!-- Ancien mot de passe -->
+        <div class="form-group">
+
+          <label for="currentPassword">
+            Mot de passe actuel
+          </label>
+
+          <input
+            id="currentPassword"
+            type="password"
+            formControlName="currentPassword"
+            placeholder="Entrez votre mot de passe actuel"
+            autocomplete="current-password"
+          />
+
+          <!-- Message de validation -->
+          @if (
+            passwordForm.get('currentPassword')?.touched &&
+            passwordForm.get('currentPassword')?.invalid
+          ) {
+
+            <small class="field-error">
+              Le mot de passe actuel est obligatoire.
+            </small>
+
+          }
+
+        </div>
+
+
+        <!-- Nouveau mot de passe -->
+        <div class="form-group">
+
+          <label for="newPassword">
+            Nouveau mot de passe
+          </label>
+
+          <input
+            id="newPassword"
+            type="password"
+            formControlName="newPassword"
+            placeholder="Entrez votre nouveau mot de passe"
+            autocomplete="new-password"
+          />
+
+          <!--
+            Liste des règles de sécurité du mot de passe.
+            Les règles sont également vérifiées dans account.ts.
+          -->
+          <div class="password-rules">
+
+            <small class="field-help">
+              Le mot de passe doit respecter les règles suivantes :
+            </small>
+
+            <ul>
+
+              <li
+                [class.valid]="
+                  (passwordForm.get('newPassword')?.value?.length || 0) >= 8
+                "
+              >
+                Au moins 8 caractères
+              </li>
+
+              <li
+                [class.valid]="
+                  /[a-z]/.test(passwordForm.get('newPassword')?.value || '')
+                "
+              >
+                Au moins une lettre minuscule
+              </li>
+
+              <li
+                [class.valid]="
+                  /[A-Z]/.test(passwordForm.get('newPassword')?.value || '')
+                "
+              >
+                Au moins une lettre majuscule
+              </li>
+
+              <li
+                [class.valid]="
+                  /\d/.test(passwordForm.get('newPassword')?.value || '')
+                "
+              >
+                Au moins un chiffre
+              </li>
+
+              <li
+                [class.valid]="
+                  /[@$!%*?&]/.test(
+                    passwordForm.get('newPassword')?.value || ''
+                  )
+                "
+              >
+                Au moins un caractère spécial
+              </li>
+
+            </ul>
+
+          </div>
+
+
+          <!-- Message global de validation -->
+          @if (
+            passwordForm.get('newPassword')?.touched &&
+            !isPasswordSecure()
+          ) {
+
+            <small class="field-error">
+              Le mot de passe ne respecte pas toutes les règles de sécurité.
+            </small>
+
+          }
+
+        </div>
+
+
+        <!-- Confirmation du nouveau mot de passe -->
+        <div class="form-group">
+
+          <label for="confirmPassword">
+            Confirmer le nouveau mot de passe
+          </label>
+
+          <input
+            id="confirmPassword"
+            type="password"
+            formControlName="confirmPassword"
+            placeholder="Confirmez votre nouveau mot de passe"
+            autocomplete="new-password"
+          />
+
+          <!--
+            Vérifie que la confirmation correspond
+            exactement au nouveau mot de passe.
+          -->
+          @if (
+            passwordForm.get('confirmPassword')?.touched &&
+            passwordForm.get('confirmPassword')?.value &&
+            !passwordsMatch()
+          ) {
+
+            <small class="field-error">
+              Les deux mots de passe ne correspondent pas.
+            </small>
+
+          }
+
+        </div>
+
+
+        <!-- ======================================================
+             ACTIONS DU FORMULAIRE
+             ====================================================== -->
+
+        <div class="form-actions">
+
+          <!-- Bouton permettant de réinitialiser le formulaire -->
+          <button
+            type="button"
+            class="cancel-button"
+            (click)="resetPasswordForm()"
+          >
+            Annuler
+          </button>
+
+
+          <!-- Bouton de validation -->
+          <button
+            type="submit"
+            class="submit-button"
+            [disabled]="
+              isLoading ||
+              passwordForm.invalid ||
+              !passwordsMatch() ||
+              !isPasswordSecure()
+            "
+          >
+
+            @if (isLoading) {
+
+              <span>
+                Modification...
+              </span>
+
+            } @else {
+
+              <span>
+                Modifier le mot de passe
+              </span>
+
+            }
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </section>
+
+
+
+    <!-- ==========================================================
+         SUPPRESSION DU COMPTE
+         ========================================================== -->
+
+    <section class="account-card danger-card">
+
+      <div class="card-header">
+
+        <div class="card-icon danger">
+          ⚠️
+        </div>
+
+        <div>
+          <h2>Supprimer mon compte</h2>
+
+          <p>
+            La suppression de votre compte est une action importante.
+            Votre demande sera transmise à l'administration.
+          </p>
+        </div>
+
+      </div>
+
+
+      <!-- ========================================================
+           INFORMATION AVANT SUPPRESSION
+           ======================================================== -->
+
+      @if (!showDeleteForm) {
+
+        <div class="danger-content">
+
+          <div class="danger-warning">
+
+            <span class="warning-icon">
+              ⚠
+            </span>
+
+            <div>
+
+              <strong>
+                Attention
+              </strong>
+
+              <p>
+                Avant de supprimer votre compte, assurez-vous de ne plus
+                avoir besoin des informations et du suivi associés à votre
+                compte MyStudentGuide.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <!-- Ouvre le formulaire de suppression -->
+          <button
+            type="button"
+            class="delete-account-button"
+            (click)="openDeleteForm()"
+          >
+            Supprimer mon compte
+          </button>
+
+        </div>
+
+      }
+
+
+      <!-- ========================================================
+           FORMULAIRE DE SUPPRESSION
+           ======================================================== -->
+
+      @if (showDeleteForm) {
+
+        <div class="delete-form-container">
+
+          <!-- Message d'information -->
+          <div class="delete-information">
+
+            <span class="delete-information-icon">
+              ℹ
+            </span>
+
+            <p>
+              Pour envoyer votre demande de suppression, veuillez indiquer
+              le motif de votre demande et confirmer votre identité.
+            </p>
+
+          </div>
+
+
+          <!-- Message d'erreur spécifique à la suppression -->
+          @if (deleteErrorMessage) {
+
+            <div class="message error-message">
+
+              <span class="message-icon">
+                !
+              </span>
+
+              <span>
+                {{ deleteErrorMessage }}
+              </span>
+
+            </div>
+
+          }
+
+
+          <form
+            [formGroup]="deleteAccountForm"
+            (ngSubmit)="requestAccountDeletion()"
+            class="delete-form"
+          >
+
+            <!-- ==================================================
+                 MOTIF DE SUPPRESSION
+                 ================================================== -->
+
+            <div class="form-group">
+
+              <label for="deletionReason">
+                Pourquoi souhaitez-vous supprimer votre compte ?
+              </label>
+
+              <select
+                id="deletionReason"
+                formControlName="deletionReason"
+              >
+
+                <option value="">
+                  Sélectionnez un motif
+                </option>
+
+                <option value="JE_N_UTILISE_PLUS_L_APPLICATION">
+                  Je n'utilise plus l'application
+                </option>
+
+                <option value="J_AI_TERMINE_MES_DEMARCHES">
+                  J'ai terminé mes démarches
+                </option>
+
+                <option value="PROBLEME_AVEC_L_APPLICATION">
+                  Je rencontre un problème avec l'application
+                </option>
+
+                <option value="AUTRE_COMPTE">
+                  Je souhaite utiliser un autre compte
+                </option>
+
+                <option value="AUTRE">
+                  Autre
+                </option>
+
+              </select>
+
+
+              <!-- Validation du motif -->
+              @if (
+                deleteAccountForm.get('deletionReason')?.touched &&
+                deleteAccountForm.get('deletionReason')?.invalid
+              ) {
+
+                <small class="field-error">
+                  Veuillez sélectionner un motif.
+                </small>
+
+              }
+
+            </div>
+
+
+            <!-- ==================================================
+                 PRÉCISION FACULTATIVE
+                 ================================================== -->
+
+            <div class="form-group">
+
+              <label for="deletionDetails">
+
+                Précision supplémentaire
+
+                <span class="optional-label">
+                  Facultatif
+                </span>
+
+              </label>
+
+              <textarea
+                id="deletionDetails"
+                formControlName="deletionDetails"
+                rows="4"
+                placeholder="Vous pouvez préciser la raison de votre demande..."
+              ></textarea>
+
+            </div>
+
+
+            <!-- ==================================================
+                 CASE DE CONFIRMATION
+                 ================================================== -->
+
+            <div class="confirmation-box">
+
+              <label class="checkbox-label">
+
+                <input
+                  type="checkbox"
+                  formControlName="confirmation"
+                />
+
+                <span>
+                  Je confirme avoir pris connaissance des conséquences
+                  liées à la suppression de mon compte.
+                </span>
+
+              </label>
+
+              <small class="field-help">
+                Cette confirmation est facultative.
+              </small>
+
+            </div>
+
+
+            <!-- ==================================================
+                 CODE / MOT DE PASSE
+                 ================================================== -->
+
+            <div class="form-group">
+
+              <label for="deletionPassword">
+                Code de confirmation
+              </label>
+
+              <input
+                id="deletionPassword"
+                type="password"
+                formControlName="deletionPassword"
+                placeholder="Entrez votre mot de passe"
+                autocomplete="current-password"
+              />
+
+              <small class="field-help">
+                Saisissez votre mot de passe afin de confirmer votre identité.
+              </small>
+
+
+              <!-- Validation du mot de passe -->
+              @if (
+                deleteAccountForm.get('deletionPassword')?.touched &&
+                deleteAccountForm.get('deletionPassword')?.invalid
+              ) {
+
+                <small class="field-error">
+                  Votre mot de passe est obligatoire pour confirmer
+                  la suppression.
+                </small>
+
+              }
+
+            </div>
+
+
+            <!-- ==================================================
+                 ACTIONS
+                 ================================================== -->
+
+            <div class="delete-form-actions">
+
+              <!-- Annule la demande et ferme le formulaire -->
+              <button
+                type="button"
+                class="cancel-delete-button"
+                (click)="cancelDeleteForm()"
+                [disabled]="isDeleting"
+              >
+                Annuler
+              </button>
+
+
+              <!-- Envoie la demande de suppression -->
+              <button
+                type="submit"
+                class="confirm-delete-button"
+                [disabled]="isDeleting"
+              >
+
+                @if (isDeleting) {
+
+                  <span>
+                    Envoi de la demande...
+                  </span>
+
+                } @else {
+
+                  <span>
+                    Supprimer définitivement mon compte
+                  </span>
+
+                }
+
+              </button>
+
+            </div>
+
+          </form>
+
+        </div>
+
+      }
+
+    </section>
+
+  </div>
+
+</div>

@@ -1,0 +1,777 @@
+<!--
+  Page "Mon compte" administrateur.
+
+  Cette page permet à l'administrateur :
+  - de consulter ses informations ;
+  - de modifier son prénom, son nom et son adresse e-mail ;
+  - de modifier son mot de passe ;
+  - de consulter quelques recommandations de sécurité.
+
+  Les informations du compte sont récupérées depuis le backend Spring Boot.
+-->
+
+<div class="account-page">
+
+  <!-- ============================================================
+       EN-TÊTE DE LA PAGE
+       ============================================================ -->
+
+  <header class="page-header">
+
+    <div class="header-content">
+
+      <!-- Icône représentant la gestion du compte -->
+      <div class="header-icon">
+        ⚙️
+      </div>
+
+      <div>
+
+        <span class="eyebrow">
+          ADMINISTRATION
+        </span>
+
+        <h1>
+          Mon compte
+        </h1>
+
+        <p>
+          Gérez les informations de votre compte administrateur
+          et vos paramètres de sécurité.
+        </p>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- ============================================================
+       CONTENU PRINCIPAL
+       ============================================================ -->
+
+  <div class="account-content">
+
+
+    <!-- ==========================================================
+         INFORMATIONS DU COMPTE
+         ========================================================== -->
+
+    <section class="account-card">
+
+      <!-- En-tête de la carte -->
+      <div class="card-header">
+
+        <div class="card-icon red">
+          👤
+        </div>
+
+        <div>
+
+          <h2>
+            Informations du compte
+          </h2>
+
+          <p>
+            Consultez et modifiez les informations associées
+            à votre compte administrateur.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- ========================================================
+           MESSAGE DE SUCCÈS
+           ======================================================== -->
+
+      @if (accountSuccessMessage) {
+
+        <div class="message success-message">
+
+          <span class="message-icon">
+            ✓
+          </span>
+
+          <span>
+            {{ accountSuccessMessage }}
+          </span>
+
+        </div>
+
+      }
+
+
+      <!-- ========================================================
+           MESSAGE D'ERREUR
+           ======================================================== -->
+
+      @if (accountEditErrorMessage) {
+
+        <div class="message error-message">
+
+          <span class="message-icon">
+            !
+          </span>
+
+          <span>
+            {{ accountEditErrorMessage }}
+          </span>
+
+        </div>
+
+      }
+
+
+      <!-- ========================================================
+           MODE AFFICHAGE
+           ======================================================== -->
+
+      @if (!isEditingAccount) {
+
+        <div class="account-information">
+
+          <!-- Prénom -->
+          <div class="information-item">
+
+            <span class="information-label">
+              Prénom
+            </span>
+
+            <span class="information-value">
+              {{ firstName || 'Non renseigné' }}
+            </span>
+
+          </div>
+
+
+          <!-- Nom -->
+          <div class="information-item">
+
+            <span class="information-label">
+              Nom
+            </span>
+
+            <span class="information-value">
+              {{ lastName || 'Non renseigné' }}
+            </span>
+
+          </div>
+
+
+          <!-- Adresse e-mail -->
+          <div class="information-item">
+
+            <span class="information-label">
+              Adresse e-mail
+            </span>
+
+            <span class="information-value">
+              {{ email || 'Non renseignée' }}
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- ======================================================
+             BOUTON MODIFIER
+             ====================================================== -->
+
+        <div class="account-actions">
+
+          <button
+            type="button"
+            class="edit-account-button"
+            (click)="startEditingAccount()"
+          >
+            ✏️
+            <span>
+              Modifier
+            </span>
+          </button>
+
+        </div>
+
+      }
+
+
+      <!-- ========================================================
+           MODE MODIFICATION
+           ======================================================== -->
+
+      @if (isEditingAccount) {
+
+        <form
+          [formGroup]="accountForm"
+          (ngSubmit)="updateAccountInformation()"
+          class="account-edit-form"
+        >
+
+          <!-- ====================================================
+               PRÉNOM
+               ==================================================== -->
+
+          <div class="form-group">
+
+            <label for="firstName">
+              Prénom
+            </label>
+
+            <input
+              id="firstName"
+              type="text"
+              formControlName="firstName"
+              placeholder="Entrez votre prénom"
+              autocomplete="given-name"
+            />
+
+            @if (
+              accountForm.get('firstName')?.touched &&
+              accountForm.get('firstName')?.invalid
+            ) {
+
+              <small class="field-error">
+                Le prénom est obligatoire.
+              </small>
+
+            }
+
+          </div>
+
+
+          <!-- ====================================================
+               NOM
+               ==================================================== -->
+
+          <div class="form-group">
+
+            <label for="lastName">
+              Nom
+            </label>
+
+            <input
+              id="lastName"
+              type="text"
+              formControlName="lastName"
+              placeholder="Entrez votre nom"
+              autocomplete="family-name"
+            />
+
+            @if (
+              accountForm.get('lastName')?.touched &&
+              accountForm.get('lastName')?.invalid
+            ) {
+
+              <small class="field-error">
+                Le nom est obligatoire.
+              </small>
+
+            }
+
+          </div>
+
+
+          <!-- ====================================================
+               ADRESSE E-MAIL
+               ==================================================== -->
+
+          <div class="form-group">
+
+            <label for="email">
+              Adresse e-mail
+            </label>
+
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+              placeholder="Entrez votre adresse e-mail"
+              autocomplete="email"
+            />
+
+            @if (
+              accountForm.get('email')?.touched &&
+              accountForm.get('email')?.invalid
+            ) {
+
+              <small class="field-error">
+                Veuillez saisir une adresse e-mail valide.
+              </small>
+
+            }
+
+          </div>
+
+
+          <!-- ====================================================
+               ACTIONS DE MODIFICATION
+               ==================================================== -->
+
+          <div class="form-actions">
+
+            <!-- Annule les modifications -->
+            <button
+              type="button"
+              class="cancel-button"
+              (click)="cancelEditingAccount()"
+              [disabled]="isUpdatingAccount"
+            >
+              Annuler
+            </button>
+
+
+            <!-- Enregistre les modifications -->
+            <button
+              type="submit"
+              class="submit-button"
+              [disabled]="
+                isUpdatingAccount ||
+                accountForm.invalid
+              "
+            >
+
+              @if (isUpdatingAccount) {
+
+                <span>
+                  Enregistrement...
+                </span>
+
+              } @else {
+
+                <span>
+                  Enregistrer les modifications
+                </span>
+
+              }
+
+            </button>
+
+          </div>
+
+        </form>
+
+      }
+
+
+      <!-- ========================================================
+           AVATAR / IDENTITÉ
+           ======================================================== -->
+
+      <div class="account-identity">
+
+        <div class="account-avatar">
+          {{ getInitials() }}
+        </div>
+
+        <div class="account-identity-text">
+
+          <strong>
+            {{ firstName }} {{ lastName }}
+          </strong>
+
+          <span>
+            Compte administrateur
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ==========================================================
+         SÉCURITÉ / MOT DE PASSE
+         ========================================================== -->
+
+    <section class="account-card security-card">
+
+      <!-- En-tête -->
+      <div class="card-header">
+
+        <div class="card-icon red">
+          🔐
+        </div>
+
+        <div>
+
+          <h2>
+            Mot de passe
+          </h2>
+
+          <p>
+            Modifiez régulièrement votre mot de passe
+            afin de sécuriser votre compte administrateur.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- Message de succès -->
+      @if (successMessage) {
+
+        <div class="message success-message">
+
+          <span class="message-icon">
+            ✓
+          </span>
+
+          <span>
+            {{ successMessage }}
+          </span>
+
+        </div>
+
+      }
+
+
+      <!-- Message d'erreur -->
+      @if (errorMessage) {
+
+        <div class="message error-message">
+
+          <span class="message-icon">
+            !
+          </span>
+
+          <span>
+            {{ errorMessage }}
+          </span>
+
+        </div>
+
+      }
+
+
+      <!-- Erreur de chargement -->
+      @if (accountErrorMessage) {
+
+        <div class="message error-message">
+
+          <span class="message-icon">
+            !
+          </span>
+
+          <span>
+            {{ accountErrorMessage }}
+          </span>
+
+        </div>
+
+      }
+
+
+      <!-- ========================================================
+           FORMULAIRE DE MOT DE PASSE
+           ======================================================== -->
+
+      <form
+        [formGroup]="passwordForm"
+        (ngSubmit)="changePassword()"
+        class="password-form"
+      >
+
+        <!-- Mot de passe actuel -->
+        <div class="form-group">
+
+          <label for="currentPassword">
+            Mot de passe actuel
+          </label>
+
+          <input
+            id="currentPassword"
+            type="password"
+            formControlName="currentPassword"
+            placeholder="Entrez votre mot de passe actuel"
+            autocomplete="current-password"
+          />
+
+          @if (
+            passwordForm.get('currentPassword')?.touched &&
+            passwordForm.get('currentPassword')?.invalid
+          ) {
+
+            <small class="field-error">
+              Le mot de passe actuel est obligatoire.
+            </small>
+
+          }
+
+        </div>
+
+
+        <!-- Nouveau mot de passe -->
+        <div class="form-group">
+
+          <label for="newPassword">
+            Nouveau mot de passe
+          </label>
+
+          <input
+            id="newPassword"
+            type="password"
+            formControlName="newPassword"
+            placeholder="Entrez votre nouveau mot de passe"
+            autocomplete="new-password"
+          />
+
+
+          <!-- Règles de sécurité -->
+          <div class="password-rules">
+
+            <small class="field-help">
+              Le nouveau mot de passe doit respecter les règles suivantes :
+            </small>
+
+            <ul>
+
+              <li
+                [class.valid]="
+                  (passwordForm.get('newPassword')?.value?.length || 0) >= 8
+                "
+              >
+                Au moins 8 caractères
+              </li>
+
+              <li
+                [class.valid]="
+                  /[a-z]/.test(
+                    passwordForm.get('newPassword')?.value || ''
+                  )
+                "
+              >
+                Au moins une lettre minuscule
+              </li>
+
+              <li
+                [class.valid]="
+                  /[A-Z]/.test(
+                    passwordForm.get('newPassword')?.value || ''
+                  )
+                "
+              >
+                Au moins une lettre majuscule
+              </li>
+
+              <li
+                [class.valid]="
+                  /\d/.test(
+                    passwordForm.get('newPassword')?.value || ''
+                  )
+                "
+              >
+                Au moins un chiffre
+              </li>
+
+              <li
+                [class.valid]="
+                  /[@$!%*?&]/.test(
+                    passwordForm.get('newPassword')?.value || ''
+                  )
+                "
+              >
+                Au moins un caractère spécial
+              </li>
+
+            </ul>
+
+          </div>
+
+
+          @if (
+            passwordForm.get('newPassword')?.touched &&
+            !isPasswordSecure()
+          ) {
+
+            <small class="field-error">
+              Le mot de passe ne respecte pas toutes les règles de sécurité.
+            </small>
+
+          }
+
+        </div>
+
+
+        <!-- Confirmation -->
+        <div class="form-group">
+
+          <label for="confirmPassword">
+            Confirmer le nouveau mot de passe
+          </label>
+
+          <input
+            id="confirmPassword"
+            type="password"
+            formControlName="confirmPassword"
+            placeholder="Confirmez votre nouveau mot de passe"
+            autocomplete="new-password"
+          />
+
+          @if (
+            passwordForm.get('confirmPassword')?.touched &&
+            passwordForm.get('confirmPassword')?.value &&
+            !passwordsMatch()
+          ) {
+
+            <small class="field-error">
+              Les deux mots de passe ne correspondent pas.
+            </small>
+
+          }
+
+        </div>
+
+
+        <!-- Actions -->
+        <div class="form-actions">
+
+          <button
+            type="button"
+            class="cancel-button"
+            (click)="resetPasswordForm()"
+            [disabled]="isLoading"
+          >
+            Annuler
+          </button>
+
+          <button
+            type="submit"
+            class="submit-button"
+            [disabled]="
+              isLoading ||
+              passwordForm.invalid ||
+              !passwordsMatch() ||
+              !isPasswordSecure()
+            "
+          >
+
+            @if (isLoading) {
+
+              <span>
+                Modification...
+              </span>
+
+            } @else {
+
+              <span>
+                Modifier
+              </span>
+
+            }
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </section>
+
+
+
+    <!-- ==========================================================
+         INFORMATIONS DE SÉCURITÉ
+         ========================================================== -->
+
+    <section class="account-card security-information-card">
+
+      <div class="card-header">
+
+        <div class="card-icon red">
+          🛡️
+        </div>
+
+        <div>
+
+          <h2>
+            Sécurité du compte
+          </h2>
+
+          <p>
+            Quelques recommandations pour protéger votre compte administrateur.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="security-information">
+
+        <div class="security-item">
+
+          <span class="security-icon">
+            🔒
+          </span>
+
+          <div>
+
+            <strong>
+              Protégez votre mot de passe
+            </strong>
+
+            <p>
+              Ne communiquez jamais votre mot de passe à une autre personne.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="security-item">
+
+          <span class="security-icon">
+            🔑
+          </span>
+
+          <div>
+
+            <strong>
+              Utilisez un mot de passe unique
+            </strong>
+
+            <p>
+              Évitez de réutiliser le même mot de passe sur plusieurs services.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="security-item">
+
+          <span class="security-icon">
+            ⚠️
+          </span>
+
+          <div>
+
+            <strong>
+              Compte administrateur
+            </strong>
+
+            <p>
+              Ce compte dispose de droits d'administration sur MyStudentGuide.
+              Gardez vos identifiants confidentiels.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+
+</div>

@@ -11,7 +11,7 @@
     <div class="register-header">
 
       <!-- Nom de l'application -->
-      <h1>MyCampusGuide</h1>
+      <h1>MyStudentGuide</h1>
 
       <!-- Titre -->
       <h2>Créer un compte</h2>
@@ -19,7 +19,7 @@
       <!-- Petite description -->
       <p>
         Inscrivez-vous pour commencer votre expérience
-        avec MyCampusGuide.
+        avec MyStudentGuide.
       </p>
 
     </div>
@@ -301,8 +301,9 @@
       <button
         type="submit"
         class="register-button"
+        [disabled]="loading"
       >
-        Créer mon compte
+        {{ loading ? 'Création en cours...' : 'Créer mon compte' }}
       </button>
 
 

@@ -1,0 +1,189 @@
+<!--
+  Navbar principale de MyStudentGuide.
+
+  Cette navbar est commune aux pages principales de l'application.
+
+  Navigation :
+  - Logo / Accueil       → /home                       (toujours visible)
+  - Se connecter         → /login                      (si personne n'est connecté)
+  - Mes démarches        → /demarches                  (connecté uniquement)
+  - Documents            → /documents                  (connecté uniquement)
+  - Notifications        → /dashboard/notifications    (connecté uniquement)
+  - Profil / Avatar      → /dashboard (ou /admin)      (connecté uniquement)
+  - Déconnexion          → /home                       (connecté uniquement)
+
+  IMPORTANT :
+  - "Explorer" n'est pas présent.
+  - Il n'y a pas de barre de recherche.
+  - Le profil et la déconnexion sont affichés uniquement
+    lorsqu'un étudiant est connecté.
+-->
+
+<nav class="navbar">
+
+  <!-- =========================================================
+       LOGO
+       ========================================================= -->
+
+  <!--
+    Le logo ramène vers la page d'accueil principale.
+    Il ne redirige pas vers le Dashboard.
+  -->
+  <a
+    routerLink="/home"
+    class="navbar-logo"
+  >
+    <span class="logo-icon">🎓</span>
+
+    <span class="logo-text">
+      MyStudentGuide
+    </span>
+  </a>
+
+
+  <!-- =========================================================
+       NAVIGATION PRINCIPALE
+       ========================================================= -->
+
+  <div class="navbar-links">
+
+    <!-- ---------------------------------------------------------
+         ACCUEIL
+         --------------------------------------------------------- -->
+
+    <a
+      routerLink="/home"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="nav-link"
+    >
+      Accueil
+    </a>
+
+
+    <!-- ---------------------------------------------------------
+         LIENS RÉSERVÉS AUX UTILISATEURS CONNECTÉS
+
+         Sans connexion, seuls "Accueil" et "Se connecter" restent visibles.
+         --------------------------------------------------------- -->
+    @if (isLoggedIn) {
+
+      <!-- ---------------------------------------------------------
+           MES DÉMARCHES
+           --------------------------------------------------------- -->
+
+      <a
+        routerLink="/demarches"
+        routerLinkActive="active"
+        class="nav-link"
+      >
+        Mes démarches
+      </a>
+
+
+      <!-- ---------------------------------------------------------
+           DOCUMENTS
+           --------------------------------------------------------- -->
+
+      <a
+        routerLink="/documents"
+        routerLinkActive="active"
+        class="nav-link"
+      >
+        Documents
+      </a>
+
+
+      <!-- ---------------------------------------------------------
+           NOTIFICATIONS
+           --------------------------------------------------------- -->
+
+      <a
+        routerLink="/dashboard/notifications"
+        routerLinkActive="active"
+        class="nav-link"
+      >
+        Notifications
+      </a>
+
+    }
+
+  </div>
+
+<!-- =========================================================
+     ESPACE UTILISATEUR
+     ========================================================= -->
+
+@if (isLoggedIn) {
+
+  <!-- =======================================================
+       UTILISATEUR CONNECTÉ
+       ======================================================= -->
+
+  <div class="navbar-user">
+
+    <!-- -------------------------------------------------------
+         PROFIL
+         ------------------------------------------------------- -->
+
+    <!--
+      L'avatar et le prénom permettent d'accéder
+      directement à l'espace personnel de l'étudiant.
+    -->
+    <a
+      [routerLink]="profileRoute"
+      class="profile-link"
+    >
+
+      <!-- Initiale du prénom -->
+      <span class="profile-avatar">
+        {{ userInitial }}
+      </span>
+
+      <!-- Prénom de l'étudiant -->
+      <span class="profile-name">
+        {{ userName }}
+      </span>
+
+    </a>
+
+
+    <!-- -------------------------------------------------------
+         DÉCONNEXION
+         ------------------------------------------------------- -->
+
+    <!--
+      Ce bouton déconnecte l'étudiant et le ramène
+      vers la page d'accueil.
+    -->
+    <button
+      type="button"
+      class="logout-button"
+      (click)="logout()"
+    >
+      Déconnexion
+    </button>
+
+  </div>
+
+} @else {
+
+  <!-- =======================================================
+       UTILISATEUR NON CONNECTÉ
+       ======================================================= -->
+
+  <!--
+    Lorsqu'aucun étudiant n'est connecté, on affiche
+    uniquement le bouton permettant d'accéder à la page
+    de connexion.
+  -->
+  <a
+    routerLink="/login"
+    class="login-button"
+  >
+    Se connecter
+  </a>
+
+}
+
+</nav>

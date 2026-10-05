@@ -1,0 +1,66 @@
+<!--
+  ==========================================================
+  LAYOUT PUBLIC DE MYSTUDENTGUIDE
+  ==========================================================
+
+  Ce layout contient les éléments communs aux pages
+  publiques de l'application :
+
+  - Navbar
+  - contenu de la page
+  - Footer
+
+  IMPORTANT :
+  Le Dashboard n'est pas affiché dans ce layout.
+  Il possède son propre layout avec sa sidebar.
+-->
+
+
+<!-- ======================================================== -->
+<!-- NAVBAR                                                   -->
+<!-- ======================================================== -->
+
+<!--
+  Navbar globale de l'application.
+
+  Elle sera affichée une seule fois pour les pages
+  qui utilisent le PublicLayout.
+-->
+<app-navbar></app-navbar>
+
+
+
+<!-- ======================================================== -->
+<!-- CONTENU DE LA PAGE                                      -->
+<!-- ======================================================== -->
+
+<!--
+  Angular affiche ici la page correspondant
+  à la route publique actuelle.
+
+  Exemples :
+
+  /home
+      → Home
+
+  /demarches
+      → Demarches
+
+  /documents
+      → Documents
+-->
+<router-outlet></router-outlet>
+
+
+
+<!-- ======================================================== -->
+<!-- FOOTER                                                   -->
+<!-- ======================================================== -->
+
+<!--
+  Footer global de l'application.
+
+  Il est affiché sous le contenu de toutes les pages
+  utilisant le PublicLayout.
+-->
+<app-footer></app-footer>

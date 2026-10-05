@@ -1,288 +1,119 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+
+import { AuthService } from '../../services/auth.service';
 
 /**
- * Composant responsable de la page de connexion.
+ * Page de connexion de l'espace étudiant.
  *
- * Il permet à l'étudiant :
+ * Après une connexion réussie :
+ * - ADMIN    → /admin (ou la page admin demandée) ;
+ * - ETUDIANT → la page demandée avant la redirection (returnUrl),
+ *              sinon /dashboard.
  *
- * - de saisir son adresse e-mail ;
- * - de saisir son mot de passe ;
- * - d'afficher ou masquer son mot de passe ;
- * - de se connecter à l'API Spring Boot ;
- * - de sauvegarder le JWT ;
- * - d'être redirigé vers la page Home après connexion ;
- * - d'accéder à la page d'inscription.
+ * La session (token, rôle...) est enregistrée par AuthService :
+ * cette page n'écrit plus elle-même dans le localStorage.
  */
 @Component({
-
   selector: 'app-login',
-
   standalone: true,
-
-  imports: [
-    CommonModule,
-    FormsModule
-  ],
-
+  imports: [FormsModule, RouterLink],
   templateUrl: './login.html',
-
   styleUrl: './login.scss'
-
 })
 export class Login {
 
-  /**
-   * URL de l'endpoint de connexion
-   * de notre API Spring Boot.
-   */
-  private apiUrl =
-    'http://localhost:8080/api/auth/login';
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
-
-  /**
-   * Adresse e-mail saisie par l'étudiant.
-   */
   email = '';
-
-
-  /**
-   * Mot de passe saisi par l'étudiant.
-   */
   password = '';
 
-
-  /**
-   * Message affiché lorsqu'une erreur
-   * de connexion se produit.
-   */
   errorMessage = '';
+  infoMessage = '';
 
-
-  /**
-   * Permet de savoir si le mot de passe
-   * doit être affiché ou masqué.
-   *
-   * false = mot de passe masqué
-   * true = mot de passe visible
-   */
   passwordVisible = false;
-
-
-  /**
-   * Indique si une connexion est
-   * actuellement en cours.
-   */
   loading = false;
 
-
-  /**
-   * Injection des services Angular.
-   *
-   * HttpClient :
-   * permet de communiquer avec l'API Spring Boot.
-   *
-   * Router :
-   * permet de changer de page.
-   */
-  constructor(
-    private http: HttpClient,
-    private router: Router
-  ) {}
-
-
-  /**
-   * Permet d'afficher ou de masquer
-   * le mot de passe.
-   */
-  togglePassword(): void {
-
-    this.passwordVisible =
-      !this.passwordVisible;
-
+  constructor() {
+    // Message affiché quand l'interceptor a déconnecté l'utilisateur (token expiré).
+    if (this.route.snapshot.queryParamMap.get('sessionExpired')) {
+      this.infoMessage = 'Votre session a expiré. Veuillez vous reconnecter.';
+    }
   }
 
+  togglePassword(): void {
+    this.passwordVisible = !this.passwordVisible;
+  }
 
-  /**
-   * Méthode appelée lors de la validation
-   * du formulaire de connexion.
-   *
-   * Elle envoie l'e-mail et le mot de passe
-   * à l'API Spring Boot.
-   */
   onLogin(): void {
 
-    /**
-     * On supprime l'ancien message d'erreur.
-     */
     this.errorMessage = '';
+    this.infoMessage = '';
 
+    const email = this.email.trim();
 
-    /**
-     * Vérification que les champs
-     * ne sont pas vides.
-     */
-    if (!this.email || !this.password) {
-
-      this.errorMessage =
-        'Veuillez remplir tous les champs.';
-
+    if (!email || !this.password) {
+      this.errorMessage = 'Veuillez remplir tous les champs.';
       return;
     }
 
-
-    /**
-     * Activation du chargement.
-     */
     this.loading = true;
 
+    this.authService.login({ email, password: this.password }).subscribe({
 
-    /**
-     * Envoi de la requête POST
-     * vers Spring Boot.
-     *
-     * Endpoint :
-     *
-     * POST /api/auth/login
-     */
-    this.http.post<any>(
-
-      this.apiUrl,
-
-      {
-        email: this.email,
-        password: this.password
-      }
-
-    ).subscribe({
-
-      /**
-       * Connexion réussie.
-       */
       next: (response) => {
-
-        console.log(
-          'Connexion réussie :',
-          response
-        );
-
-
-        /**
-         * Sauvegarde du JWT.
-         *
-         * Le token sera utilisé pour
-         * accéder aux API protégées.
-         */
-        localStorage.setItem(
-          'token',
-          response.token
-        );
-
-
-        /**
-         * Sauvegarde de l'identifiant
-         * de l'utilisateur.
-         */
-        localStorage.setItem(
-          'userId',
-          String(response.userId)
-        );
-
-
-        /**
-         * Sauvegarde de l'adresse e-mail.
-         */
-        localStorage.setItem(
-          'email',
-          response.email
-        );
-
-
-        /**
-         * Sauvegarde du rôle.
-         */
-        localStorage.setItem(
-          'role',
-          response.role
-        );
-
-
-        /**
-         * Connexion terminée.
-         */
         this.loading = false;
 
+        const role = response.role;
 
-        /**
-         * REDIRECTION VERS HOME.
-         *
-         * Après une connexion réussie,
-         * l'étudiant arrive sur :
-         *
-         * /home
-         */
-        this.router.navigate(['/home']);
+        // if (role === 'ADMIN' || role === 'ROLE_ADMIN') {
+        //   this.router.navigate(['/admin']);
+        //   return;
+        // }
 
+        if (role === 'ETUDIANT' || role === 'ROLE_ETUDIANT') {
+          this.router.navigateByUrl(this.getSafeReturnUrl());
+          return;
+        }
+
+        // Rôle inconnu : on ne garde aucune session.
+        this.authService.logout();
+        this.errorMessage = 'Ce compte ne peut pas se connecter ici.';
       },
 
-
-      /**
-       * Une erreur s'est produite
-       * pendant la connexion.
-       */
-      error: (error) => {
-
-        console.error(
-          'Erreur de connexion :',
-          error
-        );
-
-
-        /**
-         * Message affiché à l'utilisateur.
-         */
-        this.errorMessage =
-          'Adresse e-mail ou mot de passe incorrect.';
-
-
-        /**
-         * Arrêt du chargement.
-         */
+      error: (error: HttpErrorResponse) => {
         this.loading = false;
+        this.password = '';
 
+        this.errorMessage = error.status === 0
+          ? 'Impossible de joindre le serveur. Réessayez plus tard.'
+          : 'Adresse e-mail ou mot de passe incorrect.';
       }
-
     });
-
   }
 
-
-  /**
-   * Redirige l'utilisateur vers
-   * la page d'inscription.
-   */
   goToRegister(): void {
-
     this.router.navigate(['/register']);
-
   }
 
+  forgotPassword(): void {
+    this.router.navigate(['/forgot-password']);
+  }
 
   /**
-   * Redirige vers la page
-   * "Mot de passe oublié".
-   *
-   * Pour l'instant, cette route devra
-   * être créée lorsque nous développerons
-   * cette fonctionnalité.
+   * Page demandée avant la redirection vers /login.
+   * Seules les URLs internes de l'espace étudiant sont acceptées
+   * (évite une redirection vers un site externe).
    */
-  forgotPassword(): void {
+  private getSafeReturnUrl(): string {
+    const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
 
-    this.router.navigate(['/forgot-password']);
-
+    return returnUrl && returnUrl.startsWith('/dashboard') && !returnUrl.startsWith('//')
+      ? returnUrl
+      : '/dashboard';
   }
-
 }

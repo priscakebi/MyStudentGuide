@@ -1,0 +1,1033 @@
+/* ========================================================= */
+/* CONTENU PRINCIPAL DE LA PAGE                              */
+/* ========================================================= */
+
+/*
+ * Cette section est injectée dans le <router-outlet>
+ * du AdminDashboard.
+ *
+ * La sidebar et la topbar ne sont donc PAS présentes ici.
+ */
+
+.content {
+  width: 100%;
+  box-sizing: border-box;
+
+  /* Espace entre la topbar du dashboard et le contenu */
+  padding: 35px;
+}
+
+
+/* ========================================================= */
+/* MESSAGE                                                   */
+/* ========================================================= */
+
+.message {
+  margin-bottom: 20px;
+
+  padding: 14px 18px;
+
+  border-radius: 8px;
+
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.message.success {
+  background: #e9f8ee;
+
+  color: #217a3c;
+
+  border: 1px solid #b9e8c7;
+}
+
+.message.error {
+  background: #fff0f0;
+
+  color: #c90000;
+
+  border: 1px solid #ffcaca;
+}
+
+
+/* ========================================================= */
+/* CARTES                                                     */
+/* ========================================================= */
+
+/*
+ * Les deux grandes cartes de la page :
+ *
+ * - formulaire d'ajout/modification ;
+ * - liste des démarches.
+ */
+
+.form-card,
+.demarches-card {
+  width: 100%;
+  box-sizing: border-box;
+
+  background: white;
+
+  border-radius: 12px;
+
+  padding: 25px;
+
+  margin-bottom: 25px;
+
+  border: 1px solid #e9e9e9;
+}
+
+
+/* ========================================================= */
+/* EN-TÊTES DES CARTES                                        */
+/* ========================================================= */
+
+.card-header {
+  margin-bottom: 25px;
+}
+
+.card-header h2 {
+  margin: 0;
+
+  font-size: 19px;
+
+  font-weight: 700;
+
+  color: #222;
+}
+
+.card-header p {
+  margin: 6px 0 0;
+
+  color: #777;
+
+  font-size: 13px;
+}
+
+
+/* ========================================================= */
+/* FORMULAIRE                                                 */
+/* ========================================================= */
+
+.demarche-form {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 20px;
+}
+
+
+/* ========================================================= */
+/* CHAMPS DU FORMULAIRE                                      */
+/* ========================================================= */
+
+.form-group {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+
+/*
+ * Le titre et la description occupent toute la largeur.
+ */
+
+.form-group:first-child,
+.form-group:nth-child(2) {
+  grid-column: 1 / -1;
+}
+
+
+.form-group label {
+  font-size: 14px;
+
+  font-weight: 600;
+
+  color: #333;
+}
+
+
+/* ========================================================= */
+/* INPUTS / TEXTAREA / SELECT                                 */
+/* ========================================================= */
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 13px 14px;
+
+  border: 1px solid #ddd;
+
+  border-radius: 8px;
+
+  outline: none;
+
+  background: white;
+
+  font-family: inherit;
+
+  font-size: 14px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+/* Effet lorsque l'utilisateur clique dans un champ */
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: #c90000;
+
+  box-shadow:
+    0 0 0 3px rgba(201, 0, 0, 0.08);
+}
+
+
+/* Taille minimale de la description */
+
+.form-group textarea {
+  resize: vertical;
+
+  min-height: 120px;
+}
+
+
+/* Petit texte sous le champ */
+
+.form-group small {
+  color: #888;
+
+  font-size: 12px;
+
+  line-height: 1.5;
+}
+
+
+/* ========================================================= */
+/* ACTIONS DU FORMULAIRE                                     */
+/* ========================================================= */
+
+.form-actions {
+  grid-column: 1 / -1;
+
+  display: flex;
+
+  gap: 10px;
+
+  margin-top: 5px;
+}
+
+
+/* ========================================================= */
+/* BOUTONS DU FORMULAIRE                                     */
+/* ========================================================= */
+
+.btn-primary,
+.btn-secondary {
+  padding: 12px 20px;
+
+  border-radius: 8px;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+
+/* ========================================================= */
+/* BOUTON PRINCIPAL                                          */
+/* ========================================================= */
+
+.btn-primary {
+  border: 1px solid #c90000;
+
+  background: #c90000;
+
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #a90000;
+
+  border-color: #a90000;
+}
+
+
+/* Bouton désactivé */
+
+.btn-primary:disabled {
+  opacity: 0.6;
+
+  cursor: not-allowed;
+}
+
+
+/* ========================================================= */
+/* BOUTON SECONDAIRE                                         */
+/* ========================================================= */
+
+.btn-secondary {
+  border: 1px solid #ddd;
+
+  background: white;
+
+  color: #555;
+}
+
+.btn-secondary:hover {
+  background: #f5f5f5;
+}
+
+
+/* ========================================================= */
+/* EN-TÊTE DE LA LISTE DES DÉMARCHES                         */
+/* ========================================================= */
+
+.demarches-header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+}
+
+.demarches-header p {
+  color: #c90000;
+
+  font-weight: 600;
+}
+
+
+/* ========================================================= */
+/* LISTE DES DÉMARCHES                                       */
+/* ========================================================= */
+
+.demarches-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+
+/* ========================================================= */
+/* CARTE D'UNE DÉMARCHE                                      */
+/* ========================================================= */
+
+.demarche-item {
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 20px;
+
+  border: 1px solid #ededed;
+
+  border-radius: 10px;
+
+  background: white;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.demarche-item:hover {
+  border-color: #ddd;
+
+  box-shadow:
+    0 3px 12px rgba(0, 0, 0, 0.04);
+}
+
+
+/* ========================================================= */
+/* INFORMATIONS DE LA DÉMARCHE                               */
+/* ========================================================= */
+
+.demarche-info {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 15px;
+
+  min-width: 0;
+
+  flex: 1;
+}
+
+
+/* ========================================================= */
+/* ICÔNE                                                      */
+/* ========================================================= */
+
+.demarche-icon {
+  width: 45px;
+  height: 45px;
+
+  flex-shrink: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 9px;
+
+  background: #fff0f0;
+
+  color: #c90000;
+
+  font-size: 20px;
+}
+
+
+/* ========================================================= */
+/* CONTENU TEXTUEL                                            */
+/* ========================================================= */
+
+.demarche-text {
+  min-width: 0;
+
+  flex: 1;
+}
+
+
+/* ========================================================= */
+/* TITRE                                                      */
+/* ========================================================= */
+
+.demarche-text h3 {
+  margin: 0 0 7px;
+
+  font-size: 16px;
+
+  font-weight: 700;
+
+  color: #222;
+
+  line-height: 1.4;
+}
+
+
+/* ========================================================= */
+/* DESCRIPTION                                                */
+/* ========================================================= */
+
+.description {
+  margin: 0;
+
+  color: #777;
+
+  font-size: 13px;
+
+  line-height: 1.5;
+
+  /*
+   * Permet aux longues descriptions de revenir
+   * automatiquement à la ligne.
+   */
+  overflow-wrap: anywhere;
+}
+
+
+/* ========================================================= */
+/* MÉTADONNÉES                                                */
+/* ========================================================= */
+
+.demarche-meta {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin-top: 12px;
+}
+
+
+.meta-item {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 4px;
+
+  padding: 5px 9px;
+
+  border-radius: 6px;
+
+  background: #f7f7f7;
+
+  color: #666;
+
+  font-size: 12px;
+}
+
+
+.meta-item strong {
+  color: #333;
+}
+
+
+/* ========================================================= */
+/* DÉTAILS DE LA DÉMARCHE                                    */
+/* ========================================================= */
+
+/*
+ * La balise <details> permet d'afficher ou de masquer
+ * les informations complémentaires d'une démarche
+ * sans avoir besoin d'une nouvelle variable TypeScript.
+ */
+
+.demarche-details {
+  margin-top: 16px;
+
+  border-top: 1px solid #eeeeee;
+
+  padding-top: 12px;
+}
+
+
+/* ========================================================= */
+/* BOUTON "VOIR LES DÉTAILS"                                 */
+/* ========================================================= */
+
+/*
+ * <summary> est le bouton natif permettant d'ouvrir
+ * et de fermer la balise <details>.
+ */
+
+.demarche-details summary {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  width: fit-content;
+
+  cursor: pointer;
+
+  list-style: none;
+
+  color: #c90000;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  user-select: none;
+
+  transition:
+    color 0.2s ease;
+}
+
+
+/*
+ * Suppression du petit triangle natif
+ * affiché par certains navigateurs.
+ */
+
+.demarche-details summary::-webkit-details-marker {
+  display: none;
+}
+
+
+/* Effet au survol */
+
+.demarche-details summary:hover {
+  color: #a90000;
+}
+
+
+/* ========================================================= */
+/* ICÔNE DES DÉTAILS                                          */
+/* ========================================================= */
+
+.details-icon {
+  width: 22px;
+  height: 22px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #fff0f0;
+
+  color: #c90000;
+
+  font-size: 16px;
+
+  font-weight: 700;
+
+  line-height: 1;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+
+/*
+ * Lorsque les détails sont ouverts,
+ * le "+" tourne pour devenir visuellement
+ * un signe de fermeture.
+ */
+
+.demarche-details[open] .details-icon {
+  transform: rotate(45deg);
+
+  background: #c90000;
+
+  color: white;
+}
+
+
+/* ========================================================= */
+/* CONTENU DES DÉTAILS                                        */
+/* ========================================================= */
+
+.details-content {
+  margin-top: 15px;
+
+  padding: 18px;
+
+  border-radius: 9px;
+
+  background: #fafafa;
+
+  border: 1px solid #eeeeee;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+
+  animation: detailsFadeIn 0.2s ease;
+}
+
+
+/* ========================================================= */
+/* ANIMATION DES DÉTAILS                                      */
+/* ========================================================= */
+
+@keyframes detailsFadeIn {
+
+  from {
+    opacity: 0;
+
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+
+}
+
+
+/* ========================================================= */
+/* LIGNE D'INFORMATION                                        */
+/* ========================================================= */
+
+/*
+ * Utilisée pour :
+ *
+ * - Identifiant
+ * - Titre
+ * - Catégorie
+ * - Date de création
+ * - Date limite
+ */
+
+.detail-row {
+  display: grid;
+
+  grid-template-columns: 150px minmax(0, 1fr);
+
+  gap: 15px;
+
+  align-items: start;
+
+  padding-bottom: 10px;
+
+  border-bottom: 1px solid #eeeeee;
+}
+
+
+/*
+ * Suppression de la bordure sur la dernière ligne.
+ */
+
+.detail-row:last-child {
+  border-bottom: none;
+
+  padding-bottom: 0;
+}
+
+
+/* ========================================================= */
+/* LABEL DES DÉTAILS                                          */
+/* ========================================================= */
+
+.detail-label {
+  color: #555;
+
+  font-size: 12px;
+
+  font-weight: 700;
+}
+
+
+/* ========================================================= */
+/* VALEUR DES DÉTAILS                                         */
+/* ========================================================= */
+
+.detail-value {
+  min-width: 0;
+
+  color: #333;
+
+  font-size: 13px;
+
+  line-height: 1.5;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* ========================================================= */
+/* BLOC DE DESCRIPTION                                       */
+/* ========================================================= */
+
+.detail-block {
+  padding-bottom: 12px;
+
+  border-bottom: 1px solid #eeeeee;
+}
+
+
+/* ========================================================= */
+/* DESCRIPTION DÉTAILLÉE                                     */
+/* ========================================================= */
+
+.detail-description {
+  margin: 7px 0 0;
+
+  color: #666;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* ========================================================= */
+/* ACTIONS D'UNE DÉMARCHE                                    */
+/* ========================================================= */
+
+.demarche-actions {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  flex-shrink: 0;
+}
+
+
+/* ========================================================= */
+/* BOUTONS MODIFIER / SUPPRIMER                              */
+/* ========================================================= */
+
+.btn-edit,
+.btn-delete {
+  padding: 9px 13px;
+
+  border-radius: 7px;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+
+/* ========================================================= */
+/* BOUTON MODIFIER                                            */
+/* ========================================================= */
+
+.btn-edit {
+  border: 1px solid #ddd;
+
+  background: white;
+
+  color: #555;
+}
+
+.btn-edit:hover {
+  background: #f5f5f5;
+
+  border-color: #ccc;
+}
+
+
+/* ========================================================= */
+/* BOUTON SUPPRIMER                                           */
+/* ========================================================= */
+
+.btn-delete {
+  border: 1px solid #ffd0d0;
+
+  background: #fff4f4;
+
+  color: #c90000;
+}
+
+.btn-delete:hover {
+  background: #c90000;
+
+  color: white;
+
+  border-color: #c90000;
+}
+
+
+/* ========================================================= */
+/* CHARGEMENT                                                 */
+/* ========================================================= */
+
+.loading {
+  padding: 35px;
+
+  text-align: center;
+
+  color: #777;
+
+  font-size: 14px;
+}
+
+
+/* ========================================================= */
+/* ÉTAT VIDE                                                  */
+/* ========================================================= */
+
+.empty-state {
+  padding: 50px 20px;
+
+  text-align: center;
+}
+
+
+.empty-icon {
+  width: 55px;
+  height: 55px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto 15px;
+
+  border-radius: 50%;
+
+  background: #fff0f0;
+
+  color: #c90000;
+
+  font-size: 24px;
+}
+
+
+.empty-state h3 {
+  margin: 0 0 7px;
+
+  font-size: 16px;
+}
+
+
+.empty-state p {
+  margin: 0;
+
+  color: #777;
+
+  font-size: 13px;
+}
+
+
+/* ========================================================= */
+/* RESPONSIVE — TABLETTES                                    */
+/* ========================================================= */
+
+@media (max-width: 900px) {
+
+  .content {
+    padding: 25px;
+  }
+
+
+  /*
+   * Sur une largeur plus petite,
+   * les champs du formulaire passent sur une seule colonne.
+   */
+
+  .demarche-form {
+    grid-template-columns: 1fr;
+  }
+
+
+  .form-group:first-child,
+  .form-group:nth-child(2) {
+    grid-column: auto;
+  }
+
+
+  .form-actions {
+    grid-column: auto;
+  }
+
+
+  /*
+   * Chaque démarche est affichée verticalement.
+   */
+
+  .demarche-item {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+
+  .demarche-actions {
+    width: 100%;
+  }
+
+
+  /*
+   * Les boutons d'action occupent une largeur
+   * raisonnable sur tablette.
+   */
+
+  .btn-edit,
+  .btn-delete {
+    flex: 1;
+  }
+
+}
+
+
+/* ========================================================= */
+/* RESPONSIVE — PETITS ÉCRANS                                */
+/* ========================================================= */
+
+@media (max-width: 650px) {
+
+  .content {
+    padding: 18px;
+  }
+
+
+  .form-card,
+  .demarches-card {
+    padding: 18px;
+  }
+
+
+  /*
+   * Les métadonnées peuvent s'afficher
+   * les unes sous les autres.
+   */
+
+  .demarche-meta {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+
+  .meta-item {
+    width: fit-content;
+  }
+
+
+  /*
+   * Les boutons Modifier / Supprimer
+   * prennent toute la largeur.
+   */
+
+  .demarche-actions {
+    flex-direction: column;
+  }
+
+
+  .btn-edit,
+  .btn-delete {
+    width: 100%;
+
+    flex: none;
+  }
+
+
+  /*
+   * Les informations détaillées passent
+   * sur une seule colonne.
+   */
+
+  .detail-row {
+    grid-template-columns: 1fr;
+
+    gap: 4px;
+  }
+
+
+  /*
+   * Le contenu des détails prend moins de place
+   * sur les petits écrans.
+   */
+
+  .details-content {
+    padding: 14px;
+  }
+
+}

@@ -21,7 +21,7 @@
 
       <!-- Nom de l'application -->
       <h1>
-        MyCampusGuide
+        MyStudentGuide
       </h1>
 
 
@@ -204,9 +204,17 @@
         <!-- MESSAGE D'ERREUR -->
         <!-- ===================================================== -->
 
+        @if (infoMessage) {
+
+          <p class="info" role="status">
+            {{ infoMessage }}
+          </p>
+
+        }
+
         @if (errorMessage) {
 
-          <p class="error">
+          <p class="error" role="alert">
             {{ errorMessage }}
           </p>
 
@@ -251,6 +259,12 @@
             S'inscrire
           </a>
 
+        </p>
+
+        <p class="admin-link">
+          <a routerLink="/admin-login">
+            Espace administrateur
+          </a>
         </p>
 
 

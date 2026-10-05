@@ -1,0 +1,411 @@
+<div class="detail-page">
+
+  <!-- =========================================================
+       BOUTON RETOUR
+       Permet de revenir à la liste générale des démarches.
+       ========================================================= -->
+
+<button
+type="button"
+class="back-button"
+(click)="retourAuxDemarches()">
+
+<span class="back-icon">←</span>
+
+
+
+  </button>
+
+  <!-- =========================================================
+       ÉTAT DE CHARGEMENT
+       Affiché pendant que l'API récupère la démarche.
+       ========================================================= -->
+
+  <div
+    *ngIf="chargement"
+    class="state-card loading-card"
+  >
+    <div class="loader"></div>
+
+
+<h2>Chargement de la démarche...</h2>
+
+<p>
+  Nous récupérons les informations de cette démarche.
+</p>
+
+
+  </div>
+
+  <!-- =========================================================
+       ÉTAT D'ERREUR
+       Affiché si la démarche n'a pas pu être récupérée.
+       ========================================================= -->
+
+  <div
+    *ngIf="!chargement && erreur"
+    class="state-card error-card"
+  >
+    <div class="state-icon">!</div>
+
+<h2>Impossible de charger la démarche</h2>
+
+<p>
+  {{ erreur }}
+</p>
+
+<button
+  type="button"
+  class="primary-button"
+  (click)="retourAuxDemarches()"
+>
+
+</button>
+
+  </div>
+
+  <!-- =========================================================
+       CONTENU PRINCIPAL
+       Affiché uniquement lorsque la démarche est disponible.
+       ========================================================= -->
+
+<ng-container *ngIf="!chargement && !erreur && demarche">
+
+
+<!-- =======================================================
+     EN-TÊTE DE LA DÉMARCHE
+     ======================================================= -->
+<section class="detail-header">
+
+  <!-- Catégorie -->
+  <div
+    *ngIf="demarche.categorie"
+    class="category-badge"
+  >
+    {{ demarche.categorie }}
+  </div>
+
+  <!-- Titre -->
+  <h1>
+    {{ demarche.titre }}
+  </h1>
+
+  <!-- Description générale -->
+  <p class="detail-description">
+    {{ demarche.description }}
+  </p>
+
+  <!-- Informations complémentaires -->
+  <div class="meta-grid">
+
+    <!-- Date de création -->
+    <div class="meta-item">
+      <span class="meta-label">
+        Date de création
+      </span>
+
+      <span class="meta-value">
+        {{ demarche.dateCreation | date:'dd/MM/yyyy' }}
+      </span>
+    </div>
+
+    <!-- Date limite -->
+    <div
+      *ngIf="demarche.dateLimite"
+      class="meta-item deadline"
+    >
+      <span class="meta-label">
+        Date limite
+      </span>
+
+      <span class="meta-value">
+        {{ demarche.dateLimite | date:'dd/MM/yyyy' }}
+      </span>
+    </div>
+
+    <!-- Nombre d'étapes -->
+    <div class="meta-item">
+      <span class="meta-label">
+        Étapes
+      </span>
+
+      <span class="meta-value">
+        {{ demarche.etapes.length }}
+      </span>
+    </div>
+
+    <!-- Nombre de documents -->
+    <div class="meta-item">
+      <span class="meta-label">
+        Documents requis
+      </span>
+
+      <span class="meta-value">
+        {{ demarche.documentsRequis.length }}
+      </span>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     ÉTAPES DE LA DÉMARCHE
+     Les étapes sont déjà triées dans demarche-detail.ts.
+     ======================================================= -->
+<section class="content-section">
+
+  <div class="section-heading">
+    <div>
+      <span class="section-number">01</span>
+
+      <h2>
+        Les étapes de la démarche
+      </h2>
+
+      <p>
+        Suivez ces différentes étapes pour effectuer votre démarche.
+      </p>
+    </div>
+  </div>
+
+
+  <!-- Liste des étapes -->
+  <div
+    *ngIf="demarche.etapes.length > 0"
+    class="steps-list"
+  >
+
+    <article
+      *ngFor="let etape of demarche.etapes"
+      class="step-card"
+    >
+
+      <!-- Numéro de l'étape -->
+      <div class="step-number">
+        {{ etape.numero }}
+      </div>
+
+      <!-- Contenu de l'étape -->
+      <div class="step-content">
+
+        <h3>
+          {{ etape.titre }}
+        </h3>
+
+        <p>
+          {{ etape.description }}
+        </p>
+
+      </div>
+
+    </article>
+
+  </div>
+
+
+  <!-- Aucun étape -->
+  <div
+    *ngIf="demarche.etapes.length === 0"
+    class="empty-card"
+  >
+    <p>
+      Les étapes de cette démarche seront bientôt disponibles.
+    </p>
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     DOCUMENTS REQUIS
+     ======================================================= -->
+<section class="content-section">
+
+  <div class="section-heading">
+    <div>
+      <span class="section-number">02</span>
+
+      <h2>
+        Documents requis
+      </h2>
+
+      <p>
+        Voici les documents nécessaires pour effectuer cette démarche.
+      </p>
+    </div>
+  </div>
+
+
+  <!-- Liste des documents -->
+  <div
+    *ngIf="demarche.documentsRequis.length > 0"
+    class="documents-grid"
+  >
+
+    <article
+      *ngFor="let document of demarche.documentsRequis"
+      class="document-card"
+    >
+
+      <!-- Icône document -->
+      <div class="document-icon">
+        📄
+      </div>
+
+      <!-- Informations du document -->
+      <div class="document-content">
+
+        <h3>
+          {{ document.nom }}
+        </h3>
+
+        <p>
+          {{ document.description }}
+        </p>
+
+        <!-- Type du document si renseigné -->
+        <span
+          *ngIf="document.type"
+          class="document-type"
+        >
+          {{ document.type }}
+        </span>
+
+      </div>
+
+    </article>
+
+  </div>
+
+
+  <!-- Aucun document -->
+  <div
+    *ngIf="demarche.documentsRequis.length === 0"
+    class="empty-card"
+  >
+    <p>
+      Aucun document requis n'est actuellement renseigné pour cette démarche.
+    </p>
+  </div>
+
+
+  <!-- Bouton vers la page générale des documents -->
+  <div class="documents-action">
+
+    <button
+      type="button"
+      class="secondary-button"
+      (click)="voirDocuments()"
+    >
+      Voir la liste des documents
+      <span>→</span>
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     LIENS OFFICIELS
+     ======================================================= -->
+<section class="content-section">
+
+  <div class="section-heading">
+    <div>
+      <span class="section-number">03</span>
+
+      <h2>
+        Sites officiels
+      </h2>
+
+      <p>
+        Consultez les sources officielles liées à cette démarche.
+      </p>
+    </div>
+  </div>
+
+
+  <!-- Liste des liens -->
+  <div
+    *ngIf="demarche.liensOfficiels.length > 0"
+    class="official-links"
+  >
+
+    <article
+      *ngFor="let lien of demarche.liensOfficiels"
+      class="official-link-card"
+    >
+
+      <!-- Icône lien -->
+      <div class="official-icon">
+        ↗
+      </div>
+
+      <!-- Informations -->
+      <div class="official-content">
+
+        <h3>
+          {{ lien.nom }}
+        </h3>
+
+        <p>
+          {{ lien.description }}
+        </p>
+
+        <!--
+          Le lien est ouvert dans un nouvel onglet.
+          noopener noreferrer améliore la sécurité lors
+          de l'ouverture d'un site externe.
+        -->
+        <a
+          [href]="lien.url"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="official-button"
+        >
+          Accéder au site officiel
+          <span>↗</span>
+        </a>
+
+      </div>
+
+    </article>
+
+  </div>
+
+
+  <!-- Aucun lien -->
+  <div
+    *ngIf="demarche.liensOfficiels.length === 0"
+    class="empty-card"
+  >
+    <p>
+      Aucun lien officiel n'est actuellement renseigné pour cette démarche.
+    </p>
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     BOUTON RETOUR FINAL
+     ======================================================= -->
+<div class="bottom-action">
+
+  <button
+    type="button"
+    class="back-button bottom-back"
+    (click)="retourAuxDemarches()"
+  >
+    <span class="back-icon">←</span>
+    Retour aux démarches
+  </button>
+
+</div>
+
+  </ng-container>
+
+</div>

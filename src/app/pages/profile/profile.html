@@ -1,96 +1,136 @@
 <!--
-  Conteneur principal de la page du profil.
+  ============================================================
+  PAGE PROFIL ÉTUDIANT
+  ============================================================
+
+  Cette page permet à l'étudiant de :
+
+  - créer son profil ;
+  - consulter ses informations ;
+  - modifier ses informations ;
+  - enregistrer ses modifications.
+
+  Le formulaire utilise [(ngModel)] pour synchroniser
+  les champs avec profileForm dans profile.ts.
 -->
-<div class="profile-container">
 
+<div class="profile-page">
 
-  <!--
-    En-tête de la page.
-  -->
-  <div class="profile-header">
+  <!-- ========================================================
+       EN-TÊTE DE LA PAGE
+       ======================================================== -->
 
-    <div>
+  <section class="profile-header">
 
-      <h1>Mon profil</h1>
+    <div class="header-icon">
+      <span>👤</span>
+    </div>
+
+    <div class="header-content">
+
+      <p class="eyebrow">
+        MON ESPACE
+      </p>
+
+      <h1>
+        Mon profil
+      </h1>
 
       <p>
-        Gérez vos informations personnelles et universitaires.
+        Retrouvez et gérez les informations utilisées
+        pour personnaliser votre parcours administratif.
       </p>
 
     </div>
 
+  </section>
+
+
+  <!-- ========================================================
+       CHARGEMENT
+       ======================================================== -->
+
+  <div
+    class="state-card loading-card"
+    *ngIf="loading"
+  >
+
+    <div class="loader"></div>
+
+    <p>
+      Chargement de votre profil...
+    </p>
+
   </div>
 
 
-  <!--
-    Message de chargement.
-  -->
-  @if (loading) {
+  <!-- ========================================================
+       MESSAGES GÉNÉRAUX
+       ======================================================== -->
 
-    <div class="loading">
-
-      Chargement...
-
-    </div>
-
-  }
-
-
-  <!--
-    Message d'erreur.
-  -->
-  @if (errorMessage) {
-
-    <div class="message error">
-
-      {{ errorMessage }}
-
-    </div>
-
-  }
-
-
-  <!--
-    Message de succès.
-  -->
-  @if (successMessage) {
-
-    <div class="message success">
-
-      {{ successMessage }}
-
-    </div>
-
-  }
-
-
-  <!--
-    Formulaire du profil.
-  -->
-  <form
-    class="profile-card"
-    (ngSubmit)="saveProfile()"
+  <div
+    class="message success-message"
+    *ngIf="successMessage"
   >
 
+    <span class="message-icon">
+      ✓
+    </span>
 
-    <!-- ============================= -->
-    <!-- INFORMATIONS PERSONNELLES      -->
-    <!-- ============================= -->
+    <span>
+      {{ successMessage }}
+    </span>
 
-    <section class="profile-section">
+  </div>
 
-      <div class="section-title">
 
-        <div class="section-icon">
-          👤
-        </div>
+  <div
+    class="message error-message"
+    *ngIf="errorMessage"
+  >
+
+    <span class="message-icon">
+      !
+    </span>
+
+    <span>
+      {{ errorMessage }}
+    </span>
+
+  </div>
+
+
+  <!-- ========================================================
+       CONTENU PRINCIPAL
+       ======================================================== -->
+
+  <ng-container *ngIf="!loading">
+
+
+    <!-- ======================================================
+         FORMULAIRE DE CRÉATION / MODIFICATION
+         ====================================================== -->
+
+    <section
+      class="profile-card form-card"
+      *ngIf="editing"
+    >
+
+      <div class="card-heading">
 
         <div>
 
-          <h2>Informations personnelles</h2>
+          <span class="section-label">
+            {{ profile ? 'MODIFICATION' : 'PREMIÈRE CONFIGURATION' }}
+          </span>
+
+          <h2>
+            {{ profile ? 'Modifier mon profil' : 'Complétez votre profil' }}
+          </h2>
 
           <p>
-            Vos informations personnelles.
+            Ces informations permettent à MyStudentGuide
+            de mieux adapter votre parcours administratif.
           </p>
 
         </div>
@@ -98,372 +138,949 @@
       </div>
 
 
-      <div class="form-grid">
-
-
-        <!-- Nationalité -->
-        <div class="form-group">
-
-          <label for="nationalite">
-            Nationalité
-          </label>
-
-          <input
-            id="nationalite"
-            type="text"
-            name="nationalite"
-            [(ngModel)]="profile.nationalite"
-            placeholder="Ex : Ivoirienne"
-          >
-
-        </div>
-
-
-        <!-- Téléphone -->
-        <div class="form-group">
-
-          <label for="telephone">
-            Téléphone
-          </label>
-
-          <input
-            id="telephone"
-            type="tel"
-            name="telephone"
-            [(ngModel)]="profile.telephone"
-            placeholder="Ex : 06 12 34 56 78"
-          >
-
-        </div>
-
-
-        <!-- Adresse -->
-        <div class="form-group full-width">
-
-          <label for="adresse">
-            Adresse
-          </label>
-
-          <input
-            id="adresse"
-            type="text"
-            name="adresse"
-            [(ngModel)]="profile.adresse"
-            placeholder="Votre adresse en France"
-          >
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ============================= -->
-    <!-- INFORMATIONS ÉTUDIANTES        -->
-    <!-- ============================= -->
-
-    <section class="profile-section">
-
-      <div class="section-title">
-
-        <div class="section-icon">
-          🎓
-        </div>
-
-        <div>
-
-          <h2>Informations universitaires</h2>
-
-          <p>
-            Informations concernant vos études.
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <div class="form-grid">
-
-
-        <!-- Niveau d'études -->
-        <div class="form-group">
-
-          <label for="niveauEtudes">
-            Niveau d'études
-          </label>
-
-          <select
-            id="niveauEtudes"
-            name="niveauEtudes"
-            [(ngModel)]="profile.niveauEtudes"
-          >
-
-            <option value="">
-              Sélectionnez votre niveau
-            </option>
-
-            <option value="Bac+1">
-              Bac+1
-            </option>
-
-            <option value="Bac+2">
-              Bac+2
-            </option>
-
-            <option value="Bac+3">
-              Bac+3
-            </option>
-
-            <option value="Bac+4">
-              Bac+4
-            </option>
-
-            <option value="Bac+5">
-              Bac+5
-            </option>
-
-            <option value="Doctorat">
-              Doctorat
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <!-- Université -->
-        <div class="form-group">
-
-          <label for="universite">
-            Université / École
-          </label>
-
-          <input
-            id="universite"
-            type="text"
-            name="universite"
-            [(ngModel)]="profile.universite"
-            placeholder="Nom de votre établissement"
-          >
-
-        </div>
-
-
-        <!-- Ville d'études -->
-        <div class="form-group">
-
-          <label for="villeEtudes">
-            Ville d'études
-          </label>
-
-          <input
-            id="villeEtudes"
-            type="text"
-            name="villeEtudes"
-            [(ngModel)]="profile.villeEtudes"
-            placeholder="Ex : Paris"
-          >
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ============================= -->
-    <!-- SÉJOUR EN FRANCE               -->
-    <!-- ============================= -->
-
-    <section class="profile-section">
-
-      <div class="section-title">
-
-        <div class="section-icon">
-          🇫🇷
-        </div>
-
-        <div>
-
-          <h2>Séjour en France</h2>
-
-          <p>
-            Informations concernant votre séjour.
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <div class="form-grid">
-
-
-        <!-- Type de visa -->
-        <div class="form-group">
-
-          <label for="typeVisa">
-            Type de visa
-          </label>
-
-          <select
-            id="typeVisa"
-            name="typeVisa"
-            [(ngModel)]="profile.typeVisa"
-          >
-
-            <option value="">
-              Sélectionnez votre visa
-            </option>
-
-            <option value="VLS_TS">
-              VLS-TS étudiant
-            </option>
-
-            <option value="VISA_LONG_SEJOUR">
-              Visa long séjour
-            </option>
-
-            <option value="TITRE_SEJOUR">
-              Titre de séjour
-            </option>
-
-            <option value="AUTRE">
-              Autre
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <!-- Type de logement -->
-        <div class="form-group">
-
-          <label for="typeLogement">
-            Type de logement
-          </label>
-
-          <select
-            id="typeLogement"
-            name="typeLogement"
-            [(ngModel)]="profile.typeLogement"
-          >
-
-            <option value="">
-              Sélectionnez votre logement
-            </option>
-
-            <option value="RESIDENCE_ETUDIANTE">
-              Résidence étudiante
-            </option>
-
-            <option value="LOCATION">
-              Location
-            </option>
-
-            <option value="COLOCATION">
-              Colocation
-            </option>
-
-            <option value="HEBERGE">
-              Hébergé
-            </option>
-
-            <option value="AUTRE">
-              Autre
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <!-- Date d'arrivée -->
-        <div class="form-group">
-
-          <label for="dateArriveeFrance">
-            Date d'arrivée en France
-          </label>
-
-          <input
-            id="dateArriveeFrance"
-            type="date"
-            name="dateArriveeFrance"
-            [(ngModel)]="profile.dateArriveeFrance"
-          >
-
-        </div>
-
-
-        <!-- Date expiration visa -->
-        <div class="form-group">
-
-          <label for="dateExpirationVisa">
-            Date d'expiration du visa
-          </label>
-
-          <input
-            id="dateExpirationVisa"
-            type="date"
-            name="dateExpirationVisa"
-            [(ngModel)]="profile.dateExpirationVisa"
-          >
-
-        </div>
-
-
-        <!-- Première arrivée -->
-        <div class="checkbox-group full-width">
-
-          <input
-            id="premiereArrivee"
-            type="checkbox"
-            name="premiereArrivee"
-            [(ngModel)]="profile.premiereArrivee"
-          >
-
-          <label for="premiereArrivee">
-
-            C'est ma première arrivée en France
-
-          </label>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ============================= -->
-    <!-- BOUTON ENREGISTRER              -->
-    <!-- ============================= -->
-
-    <div class="form-actions">
-
-      <button
-        type="submit"
-        class="save-button"
-        [disabled]="loading"
+      <!-- ====================================================
+           FORMULAIRE
+           ==================================================== -->
+
+      <form
+        (ngSubmit)="profile ? updateProfile() : createProfile()"
+        #profileFormElement="ngForm"
       >
 
-        @if (loading) {
 
-          Enregistrement...
+        <!-- ==================================================
+             INFORMATIONS PERSONNELLES
+             ================================================== -->
 
-        } @else {
+        <div class="form-section">
 
-          Enregistrer les modifications
+          <div class="form-section-title">
 
-        }
+            <div class="section-number">
+              01
+            </div>
 
+            <div>
+
+              <h3>
+                Informations personnelles
+              </h3>
+
+              <p>
+                Quelques informations générales sur vous.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="form-grid">
+
+
+            <!-- ==================================================
+                 NATIONALITÉ
+                 ================================================== -->
+
+            <div class="form-group">
+
+              <label for="nationalite">
+
+                Nationalité
+
+                <span class="required">
+                  *
+                </span>
+
+              </label>
+
+
+              <input
+                id="nationalite"
+                name="nationalite"
+                type="text"
+                [(ngModel)]="profileForm.nationalite"
+                placeholder="Ex. Ivoirienne"
+                autocomplete="country-name"
+                minlength="2"
+                pattern="[A-Za-zÀ-ÖØ-öø-ÿ' -]+"
+                required
+              />
+
+
+              <!-- Message d'erreur de nationalité -->
+
+              <small
+                class="field-error"
+                *ngIf="
+                  profileForm.nationalite &&
+                  !isNationaliteValid()
+                "
+              >
+                La nationalité doit contenir uniquement des lettres,
+                espaces, apostrophes ou tirets.
+              </small>
+
+            </div>
+
+
+            <!-- ==================================================
+                 TÉLÉPHONE
+                 ================================================== -->
+
+            <div class="form-group">
+
+              <label for="telephone">
+
+                Numéro de téléphone
+
+                <span class="required">
+                  *
+                </span>
+
+              </label>
+
+
+              <input
+                id="telephone"
+                name="telephone"
+                type="tel"
+                [(ngModel)]="profileForm.telephone"
+                placeholder="Ex. 0612345678"
+                inputmode="numeric"
+                maxlength="10"
+                minlength="10"
+                pattern="^0[1-9][0-9]{8}$"
+                autocomplete="tel"
+                required
+              />
+
+
+              <!-- Message d'erreur du téléphone -->
+
+              <small
+                class="field-error"
+                *ngIf="
+                  profileForm.telephone &&
+                  !isPhoneValid()
+                "
+              >
+                Le numéro doit contenir exactement 10 chiffres
+                et commencer par 01 à 09.
+              </small>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             ÉTUDES
+             ================================================== -->
+
+        <div class="form-section">
+
+          <div class="form-section-title">
+
+            <div class="section-number">
+              02
+            </div>
+
+            <div>
+
+              <h3>
+                Mes études
+              </h3>
+
+              <p>
+                Informations concernant votre établissement
+                et votre parcours d'études.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="form-grid">
+
+
+            <!-- ==================================================
+                 NIVEAU D'ÉTUDES
+                 ================================================== -->
+
+            <div class="form-group">
+
+              <label for="niveauEtudes">
+
+                Niveau d'études
+
+                <span class="required">
+                  *
+                </span>
+
+              </label>
+
+
+              <select
+                id="niveauEtudes"
+                name="niveauEtudes"
+                [(ngModel)]="profileForm.niveauEtudes"
+                required
+              >
+
+                <option value="">
+                  Sélectionnez votre niveau
+                </option>
+
+                <option
+                  *ngFor="let niveau of niveauxEtudes"
+                  [value]="niveau"
+                >
+                  {{ niveau }}
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <!-- ==================================================
+                 UNIVERSITÉ / ÉTABLISSEMENT
+                 ================================================== -->
+
+            <div class="form-group">
+
+              <label for="universite">
+
+                Université / établissement
+
+                <span class="required">
+                  *
+                </span>
+
+              </label>
+
+
+              <input
+                id="universite"
+                name="universite"
+                type="text"
+                [(ngModel)]="profileForm.universite"
+                placeholder="Ex. Université Paris Cité"
+                autocomplete="organization"
+                minlength="2"
+                pattern="[A-Za-zÀ-ÖØ-öø-ÿ0-9' .,&()/-]+"
+                required
+              />
+
+
+              <!-- Message d'erreur de l'établissement -->
+
+              <small
+                class="field-error"
+                *ngIf="
+                  profileForm.universite &&
+                  !isUniversiteValid()
+                "
+              >
+                Le nom de l'établissement contient des caractères
+                non autorisés.
+              </small>
+
+            </div>
+
+
+            <!-- ==================================================
+                 VILLE D'ÉTUDES
+                 ================================================== -->
+
+            <div class="form-group">
+
+              <label for="villeEtudes">
+
+                Ville d'études
+
+                <span class="required">
+                  *
+                </span>
+
+              </label>
+
+
+              <input
+                id="villeEtudes"
+                name="villeEtudes"
+                type="text"
+                [(ngModel)]="profileForm.villeEtudes"
+                placeholder="Ex. Paris"
+                autocomplete="address-level2"
+                minlength="2"
+                pattern="[A-Za-zÀ-ÖØ-öø-ÿ' -]+"
+                required
+              />
+
+
+              <!-- Message d'erreur de la ville -->
+
+              <small
+                class="field-error"
+                *ngIf="
+                  profileForm.villeEtudes &&
+                  !isVilleValid()
+                "
+              >
+                La ville doit contenir uniquement des lettres,
+                espaces, apostrophes ou tirets.
+              </small>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             SITUATION ADMINISTRATIVE
+             ================================================== -->
+
+        <div class="form-section">
+
+          <div class="form-section-title">
+
+            <div class="section-number">
+              03
+            </div>
+
+            <div>
+
+              <h3>
+                Situation administrative
+              </h3>
+
+              <p>
+                Ces informations permettent d'adapter
+                les démarches proposées.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="form-grid">
+
+
+            <!-- ==================================================
+                 TYPE DE VISA
+                 ================================================== -->
+
+            <div class="form-group">
+
+              <label for="typeVisa">
+
+                Type de visa / séjour
+
+                <span class="required">
+                  *
+                </span>
+
+              </label>
+
+
+              <select
+                id="typeVisa"
+                name="typeVisa"
+                [(ngModel)]="profileForm.typeVisa"
+                required
+              >
+
+                <option value="">
+                  Sélectionnez votre situation
+                </option>
+
+                <option
+                  *ngFor="let visa of typesVisa"
+                  [value]="visa.value"
+                >
+                  {{ visa.label }}
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <!-- ==================================================
+                 PREMIÈRE ARRIVÉE
+                 ================================================== -->
+
+            <div class="form-group arrival-group">
+
+              <label>
+
+                Première arrivée en France
+
+                <span class="required">
+                  *
+                </span>
+
+              </label>
+
+
+              <label
+                class="checkbox-card"
+                [class.checked]="profileForm.premiereArrivee"
+              >
+
+                <input
+                  type="checkbox"
+                  name="premiereArrivee"
+                  [(ngModel)]="profileForm.premiereArrivee"
+                />
+
+
+                <span class="custom-checkbox">
+                  ✓
+                </span>
+
+
+                <span class="checkbox-content">
+
+                  <strong>
+                    Oui, c'est ma première arrivée
+                  </strong>
+
+                  <small>
+                    Cette information peut être utilisée
+                    pour adapter certaines démarches.
+                  </small>
+
+                </span>
+
+              </label>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             LOGEMENT
+             ================================================== -->
+
+        <div class="form-section">
+
+          <div class="form-section-title">
+
+            <div class="section-number">
+              04
+            </div>
+
+            <div>
+
+              <h3>
+                Mon logement
+              </h3>
+
+              <p>
+                Indiquez votre situation de logement actuelle.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="form-grid">
+
+
+            <!-- ==================================================
+                 TYPE DE LOGEMENT
+                 ================================================== -->
+
+            <div class="form-group">
+
+              <label for="typeLogement">
+
+                Type de logement
+
+                <span class="required">
+                  *
+                </span>
+
+              </label>
+
+
+              <select
+                id="typeLogement"
+                name="typeLogement"
+                [(ngModel)]="profileForm.typeLogement"
+                required
+              >
+
+                <option value="">
+                  Sélectionnez votre logement
+                </option>
+
+                <option
+                  *ngFor="let logement of typesLogement"
+                  [value]="logement.value"
+                >
+                  {{ logement.label }}
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <!-- ==================================================
+                 ADRESSE
+                 ================================================== -->
+
+            <div class="form-group full-width">
+
+              <label for="adresse">
+
+                Adresse
+
+                <span class="required">
+                  *
+                </span>
+
+              </label>
+
+
+              <input
+                id="adresse"
+                name="adresse"
+                type="text"
+                [(ngModel)]="profileForm.adresse"
+                placeholder="Ex. 10 rue de Paris, 75000 Paris"
+                autocomplete="street-address"
+                minlength="5"
+                pattern="[A-Za-zÀ-ÖØ-öø-ÿ0-9' .,\/-]+"
+                required
+              />
+
+
+              <!-- Message d'erreur de l'adresse -->
+
+              <small
+                class="field-error"
+                *ngIf="
+                  profileForm.adresse &&
+                  !isAdresseValid()
+                "
+              >
+                Veuillez saisir une adresse valide.
+                Les lettres, chiffres, espaces, tirets et caractères
+                d'adresse courants sont autorisés.
+              </small>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             ACTIONS
+             ================================================== -->
+
+        <div class="form-actions">
+
+
+          <!-- Bouton Annuler -->
+
+          <button
+            type="button"
+            class="btn btn-secondary"
+            *ngIf="profile"
+            (click)="cancelEditing()"
+            [disabled]="saving"
+          >
+            Annuler
+          </button>
+
+
+          <!-- Bouton Enregistrer -->
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="
+              saving ||
+              !profileFormElement.form.valid ||
+              !isFormValid()
+            "
+          >
+
+            <span
+              class="button-loader"
+              *ngIf="saving"
+            ></span>
+
+
+            <span>
+
+              {{
+                saving
+                  ? 'Enregistrement...'
+                  : profile
+                    ? 'Enregistrer les modifications'
+                    : 'Créer mon profil'
+              }}
+
+            </span>
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </section>
+
+
+    <!-- ======================================================
+         AFFICHAGE DU PROFIL
+         ====================================================== -->
+
+    <section
+      class="profile-card profile-display"
+      *ngIf="profile && !editing"
+    >
+
+
+      <!-- ====================================================
+           EN-TÊTE DU PROFIL
+           ==================================================== -->
+
+      <div class="profile-summary">
+
+        <div class="avatar">
+          {{ profile.nationalite.charAt(0).toUpperCase() }}
+        </div>
+
+
+        <div class="profile-identity">
+
+          <span class="section-label">
+            PROFIL ÉTUDIANT
+          </span>
+
+          <h2>
+            Mon profil
+          </h2>
+
+          <p>
+            Les informations utilisées pour personnaliser
+            votre parcours.
+          </p>
+
+        </div>
+
+
+        <!-- Bouton modifier -->
+
+        <button
+          type="button"
+          class="btn btn-primary edit-button"
+          (click)="startEditing()"
+        >
+
+          <span>
+            ✎
+          </span>
+
+          Modifier
+
+        </button>
+
+      </div>
+
+
+      <!-- ====================================================
+           INFORMATIONS DU PROFIL
+           ==================================================== -->
+
+      <div class="profile-information">
+
+
+        <!-- ==================================================
+             INFORMATIONS PERSONNELLES
+             ================================================== -->
+
+        <div class="information-block">
+
+          <div class="information-title">
+
+            <span class="information-icon">
+              👤
+            </span>
+
+            <h3>
+              Informations personnelles
+            </h3>
+
+          </div>
+
+
+          <div class="information-grid">
+
+
+            <div class="information-item">
+
+              <span class="information-label">
+                Nationalité
+              </span>
+
+              <strong>
+                {{ profile.nationalite || 'Non renseignée' }}
+              </strong>
+
+            </div>
+
+
+            <div class="information-item">
+
+              <span class="information-label">
+                Téléphone
+              </span>
+
+              <strong>
+                {{ profile.telephone || 'Non renseigné' }}
+              </strong>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             ÉTUDES
+             ================================================== -->
+
+        <div class="information-block">
+
+          <div class="information-title">
+
+            <span class="information-icon">
+              🎓
+            </span>
+
+            <h3>
+              Mes études
+            </h3>
+
+          </div>
+
+
+          <div class="information-grid">
+
+
+            <div class="information-item">
+
+              <span class="information-label">
+                Niveau d'études
+              </span>
+
+              <strong>
+                {{ profile.niveauEtudes || 'Non renseigné' }}
+              </strong>
+
+            </div>
+
+
+            <div class="information-item">
+
+              <span class="information-label">
+                Université / établissement
+              </span>
+
+              <strong>
+                {{ profile.universite || 'Non renseigné' }}
+              </strong>
+
+            </div>
+
+
+            <div class="information-item">
+
+              <span class="information-label">
+                Ville d'études
+              </span>
+
+              <strong>
+                {{ profile.villeEtudes || 'Non renseignée' }}
+              </strong>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             SITUATION ADMINISTRATIVE
+             ================================================== -->
+
+        <div class="information-block">
+
+          <div class="information-title">
+
+            <span class="information-icon">
+              🪪
+            </span>
+
+            <h3>
+              Situation administrative
+            </h3>
+
+          </div>
+
+
+          <div class="information-grid">
+
+
+            <div class="information-item">
+
+              <span class="information-label">
+                Type de visa / séjour
+              </span>
+
+              <strong>
+                {{ getVisaLabel() }}
+              </strong>
+
+            </div>
+
+
+            <div class="information-item">
+
+              <span class="information-label">
+                Première arrivée en France
+              </span>
+
+              <strong
+                [class.status-yes]="profile.premiereArrivee"
+                [class.status-no]="!profile.premiereArrivee"
+              >
+
+                {{
+                  profile.premiereArrivee
+                    ? 'Oui'
+                    : 'Non'
+                }}
+
+              </strong>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             LOGEMENT
+             ================================================== -->
+
+        <div class="information-block">
+
+          <div class="information-title">
+
+            <span class="information-icon">
+              🏠
+            </span>
+
+            <h3>
+              Mon logement
+            </h3>
+
+          </div>
+
+
+          <div class="information-grid">
+
+
+            <div class="information-item">
+
+              <span class="information-label">
+                Type de logement
+              </span>
+
+              <strong>
+                {{ getLogementLabel() }}
+              </strong>
+
+            </div>
+
+
+            <div class="information-item full-width">
+
+              <span class="information-label">
+                Adresse
+              </span>
+
+              <strong>
+                {{ profile.adresse || 'Non renseignée' }}
+              </strong>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ======================================================
+         MESSAGE SI AUCUN PROFIL
+         ====================================================== -->
+
+    <section
+      class="empty-profile"
+      *ngIf="!profile && !editing"
+    >
+
+      <div class="empty-icon">
+        👤
+      </div>
+
+      <h2>
+        Votre profil n'est pas encore configuré
+      </h2>
+
+      <p>
+        Complétez votre profil pour permettre à MyStudentGuide
+        de personnaliser votre parcours administratif.
+      </p>
+
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="editing = true"
+      >
+        Créer mon profil
       </button>
 
-    </div>
+    </section>
 
-  </form>
+  </ng-container>
 
 </div>

@@ -1,431 +1,285 @@
 <!--
-  Conteneur principal de la page des documents.
+  Page "Mes documents".
+
+  Cette page présente les documents nécessaires
+  pour réaliser les différentes démarches administratives.
+
+  IMPORTANT :
+  MyStudentGuide ne permet pas à l'étudiant de déposer,
+  télécharger ou stocker ses documents personnels.
+
+  La page affiche uniquement les documents requis
+  pour chaque démarche.
+  
+  La navbar et le footer ne sont pas déclarés ici :
+  ils sont gérés par le layout public de l'application.
 -->
-<div class="documents-container">
 
+<main class="documents-content">
 
-  <!-- ============================= -->
-  <!-- EN-TÊTE DE LA PAGE            -->
-  <!-- ============================= -->
+  <!-- ========================================================= -->
+  <!-- EN-TÊTE DE LA PAGE                                        -->
+  <!-- ========================================================= -->
 
-  <div class="page-header">
+  <section class="page-header">
+
+    <div class="header-icon">
+      📄
+    </div>
 
     <div>
 
-      <!-- Titre de la page -->
-      <h1>Mes documents</h1>
+      <h1>
+        Mes documents
+      </h1>
 
-      <!-- Petite description -->
       <p>
-        Gérez les documents associés à vos démarches administratives.
+        Consultez les documents nécessaires pour effectuer
+        vos différentes démarches administratives.
       </p>
 
     </div>
 
-
-    <!-- Bouton permettant d'ajouter un document -->
-    <button
-      class="btn-primary"
-      type="button"
-      (click)="openAddForm()"
-    >
-      + Ajouter un document
-    </button>
-
-  </div>
+  </section>
 
 
+  <!-- ========================================================= -->
+  <!-- INFORMATIONS                                               -->
+  <!-- ========================================================= -->
 
-  <!-- ============================= -->
-  <!-- MESSAGES                      -->
-  <!-- ============================= -->
+  <section class="information-box">
 
-  @if (successMessage) {
+    <div class="information-icon">
+      ℹ️
+    </div>
 
-    <div class="success-message">
+    <div>
 
-      {{ successMessage }}
+      <h2>
+        Les documents à préparer
+      </h2>
+
+      <p>
+        Cette page vous indique les documents nécessaires
+        pour chaque démarche administrative.
+      </p>
+
+      <p>
+        Vous pouvez ainsi savoir à l'avance quelles pièces
+        préparer avant de commencer une démarche.
+      </p>
+
+      <p>
+        <strong>
+          Aucun document personnel n'est envoyé ou enregistré
+          sur MyStudentGuide.
+        </strong>
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- ========================================================= -->
+  <!-- CHARGEMENT                                                  -->
+  <!-- ========================================================= -->
+
+  @if (isLoading) {
+
+    <div class="loading-container">
+
+      <div class="loader"></div>
+
+      <p>
+        Chargement des documents...
+      </p>
 
     </div>
 
   }
 
 
-  @if (errorMessage) {
+  <!-- ========================================================= -->
+  <!-- MESSAGE D'ERREUR                                            -->
+  <!-- ========================================================= -->
 
-    <div class="error-message">
+  @if (!isLoading && errorMessage) {
 
-      {{ errorMessage }}
+    <section class="error-box">
 
-    </div>
+      <span class="error-icon">
+        ⚠️
+      </span>
 
-  }
+      <p>
+        {{ errorMessage }}
+      </p>
 
-
-
-  <!-- ============================= -->
-  <!-- CHARGEMENT                    -->
-  <!-- ============================= -->
-
-  @if (loading && documents.length === 0) {
-
-    <div class="loading">
-
-      Chargement des documents...
-
-    </div>
+    </section>
 
   }
 
 
+  <!-- ========================================================= -->
+  <!-- AUCUN DOCUMENT                                              -->
+  <!-- ========================================================= -->
 
-  <!-- ============================= -->
-  <!-- FORMULAIRE                    -->
-  <!-- ============================= -->
+  @if (
+    !isLoading &&
+    !errorMessage &&
+    documentsParDemarche.length === 0
+  ) {
 
-  @if (showForm) {
+    <section class="empty-state">
 
-    <div class="form-card">
-
-      <div class="form-header">
-
-        <h2>
-
-          @if (editingId !== null) {
-            Modifier le document
-          } @else {
-            Ajouter un document
-          }
-
-        </h2>
-
-
-        <!-- Bouton de fermeture -->
-        <button
-          type="button"
-          class="close-button"
-          (click)="closeForm()"
-        >
-          ×
-        </button>
-
+      <div class="empty-icon">
+        📂
       </div>
 
+      <h2>
+        Aucun document requis
+      </h2>
 
-      <form (ngSubmit)="saveDocument()">
+      <p>
+        Aucun document requis n'est actuellement disponible
+        pour les démarches proposées.
+      </p>
 
-
-        <!-- Nom du fichier -->
-        <div class="form-group">
-
-          <label for="nomFichier">
-            Nom du fichier
-          </label>
-
-          <input
-            id="nomFichier"
-            type="text"
-            name="nomFichier"
-            [(ngModel)]="documentForm.nomFichier"
-            placeholder="Ex : certificat_scolarite.pdf"
-            required
-          >
-
-        </div>
-
-
-
-        <!-- Nom de stockage -->
-        <div class="form-group">
-
-          <label for="nomStockage">
-            Nom de stockage
-          </label>
-
-          <input
-            id="nomStockage"
-            type="text"
-            name="nomStockage"
-            [(ngModel)]="documentForm.nomStockage"
-            placeholder="Ex : certificat-123.pdf"
-            required
-          >
-
-        </div>
-
-
-
-        <!-- Type du fichier -->
-        <div class="form-group">
-
-          <label for="typeFichier">
-            Type de fichier
-          </label>
-
-          <select
-            id="typeFichier"
-            name="typeFichier"
-            [(ngModel)]="documentForm.typeFichier"
-            required
-          >
-
-            <option value="">
-              Sélectionner un type
-            </option>
-
-            <option value="application/pdf">
-              PDF
-            </option>
-
-            <option value="image/jpeg">
-              JPEG
-            </option>
-
-            <option value="image/png">
-              PNG
-            </option>
-
-          </select>
-
-        </div>
-
-
-
-        <!-- Taille -->
-        <div class="form-group">
-
-          <label for="taille">
-            Taille du fichier (octets)
-          </label>
-
-          <input
-            id="taille"
-            type="number"
-            name="taille"
-            [(ngModel)]="documentForm.taille"
-            min="1"
-            required
-          >
-
-        </div>
-
-
-
-        <!-- Chemin du fichier -->
-        <div class="form-group">
-
-          <label for="cheminFichier">
-            Chemin du fichier
-          </label>
-
-          <input
-            id="cheminFichier"
-            type="text"
-            name="cheminFichier"
-            [(ngModel)]="documentForm.cheminFichier"
-            placeholder="/uploads/documents/fichier.pdf"
-            required
-          >
-
-        </div>
-
-
-
-        <!-- ID de la démarche -->
-        <div class="form-group">
-
-          <label for="demarcheId">
-            ID de la démarche
-          </label>
-
-          <input
-            id="demarcheId"
-            type="number"
-            name="demarcheId"
-            [(ngModel)]="documentForm.demarcheId"
-            placeholder="Ex : 1"
-          >
-
-          <small>
-            Indiquez l'identifiant de la démarche associée.
-          </small>
-
-        </div>
-
-
-
-        <!-- Boutons -->
-        <div class="form-actions">
-
-          <button
-            type="button"
-            class="btn-secondary"
-            (click)="closeForm()"
-          >
-            Annuler
-          </button>
-
-
-          <button
-            type="submit"
-            class="btn-primary"
-            [disabled]="loading"
-          >
-
-            @if (editingId !== null) {
-              Modifier
-            } @else {
-              Ajouter
-            }
-
-          </button>
-
-        </div>
-
-      </form>
-
-    </div>
+    </section>
 
   }
 
 
+  <!-- ========================================================= -->
+  <!-- LISTE DES DÉMARCHES                                         -->
+  <!-- ========================================================= -->
 
-  <!-- ============================= -->
-  <!-- LISTE DES DOCUMENTS           -->
-  <!-- ============================= -->
+  @if (
+    !isLoading &&
+    !errorMessage &&
+    documentsParDemarche.length > 0
+  ) {
 
-  @if (!loading || documents.length > 0) {
+    <section class="documents-list">
 
-    @if (documents.length > 0) {
+      @for (
+        groupe of documentsParDemarche;
+        track groupe.demarcheId
+      ) {
 
-      <div class="documents-grid">
+        <!-- =================================================== -->
+        <!-- CARTE D'UNE DÉMARCHE                                 -->
+        <!-- =================================================== -->
 
-        @for (document of documents; track document.id) {
+        <article class="demarche-card">
 
-          <div class="document-card">
+          <!-- En-tête de la démarche -->
+          <div class="demarche-header">
 
-
-            <!-- Icône du document -->
-            <div class="document-icon">
-
-              📄
-
+            <div class="demarche-icon">
+              📋
             </div>
 
+            <div>
 
-            <!-- Informations -->
-            <div class="document-info">
+              <h2>
+                {{ groupe.nomDemarche }}
+              </h2>
 
-              <h3>
-
-                {{ document.nomFichier }}
-
-              </h3>
-
-
-              <p>
-
-                <strong>Type :</strong>
-
-                {{ getFileType(document.typeFichier) }}
-
-              </p>
-
-
-              <p>
-
-                <strong>Taille :</strong>
-
-                {{ formatFileSize(document.taille) }}
-
-              </p>
-
-
-              @if (document.dateUpload) {
-
-                <p>
-
-                  <strong>Ajouté le :</strong>
-
-                  {{ document.dateUpload | date:'dd/MM/yyyy à HH:mm' }}
-
-                </p>
-
-              }
-
-
-              @if (document.demarcheId) {
-
-                <p>
-
-                  <strong>Démarche :</strong>
-
-                  #{{ document.demarcheId }}
-
-                </p>
-
-              }
-
-            </div>
-
-
-            <!-- Actions -->
-            <div class="document-actions">
-
-              <button
-                type="button"
-                class="btn-edit"
-                (click)="editDocument(document)"
-              >
-                Modifier
-              </button>
-
-
-              <button
-                type="button"
-                class="btn-delete"
-                (click)="deleteDocument(document.id)"
-              >
-                Supprimer
-              </button>
+              <span>
+                {{ groupe.documents.length }}
+                document{{ groupe.documents.length > 1 ? 's' : '' }}
+                requis
+              </span>
 
             </div>
 
           </div>
 
-        }
 
-      </div>
+          <!-- Description de la démarche -->
+          @if (groupe.descriptionDemarche) {
 
-    } @else {
+            <div class="demarche-description">
 
-      <!-- Aucun document -->
-      <div class="empty-state">
+              <p>
+                {{ groupe.descriptionDemarche }}
+              </p>
 
-        <div class="empty-icon">
-          📁
-        </div>
+            </div>
 
-        <h2>
-          Aucun document
-        </h2>
+          }
 
-        <p>
-          Vous n'avez encore aucun document enregistré.
-        </p>
 
-        <button
-          type="button"
-          class="btn-primary"
-          (click)="openAddForm()"
-        >
-          Ajouter mon premier document
-        </button>
+          <!-- ================================================= -->
+          <!-- DOCUMENTS REQUIS                                   -->
+          <!-- ================================================= -->
 
-      </div>
+          <div class="documents-items">
 
-    }
+            @for (
+              document of groupe.documents;
+              track document.id
+            ) {
+
+              <div class="document-item">
+
+                <!-- Icône du document -->
+                <div class="document-icon">
+                  📄
+                </div>
+
+
+                <!-- Informations du document -->
+                <div class="document-information">
+
+                  <div class="document-title-row">
+
+                    <h3>
+                      {{ document.nom }}
+                    </h3>
+
+                    <span class="required-badge">
+                      Requis
+                    </span>
+
+                  </div>
+
+
+                  <!-- Description du document -->
+                  @if (document.description) {
+
+                    <p>
+                      {{ document.description }}
+                    </p>
+
+                  }
+
+
+                  <!-- Type du document -->
+                  @if (document.type) {
+
+                    <span class="document-type">
+                      {{ document.type }}
+                    </span>
+
+                  }
+
+                </div>
+
+              </div>
+
+            }
+
+          </div>
+
+        </article>
+
+      }
+
+    </section>
 
   }
 
-</div>
+</main>

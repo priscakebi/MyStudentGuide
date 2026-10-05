@@ -1,527 +1,768 @@
-/*
- * Conteneur principal de la page
- * des notifications.
- */
+/* ================================================================
+CONTENEUR PRINCIPAL
+================================================================ */
+
 .notifications-container {
-
-  min-height: 100vh;
-
-  padding: 40px;
-
-  background-color: #f8f8f8;
-
-  box-sizing: border-box;
-
+width: 100%;
+max-width: 1100px;
+margin: 0 auto;
+padding: 32px;
+box-sizing: border-box;
 }
 
+/* ================================================================
+EN-TÊTE
+================================================================ */
 
-/*
- * En-tête de la page.
- */
 .notifications-header {
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 24px;
 
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: center;
-
-  margin-bottom: 30px;
-
+margin-bottom: 24px;
 }
 
-
-/*
- * Titre principal.
- */
 .notifications-header h1 {
+margin: 0 0 8px;
 
-  margin: 0;
-
-  color: #c00000;
-
-  font-size: 32px;
-
+color: #1f2937;
+font-size: 2rem;
+font-weight: 700;
 }
 
-
-/*
- * Sous-titre.
- */
 .notifications-header p {
+margin: 0;
 
-  margin-top: 8px;
+color: #6b7280;
+font-size: 0.95rem;
+}
 
-  color: #666;
+/* ================================================================
+COMPTEUR
+================================================================ */
+
+.notification-counter {
+display: flex;
+align-items: center;
+gap: 9px;
+
+padding: 10px 15px;
+
+background: #fff5f5;
+border: 1px solid #ffd6d6;
+border-radius: 10px;
+
+color: #b91c1c;
+}
+
+.notification-counter span {
+display: flex;
+align-items: center;
+justify-content: center;
+
+min-width: 30px;
+height: 30px;
+padding: 0 7px;
+
+background: #d71920;
+border-radius: 50%;
+
+color: #ffffff;
+font-size: 0.8rem;
+font-weight: 700;
+}
+
+.notification-counter small {
+font-size: 0.8rem;
+font-weight: 600;
+}
+
+/* ================================================================
+ACTIONS
+================================================================ */
+
+.actions {
+display: flex;
+justify-content: flex-end;
+
+margin-bottom: 20px;
+}
+
+.actions button {
+display: inline-flex;
+align-items: center;
+gap: 7px;
+
+padding: 9px 15px;
+
+background: #ffffff;
+border: 1px solid #d71920;
+border-radius: 8px;
+
+color: #d71920;
+
+font-family: inherit;
+font-size: 0.82rem;
+font-weight: 600;
+
+cursor: pointer;
+
+transition:
+background-color 0.2s ease,
+color 0.2s ease,
+transform 0.2s ease;
+}
+
+.actions button:hover:not(:disabled) {
+background: #d71920;
+color: #ffffff;
+transform: translateY(-1px);
+}
+
+.actions button:disabled {
+opacity: 0.5;
+cursor: not-allowed;
+}
+
+/* ================================================================
+MESSAGE D'ERREUR
+================================================================ */
+
+.error-message {
+margin-bottom: 20px;
+padding: 14px 16px;
+
+background: #fef2f2;
+border: 1px solid #fecaca;
+border-radius: 9px;
+
+color: #991b1b;
+
+font-size: 0.88rem;
+}
+
+/* ================================================================
+CHARGEMENT
+================================================================ */
+
+.loading {
+display: flex;
+align-items: center;
+justify-content: center;
+
+min-height: 250px;
+
+color: #6b7280;
+font-size: 0.9rem;
+}
+
+/* ================================================================
+ÉTAT VIDE
+================================================================ */
+
+.empty-state {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+
+min-height: 300px;
+padding: 40px;
+
+background: #ffffff;
+border: 1px solid #eeeeee;
+border-radius: 16px;
+
+text-align: center;
+
+box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+}
+
+.empty-icon {
+display: flex;
+align-items: center;
+justify-content: center;
+
+width: 65px;
+height: 65px;
+
+margin-bottom: 18px;
+
+background: #fff5f5;
+border-radius: 50%;
+
+font-size: 1.7rem;
+}
+
+.empty-state h2 {
+margin: 0 0 8px;
+
+color: #1f2937;
+font-size: 1.15rem;
+}
+
+.empty-state p {
+margin: 0;
+
+color: #6b7280;
+font-size: 0.88rem;
+}
+
+/* ================================================================
+LISTE DES NOTIFICATIONS
+================================================================ */
+
+.notifications-list {
+display: flex;
+flex-direction: column;
+gap: 12px;
+}
+
+/* ================================================================
+CARTE NOTIFICATION
+================================================================ */
+
+.notification-card {
+position: relative;
+
+display: flex;
+align-items: flex-start;
+gap: 16px;
+
+width: 100%;
+box-sizing: border-box;
+
+padding: 20px;
+
+background: #ffffff;
+
+border: 1px solid #eeeeee;
+border-radius: 13px;
+
+cursor: pointer;
+
+box-shadow: 0 3px 12px rgba(0, 0, 0, 0.035);
+
+transition:
+transform 0.2s ease,
+border-color 0.2s ease,
+box-shadow 0.2s ease,
+background-color 0.2s ease;
+}
+
+/*
+
+* Effet lorsque l'utilisateur passe la souris
+* sur une notification.
+  */
+  .notification-card:hover {
+  transform: translateY(-2px);
+
+border-color: #f0a0a3;
+
+box-shadow: 0 7px 22px rgba(215, 25, 32, 0.08);
+
+background: #fffdfd;
+}
+
+/* ================================================================
+NOTIFICATION NON LUE
+================================================================ */
+
+.notification-card.unread {
+background: #fffafa;
+
+border-left: 4px solid #d71920;
+}
+
+/*
+
+* La notification non lue devient légèrement plus visible
+* au survol.
+  */
+  .notification-card.unread:hover {
+  background: #fff6f6;
+  }
+
+/* ================================================================
+ICÔNE
+================================================================ */
+
+.notification-icon {
+display: flex;
+align-items: center;
+justify-content: center;
+
+width: 45px;
+height: 45px;
+
+flex-shrink: 0;
+
+background: #f5f5f5;
+border-radius: 12px;
+
+font-size: 1.1rem;
+
+transition:
+background-color 0.2s ease,
+transform 0.2s ease;
+}
+
+.notification-card:hover .notification-icon {
+background: #ffe5e5;
+transform: scale(1.05);
+}
+
+.notification-card.unread .notification-icon {
+background: #ffe5e5;
+}
+
+/* ================================================================
+CONTENU DE LA NOTIFICATION
+================================================================ */
+
+.notification-content {
+min-width: 0;
+flex: 1;
+}
+
+.notification-title-row {
+display: flex;
+align-items: center;
+flex-wrap: wrap;
+gap: 9px;
+
+margin-bottom: 7px;
+}
+
+.notification-title-row h3 {
+margin: 0;
+
+color: #1f2937;
+
+font-size: 0.98rem;
+font-weight: 700;
+line-height: 1.4;
+}
+
+.notification-content > p {
+margin: 0 0 8px;
+
+color: #6b7280;
+
+font-size: 0.87rem;
+line-height: 1.6;
+
+overflow-wrap: anywhere;
+}
+
+.notification-card.unread .notification-content > p {
+color: #4b5563;
+}
+
+.notification-content > small {
+color: #9ca3af;
+font-size: 0.75rem;
+}
+
+/* ================================================================
+BADGE "NON LUE"
+================================================================ */
+
+.unread-badge {
+display: inline-flex;
+align-items: center;
+
+padding: 4px 8px;
+
+background: #ffe5e5;
+border-radius: 20px;
+
+color: #c5161d;
+
+font-size: 0.67rem;
+font-weight: 700;
+
+text-transform: uppercase;
+}
+
+/* ================================================================
+ACTIONS DE LA NOTIFICATION
+================================================================ */
+
+.notification-actions {
+display: flex;
+align-items: center;
+flex-wrap: wrap;
+gap: 8px;
+
+margin-top: 15px;
+}
+
+/* ================================================================
+BOUTON "MARQUER COMME LUE"
+================================================================ */
+
+.read-button {
+padding: 8px 12px;
+
+background: #fff5f5;
+border: 1px solid #f2b5b7;
+border-radius: 7px;
+
+color: #c5161d;
+
+font-family: inherit;
+font-size: 0.75rem;
+font-weight: 600;
+
+cursor: pointer;
+
+transition:
+background-color 0.2s ease,
+border-color 0.2s ease,
+color 0.2s ease;
+}
+
+.read-button:hover {
+background: #d71920;
+border-color: #d71920;
+
+color: #ffffff;
+}
+
+/* ================================================================
+BOUTON "SUPPRIMER"
+================================================================ */
+
+.delete-button {
+padding: 8px 12px;
+
+background: #ffffff;
+border: 1px solid #e5e7eb;
+border-radius: 7px;
+
+color: #6b7280;
+
+font-family: inherit;
+font-size: 0.75rem;
+font-weight: 600;
+
+cursor: pointer;
+
+transition:
+background-color 0.2s ease,
+border-color 0.2s ease,
+color 0.2s ease;
+}
+
+.delete-button:hover {
+background: #fef2f2;
+border-color: #fecaca;
+
+color: #dc2626;
+}
+
+/* ================================================================
+RESPONSIVE — TABLETTE
+================================================================ */
+
+@media (max-width: 800px) {
+
+.notifications-container {
+padding: 24px;
+}
+
+.notifications-header {
+align-items: flex-start;
+flex-direction: column;
+}
+
+.notification-counter {
+align-self: flex-start;
+}
+}
+
+/* ================================================================
+RESPONSIVE — MOBILE
+================================================================ */
+
+@media (max-width: 600px) {
+
+.notifications-container {
+padding: 16px;
+}
+
+.notifications-header h1 {
+font-size: 1.6rem;
+}
+
+.notifications-header p {
+font-size: 0.85rem;
+}
+
+.actions {
+justify-content: stretch;
+}
+
+.actions button {
+width: 100%;
+justify-content: center;
+}
+
+.notification-card {
+gap: 12px;
+padding: 16px;
+}
+
+.notification-icon {
+width: 40px;
+height: 40px;
+
+
+border-radius: 10px;
+
+font-size: 1rem;
 
 }
 
+.notification-title-row h3 {
+font-size: 0.9rem;
+}
 
-/*
- * Compteur des notifications non lues.
- */
+.notification-content > p {
+font-size: 0.82rem;
+}
+
+.notification-actions {
+flex-direction: column;
+align-items: stretch;
+}
+
+.read-button,
+.delete-button {
+width: 100%;
+}
+}
+
+/* ================================================================
+TRÈS PETITS ÉCRANS
+================================================================ */
+
+@media (max-width: 420px) {
+
+.notifications-container {
+padding: 12px;
+}
+
+.notification-card {
+flex-direction: column;
+}
+
+.notification-icon {
+width: 38px;
+height: 38px;
+}
+
+.notification-content {
+width: 100%;
+}
+
 .notification-counter {
+width: 100%;
+box-sizing: border-box;
+justify-content: center;
+}
+}
 
-  display: flex;
+/* ================================================================
+   DÉTAIL D'UNE NOTIFICATION
+   ================================================================ */
 
+.notification-detail {
+  width: 100%;
+}
+
+
+/* ================================================================
+   BOUTON RETOUR
+   ================================================================ */
+
+.back-button {
+  display: inline-flex;
   align-items: center;
 
-  gap: 8px;
+  margin-bottom: 20px;
+  padding: 9px 0;
 
-  background-color: #ffffff;
-
-  border: 2px solid #c00000;
-
-  border-radius: 10px;
-
-  padding: 12px 18px;
-
-}
-
-
-/*
- * Nombre de notifications.
- */
-.notification-counter span {
-
-  font-size: 24px;
-
-  font-weight: bold;
-
-  color: #c00000;
-
-}
-
-
-/*
- * Texte du compteur.
- */
-.notification-counter small {
-
-  color: #555;
-
-}
-
-
-/*
- * Zone contenant les actions.
- */
-.actions {
-
-  margin-bottom: 25px;
-
-}
-
-
-/*
- * Bouton actualiser.
- */
-.actions button {
-
-  background-color: #c00000;
-
-  color: white;
-
+  background: transparent;
   border: none;
 
-  border-radius: 8px;
+  color: #d71920;
 
-  padding: 11px 20px;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
 
   cursor: pointer;
 
-  font-size: 15px;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
 
+.back-button:hover {
+  color: #a80f15;
+  transform: translateX(-3px);
 }
 
 
-/*
- * Effet au survol.
- */
-.actions button:hover {
+/* ================================================================
+   CARTE DU DÉTAIL
+   ================================================================ */
 
-  background-color: #990000;
+.notification-detail-card {
+  width: 100%;
+  box-sizing: border-box;
 
+  padding: 32px;
+
+  background: #ffffff;
+
+  border: 1px solid #eeeeee;
+  border-radius: 16px;
+
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
 }
 
 
-/*
- * Bouton désactivé.
- */
-.actions button:disabled {
+/* ================================================================
+   ICÔNE DU DÉTAIL
+   ================================================================ */
 
-  opacity: 0.6;
+.notification-detail-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  cursor: not-allowed;
-
-}
-
-
-/*
- * Message d'erreur.
- */
-.error-message {
-
-  background-color: #ffe5e5;
-
-  color: #b00000;
-
-  border-left: 4px solid #c00000;
-
-  padding: 15px;
-
-  border-radius: 6px;
+  width: 56px;
+  height: 56px;
 
   margin-bottom: 20px;
 
+  background: #ffe5e5;
+  border-radius: 14px;
+
+  font-size: 1.4rem;
 }
 
 
-/*
- * Message de chargement.
- */
-.loading {
+/* ================================================================
+   TITRE
+   ================================================================ */
 
-  text-align: center;
-
-  padding: 40px;
-
-  color: #666;
-
-}
-
-
-/*
- * État lorsqu'il n'y a aucune notification.
- */
-.empty-state {
-
-  background-color: #ffffff;
-
-  border-radius: 12px;
-
-  padding: 50px;
-
-  text-align: center;
-
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
-
-}
-
-
-/*
- * Icône de l'état vide.
- */
-.empty-icon {
-
-  font-size: 45px;
-
-  margin-bottom: 15px;
-
-}
-
-
-/*
- * Titre de l'état vide.
- */
-.empty-state h2 {
-
-  margin-bottom: 10px;
-
-  color: #333;
-
-}
-
-
-/*
- * Texte de l'état vide.
- */
-.empty-state p {
-
-  color: #777;
-
-}
-
-
-/*
- * Liste des notifications.
- */
-.notifications-list {
-
+.notification-detail-title {
   display: flex;
-
-  flex-direction: column;
-
-  gap: 15px;
-
-}
-
-
-/*
- * Carte d'une notification.
- */
-.notification-card {
-
-  display: flex;
-
-  gap: 18px;
-
-  background-color: #ffffff;
-
-  padding: 20px;
-
-  border-radius: 12px;
-
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
-
-  border-left: 4px solid transparent;
-
-  transition: 0.2s;
-
-}
-
-
-/*
- * Notification non lue.
- */
-.notification-card.unread {
-
-  border-left-color: #c00000;
-
-  background-color: #fffafa;
-
-}
-
-
-/*
- * Effet au survol.
- */
-.notification-card:hover {
-
-  transform: translateY(-2px);
-
-  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.12);
-
-}
-
-
-/*
- * Icône de notification.
- */
-.notification-icon {
-
-  width: 45px;
-
-  height: 45px;
-
-  min-width: 45px;
-
-  display: flex;
-
-  justify-content: center;
-
   align-items: center;
-
-  background-color: #ffe5e5;
-
-  border-radius: 50%;
-
-  font-size: 20px;
-
-}
-
-
-/*
- * Contenu de la notification.
- */
-.notification-content {
-
-  flex: 1;
-
-}
-
-
-/*
- * Ligne contenant le titre
- * et le badge.
- */
-.notification-title-row {
-
-  display: flex;
-
-  align-items: center;
-
+  flex-wrap: wrap;
   gap: 10px;
-
 }
 
-
-/*
- * Titre de la notification.
- */
-.notification-title-row h3 {
-
+.notification-detail-title h1 {
   margin: 0;
 
-  color: #333;
+  color: #1f2937;
 
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 
 
-/*
- * Badge "Non lue".
- */
-.unread-badge {
+/* ================================================================
+   DATE
+   ================================================================ */
 
-  background-color: #c00000;
+.notification-detail-date {
+  margin-top: 10px;
 
-  color: white;
+  color: #9ca3af;
 
-  font-size: 12px;
-
-  padding: 4px 8px;
-
-  border-radius: 20px;
-
+  font-size: 0.8rem;
 }
 
 
-/*
- * Message de la notification.
- */
-.notification-content p {
+/* ================================================================
+   SÉPARATEUR
+   ================================================================ */
 
-  margin: 10px 0;
+.notification-detail-divider {
+  width: 100%;
+  height: 1px;
 
-  color: #555;
+  margin: 24px 0;
 
-  line-height: 1.5;
-
+  background: #eeeeee;
 }
 
 
-/*
- * Date de création.
- */
-.notification-content small {
+/* ================================================================
+   MESSAGE
+   ================================================================ */
 
-  color: #888;
+.notification-detail-message {
+  max-width: 850px;
+}
 
+.notification-detail-message p {
+  margin: 0;
+
+  color: #4b5563;
+
+  font-size: 0.95rem;
+  line-height: 1.8;
+
+  white-space: pre-line;
 }
 
 
-/*
- * Zone des boutons.
- */
-.notification-actions {
+/* ================================================================
+   ACTIONS DU DÉTAIL
+   ================================================================ */
 
+.notification-detail-actions {
   display: flex;
-
+  flex-wrap: wrap;
   gap: 10px;
 
-  margin-top: 15px;
-
+  margin-top: 30px;
 }
 
 
-/*
- * Bouton "Marquer comme lue".
- */
-.read-button {
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
 
-  background-color: #c00000;
+@media (max-width: 600px) {
 
-  color: white;
-
-  border: none;
-
-  border-radius: 6px;
-
-  padding: 8px 12px;
-
-  cursor: pointer;
-
-}
-
-
-/*
- * Bouton supprimer.
- */
-.delete-button {
-
-  background-color: white;
-
-  color: #c00000;
-
-  border: 1px solid #c00000;
-
-  border-radius: 6px;
-
-  padding: 8px 12px;
-
-  cursor: pointer;
-
-}
-
-
-/*
- * Effet au survol des boutons.
- */
-.read-button:hover {
-
-  background-color: #990000;
-
-}
-
-
-.delete-button:hover {
-
-  background-color: #ffe5e5;
-
-}
-
-
-/*
- * Adaptation aux écrans plus petits.
- */
-@media (max-width: 700px) {
-
-  .notifications-container {
-
-    padding: 20px;
-
+  .notification-detail-card {
+    padding: 22px 18px;
+    border-radius: 12px;
   }
 
+  .notification-detail-title h1 {
+    font-size: 1.25rem;
+  }
 
-  .notifications-header {
+  .notification-detail-message p {
+    font-size: 0.88rem;
+  }
 
+  .notification-detail-actions {
     flex-direction: column;
-
-    align-items: flex-start;
-
-    gap: 20px;
-
   }
 
-
-  .notification-card {
-
-    flex-direction: column;
-
-  }
-
-
-  .notification-actions {
-
-    flex-direction: column;
-
-  }
-
-
-  .notification-actions button {
-
+  .notification-detail-actions button {
     width: 100%;
-
   }
-
 }

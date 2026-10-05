@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+
 
 /**
  * Interface représentant une notification
@@ -38,6 +40,17 @@ interface Notification {
 /**
  * Composant responsable de l'affichage
  * et de la gestion des notifications.
+ *
+ * Fonctionnalités :
+ * - afficher les notifications ;
+ * - afficher le nombre de notifications non lues ;
+ * - ouvrir une notification ;
+ * - marquer automatiquement une notification comme lue
+ *   lorsqu'elle est ouverte ;
+ * - permettre de marquer une notification comme lue
+ *   sans l'ouvrir ;
+ * - supprimer une notification ;
+ * - actualiser la liste.
  */
 @Component({
 
@@ -60,7 +73,7 @@ export class Notifications implements OnInit {
   /**
    * URL de base de l'API Spring Boot.
    */
-  private apiUrl = 'http://localhost:8080/api';
+  private apiUrl = environment.apiUrl;
 
 
   /**
@@ -86,6 +99,15 @@ export class Notifications implements OnInit {
    * de chargement.
    */
   loading = false;
+
+
+  /**
+   * Notification actuellement ouverte.
+   *
+   * Si la valeur est null, aucune notification
+   * n'est actuellement affichée en détail.
+   */
+  selectedNotification: Notification | null = null;
 
 
   /**
@@ -136,11 +158,13 @@ export class Notifications implements OnInit {
 
     const userId = localStorage.getItem('userId');
 
+
     if (!userId) {
 
       return null;
 
     }
+
 
     return Number(userId);
 
@@ -156,6 +180,7 @@ export class Notifications implements OnInit {
   private getHeaders(): HttpHeaders {
 
     const token = this.getToken();
+
 
     return new HttpHeaders({
 
@@ -216,6 +241,7 @@ export class Notifications implements OnInit {
         this.notifications = data;
 
         this.loading = false;
+
 
         /**
          * Met également à jour le compteur
@@ -284,6 +310,7 @@ export class Notifications implements OnInit {
 
       },
 
+
       error: (error) => {
 
         console.error(
@@ -299,11 +326,65 @@ export class Notifications implements OnInit {
 
 
   /**
+   * Ouvre une notification.
+   *
+   * Lorsqu'une notification non lue est ouverte,
+   * elle est automatiquement marquée comme lue.
+   *
+   * Une notification déjà lue est simplement affichée
+   * sans effectuer de nouvelle requête vers l'API.
+   */
+  openNotification(notification: Notification): void {
+
+    /**
+     * Définit la notification sélectionnée.
+     *
+     * Le HTML pourra alors afficher son contenu
+     * détaillé à la place de la liste.
+     */
+    this.selectedNotification = notification;
+
+
+    /**
+     * Si la notification est déjà lue,
+     * aucune requête supplémentaire n'est nécessaire.
+     */
+    if (notification.lu) {
+
+      return;
+
+    }
+
+
+    /**
+     * La notification est non lue :
+     * son ouverture entraîne automatiquement
+     * son passage à l'état "lue".
+     */
+    this.markAsRead(notification);
+
+  }
+
+
+  /**
+   * Ferme la notification actuellement ouverte
+   * et revient à la liste.
+   */
+  closeNotification(): void {
+
+    this.selectedNotification = null;
+
+  }
+
+
+  /**
    * Marque une notification comme lue.
    *
-   * Endpoint :
+   * Cette méthode peut être utilisée directement
+   * depuis le bouton "Marquer comme lue".
    *
-   * PATCH /api/notifications/{id}/read
+   * Contrairement à openNotification(), cette méthode
+   * ne sélectionne pas la notification.
    */
   markAsRead(notification: Notification): void {
 
@@ -318,6 +399,11 @@ export class Notifications implements OnInit {
     }
 
 
+    /**
+     * Appel de l'API :
+     *
+     * PATCH /api/notifications/{id}/read
+     */
     this.http.patch<Notification>(
 
       `${this.apiUrl}/notifications/${notification.id}/read`,
@@ -336,19 +422,41 @@ export class Notifications implements OnInit {
       next: (updatedNotification) => {
 
         /**
-         * Remplace la notification locale
-         * par la version retournée par l'API.
+         * Mise à jour de l'état local
+         * de la notification.
          */
-        notification.lu = updatedNotification.lu;
+        notification.lu =
+          updatedNotification.lu;
+
 
         /**
-         * Actualise le compteur.
+         * Si cette notification est actuellement
+         * ouverte, on met également à jour
+         * la notification sélectionnée.
+         */
+        if (
+          this.selectedNotification &&
+          this.selectedNotification.id === notification.id
+        ) {
+
+          this.selectedNotification.lu =
+            updatedNotification.lu;
+
+        }
+
+
+        /**
+         * Actualise le compteur
+         * de notifications non lues.
          */
         this.loadUnreadCount();
 
       },
 
 
+      /**
+       * Gestion des erreurs.
+       */
       error: (error) => {
 
         console.error(
@@ -409,6 +517,21 @@ export class Notifications implements OnInit {
 
 
         /**
+         * Si la notification supprimée était
+         * actuellement ouverte, on revient
+         * automatiquement à la liste.
+         */
+        if (
+          this.selectedNotification &&
+          this.selectedNotification.id === notification.id
+        ) {
+
+          this.selectedNotification = null;
+
+        }
+
+
+        /**
          * Actualise le compteur.
          */
         this.loadUnreadCount();
@@ -416,6 +539,9 @@ export class Notifications implements OnInit {
       },
 
 
+      /**
+       * Gestion des erreurs.
+       */
       error: (error) => {
 
         console.error(
@@ -433,8 +559,14 @@ export class Notifications implements OnInit {
   /**
    * Permet de rafraîchir manuellement
    * la liste des notifications.
+   *
+   * Si une notification est actuellement ouverte,
+   * on revient d'abord à la liste afin d'afficher
+   * les données actualisées.
    */
   refresh(): void {
+
+    this.selectedNotification = null;
 
     this.loadNotifications();
 

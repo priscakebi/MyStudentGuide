@@ -4,6 +4,8 @@ import { Component } from '@angular/core';
 // Importe RouterOutlet pour afficher les pages
 // définies dans app.routes.ts.
 import { RouterOutlet } from '@angular/router';
+import { Navbar } from './components/navbar/navbar';
+import { Footer } from './components/footer/footer';
 
 @Component({
   // Nom du composant racine de l'application.

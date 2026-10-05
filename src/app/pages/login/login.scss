@@ -480,3 +480,38 @@ input:focus {
     font-size: 25px;
   }
 }
+
+
+// =====================================================
+// MESSAGE D'INFORMATION (ex : session expirée)
+// =====================================================
+
+.info {
+  color: #1f3a8a;
+  background: #e8edfb;
+  border-left: 4px solid #1f3a8a;
+  padding: 10px 12px;
+  margin: 0 0 16px;
+  font-size: 14px;
+  border-radius: 8px;
+}
+
+
+// =====================================================
+// LIEN VERS L'ESPACE ADMINISTRATEUR
+// =====================================================
+
+.admin-link {
+  margin: 14px 0 0;
+  text-align: center;
+  font-size: 13px;
+
+  a {
+    color: #6b7080;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

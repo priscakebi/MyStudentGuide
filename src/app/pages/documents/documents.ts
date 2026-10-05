@@ -1,650 +1,266 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { forkJoin, Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 /**
- * Interface représentant un document
- * retourné par l'API Spring Boot.
+ * Représente un document requis récupéré depuis le backend.
+ *
+ * Ce n'est PAS un fichier personnel de l'étudiant.
+ * Il s'agit simplement d'une information indiquant
+ * qu'un document est nécessaire pour une démarche.
  */
-interface DocumentModel {
-
-  /**
-   * Identifiant du document.
-   */
-  id?: number;
-
-  /**
-   * Nom original du fichier.
-   */
-  nomFichier: string;
-
-  /**
-   * Nom utilisé pour le stockage du fichier.
-   */
-  nomStockage: string;
-
-  /**
-   * Type MIME du fichier.
-   *
-   * Exemple :
-   * application/pdf
-   * image/jpeg
-   */
-  typeFichier: string;
-
-  /**
-   * Taille du fichier en octets.
-   */
-  taille: number;
-
-  /**
-   * Chemin ou URL permettant de retrouver le fichier.
-   */
-  cheminFichier: string;
-
-  /**
-   * Date à laquelle le document a été ajouté.
-   */
-  dateUpload?: string;
-
-  /**
-   * Identifiant de la démarche associée.
-   *
-   * On utilise uniquement l'identifiant
-   * côté formulaire pour éviter d'envoyer
-   * directement tout l'objet Demarche.
-   */
-  demarcheId?: number;
+interface DocumentRequis {
+  id: number;
+  nom: string;
+  description: string | null;
+  type: string;
+  demarcheId: number;
 }
 
+/**
+ * Représente une démarche administrative.
+ */
+interface Demarche {
+  id: number;
+  nom: string;
+  description?: string;
+}
 
 /**
- * Composant responsable de la gestion
- * des documents étudiants.
+ * Regroupe les documents requis d'une démarche.
+ *
+ * Exemple :
+ *
+ * Demande de titre de séjour étudiant
+ * ├── Passeport
+ * ├── Visa
+ * ├── Photo d'identité
+ * └── Certificat de scolarité
+ */
+interface DocumentsParDemarche {
+  demarcheId: number;
+  nomDemarche: string;
+  descriptionDemarche?: string;
+  documents: DocumentRequis[];
+}
+
+/**
+ * Composant de la page "Mes documents".
+ *
+ * Cette page permet à l'étudiant de consulter les documents
+ * nécessaires pour les différentes démarches administratives.
+ *
+ * IMPORTANT :
+ * L'application ne permet PAS à l'étudiant de déposer,
+ * télécharger ou stocker ses propres documents.
+ *
+ * La page affiche uniquement les documents nécessaires
+ * pour chaque démarche.
  */
 @Component({
-
   selector: 'app-documents',
-
   standalone: true,
-
   imports: [
-    CommonModule,
-    FormsModule
+    CommonModule
   ],
-
   templateUrl: './documents.html',
-
   styleUrl: './documents.scss'
-
 })
 export class Documents implements OnInit {
 
-
   /**
-   * URL de base de l'API Spring Boot.
+   * URL de base de l'API backend.
    */
-  private apiUrl = 'http://localhost:8080/api';
-
+  private readonly apiUrl = environment.apiUrl;
 
   /**
-   * Liste des documents récupérés depuis l'API.
+   * Documents regroupés par démarche.
    */
-  documents: DocumentModel[] = [];
-
+  documentsParDemarche: DocumentsParDemarche[] = [];
 
   /**
-   * Document utilisé pour le formulaire.
+   * Indique si les données sont encore en cours
+   * de récupération depuis le backend.
    */
-  documentForm: DocumentModel = {
-
-    nomFichier: '',
-
-    nomStockage: '',
-
-    typeFichier: '',
-
-    taille: 0,
-
-    cheminFichier: '',
-
-    demarcheId: undefined
-
-  };
-
+  isLoading = true;
 
   /**
-   * Indique si le formulaire est visible.
-   */
-  showForm = false;
-
-
-  /**
-   * Identifiant du document actuellement modifié.
-   *
-   * null signifie qu'on est en mode création.
-   */
-  editingId: number | null = null;
-
-
-  /**
-   * Message d'erreur affiché à l'utilisateur.
+   * Message affiché lorsqu'une erreur survient.
    */
   errorMessage = '';
 
-
   /**
-   * Message de succès.
-   */
-  successMessage = '';
-
-
-  /**
-   * Indique si une requête est en cours.
-   */
-  loading = false;
-
-
-  /**
-   * Constructeur.
-   *
-   * @param http service Angular permettant
-   *             d'effectuer les appels HTTP
+   * Injection du client HTTP Angular.
    */
   constructor(private http: HttpClient) {}
 
-
   /**
-   * Méthode exécutée automatiquement
-   * lors du chargement du composant.
+   * Méthode exécutée automatiquement lorsque
+   * le composant est chargé.
    */
   ngOnInit(): void {
-
     this.loadDocuments();
-
   }
 
-
   /**
-   * Récupère le JWT enregistré
-   * après la connexion.
-   */
-  private getToken(): string | null {
-
-    return localStorage.getItem('token');
-
-  }
-
-
-  /**
-   * Création des headers HTTP.
+   * Récupère les démarches puis leurs documents requis.
    *
-   * Le JWT est envoyé à Spring Security
-   * afin d'authentifier l'utilisateur.
-   */
-  private getHeaders(): HttpHeaders {
-
-    const token = this.getToken();
-
-    return new HttpHeaders({
-
-      Authorization: `Bearer ${token}`
-
-    });
-
-  }
-
-
-  /**
-   * Récupère tous les documents
-   * depuis l'API.
+   * Le fonctionnement est le suivant :
    *
-   * Endpoint :
-   *
-   * GET /api/documents
+   * 1. On récupère les démarches.
+   * 2. Pour chaque démarche, on demande au backend
+   *    uniquement les documents qui lui sont associés.
+   * 3. On regroupe les résultats pour les afficher
+   *    dans le template.
    */
   loadDocuments(): void {
 
-    this.loading = true;
-
+    this.isLoading = true;
     this.errorMessage = '';
 
+    /**
+     * Récupération du token JWT stocké après la connexion.
+     */
+    const token = localStorage.getItem('token');
 
-    this.http.get<DocumentModel[]>(
+    /**
+     * Création des headers HTTP.
+     *
+     * Le token est ajouté uniquement s'il existe.
+     */
+    let headers = new HttpHeaders();
 
-      `${this.apiUrl}/documents`,
+    if (token) {
+      headers = headers.set(
+        'Authorization',
+        `Bearer ${token}`
+      );
+    }
 
-      {
-        headers: this.getHeaders()
-      }
-
+    /**
+     * Première étape :
+     * récupération des démarches disponibles.
+     *
+     * GET /api/demarches
+     */
+    this.http.get<Demarche[]>(
+      `${this.apiUrl}/demarches`,
+      { headers }
     ).subscribe({
 
-      /**
-       * Réponse reçue avec succès.
-       */
-      next: (data) => {
+      next: (demarches) => {
 
-        this.documents = data;
+        /**
+         * S'il n'existe aucune démarche,
+         * il n'y a aucun document à récupérer.
+         */
+        if (demarches.length === 0) {
 
-        this.loading = false;
+          this.documentsParDemarche = [];
+          this.isLoading = false;
 
-      },
-
-
-      /**
-       * Gestion des erreurs.
-       */
-      error: (error) => {
-
-        console.error(
-          'Erreur lors du chargement des documents :',
-          error
-        );
-
-        this.errorMessage =
-          'Impossible de charger les documents.';
-
-        this.loading = false;
-
-      }
-
-    });
-
-  }
-
-
-  /**
-   * Affiche le formulaire d'ajout.
-   */
-  openAddForm(): void {
-
-    this.editingId = null;
-
-    this.showForm = true;
-
-    this.errorMessage = '';
-
-    this.successMessage = '';
-
-
-    /**
-     * Réinitialise le formulaire.
-     */
-    this.documentForm = {
-
-      nomFichier: '',
-
-      nomStockage: '',
-
-      typeFichier: '',
-
-      taille: 0,
-
-      cheminFichier: '',
-
-      demarcheId: undefined
-
-    };
-
-  }
-
-
-  /**
-   * Ferme le formulaire.
-   */
-  closeForm(): void {
-
-    this.showForm = false;
-
-    this.editingId = null;
-
-    this.errorMessage = '';
-
-  }
-
-
-  /**
-   * Prépare la modification
-   * d'un document existant.
-   */
-  editDocument(document: DocumentModel): void {
-
-    this.editingId = document.id ?? null;
-
-    this.showForm = true;
-
-    this.errorMessage = '';
-
-    this.successMessage = '';
-
-
-    /**
-     * Copie les informations du document
-     * dans le formulaire.
-     */
-    this.documentForm = {
-
-      ...document
-
-    };
-
-  }
-
-
-  /**
-   * Crée ou modifie un document.
-   *
-   * Si editingId est null :
-   *
-   * POST /api/documents
-   *
-   * Sinon :
-   *
-   * PUT /api/documents/{id}
-   */
-  saveDocument(): void {
-
-    this.errorMessage = '';
-
-    this.successMessage = '';
-
-
-    /**
-     * Vérifie la présence du JWT.
-     */
-    if (!this.getToken()) {
-
-      this.errorMessage =
-        'Vous devez être connecté pour gérer vos documents.';
-
-      return;
-
-    }
-
-
-    this.loading = true;
-
-
-    /**
-     * Objet envoyé à l'API.
-     *
-     * On ne transmet pas demarcheId directement
-     * car le backend attend un objet Demarche.
-     */
-    const payload: any = {
-
-      nomFichier: this.documentForm.nomFichier,
-
-      nomStockage: this.documentForm.nomStockage,
-
-      typeFichier: this.documentForm.typeFichier,
-
-      taille: this.documentForm.taille,
-
-      cheminFichier: this.documentForm.cheminFichier
-
-    };
-
-
-    /**
-     * Si une démarche est renseignée,
-     * on crée la référence attendue par Spring.
-     */
-    if (this.documentForm.demarcheId) {
-
-      payload.demarche = {
-
-        id: this.documentForm.demarcheId
-
-      };
-
-    }
-
-
-    /**
-     * MODE MODIFICATION
-     */
-    if (this.editingId !== null) {
-
-      this.http.put<DocumentModel>(
-
-        `${this.apiUrl}/documents/${this.editingId}`,
-
-        payload,
-
-        {
-          headers: this.getHeaders()
+          return;
         }
 
-      ).subscribe({
+        /**
+         * Pour chaque démarche, on prépare une requête
+         * permettant de récupérer ses documents requis.
+         *
+         * Exemple :
+         *
+         * GET /api/documents-requis/demarche/1
+         * GET /api/documents-requis/demarche/2
+         * GET /api/documents-requis/demarche/3
+         */
+        const requests: Observable<DocumentRequis[]>[] =
+          demarches.map((demarche) =>
 
-        next: () => {
+            this.http.get<DocumentRequis[]>(
+              `${this.apiUrl}/documents-requis/demarche/${demarche.id}`,
+              { headers }
+            )
 
-          this.successMessage =
-            'Document modifié avec succès.';
-
-          this.loading = false;
-
-          this.showForm = false;
-
-          this.editingId = null;
-
-          this.loadDocuments();
-
-        },
-
-        error: (error) => {
-
-          console.error(
-            'Erreur lors de la modification :',
-            error
           );
 
-          this.errorMessage =
-            'Impossible de modifier le document.';
+        /**
+         * forkJoin attend que toutes les requêtes
+         * soient terminées avant de continuer.
+         *
+         * Les résultats sont retournés dans le même ordre
+         * que les requêtes envoyées.
+         */
+        forkJoin(requests).subscribe({
 
-          this.loading = false;
+          next: (documentsParDemarche) => {
 
-        }
+            /**
+             * Construction des groupes :
+             *
+             * démarche + documents correspondants.
+             */
+            this.documentsParDemarche =
+              demarches.map((demarche, index) => ({
 
-      });
+                demarcheId: demarche.id,
 
-      return;
+                nomDemarche: demarche.nom,
 
-    }
+                descriptionDemarche:
+                  demarche.description,
 
+                documents:
+                  documentsParDemarche[index]
 
-    /**
-     * MODE CRÉATION
-     */
-    this.http.post<DocumentModel>(
+              }))
+              /**
+               * On retire les démarches qui n'ont aucun
+               * document requis.
+               *
+               * Ainsi, la page affiche uniquement
+               * les démarches possédant une liste
+               * de documents.
+               */
+              .filter(
+                groupe => groupe.documents.length > 0
+              );
 
-      `${this.apiUrl}/documents`,
+            /**
+             * Fin du chargement.
+             */
+            this.isLoading = false;
+          },
 
-      payload,
+          error: (error) => {
 
-      {
-        headers: this.getHeaders()
-      }
+            console.error(
+              'Erreur lors de la récupération des documents requis :',
+              error
+            );
 
-    ).subscribe({
+            this.errorMessage =
+              'Impossible de récupérer les documents requis.';
 
-      next: () => {
+            this.isLoading = false;
+          }
 
-        this.successMessage =
-          'Document ajouté avec succès.';
-
-        this.loading = false;
-
-        this.showForm = false;
-
-        this.loadDocuments();
-
+        });
       },
 
       error: (error) => {
 
         console.error(
-          'Erreur lors de la création :',
+          'Erreur lors de la récupération des démarches :',
           error
         );
 
         this.errorMessage =
-          'Impossible de créer le document.';
+          'Impossible de récupérer les démarches.';
 
-        this.loading = false;
-
+        this.isLoading = false;
       }
 
     });
-
   }
-
-
-  /**
-   * Supprime un document.
-   *
-   * Endpoint :
-   *
-   * DELETE /api/documents/{id}
-   */
-  deleteDocument(id?: number): void {
-
-    /**
-     * Vérifie que l'identifiant existe.
-     */
-    if (!id) {
-
-      return;
-
-    }
-
-
-    /**
-     * Demande une confirmation
-     * avant la suppression.
-     */
-    const confirmed = confirm(
-      'Voulez-vous vraiment supprimer ce document ?'
-    );
-
-
-    if (!confirmed) {
-
-      return;
-
-    }
-
-
-    this.loading = true;
-
-    this.errorMessage = '';
-
-
-    this.http.delete(
-
-      `${this.apiUrl}/documents/${id}`,
-
-      {
-        headers: this.getHeaders()
-      }
-
-    ).subscribe({
-
-      next: () => {
-
-        this.successMessage =
-          'Document supprimé avec succès.';
-
-        this.loading = false;
-
-        this.loadDocuments();
-
-      },
-
-      error: (error) => {
-
-        console.error(
-          'Erreur lors de la suppression :',
-          error
-        );
-
-        this.errorMessage =
-          'Impossible de supprimer le document.';
-
-        this.loading = false;
-
-      }
-
-    });
-
-  }
-
-
-  /**
-   * Convertit une taille en octets
-   * vers une unité plus lisible.
-   *
-   * Exemple :
-   *
-   * 524288 → 512 Ko
-   */
-  formatFileSize(size: number): string {
-
-    if (!size) {
-
-      return '0 octet';
-
-    }
-
-
-    if (size < 1024) {
-
-      return `${size} octets`;
-
-    }
-
-
-    if (size < 1024 * 1024) {
-
-      return `${(size / 1024).toFixed(1)} Ko`;
-
-    }
-
-
-    return `${(size / (1024 * 1024)).toFixed(1)} Mo`;
-
-  }
-
-
-  /**
-   * Permet d'afficher un nom de type
-   * MIME plus compréhensible.
-   */
-  getFileType(type: string): string {
-
-    if (type === 'application/pdf') {
-
-      return 'PDF';
-
-    }
-
-    if (type === 'image/jpeg') {
-
-      return 'JPEG';
-
-    }
-
-    if (type === 'image/png') {
-
-      return 'PNG';
-
-    }
-
-    return type;
-
-  }
-
 }

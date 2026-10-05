@@ -1,0 +1,872 @@
+// ============================================================
+// VARIABLES
+// ============================================================
+
+$blue: #1646a0;
+$blue-dark: #0d2f70;
+$blue-light: #eaf1ff;
+
+$red: #e63946;
+$red-dark: #c92535;
+$red-light: #fff0f1;
+
+$white: #ffffff;
+
+$background: #f5f7fb;
+
+$text-dark: #172033;
+$text: #344054;
+$text-light: #667085;
+
+$border: #e6eaf0;
+
+$success: #16845b;
+
+$shadow-sm: 0 4px 16px rgba(20, 44, 90, 0.06);
+$shadow-md: 0 12px 35px rgba(20, 44, 90, 0.10);
+
+$radius-sm: 10px;
+$radius-md: 16px;
+$radius-lg: 22px;
+
+$transition: 0.25s ease;
+
+
+// ============================================================
+// PAGE PRINCIPALE
+// ============================================================
+
+.account-page {
+  width: 100%;
+  min-height: 100%;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+
+// ============================================================
+// EN-TÊTE
+// ============================================================
+
+.page-header {
+  margin-bottom: 30px;
+}
+
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+
+.header-icon {
+  width: 58px;
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: $radius-md;
+
+  background: $blue-light;
+
+  font-size: 26px;
+}
+
+
+.eyebrow {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: $red;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  letter-spacing: 0.08em;
+}
+
+
+.page-header h1 {
+  margin: 0;
+
+  color: $text-dark;
+
+  font-size: 30px;
+  font-weight: 750;
+}
+
+
+.page-header p {
+  margin: 7px 0 0;
+
+  color: $text-light;
+
+  font-size: 15px;
+}
+
+
+// ============================================================
+// CONTENU
+// ============================================================
+
+.account-content {
+  width: 100%;
+  max-width: 900px;
+
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 24px;
+}
+
+
+// ============================================================
+// CARTES
+// ============================================================
+
+.account-card {
+  background: $white;
+
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+
+  padding: 28px;
+
+  box-shadow: $shadow-sm;
+}
+
+
+// ============================================================
+// EN-TÊTE DES CARTES
+// ============================================================
+
+.card-header {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 15px;
+
+  margin-bottom: 25px;
+}
+
+
+.card-icon {
+  width: 46px;
+  height: 46px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 13px;
+
+  font-size: 21px;
+}
+
+
+.card-icon.blue {
+  background: $blue-light;
+}
+
+
+.card-icon.red {
+  background: $red-light;
+}
+
+
+.card-icon.danger {
+  background: $red-light;
+}
+
+
+.card-header h2 {
+  margin: 0;
+
+  color: $text-dark;
+
+  font-size: 19px;
+  font-weight: 700;
+}
+
+
+.card-header p {
+  margin: 5px 0 0;
+
+  color: $text-light;
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+
+// ============================================================
+// INFORMATIONS DU COMPTE
+// ============================================================
+
+.account-information {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 15px;
+}
+
+
+.information-item {
+  padding: 17px;
+
+  background: #fafbfc;
+
+  border: 1px solid $border;
+
+  border-radius: $radius-sm;
+}
+
+
+.information-label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: $text-light;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+
+.information-value {
+  display: block;
+
+  color: $text-dark;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  word-break: break-word;
+}
+
+
+// ============================================================
+// FORMULAIRE
+// ============================================================
+
+.password-form,
+.delete-form {
+  display: flex;
+  flex-direction: column;
+
+  gap: 20px;
+}
+
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+
+.form-group label {
+  color: $text-dark;
+
+  font-size: 14px;
+  font-weight: 650;
+}
+
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 13px 14px;
+
+  background: $white;
+
+  border: 1px solid $border;
+  border-radius: $radius-sm;
+
+  color: $text-dark;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  outline: none;
+
+  transition:
+    border-color $transition,
+    box-shadow $transition;
+}
+
+
+.form-group textarea {
+  resize: vertical;
+
+  min-height: 105px;
+
+  line-height: 1.5;
+}
+
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #98a2b3;
+}
+
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: $blue;
+
+  box-shadow: 0 0 0 3px rgba(22, 70, 160, 0.10);
+}
+
+
+.field-help {
+  color: $text-light;
+
+  font-size: 12px;
+
+  line-height: 1.45;
+}
+
+
+.field-error {
+  color: $red-dark;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+
+.optional-label {
+  margin-left: 5px;
+
+  color: $text-light;
+
+  font-size: 12px;
+  font-weight: 500;
+}
+
+
+// ============================================================
+// MESSAGES
+// ============================================================
+
+.message {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  margin-bottom: 20px;
+
+  padding: 13px 15px;
+
+  border-radius: $radius-sm;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+
+.message-icon {
+  width: 24px;
+  height: 24px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  font-weight: 800;
+}
+
+
+.success-message {
+  background: #ecfdf3;
+
+  border: 1px solid #abefc6;
+
+  color: $success;
+}
+
+
+.success-message .message-icon {
+  background: #d1fadf;
+}
+
+
+.error-message {
+  background: $red-light;
+
+  border: 1px solid #ffc7cc;
+
+  color: $red-dark;
+}
+
+
+.error-message .message-icon {
+  background: #ffdfe2;
+}
+
+
+// ============================================================
+// ACTIONS DU MOT DE PASSE
+// ============================================================
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+
+  gap: 12px;
+
+  margin-top: 5px;
+}
+
+
+.cancel-button,
+.submit-button,
+.delete-account-button,
+.cancel-delete-button,
+.confirm-delete-button {
+  border: none;
+
+  border-radius: $radius-sm;
+
+  padding: 12px 18px;
+
+  font-family: inherit;
+
+  font-size: 14px;
+  font-weight: 650;
+
+  cursor: pointer;
+
+  transition:
+    background $transition,
+    transform $transition,
+    box-shadow $transition,
+    opacity $transition;
+}
+
+
+.cancel-button {
+  background: #f2f4f7;
+
+  color: $text;
+}
+
+
+.cancel-button:hover {
+  background: #e4e7ec;
+}
+
+
+.submit-button {
+  background: $blue;
+
+  color: $white;
+
+  box-shadow: 0 5px 14px rgba(22, 70, 160, 0.18);
+}
+
+
+.submit-button:hover {
+  background: $blue-dark;
+
+  transform: translateY(-1px);
+}
+
+
+.cancel-button:disabled,
+.submit-button:disabled,
+.cancel-delete-button:disabled,
+.confirm-delete-button:disabled {
+  opacity: 0.6;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+
+// ============================================================
+// ZONE DE DANGER
+// ============================================================
+
+.danger-card {
+  border-color: #f5c2c7;
+}
+
+
+.danger-card .card-header {
+  margin-bottom: 20px;
+}
+
+
+.danger-content {
+  display: flex;
+  flex-direction: column;
+
+  gap: 20px;
+}
+
+
+// ============================================================
+// AVERTISSEMENT
+// ============================================================
+
+.danger-warning {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 13px;
+
+  padding: 16px;
+
+  background: $red-light;
+
+  border: 1px solid #ffc7cc;
+
+  border-radius: $radius-sm;
+}
+
+
+.warning-icon {
+  width: 28px;
+  height: 28px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: $red;
+
+  color: $white;
+
+  border-radius: 50%;
+
+  font-size: 14px;
+  font-weight: 800;
+}
+
+
+.danger-warning strong {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: $red-dark;
+
+  font-size: 14px;
+}
+
+
+.danger-warning p {
+  margin: 0;
+
+  color: $text;
+
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+
+// ============================================================
+// BOUTON SUPPRESSION
+// ============================================================
+
+.delete-account-button {
+  align-self: flex-start;
+
+  background: $white;
+
+  border: 1px solid $red;
+
+  color: $red-dark;
+}
+
+
+.delete-account-button:hover {
+  background: $red-light;
+
+  box-shadow: 0 5px 15px rgba(230, 57, 70, 0.12);
+
+  transform: translateY(-1px);
+}
+
+
+// ============================================================
+// FORMULAIRE DE SUPPRESSION
+// ============================================================
+
+.delete-form-container {
+  padding-top: 5px;
+}
+
+
+.delete-information {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 12px;
+
+  margin-bottom: 22px;
+
+  padding: 15px;
+
+  background: $blue-light;
+
+  border: 1px solid #cbdcff;
+
+  border-radius: $radius-sm;
+}
+
+
+.delete-information-icon {
+  width: 25px;
+  height: 25px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: $blue;
+
+  color: $white;
+
+  border-radius: 50%;
+
+  font-size: 13px;
+  font-weight: 800;
+}
+
+
+.delete-information p {
+  margin: 0;
+
+  color: $text;
+
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+
+// ============================================================
+// CASE DE CONFIRMATION
+// ============================================================
+
+.confirmation-box {
+  padding: 15px;
+
+  background: #fafbfc;
+
+  border: 1px solid $border;
+
+  border-radius: $radius-sm;
+}
+
+
+.checkbox-label {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 10px;
+
+  cursor: pointer;
+
+  color: $text;
+
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+
+.checkbox-label input {
+  width: 17px;
+  height: 17px;
+
+  flex-shrink: 0;
+
+  margin-top: 1px;
+
+  accent-color: $blue;
+
+  cursor: pointer;
+}
+
+
+.confirmation-box .field-help {
+  display: block;
+
+  margin-top: 7px;
+
+  margin-left: 27px;
+}
+
+
+// ============================================================
+// ACTIONS DE SUPPRESSION
+// ============================================================
+
+.delete-form-actions {
+  display: flex;
+  justify-content: flex-end;
+
+  gap: 12px;
+
+  margin-top: 5px;
+
+  padding-top: 5px;
+}
+
+
+.cancel-delete-button {
+  background: #f2f4f7;
+
+  color: $text;
+}
+
+
+.cancel-delete-button:hover {
+  background: #e4e7ec;
+}
+
+
+.confirm-delete-button {
+  background: $red;
+
+  color: $white;
+
+  box-shadow: 0 5px 14px rgba(230, 57, 70, 0.18);
+}
+
+
+.confirm-delete-button:hover {
+  background: $red-dark;
+
+  transform: translateY(-1px);
+}
+
+
+// ============================================================
+// RESPONSIVE — TABLETTE
+// ============================================================
+
+@media (max-width: 850px) {
+
+  .account-page {
+    padding: 30px 24px;
+  }
+
+
+  .account-information {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+// ============================================================
+// RESPONSIVE — MOBILE
+// ============================================================
+
+@media (max-width: 600px) {
+
+  .account-page {
+    padding: 24px 16px;
+  }
+
+
+  .header-content {
+    align-items: flex-start;
+  }
+
+
+  .header-icon {
+    width: 48px;
+    height: 48px;
+
+    font-size: 22px;
+  }
+
+
+  .page-header h1 {
+    font-size: 25px;
+  }
+
+
+  .account-card {
+    padding: 20px;
+  }
+
+
+  .card-header {
+    gap: 12px;
+  }
+
+
+  .card-icon {
+    width: 40px;
+    height: 40px;
+
+    font-size: 18px;
+  }
+
+
+  .form-actions,
+  .delete-form-actions {
+    flex-direction: column;
+  }
+
+
+  .cancel-button,
+  .submit-button,
+  .cancel-delete-button,
+  .confirm-delete-button,
+  .delete-account-button {
+    width: 100%;
+  }
+
+
+  .danger-warning {
+    padding: 13px;
+  }
+
+}
+
+/* ============================================================
+   RÈGLES DE SÉCURITÉ DU MOT DE PASSE
+   ============================================================ */
+
+/* Les règles sont rouges par défaut */
+.password-rules ul li {
+  color: #dc2626;
+  margin-bottom: 5px;
+}
+
+/* Une règle devient verte lorsqu'elle est respectée */
+.password-rules ul li.valid {
+  color: #16a34a;
+}
