@@ -2,7 +2,7 @@
 // IMPORTS
 // ============================================================
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import {
@@ -19,6 +19,7 @@ import {
 
 import { Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
+import { AuthService } from '../../../services/auth.service';
 
 
 // ============================================================
@@ -75,6 +76,8 @@ interface UserAccount {
   styleUrl: './admin-account.scss'
 })
 export class AdminAccount implements OnInit {
+
+  private authService = inject(AuthService);
 
 
   // ==========================================================
@@ -311,7 +314,7 @@ export class AdminAccount implements OnInit {
    */
   private getToken(): string | null {
 
-    return localStorage.getItem('token');
+    return this.authService.getToken();
   }
 
 

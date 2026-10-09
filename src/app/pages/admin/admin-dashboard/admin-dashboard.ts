@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 /*
@@ -28,6 +28,7 @@ import {
 
 import { filter } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
+import { AuthService } from '../../../services/auth.service';
 
 
 /**
@@ -66,6 +67,8 @@ import { environment } from '../../../../environments/environment';
   styleUrl: './admin-dashboard.scss'
 })
 export class AdminDashboard implements OnInit {
+
+  private authService = inject(AuthService);
 
 
   // =========================================================
@@ -423,7 +426,7 @@ export class AdminDashboard implements OnInit {
 
     // Récupération du token JWT.
     const token =
-      localStorage.getItem('token');
+      this.authService.getToken();
 
     // Création des headers HTTP.
     return new HttpHeaders({
@@ -654,19 +657,10 @@ this.http.get<any[]>(
    */
   logout(): void {
 
-    // Suppression du token JWT.
-    localStorage.removeItem('token');
+    // Suppression complète de la session (token, id, email, rôle).
+    this.authService.logout();
 
-    // Suppression de l'identifiant utilisateur.
-    localStorage.removeItem('userId');
-
-    // Suppression de l'email.
-    localStorage.removeItem('email');
-
-    // Suppression du rôle.
-    localStorage.removeItem('role');
-
-    // Redirection vers la page de connexion.
-    this.router.navigate(['/login']);
+    // Redirection vers la page de connexion administrateur.
+    this.router.navigate(['/admin-login']);
   }
 }

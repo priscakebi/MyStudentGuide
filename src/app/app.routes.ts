@@ -139,6 +139,9 @@ export const routes: Routes = [
          */
         path: 'demarches',
 
+        // Réservé aux utilisateurs connectés : un visiteur anonyme n'a accès qu'à l'accueil.
+        canActivate: [authGuard],
+
         loadComponent: () =>
           import('./pages/demarches/demarches')
             .then(m => m.Demarches)
@@ -155,6 +158,9 @@ export const routes: Routes = [
          * /demarches/:id
          */
         path: 'demarches/:id',
+
+        // Réservé aux utilisateurs connectés : un visiteur anonyme n'a accès qu'à l'accueil.
+        canActivate: [authGuard],
 
         loadComponent: () =>
           import('./pages/demarche-detail/demarche-detail')
@@ -177,6 +183,9 @@ export const routes: Routes = [
          * Aucun document personnel n'est stocké.
          */
         path: 'documents',
+
+        // Réservé aux utilisateurs connectés : un visiteur anonyme n'a accès qu'à l'accueil.
+        canActivate: [authGuard],
 
         loadComponent: () =>
           import('./pages/documents/documents')
@@ -229,6 +238,55 @@ export const routes: Routes = [
     path: 'admin-login',
 
     component: AdminLogin
+  },
+
+
+  {
+    /*
+     * MOT DE PASSE OUBLIÉ (étudiant)
+     *
+     * /forgot-password : saisie de l'e-mail
+     * /reset-password?token=... : choix du nouveau mot de passe
+     *                             (lien reçu par e-mail)
+     *
+     * Le même composant sert les deux espaces : la donnée de route
+     * "space" indique s'il s'agit de l'espace étudiant ou administrateur.
+     */
+    path: 'forgot-password',
+    data: { space: 'student' },
+    loadComponent: () =>
+      import('./pages/forgot-password/forgot-password')
+        .then(m => m.ForgotPassword)
+  },
+
+  {
+    path: 'reset-password',
+    data: { space: 'student' },
+    loadComponent: () =>
+      import('./pages/reset-password/reset-password')
+        .then(m => m.ResetPassword)
+  },
+
+  {
+    /*
+     * MOT DE PASSE OUBLIÉ (administrateur)
+     *
+     * Routes publiques, hors de /admin (protégée) : l'administrateur
+     * n'est justement pas connecté lorsqu'il a oublié son mot de passe.
+     */
+    path: 'admin-forgot-password',
+    data: { space: 'admin' },
+    loadComponent: () =>
+      import('./pages/forgot-password/forgot-password')
+        .then(m => m.ForgotPassword)
+  },
+
+  {
+    path: 'admin-reset-password',
+    data: { space: 'admin' },
+    loadComponent: () =>
+      import('./pages/reset-password/reset-password')
+        .then(m => m.ResetPassword)
   },
 
 

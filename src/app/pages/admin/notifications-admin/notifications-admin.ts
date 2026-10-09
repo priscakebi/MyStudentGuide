@@ -103,10 +103,6 @@ export class NotificationsAdmin implements OnInit {
      * Affiche l'identifiant utilisé par Angular
      * dans la console du navigateur.
      */
-    console.log(
-      'USER ID UTILISÉ PAR ANGULAR :',
-      userId
-    );
 
     /**
      * Vérification de l'existence de l'utilisateur.
@@ -143,18 +139,10 @@ export class NotificationsAdmin implements OnInit {
            * Affiche les notifications reçues
            * par Angular dans la console.
            */
-          console.log(
-            'NOTIFICATIONS REÇUES PAR ANGULAR :',
-            notifications
-          );
 
           /**
            * Affiche le nombre de notifications reçues.
            */
-          console.log(
-            'NOMBRE DE NOTIFICATIONS :',
-            notifications.length
-          );
 
           /**
            * Enregistrement des notifications
@@ -239,10 +227,6 @@ export class NotificationsAdmin implements OnInit {
            * Affichage du compteur dans la console
            * pour faciliter le diagnostic.
            */
-          console.log(
-            'NOMBRE DE NOTIFICATIONS NON LUES :',
-            count
-          );
         },
 
         /**

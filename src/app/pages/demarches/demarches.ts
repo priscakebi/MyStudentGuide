@@ -397,10 +397,6 @@ export class Demarches implements OnInit {
          * Permet de vérifier que le profil
          * arrive correctement dans Angular.
          */
-        console.log(
-          '✅ PROFIL REÇU PAR ANGULAR :',
-          profile
-        );
 
 
         // ------------------------------------------------------
@@ -462,10 +458,6 @@ export class Demarches implements OnInit {
              * Permet de vérifier que les démarches
              * arrivent correctement dans Angular.
              */
-            console.log(
-              '✅ DÉMARCHES REÇUES PAR ANGULAR :',
-              studentDemarches
-            );
 
 
             // --------------------------------------------------
@@ -499,20 +491,12 @@ export class Demarches implements OnInit {
             /**
              * Log permettant de vérifier l'état final.
              */
-            console.log(
-              '✅ CHARGEMENT DES DÉMARCHES TERMINÉ :',
-              this.isLoading
-            );
 
 
             /**
              * Log supplémentaire permettant de vérifier
              * le nombre de démarches reçues.
              */
-            console.log(
-              '📋 NOMBRE DE DÉMARCHES :',
-              this.studentDemarches.length
-            );
           },
 
 
@@ -772,10 +756,6 @@ export class Demarches implements OnInit {
     studentDemarche: StudentDemarche
   ): void {
 
-    console.log(
-      '➡️ DÉMARCHE SÉLECTIONNÉE :',
-      studentDemarche
-    );
   }
 
 
@@ -819,10 +799,6 @@ export class Demarches implements OnInit {
      * Affiche l'identifiant utilisé
      * pour la navigation.
      */
-    console.log(
-      '➡️ NAVIGATION VERS LA DÉMARCHE :',
-      studentDemarche.demarche.id
-    );
 
 
     /**

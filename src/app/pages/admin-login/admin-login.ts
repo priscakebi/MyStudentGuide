@@ -45,7 +45,9 @@ export class AdminLogin {
 
   constructor() {
     // Message affiché quand l'interceptor a déconnecté l'admin (token expiré).
-    if (this.route.snapshot.queryParamMap.get('sessionExpired')) {
+    if (this.route.snapshot.queryParamMap.get('reason') === 'idle') {
+      this.infoMessage = 'Vous avez été déconnecté après une période d\'inactivité. Veuillez vous reconnecter.';
+    } else if (this.route.snapshot.queryParamMap.get('sessionExpired')) {
       this.infoMessage = 'Votre session a expiré. Veuillez vous reconnecter.';
     }
 
