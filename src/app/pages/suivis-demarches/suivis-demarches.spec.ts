@@ -1,17 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideRouter } from '@angular/router';
 
-import { Demarches } from './demarches';
+import { SuivisDemarches } from './suivis-demarches';
 
-describe('Demarches', () => {
-  let component: Demarches;
-  let fixture: ComponentFixture<Demarches>;
+describe('SuivisDemarches', () => {
+  let component: SuivisDemarches;
+  let fixture: ComponentFixture<SuivisDemarches>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Demarches],
+      imports: [SuivisDemarches],
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Demarches);
+    fixture = TestBed.createComponent(SuivisDemarches);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

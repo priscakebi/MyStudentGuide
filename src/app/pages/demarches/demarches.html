@@ -193,6 +193,16 @@
          LISTE DES DÉMARCHES
          ======================================================== -->
 
+    <!-- Messages après « Commencer » / « Donner mon avis » -->
+    @if (actionMessage) {
+      <p class="action-message success" role="status">{{ actionMessage }}</p>
+    }
+
+    @if (actionError) {
+      <p class="action-message error" role="alert">{{ actionError }}</p>
+    }
+
+
     @if (
       !isLoading &&
       !errorMessage &&
@@ -315,6 +325,7 @@
                 <button
                   type="button"
                   class="button button-primary"
+                  [disabled]="updatingId === studentDemarche.id"
                   (click)="commencerDemarche(studentDemarche)"
                 >
 
@@ -340,10 +351,18 @@
               ) {
 
                 <span class="completed-label">
-
                   ✓ Démarche terminée
-
                 </span>
+
+                @if (!studentDemarche.avisDonne) {
+                  <button
+                    type="button"
+                    class="button button-primary"
+                    (click)="ouvrirAvis(studentDemarche)"
+                  >
+                    ★ Donner mon avis
+                  </button>
+                }
 
               }
 
@@ -419,3 +438,14 @@
   </main>
 
 </div>
+
+
+<!-- Fenêtre « Donner mon avis » -->
+@if (avisPour) {
+  <app-avis-form
+    [studentDemarcheId]="avisPour.id"
+    [demarcheTitre]="avisPour.demarche.titre"
+    (saved)="onAvisEnregistre()"
+    (closed)="fermerAvis()"
+  ></app-avis-form>
+}

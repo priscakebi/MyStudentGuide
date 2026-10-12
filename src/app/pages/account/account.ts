@@ -1,5 +1,5 @@
 // Importe les éléments nécessaires à la création du composant Angular.
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 
 // Permet d'utiliser les fonctionnalités communes d'Angular
 // dans le template HTML.
@@ -21,6 +21,7 @@ import {
 
 // Permet de naviguer vers les différentes pages de l'application.
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 import { environment } from '../../../environments/environment';
 
 
@@ -238,6 +239,8 @@ export class Account implements OnInit {
   // ============================================================
   // CONSTRUCTEUR
   // ============================================================
+
+  private authService = inject(AuthService);
 
   constructor(
     private fb: FormBuilder,
@@ -865,23 +868,36 @@ export class Account implements OnInit {
      * 3. chiffrer le nouveau mot de passe avec BCrypt ;
      * 4. enregistrer le nouveau mot de passe.
      *
-     * Pour le moment, le backend de changement de mot de passe
-     * n'est pas encore implémenté.
+     * C'est désormais fait par l'API (PUT /api/account/password).
      */
 
 
-    // Simulation temporaire de l'opération.
-    setTimeout(() => {
+    const { currentPassword, newPassword } = this.passwordForm.value;
 
-      this.isLoading = false;
+    /*
+     * PUT /api/account/password
+     *
+     * L'API vérifie le mot de passe actuel, les règles de sécurité,
+     * chiffre le nouveau mot de passe (BCrypt) et envoie un e-mail
+     * de confirmation.
+     */
+    this.authService.changePassword(currentPassword, newPassword).subscribe({
 
-      this.successMessage =
-        'Le nouveau mot de passe respecte les règles de sécurité.';
+      next: (response) => {
+        this.isLoading = false;
+        this.successMessage =
+          response?.message || 'Votre mot de passe a été modifié avec succès.';
+        this.resetPasswordForm();
+      },
 
-      // Réinitialise le formulaire.
-      this.resetPasswordForm();
-
-    }, 500);
+      error: (error) => {
+        this.isLoading = false;
+        this.errorMessage =
+          error.status === 0
+            ? 'Impossible de joindre le serveur. Réessayez plus tard.'
+            : error.error?.message || 'Impossible de modifier le mot de passe.';
+      }
+    });
   }
 
 
@@ -892,6 +908,14 @@ export class Account implements OnInit {
   /**
    * Réinitialise le formulaire de changement de mot de passe.
    */
+  /**
+   * Lien « Mot de passe oublié ? » : envoie un lien de
+   * réinitialisation par e-mail (même parcours que sur /login).
+   */
+  forgotPassword(): void {
+    this.router.navigate(['/forgot-password']);
+  }
+
   resetPasswordForm(): void {
 
     this.passwordForm.reset();

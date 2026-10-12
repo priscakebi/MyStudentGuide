@@ -1,343 +1,232 @@
-// Importe les fonctionnalités nécessaires d'Angular pour créer un composant.
-import { Component, OnInit } from '@angular/core';
-
-// Permet d'effectuer des requêtes HTTP vers notre API Spring Boot.
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-
-// Permet de naviguer vers une autre page de l'application.
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-// Permet d'utiliser les directives Angular classiques dans le HTML
-// comme *ngIf, *ngFor et les pipes.
-import { CommonModule } from '@angular/common';
-import { environment } from '../../../environments/environment';
+import { AvisForm } from '../../components/avis-form/avis-form';
+import {
+  DemarcheStatut,
+  StudentDemarche,
+  StudentDemarcheService
+} from '../../services/student-demarche.service';
 
-// Interface représentant une démarche disponible dans MyStudentGuide.
-interface Demarche {
-  id: number;
-  titre: string;
-  description?: string;
-  categorie?: {
-    id: number;
-    nom: string;
-  };
-}
+type Filtre = 'TOUTES' | 'A_FAIRE' | 'EN_COURS' | 'TERMINEE';
 
-// Interface représentant une démarche attribuée à l'étudiant.
-// Elle correspond aux données renvoyées par l'API StudentDemarche.
-interface StudentDemarche {
-  id: number;
-  demarche: Demarche;
-
-  // Statut actuel de la démarche.
-  // Les valeurs utilisées par le backend sont :
-  // A_FAIRE, EN_COURS et TERMINE.
-  statut: 'A_FAIRE' | 'EN_COURS' | 'TERMINE';
-
-  // Permet de conserver la date de début si elle existe.
-  dateDebut?: string;
-
-  // Permet de conserver la date de fin si elle existe.
-  dateFin?: string;
-}
-
+/**
+ * Page « Mes démarches » de l'espace étudiant (/dashboard/suivis).
+ *
+ * L'étudiant peut :
+ * - commencer une démarche (→ EN COURS, progression 25 %) ;
+ * - confirmer l'envoi de ses documents (→ 50 %) ;
+ * - marquer la démarche comme terminée (→ 100 %) ;
+ * - corriger le statut à tout moment ;
+ * - donner son avis une fois la démarche terminée
+ *   (l'avis est ensuite visible sur la page d'accueil).
+ *
+ * Correctif : l'API renvoie le statut « TERMINEE » (et non « TERMINE ») :
+ * les démarches terminées n'apparaissaient donc jamais comme terminées.
+ */
 @Component({
   selector: 'app-suivis-demarches',
-
-  // Le composant est autonome, donc ses dépendances
-  // sont directement déclarées ici.
   standalone: true,
-
-  // CommonModule permet notamment d'utiliser *ngIf et *ngFor
-  // dans le fichier HTML.
-  imports: [
-    CommonModule
-  ],
-
-  // Fichiers HTML et SCSS associés à ce composant.
+  imports: [CommonModule, AvisForm],
   templateUrl: './suivis-demarches.html',
   styleUrl: './suivis-demarches.scss'
 })
 export class SuivisDemarches implements OnInit {
 
-  // URL de base de notre API Spring Boot.
-  private readonly apiUrl = environment.apiUrl;
+  private readonly router = inject(Router);
+  readonly service = inject(StudentDemarcheService);
 
-  // Liste des démarches attribuées à l'étudiant connecté.
   demarches: StudentDemarche[] = [];
-
-  // Permet d'afficher un état de chargement pendant
-  // la récupération des données depuis l'API.
   loading = true;
-
-  // Permet d'afficher un message si une erreur survient.
   errorMessage = '';
+  actionMessage = '';
+  actionError = '';
+  filtre: Filtre = 'TOUTES';
 
-  // Filtre actuellement sélectionné.
-  // "TOUTES" permet d'afficher toutes les démarches.
-  filtre: 'TOUTES' | 'A_FAIRE' | 'EN_COURS' | 'TERMINE' = 'TOUTES';
+  /** Identifiants des démarches en cours de mise à jour. */
+  private enMiseAJour = new Set<number>();
 
-  constructor(
-    private readonly http: HttpClient,
-    private readonly router: Router
-  ) {}
+  /** Démarche pour laquelle la fenêtre d'avis est ouverte. */
+  avisPour: StudentDemarche | null = null;
 
-  /**
-   * Méthode exécutée automatiquement lors du chargement
-   * du composant.
-   *
-   * Elle permet de récupérer les démarches de l'étudiant connecté.
-   */
+  readonly statutsModifiables: { value: DemarcheStatut; label: string }[] = [
+    { value: 'A_FAIRE', label: 'À faire' },
+    { value: 'EN_COURS', label: 'En cours' },
+    { value: 'TERMINEE', label: 'Terminée' },
+    { value: 'NON_CONCERNEE', label: 'Non concernée' }
+  ];
+
   ngOnInit(): void {
     this.chargerDemarches();
   }
 
-  /**
-   * Récupère les démarches associées au profil de l'étudiant.
-   *
-   * Étapes :
-   * 1. Vérifier que l'utilisateur possède un token.
-   * 2. Récupérer son profil étudiant.
-   * 3. Utiliser l'identifiant du profil pour récupérer ses démarches.
-   */
   chargerDemarches(): void {
-    const token = this.getToken();
-
-    // Si aucun token n'est présent, l'utilisateur n'est pas connecté.
-    if (!token) {
-      this.router.navigate(['/login']);
-      return;
-    }
-
     this.loading = true;
     this.errorMessage = '';
 
-    // Première requête : récupération du profil étudiant connecté.
-    this.http
-      .get<any>(
-        `${this.apiUrl}/student-profiles/me`,
-        {
-          headers: this.getHeaders()
+    this.service.getMesDemarches().subscribe({
+      next: (demarches) => {
+        this.loading = false;
+
+        if (demarches === null) {
+          this.router.navigate(['/dashboard/profile']);
+          return;
         }
-      )
-      .subscribe({
-        next: (profile) => {
 
-          // Vérifie que le profil existe bien.
-          if (!profile || !profile.id) {
-            this.loading = false;
-            this.router.navigate(['/dashboard/profile']);
-            return;
-          }
+        this.demarches = demarches;
+      },
+      error: (error: HttpErrorResponse) => {
+        this.loading = false;
 
-          // Deuxième requête : récupération des démarches
-          // associées au profil de l'étudiant.
-          this.http
-            .get<StudentDemarche[]>(
-              `${this.apiUrl}/student-demarches/student/${profile.id}`,
-              {
-                headers: this.getHeaders()
-              }
-            )
-            .subscribe({
-              next: (demarches) => {
-
-                // Stocke les démarches récupérées.
-                this.demarches = demarches ?? [];
-
-                this.loading = false;
-              },
-
-              error: (error) => {
-                console.error(
-                  'Erreur lors du chargement des démarches :',
-                  error
-                );
-
-                this.loading = false;
-                this.errorMessage =
-                  'Impossible de récupérer vos démarches pour le moment.';
-              }
-            });
-        },
-
-        error: (error) => {
-          console.error(
-            'Erreur lors de la récupération du profil étudiant :',
-            error
-          );
-
-          this.loading = false;
-
-          // Si le profil n'existe pas encore,
-          // l'utilisateur doit compléter son profil.
-          if (error.status === 404) {
-            this.router.navigate(['/dashboard/profile']);
-            return;
-          }
-
-          // Si le token n'est plus valide,
-          // on le supprime et on redirige vers la connexion.
-          if (error.status === 401 || error.status === 403) {
-            localStorage.removeItem('token');
-            this.router.navigate(['/login']);
-            return;
-          }
-
-          this.errorMessage =
-            'Impossible de récupérer votre profil pour le moment.';
+        if (error.status === 404) {
+          this.router.navigate(['/dashboard/profile']);
+          return;
         }
-      });
+
+        // 401 : géré par l'interceptor (déconnexion + /login).
+        this.errorMessage = 'Impossible de récupérer vos démarches pour le moment.';
+      }
+    });
   }
 
-  /**
-   * Retourne la liste des démarches correspondant
-   * au filtre actuellement sélectionné.
-   *
-   * Cette méthode sera utilisée directement dans le HTML
-   * pour afficher les démarches filtrées.
-   */
+  // ==========================================================
+  // FILTRES ET AFFICHAGE
+  // ==========================================================
+
   get demarchesFiltrees(): StudentDemarche[] {
-    // Si le filtre est "TOUTES", on retourne toutes les démarches.
-    if (this.filtre === 'TOUTES') {
-      return this.demarches;
-    }
-
-    // Sinon, on retourne uniquement les démarches
-    // correspondant au statut sélectionné.
-    return this.demarches.filter(
-      (demarche) => demarche.statut === this.filtre
-    );
+    return this.filtre === 'TOUTES'
+      ? this.demarches
+      : this.demarches.filter((d) => d.statut === this.filtre);
   }
 
-  /**
-   * Change le filtre actuellement sélectionné.
-   *
-   * Exemple :
-   * sélectionner "EN_COURS" affiche uniquement
-   * les démarches en cours.
-   */
-  changerFiltre(
-    filtre: 'TOUTES' | 'A_FAIRE' | 'EN_COURS' | 'TERMINE'
-  ): void {
+  get progressionGlobale(): number {
+    return this.service.progressionGlobale(this.demarches);
+  }
+
+  changerFiltre(filtre: Filtre): void {
     this.filtre = filtre;
   }
 
-  /**
-   * Retourne le nombre de démarches correspondant
-   * à un statut donné.
-   *
-   * Cette méthode pourra être utilisée pour afficher
-   * le nombre de démarches dans chaque filtre.
-   */
-  compterParStatut(
-    statut: 'A_FAIRE' | 'EN_COURS' | 'TERMINE'
-  ): number {
-    return this.demarches.filter(
-      (demarche) => demarche.statut === statut
-    ).length;
+  compterParStatut(statut: DemarcheStatut): number {
+    return this.demarches.filter((d) => d.statut === statut).length;
   }
 
-  /**
-   * Retourne le pourcentage de progression
-   * correspondant au statut d'une démarche.
-   *
-   * À faire  → 0 %
-   * En cours → 50 %
-   * Terminée → 100 %
-   */
-  getProgression(statut: StudentDemarche['statut']): number {
+  getClasseStatut(statut: DemarcheStatut): string {
     switch (statut) {
-      case 'A_FAIRE':
-        return 0;
-
-      case 'EN_COURS':
-        return 50;
-
-      case 'TERMINE':
-        return 100;
-
-      default:
-        return 0;
+      case 'A_FAIRE': return 'status-todo';
+      case 'EN_COURS': return 'status-progress';
+      case 'TERMINEE': return 'status-complete';
+      default: return 'status-todo';
     }
   }
 
-  /**
-   * Retourne le libellé français correspondant
-   * au statut technique envoyé par le backend.
-   */
-  getLibelleStatut(statut: StudentDemarche['statut']): string {
-    switch (statut) {
-      case 'A_FAIRE':
-        return 'À faire';
+  estEnMiseAJour(sd: StudentDemarche): boolean {
+    return this.enMiseAJour.has(sd.id);
+  }
 
-      case 'EN_COURS':
-        return 'En cours';
+  consulterDemarche(sd: StudentDemarche): void {
+    this.router.navigate(['/demarches', sd.demarche.id]);
+  }
 
-      case 'TERMINE':
-        return 'Terminée';
+  // ==========================================================
+  // ACTIONS
+  // ==========================================================
 
-      default:
-        return 'Inconnu';
+  /** « Commencer » : la démarche passe EN COURS (25 %). */
+  commencer(sd: StudentDemarche): void {
+    this.changerStatut(sd, 'EN_COURS', 'Démarche commencée. Bon courage !');
+  }
+
+  /** « Marquer comme terminée » : 100 %. */
+  terminer(sd: StudentDemarche): void {
+    this.changerStatut(sd, 'TERMINEE', 'Bravo, démarche terminée ! Vous pouvez maintenant donner votre avis.');
+  }
+
+  /** Changement libre via la liste déroulante. */
+  onStatutChoisi(sd: StudentDemarche, event: Event): void {
+    const select = event.target as HTMLSelectElement;
+    const statut = select.value as DemarcheStatut;
+
+    if (statut === sd.statut) {
+      return;
     }
-  }
 
-  /**
-   * Retourne la classe CSS correspondant au statut.
-   *
-   * Elle permettra au SCSS d'afficher une couleur
-   * différente pour chaque état.
-   */
-  getClasseStatut(statut: StudentDemarche['statut']): string {
-    switch (statut) {
-      case 'A_FAIRE':
-        return 'status-todo';
-
-      case 'EN_COURS':
-        return 'status-progress';
-
-      case 'TERMINE':
-        return 'status-complete';
-
-      default:
-        return '';
+    if ((statut === 'A_FAIRE' || statut === 'NON_CONCERNEE')
+        && sd.statut !== 'A_FAIRE'
+        && !confirm('La progression de cette démarche sera remise à zéro. Continuer ?')) {
+      select.value = sd.statut;
+      return;
     }
+
+    this.changerStatut(sd, statut, `Statut mis à jour : ${this.service.libelleStatut(statut)}.`);
   }
 
-  /**
-   * Permet d'ouvrir la démarche sélectionnée.
-   *
-   * Pour l'instant, on prépare simplement la navigation
-   * vers la page de détail.
-   *
-   * La route pourra être adaptée lorsque nous créerons
-   * la page détail d'une démarche.
-   */
-  consulterDemarche(studentDemarche: StudentDemarche): void {
-    this.router.navigate([
-      '/dashboard/demarches',
-      studentDemarche.demarche.id
-    ]);
+  /** « J'ai envoyé mes documents » : 50 %. */
+  confirmerDocuments(sd: StudentDemarche): void {
+    this.executer(
+      sd,
+      this.service.confirmerDocuments(sd.id, true),
+      'Documents envoyés : votre progression avance !'
+    );
   }
 
-  /**
-   * Récupère le token JWT enregistré après la connexion.
-   */
-  private getToken(): string | null {
-    return localStorage.getItem('token');
+  ouvrirAvis(sd: StudentDemarche): void {
+    this.actionMessage = '';
+    this.actionError = '';
+    this.avisPour = sd;
   }
 
-  /**
-   * Prépare les headers HTTP avec le token JWT.
-   *
-   * Le backend Spring Security utilise ce token
-   * pour identifier l'étudiant connecté.
-   */
-  private getHeaders(): HttpHeaders {
-    const token = this.getToken();
+  fermerAvis(): void {
+    this.avisPour = null;
+  }
 
-    return new HttpHeaders({
-      Authorization: `Bearer ${token}`
+  onAvisEnregistre(): void {
+    if (this.avisPour) {
+      this.avisPour.avisDonne = true;
+    }
+    this.avisPour = null;
+    this.actionMessage = 'Merci ! Votre avis est maintenant visible sur la page d\'accueil.';
+  }
+
+  private changerStatut(sd: StudentDemarche, statut: DemarcheStatut, succes: string): void {
+    this.executer(sd, this.service.changerStatut(sd.id, statut), succes);
+  }
+
+  private executer(
+    sd: StudentDemarche,
+    requete: ReturnType<StudentDemarcheService['changerStatut']>,
+    succes: string
+  ): void {
+    if (this.enMiseAJour.has(sd.id)) {
+      return;
+    }
+
+    this.actionMessage = '';
+    this.actionError = '';
+    this.enMiseAJour.add(sd.id);
+
+    requete.subscribe({
+      next: (misAJour) => {
+        this.enMiseAJour.delete(sd.id);
+        this.remplacer(sd, misAJour);
+        this.actionMessage = succes;
+      },
+      error: (error: HttpErrorResponse) => {
+        this.enMiseAJour.delete(sd.id);
+        this.actionError = error.error?.message || 'La mise à jour a échoué. Veuillez réessayer.';
+      }
     });
+  }
+
+  /** Remplace la démarche par la version renvoyée par l'API. */
+  private remplacer(ancien: StudentDemarche, nouveau: StudentDemarche): void {
+    const fusion: StudentDemarche = {
+      ...ancien,
+      ...nouveau,
+      demarche: nouveau?.demarche ?? ancien.demarche
+    };
+    this.demarches = this.demarches.map((d) => (d.id === ancien.id ? fusion : d));
   }
 }

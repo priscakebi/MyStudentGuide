@@ -1,7 +1,7 @@
-import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
+import { HttpErrorResponse, HttpEventType, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, throwError } from 'rxjs';
+import { catchError, tap, throwError } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 import { AuthService } from '../services/auth.service';
@@ -30,6 +30,16 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     : req;
 
   return next(request).pipe(
+    // L'API peut renvoyer un nouveau token dans l'en-tête Authorization
+    // (ex. après un changement d'adresse e-mail) : on le conserve.
+    tap((event) => {
+      if (isApiRequest && event.type === HttpEventType.Response) {
+        const header = event.headers.get('Authorization');
+        if (header?.startsWith('Bearer ') && token) {
+          authService.setToken(header.substring(7));
+        }
+      }
+    }),
     catchError((error: HttpErrorResponse) => {
 
       // Un 401 sur /auth/login = mauvais mot de passe : ce n'est pas une session expirée.

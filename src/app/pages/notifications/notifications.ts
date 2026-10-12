@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { StudentDemarcheService } from '../../services/student-demarche.service';
 
 
 /**
@@ -34,6 +35,15 @@ interface Notification {
    * Date de création de la notification.
    */
   dateCreation?: string;
+
+  /** Suivi de démarche concerné (rappel de J+10). */
+  studentDemarcheId?: number | null;
+
+  /** Action attendue : CONFIRMER_DOCUMENTS. */
+  action?: string | null;
+
+  /** Vrai lorsque l'étudiant a déjà répondu. */
+  actionTraitee?: boolean | null;
 }
 
 
@@ -68,6 +78,16 @@ interface Notification {
 
 })
 export class Notifications implements OnInit {
+
+  private studentDemarcheService = inject(StudentDemarcheService);
+
+  /** Notification pour laquelle une réponse est en cours d'envoi. */
+  answeringId: number | null = null;
+
+  /** Message affiché après la réponse au rappel. */
+  answerMessage = '';
+  answerError = '';
+
 
 
   /**
@@ -572,4 +592,51 @@ export class Notifications implements OnInit {
 
   }
 
+
+
+  // ============================================================
+  // RAPPEL DE J+10 : « AVEZ-VOUS ENVOYÉ VOS DOCUMENTS ? »
+  // ============================================================
+
+  /** Vrai si la notification attend une réponse Oui / Pas encore. */
+  attendReponse(notification: Notification): boolean {
+    return notification.action === 'CONFIRMER_DOCUMENTS'
+      && !notification.actionTraitee
+      && !!notification.studentDemarcheId;
+  }
+
+  /**
+   * Réponse de l'étudiant :
+   * - Oui : la progression de la démarche passe à 50 % ;
+   * - Pas encore : la question sera reposée dans 10 jours.
+   */
+  repondreDocuments(notification: Notification, envoyes: boolean): void {
+
+    if (!notification.studentDemarcheId || this.answeringId !== null) {
+      return;
+    }
+
+    this.answeringId = notification.id ?? null;
+    this.answerMessage = '';
+    this.answerError = '';
+
+    this.studentDemarcheService
+      .confirmerDocuments(notification.studentDemarcheId, envoyes)
+      .subscribe({
+        next: () => {
+          this.answeringId = null;
+          notification.actionTraitee = true;
+          notification.lu = true;
+          this.answerMessage = envoyes
+            ? 'Merci ! Votre progression a été mise à jour.'
+            : 'D\'accord, nous vous reposerons la question dans 10 jours.';
+          this.loadUnreadCount();
+        },
+        error: (error) => {
+          this.answeringId = null;
+          this.answerError =
+            error.error?.message || 'Impossible d\'enregistrer votre réponse.';
+        }
+      });
+  }
 }

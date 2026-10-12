@@ -1,5 +1,6 @@
 // Importe le décorateur Component et l'interface OnInit d'Angular.
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Subscription, filter } from 'rxjs';
 
 // Permet d'utiliser les fonctionnalités communes d'Angular
 // dans le template HTML.
@@ -7,6 +8,7 @@ import { CommonModule } from '@angular/common';
 
 // Importe les éléments nécessaires à la navigation Angular.
 import {
+  NavigationEnd,
   Router,
   RouterLink,
   RouterLinkActive,
@@ -20,6 +22,10 @@ import {
   HttpHeaders
 } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import {
+  StudentDemarche,
+  StudentDemarcheService
+} from '../../services/student-demarche.service';
 
 
 /**
@@ -62,7 +68,60 @@ import { environment } from '../../../environments/environment';
   // Feuille de style du Dashboard.
   styleUrl: './dashboard.scss'
 })
-export class Dashboard implements OnInit {
+export class Dashboard implements OnInit, OnDestroy {
+
+  // ==========================================================
+  // PROGRESSION DES DÉMARCHES (page « Mon espace »)
+  // ==========================================================
+
+  private studentDemarcheService = inject(StudentDemarcheService);
+  private navigationSub?: Subscription;
+
+  /** Démarches de l'étudiant (pour la barre de progression). */
+  mesDemarches: StudentDemarche[] = [];
+
+  /** Progression globale en % (moyenne des démarches concernées). */
+  progressionGlobale = 0;
+
+  progressionChargee = false;
+
+  get demarchesAFaire(): number {
+    return this.mesDemarches.filter((d) => d.statut === 'A_FAIRE').length;
+  }
+
+  get demarchesEnCours(): number {
+    return this.mesDemarches.filter((d) => d.statut === 'EN_COURS').length;
+  }
+
+  get demarchesTerminees(): number {
+    return this.mesDemarches.filter((d) => d.statut === 'TERMINEE').length;
+  }
+
+  /**
+   * Recharge la progression. Appelée à l'ouverture de « Mon espace »
+   * et à chaque retour sur cette page (après avoir commencé ou
+   * terminé une démarche, la barre est donc à jour).
+   */
+  loadProgression(): void {
+    this.studentDemarcheService.getMesDemarches().subscribe({
+      next: (demarches) => {
+        this.mesDemarches = demarches ?? [];
+        this.progressionGlobale =
+          this.studentDemarcheService.progressionGlobale(this.mesDemarches);
+        this.progressionChargee = true;
+      },
+      error: () => {
+        // Pas de profil (404) ou erreur réseau : la carte reste masquée.
+        this.mesDemarches = [];
+        this.progressionChargee = true;
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.navigationSub?.unsubscribe();
+  }
+
 
 
   // ========================================================================
@@ -160,6 +219,27 @@ export class Dashboard implements OnInit {
 
     // Récupération du nombre de notifications non lues.
     this.loadUnreadNotifications();
+
+    // Barre de progression de « Mon espace ».
+    if (this.isDashboardHome()) {
+      this.loadProgression();
+    }
+
+    /*
+     * Le Dashboard reste affiché pendant la navigation entre ses pages :
+     * on rafraîchit le compteur de notifications à chaque navigation
+     * et la progression à chaque retour sur « Mon espace ».
+     */
+    this.navigationSub = this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.loadUnreadNotifications();
+        this.closeMobileMenu();
+
+        if (this.isDashboardHome()) {
+          this.loadProgression();
+        }
+      });
   }
 
 

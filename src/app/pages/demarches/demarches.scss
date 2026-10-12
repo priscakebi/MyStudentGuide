@@ -967,3 +967,15 @@ $transition: 0.25s ease;
   }
 
 }
+
+/* Messages après une action (Commencer / Donner mon avis) */
+.action-message {
+  margin: 0 0 18px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+
+  &.success { background: #eaf8f2; color: #16845b; }
+  &.error { background: #fff0f1; color: #c92535; }
+}

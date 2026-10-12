@@ -1,49 +1,55 @@
 <!--
   ================================================================
-  PAGE SUIVI DES DÉMARCHES
+  PAGE SUIVI DES DÉMARCHES (/dashboard/suivis)
   ================================================================
 
-  Cette page permet à l'étudiant de :
-  - consulter toutes ses démarches ;
-  - filtrer les démarches par statut ;
-  - voir leur progression ;
-  - consulter le détail d'une démarche.
+  L'étudiant peut :
+  - filtrer ses démarches par statut ;
+  - commencer une démarche, confirmer l'envoi des documents,
+    la terminer ou corriger son statut ;
+  - suivre la progression (25 % → 50 % → 100 %) ;
+  - donner son avis une fois la démarche terminée.
 -->
-
 <div class="suivis-container">
 
   <!-- ============================================================
-       EN-TÊTE DE LA PAGE
+       EN-TÊTE + PROGRESSION GLOBALE
        ============================================================ -->
 
   <header class="page-header">
 
     <div class="header-content">
 
-      <!-- Petit label au-dessus du titre -->
-      <span class="section-label">
-        MON ESPACE
-      </span>
+      <span class="section-label">MON ESPACE</span>
 
-      <!-- Titre principal -->
-      <h1>
-        Suivi de mes démarches
-      </h1>
+      <h1>Suivi de mes démarches</h1>
 
-      <!-- Description de la page -->
       <p>
         Retrouvez ici l'ensemble de vos démarches administratives
-        et suivez leur progression étape par étape.
+        et faites évoluer leur statut au fil de votre avancée.
       </p>
 
     </div>
 
+    @if (!loading && !errorMessage && demarches.length > 0) {
+
+      <div class="global-progress" aria-label="Progression globale">
+
+        <div class="progress-header">
+          <span>Progression globale</span>
+          <strong>{{ progressionGlobale }}%</strong>
+        </div>
+
+        <div class="progress-bar">
+          <div class="progress-value status-complete" [style.width.%]="progressionGlobale"></div>
+        </div>
+
+      </div>
+
+    }
+
   </header>
 
-
-  <!-- ============================================================
-       CONTENU PRINCIPAL
-       ============================================================ -->
 
   <main class="main-content">
 
@@ -55,376 +61,274 @@
 
       <div class="filters">
 
-        <!-- Toutes les démarches -->
-        <button
-          type="button"
-          class="filter-button"
-          [class.active]="filtre === 'TOUTES'"
-          (click)="changerFiltre('TOUTES')"
-        >
+        <button type="button" class="filter-button" [class.active]="filtre === 'TOUTES'" (click)="changerFiltre('TOUTES')">
           <span>Toutes</span>
-
-          <span class="filter-count">
-            {{ demarches.length }}
-          </span>
+          <span class="filter-count">{{ demarches.length }}</span>
         </button>
 
-
-        <!-- Démarches à faire -->
-        <button
-          type="button"
-          class="filter-button"
-          [class.active]="filtre === 'A_FAIRE'"
-          (click)="changerFiltre('A_FAIRE')"
-        >
+        <button type="button" class="filter-button" [class.active]="filtre === 'A_FAIRE'" (click)="changerFiltre('A_FAIRE')">
           <span>À faire</span>
-
-          <span class="filter-count">
-            {{ compterParStatut('A_FAIRE') }}
-          </span>
+          <span class="filter-count">{{ compterParStatut('A_FAIRE') }}</span>
         </button>
 
-
-        <!-- Démarches en cours -->
-        <button
-          type="button"
-          class="filter-button"
-          [class.active]="filtre === 'EN_COURS'"
-          (click)="changerFiltre('EN_COURS')"
-        >
+        <button type="button" class="filter-button" [class.active]="filtre === 'EN_COURS'" (click)="changerFiltre('EN_COURS')">
           <span>En cours</span>
-
-          <span class="filter-count">
-            {{ compterParStatut('EN_COURS') }}
-          </span>
+          <span class="filter-count">{{ compterParStatut('EN_COURS') }}</span>
         </button>
 
-
-        <!-- Démarches terminées -->
-        <button
-          type="button"
-          class="filter-button"
-          [class.active]="filtre === 'TERMINE'"
-          (click)="changerFiltre('TERMINE')"
-        >
+        <button type="button" class="filter-button" [class.active]="filtre === 'TERMINEE'" (click)="changerFiltre('TERMINEE')">
           <span>Terminées</span>
-
-          <span class="filter-count">
-            {{ compterParStatut('TERMINE') }}
-          </span>
+          <span class="filter-count">{{ compterParStatut('TERMINEE') }}</span>
         </button>
 
       </div>
 
     </section>
+
+
+    <!-- Messages après une action -->
+    @if (actionMessage) {
+      <p class="action-banner success" role="status">{{ actionMessage }}</p>
+    }
+
+    @if (actionError) {
+      <p class="action-banner error" role="alert">{{ actionError }}</p>
+    }
 
 
     <!-- ==========================================================
          CHARGEMENT
          ========================================================== -->
 
-    <!-- Affiché pendant la récupération des démarches -->
-    <section
-      class="state-container loading-state"
-      *ngIf="loading"
-    >
+    @if (loading) {
 
-      <div class="loader"></div>
+      <section class="state-container loading-state">
+        <div class="loader"></div>
+        <h2>Chargement de vos démarches</h2>
+        <p>Nous récupérons votre parcours administratif...</p>
+      </section>
 
-      <h2>
-        Chargement de vos démarches
-      </h2>
-
-      <p>
-        Nous récupérons votre parcours administratif...
-      </p>
-
-    </section>
+    }
 
 
     <!-- ==========================================================
-         MESSAGE D'ERREUR
+         ERREUR
          ========================================================== -->
 
-    <section
-      class="state-container error-state"
-      *ngIf="!loading && errorMessage"
-    >
+    @if (!loading && errorMessage) {
 
-      <div class="state-icon error-icon">
-        !
-      </div>
+      <section class="state-container error-state">
+        <div class="state-icon error-icon">!</div>
+        <h2>Une erreur est survenue</h2>
+        <p>{{ errorMessage }}</p>
+        <button type="button" class="retry-button" (click)="chargerDemarches()">Réessayer</button>
+      </section>
 
-      <h2>
-        Une erreur est survenue
-      </h2>
-
-      <p>
-        {{ errorMessage }}
-      </p>
-
-      <!-- Permet de relancer la récupération des démarches -->
-      <button
-        type="button"
-        class="retry-button"
-        (click)="chargerDemarches()"
-      >
-        Réessayer
-      </button>
-
-    </section>
+    }
 
 
     <!-- ==========================================================
          LISTE DES DÉMARCHES
          ========================================================== -->
 
-    <section
-      class="demarches-section"
-      *ngIf="!loading && !errorMessage && demarchesFiltrees.length > 0"
-    >
+    @if (!loading && !errorMessage && demarchesFiltrees.length > 0) {
 
-      <!-- Titre de la liste -->
-      <div class="list-header">
+      <section class="demarches-section">
 
-        <div>
-          <span class="section-label">
-            VOTRE PARCOURS
+        <div class="list-header">
+
+          <div>
+            <span class="section-label">VOTRE PARCOURS</span>
+            <h2>Vos démarches</h2>
+          </div>
+
+          <span class="results-count">
+            {{ demarchesFiltrees.length }}
+            démarche{{ demarchesFiltrees.length > 1 ? 's' : '' }}
           </span>
 
-          <h2>
-            Vos démarches
-          </h2>
         </div>
 
-        <!-- Nombre de résultats correspondant au filtre -->
-        <span class="results-count">
-          {{ demarchesFiltrees.length }}
-          démarche{{ demarchesFiltrees.length > 1 ? 's' : '' }}
-        </span>
 
-      </div>
+        <div class="demarches-list">
 
+          @for (sd of demarchesFiltrees; track sd.id) {
 
-      <!-- ========================================================
-           CARTES DES DÉMARCHES
-           ======================================================== -->
+            <article class="demarche-card" [class.busy]="estEnMiseAJour(sd)">
 
-      <div class="demarches-list">
-
-        <!--
-          Chaque élément correspond à une StudentDemarche
-          récupérée depuis le backend.
-        -->
-        <article
-          class="demarche-card"
-          *ngFor="let studentDemarche of demarchesFiltrees"
-        >
-
-          <!-- Barre colorée indiquant le statut -->
-          <div
-            class="card-status-bar"
-            [ngClass]="getClasseStatut(studentDemarche.statut)"
-          ></div>
+              <div class="card-status-bar" [ngClass]="getClasseStatut(sd.statut)"></div>
 
 
-          <!-- ====================================================
-               PARTIE SUPÉRIEURE DE LA CARTE
-               ==================================================== -->
+              <!-- EN-TÊTE DE LA CARTE -->
+              <div class="card-header">
 
-          <div class="card-header">
+                <div class="card-title-wrapper">
 
-            <div class="card-title-wrapper">
+                  <div class="demarche-icon">📄</div>
 
-              <!-- Icône de la démarche -->
-              <div class="demarche-icon">
-                📄
-              </div>
+                  <div>
+                    @if (sd.demarche.categorie) {
+                      <span class="category">{{ sd.demarche.categorie.nom }}</span>
+                    }
+                    <h3>{{ sd.demarche.titre }}</h3>
+                  </div>
 
-              <div>
+                </div>
 
-                <!-- Catégorie si elle existe -->
-                <span
-                  class="category"
-                  *ngIf="studentDemarche.demarche.categorie"
-                >
-                  {{ studentDemarche.demarche.categorie.nom }}
+                <span class="status-badge" [ngClass]="getClasseStatut(sd.statut)">
+                  <span class="status-dot"></span>
+                  {{ service.libelleStatut(sd.statut) }}
                 </span>
 
-                <!-- Titre de la démarche -->
-                <h3>
-                  {{ studentDemarche.demarche.titre }}
-                </h3>
+              </div>
+
+
+              @if (sd.demarche.description) {
+                <p class="demarche-description">{{ sd.demarche.description }}</p>
+              }
+
+
+              <!-- PROGRESSION -->
+              @if (sd.statut !== 'NON_CONCERNEE') {
+
+                <div class="progress-section">
+
+                  <div class="progress-header">
+                    <span>Progression</span>
+                    <strong>{{ service.progression(sd) }}%</strong>
+                  </div>
+
+                  <div class="progress-bar">
+                    <div
+                      class="progress-value"
+                      [ngClass]="getClasseStatut(sd.statut)"
+                      [style.width.%]="service.progression(sd)"
+                    ></div>
+                  </div>
+
+                  <!-- Étapes : Commencée → Documents envoyés → Terminée -->
+                  <ol class="steps">
+                    <li [class.done]="sd.statut === 'EN_COURS' || sd.statut === 'TERMINEE'">Commencée</li>
+                    <li [class.done]="sd.documentsEnvoyes || sd.statut === 'TERMINEE'">Documents envoyés</li>
+                    <li [class.done]="sd.statut === 'TERMINEE'">Terminée</li>
+                  </ol>
+
+                </div>
+
+              }
+
+
+              <!-- ACTIONS -->
+              <div class="card-actions">
+
+                @switch (sd.statut) {
+
+                  @case ('A_FAIRE') {
+                    <button type="button" class="action-button primary" [disabled]="estEnMiseAJour(sd)" (click)="commencer(sd)">
+                      ▶ Commencer
+                    </button>
+                  }
+
+                  @case ('EN_COURS') {
+                    @if (!sd.documentsEnvoyes) {
+                      <button type="button" class="action-button outline" [disabled]="estEnMiseAJour(sd)" (click)="confirmerDocuments(sd)">
+                        📤 J'ai envoyé mes documents
+                      </button>
+                    }
+                    <button type="button" class="action-button success" [disabled]="estEnMiseAJour(sd)" (click)="terminer(sd)">
+                      ✓ Marquer comme terminée
+                    </button>
+                  }
+
+                  @case ('TERMINEE') {
+                    @if (sd.avisDonne) {
+                      <span class="avis-done">★ Merci pour votre avis</span>
+                    } @else {
+                      <button type="button" class="action-button avis" (click)="ouvrirAvis(sd)">
+                        ★ Donner mon avis
+                      </button>
+                    }
+                  }
+
+                }
 
               </div>
 
-            </div>
 
+              <!-- PIED DE CARTE -->
+              <div class="card-footer">
 
-            <!-- Statut -->
-            <span
-              class="status-badge"
-              [ngClass]="getClasseStatut(studentDemarche.statut)"
-            >
-              <span class="status-dot"></span>
+                <label class="status-select">
+                  <span>Statut</span>
+                  <select
+                    [value]="sd.statut"
+                    [disabled]="estEnMiseAJour(sd)"
+                    (change)="onStatutChoisi(sd, $event)"
+                  >
+                    @for (option of statutsModifiables; track option.value) {
+                      <option [value]="option.value" [selected]="option.value === sd.statut">{{ option.label }}</option>
+                    }
+                  </select>
+                </label>
 
-              {{ getLibelleStatut(studentDemarche.statut) }}
-            </span>
+                <button type="button" class="view-button" (click)="consulterDemarche(sd)">
+                  <span>Consulter</span>
+                  <span class="arrow">→</span>
+                </button>
 
-          </div>
+              </div>
 
+            </article>
 
-          <!-- ====================================================
-               DESCRIPTION
-               ==================================================== -->
+          }
 
-          <p
-            class="demarche-description"
-            *ngIf="studentDemarche.demarche.description"
-          >
-            {{ studentDemarche.demarche.description }}
-          </p>
+        </div>
 
+      </section>
 
-          <!-- ====================================================
-               PROGRESSION
-               ==================================================== -->
-
-          <div class="progress-section">
-
-            <div class="progress-header">
-
-              <span>
-                Progression
-              </span>
-
-              <strong>
-                {{ getProgression(studentDemarche.statut) }}%
-              </strong>
-
-            </div>
-
-
-            <!-- Barre de progression -->
-            <div class="progress-bar">
-
-              <div
-                class="progress-value"
-                [ngClass]="getClasseStatut(studentDemarche.statut)"
-                [style.width.%]="getProgression(studentDemarche.statut)"
-              ></div>
-
-            </div>
-
-          </div>
-
-
-          <!-- ====================================================
-               PIED DE CARTE
-               ==================================================== -->
-
-          <div class="card-footer">
-
-            <!-- Informations liées au statut -->
-            <div class="card-info">
-
-              <span
-                *ngIf="studentDemarche.statut === 'A_FAIRE'"
-              >
-                Cette démarche n'a pas encore commencé.
-              </span>
-
-              <span
-                *ngIf="studentDemarche.statut === 'EN_COURS'"
-              >
-                Vous avez commencé cette démarche.
-              </span>
-
-              <span
-                *ngIf="studentDemarche.statut === 'TERMINE'"
-              >
-                Cette démarche est terminée.
-              </span>
-
-            </div>
-
-
-            <!-- Bouton permettant d'accéder au détail -->
-            <button
-              type="button"
-              class="view-button"
-              (click)="consulterDemarche(studentDemarche)"
-            >
-              <span>
-                Consulter
-              </span>
-
-              <span class="arrow">
-                →
-              </span>
-            </button>
-
-          </div>
-
-        </article>
-
-      </div>
-
-    </section>
+    }
 
 
     <!-- ==========================================================
          AUCUNE DÉMARCHE
          ========================================================== -->
 
-    <!--
-      Affiché lorsque le filtre sélectionné ne contient
-      aucune démarche.
-    -->
-    <section
-      class="state-container empty-state"
-      *ngIf="!loading && !errorMessage && demarchesFiltrees.length === 0"
-    >
+    @if (!loading && !errorMessage && demarchesFiltrees.length === 0) {
 
-      <div class="state-icon empty-icon">
-        ✓
-      </div>
+      <section class="state-container empty-state">
 
-      <h2>
-        Aucune démarche
-      </h2>
+        <div class="state-icon empty-icon">✓</div>
 
-      <p *ngIf="filtre === 'TOUTES'">
-        Vous n'avez actuellement aucune démarche à suivre.
-      </p>
+        <h2>Aucune démarche</h2>
 
-      <p *ngIf="filtre === 'A_FAIRE'">
-        Vous n'avez aucune démarche à faire pour le moment.
-      </p>
+        @switch (filtre) {
+          @case ('TOUTES') { <p>Vous n'avez actuellement aucune démarche à suivre.</p> }
+          @case ('A_FAIRE') { <p>Vous n'avez aucune démarche à faire pour le moment.</p> }
+          @case ('EN_COURS') { <p>Vous n'avez aucune démarche en cours.</p> }
+          @case ('TERMINEE') { <p>Vous n'avez encore terminé aucune démarche.</p> }
+        }
 
-      <p *ngIf="filtre === 'EN_COURS'">
-        Vous n'avez aucune démarche en cours.
-      </p>
+        @if (filtre !== 'TOUTES') {
+          <button type="button" class="reset-filter-button" (click)="changerFiltre('TOUTES')">
+            Voir toutes les démarches
+          </button>
+        }
 
-      <p *ngIf="filtre === 'TERMINE'">
-        Vous n'avez encore terminé aucune démarche.
-      </p>
+      </section>
 
-      <!--
-        Permet de revenir à l'affichage de toutes les démarches
-        lorsqu'un filtre ne retourne aucun résultat.
-      -->
-      <button
-        type="button"
-        class="reset-filter-button"
-        *ngIf="filtre !== 'TOUTES'"
-        (click)="changerFiltre('TOUTES')"
-      >
-        Voir toutes les démarches
-      </button>
-
-    </section>
+    }
 
   </main>
 
 </div>
+
+
+<!-- Fenêtre « Donner mon avis » -->
+@if (avisPour) {
+  <app-avis-form
+    [studentDemarcheId]="avisPour.id"
+    [demarcheTitre]="avisPour.demarche.titre"
+    (saved)="onAvisEnregistre()"
+    (closed)="fermerAvis()"
+  ></app-avis-form>
+}

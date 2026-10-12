@@ -109,6 +109,25 @@ export const routes: Routes = [
     children: [
 
       // ====================================================================
+      // REDIRECTION / → /home
+      // ====================================================================
+
+      {
+        /*
+         * CORRECTIF « page d'accueil vide » :
+         *
+         * Angular prend la PREMIÈRE route qui correspond. Sur l'URL "/",
+         * c'est ce groupe (path: '') qui correspond : la navbar et le
+         * footer s'affichaient, mais aucun enfant n'avait le chemin '',
+         * donc le <router-outlet> restait vide. La redirection doit donc
+         * se trouver ICI, parmi les enfants du layout.
+         */
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full'
+      },
+
+      // ====================================================================
       // ACCUEIL
       // ====================================================================
 
@@ -139,6 +158,9 @@ export const routes: Routes = [
          */
         path: 'demarches',
 
+        // Réservé aux utilisateurs connectés : un visiteur anonyme n'a accès qu'à l'accueil.
+        canActivate: [authGuard],
+
         loadComponent: () =>
           import('./pages/demarches/demarches')
             .then(m => m.Demarches)
@@ -155,6 +177,9 @@ export const routes: Routes = [
          * /demarches/:id
          */
         path: 'demarches/:id',
+
+        // Réservé aux utilisateurs connectés : un visiteur anonyme n'a accès qu'à l'accueil.
+        canActivate: [authGuard],
 
         loadComponent: () =>
           import('./pages/demarche-detail/demarche-detail')
@@ -177,6 +202,9 @@ export const routes: Routes = [
          * Aucun document personnel n'est stocké.
          */
         path: 'documents',
+
+        // Réservé aux utilisateurs connectés : un visiteur anonyme n'a accès qu'à l'accueil.
+        canActivate: [authGuard],
 
         loadComponent: () =>
           import('./pages/documents/documents')
@@ -233,24 +261,52 @@ export const routes: Routes = [
 
 
   {
-  /*
-   * URL :
-   * /admin/account
-   *
-   * Page "Mon compte" de l'administrateur.
-   */
-  path: 'account',
+    /*
+     * MOT DE PASSE OUBLIÉ (étudiant)
+     *
+     * /forgot-password : saisie de l'e-mail
+     * /reset-password?token=... : choix du nouveau mot de passe
+     *                             (lien reçu par e-mail)
+     *
+     * Le même composant sert les deux espaces : la donnée de route
+     * "space" indique s'il s'agit de l'espace étudiant ou administrateur.
+     */
+    path: 'forgot-password',
+    data: { space: 'student' },
+    loadComponent: () =>
+      import('./pages/forgot-password/forgot-password')
+        .then(m => m.ForgotPassword)
+  },
 
-  /*
-   * Cette route affichait la page admin SANS aucune protection :
-   * elle est maintenant réservée aux administrateurs.
-   */
-  canActivate: [adminGuard],
+  {
+    path: 'reset-password',
+    data: { space: 'student' },
+    loadComponent: () =>
+      import('./pages/reset-password/reset-password')
+        .then(m => m.ResetPassword)
+  },
 
-  loadComponent: () =>
-    import('./pages/admin/admin-account/admin-account')
-      .then(m => m.AdminAccount)
-},
+  {
+    /*
+     * MOT DE PASSE OUBLIÉ (administrateur)
+     *
+     * Routes publiques, hors de /admin (protégée) : l'administrateur
+     * n'est justement pas connecté lorsqu'il a oublié son mot de passe.
+     */
+    path: 'admin-forgot-password',
+    data: { space: 'admin' },
+    loadComponent: () =>
+      import('./pages/forgot-password/forgot-password')
+        .then(m => m.ForgotPassword)
+  },
+
+  {
+    path: 'admin-reset-password',
+    data: { space: 'admin' },
+    loadComponent: () =>
+      import('./pages/reset-password/reset-password')
+        .then(m => m.ResetPassword)
+  },
 
 
   // ========================================================================
@@ -547,28 +603,6 @@ export const routes: Routes = [
     }
   ]
 },
-
-  // ========================================================================
-  // ROUTE PAR DÉFAUT
-  // ========================================================================
-
-  {
-    /*
-     * Lorsque l'utilisateur arrive sur :
-     *
-     * /
-     *
-     * Angular redirige vers :
-     *
-     * /home
-     */
-    path: '',
-
-    redirectTo: 'home',
-
-    pathMatch: 'full'
-  },
-
 
   // ========================================================================
   // ROUTE INCONNUE

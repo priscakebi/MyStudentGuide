@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
+import { AuthService } from '../../../services/auth.service';
 
 
 // ============================================================
@@ -168,6 +169,8 @@ interface DemarcheForm {
 })
 export class DemarchesAdmin implements OnInit {
 
+  private authService = inject(AuthService);
+
 
   // ==========================================================
   // URL DE L'API
@@ -318,7 +321,7 @@ export class DemarchesAdmin implements OnInit {
    */
   private getHeaders(): HttpHeaders {
 
-    const token = localStorage.getItem('token');
+    const token = this.authService.getToken();
 
     return new HttpHeaders({
       'Content-Type': 'application/json',
@@ -504,10 +507,6 @@ export class DemarchesAdmin implements OnInit {
        */
       next: (response) => {
 
-        console.log(
-          'Démarche créée :',
-          response
-        );
 
         this.loading = false;
 
@@ -684,10 +683,6 @@ export class DemarchesAdmin implements OnInit {
        */
       next: (response) => {
 
-        console.log(
-          'Démarche modifiée :',
-          response
-        );
 
         this.loading = false;
 

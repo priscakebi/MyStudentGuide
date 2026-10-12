@@ -1,0 +1,75 @@
+<div class="avis-backdrop" (click)="fermer()">
+
+  <div
+    class="avis-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="avis-title"
+    (click)="$event.stopPropagation()"
+  >
+
+    <button type="button" class="avis-close" aria-label="Fermer" (click)="fermer()">✕</button>
+
+    <span class="avis-label">DONNER MON AVIS</span>
+
+    <h2 id="avis-title">Comment s'est passé votre suivi ?</h2>
+
+    @if (demarcheTitre) {
+      <p class="avis-demarche">{{ demarcheTitre }}</p>
+    }
+
+    <form (ngSubmit)="envoyer()">
+
+      <!-- Note en étoiles -->
+      <fieldset class="avis-stars" (mouseleave)="survol = 0">
+        <legend>Votre note</legend>
+
+        @for (etoile of etoiles; track etoile) {
+          <button
+            type="button"
+            class="star"
+            [class.filled]="etoile <= (survol || note)"
+            [attr.aria-label]="etoile + ' étoile' + (etoile > 1 ? 's' : '')"
+            [attr.aria-pressed]="note === etoile"
+            (mouseenter)="survol = etoile"
+            (click)="note = etoile"
+          >★</button>
+        }
+
+        <span class="star-caption">{{ libelles[survol || note] }}</span>
+      </fieldset>
+
+      <!-- Commentaire -->
+      <label for="avis-commentaire">Votre commentaire</label>
+      <textarea
+        id="avis-commentaire"
+        name="commentaire"
+        rows="5"
+        maxlength="1000"
+        placeholder="Ce qui vous a aidé, ce qui pourrait être amélioré…"
+        [(ngModel)]="commentaire"
+      ></textarea>
+
+      <div class="avis-meta">
+        <span>Votre prénom et l'initiale de votre nom seront affichés sur la page d'accueil.</span>
+        <span>{{ commentaire.length }}/1000</span>
+      </div>
+
+      @if (erreur) {
+        <p class="avis-error" role="alert">{{ erreur }}</p>
+      }
+
+      <div class="avis-actions">
+        <button type="button" class="btn-secondary" [disabled]="envoi" (click)="fermer()">
+          Annuler
+        </button>
+        <button type="submit" class="btn-primary" [disabled]="envoi || note < 1 || !commentaireValide">
+          {{ envoi ? 'Envoi…' : 'Publier mon avis' }}
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

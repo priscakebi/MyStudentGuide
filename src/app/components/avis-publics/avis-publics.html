@@ -1,0 +1,51 @@
+@if (avis.length > 0) {
+
+  <section class="avis-section" aria-labelledby="avis-publics-title">
+
+    <div class="avis-heading">
+
+      <span class="avis-label">AVIS DES ÉTUDIANTS</span>
+
+      <h2 id="avis-publics-title">
+        Ils ont été <span>accompagnés</span>
+      </h2>
+
+      <p>
+        Note moyenne
+        <strong>{{ moyenne }}/5</strong>
+        sur les derniers avis laissés après une démarche terminée.
+      </p>
+
+    </div>
+
+    <div class="avis-grid">
+
+      @for (item of avis; track item.id) {
+
+        <article class="avis-card">
+
+          <div class="avis-stars" [attr.aria-label]="item.note + ' sur 5'">
+            @for (etoile of etoiles; track etoile) {
+              <span [class.on]="etoile <= item.note" aria-hidden="true">★</span>
+            }
+          </div>
+
+          <blockquote>« {{ item.commentaire }} »</blockquote>
+
+          <footer>
+            <span class="avatar" aria-hidden="true">{{ initiale(item.auteur) }}</span>
+            <div>
+              <strong>{{ item.auteur }}</strong>
+              <span>{{ item.demarcheTitre }} · {{ item.dateCreation | date:'dd/MM/yyyy' }}</span>
+            </div>
+          </footer>
+
+        </article>
+
+      }
+
+    </div>
+
+  </section>
+
+}

@@ -1,11 +1,11 @@
 // Importe le décorateur permettant de créer un composant Angular.
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 // Importe RouterOutlet pour afficher les pages
 // définies dans app.routes.ts.
 import { RouterOutlet } from '@angular/router';
-import { Navbar } from './components/navbar/navbar';
-import { Footer } from './components/footer/footer';
+
+import { IdleService } from './services/idle.service';
 
 @Component({
   // Nom du composant racine de l'application.
@@ -21,4 +21,11 @@ import { Footer } from './components/footer/footer';
   styleUrl: './app.scss'
 })
 export class App {
+
+  /** Surveille l'inactivité de l'utilisateur connecté (déconnexion automatique). */
+  idle = inject(IdleService);
+
+  constructor() {
+    this.idle.start();
+  }
 }

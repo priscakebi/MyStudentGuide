@@ -40,7 +40,9 @@ export class Login {
 
   constructor() {
     // Message affiché quand l'interceptor a déconnecté l'utilisateur (token expiré).
-    if (this.route.snapshot.queryParamMap.get('sessionExpired')) {
+    if (this.route.snapshot.queryParamMap.get('reason') === 'idle') {
+      this.infoMessage = 'Vous avez été déconnecté après une période d\'inactivité. Veuillez vous reconnecter.';
+    } else if (this.route.snapshot.queryParamMap.get('sessionExpired')) {
       this.infoMessage = 'Votre session a expiré. Veuillez vous reconnecter.';
     }
   }
@@ -112,8 +114,8 @@ export class Login {
   private getSafeReturnUrl(): string {
     const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
 
-    return returnUrl && returnUrl.startsWith('/dashboard') && !returnUrl.startsWith('//')
+    return returnUrl && returnUrl.startsWith('/home') && !returnUrl.startsWith('//')
       ? returnUrl
-      : '/dashboard';
+      : '/home';
   }
 }

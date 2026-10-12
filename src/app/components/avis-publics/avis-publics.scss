@@ -1,0 +1,135 @@
+$blue: #1646a0;
+$red: #e63946;
+$text-dark: #172033;
+$text: #344054;
+$text-light: #667085;
+$border: #e7e9ee;
+$star: #f5a524;
+
+:host {
+  display: block;
+}
+
+.avis-section {
+  padding: 85px 8%;
+  background: #f7f8fa;
+}
+
+.avis-heading {
+  max-width: 680px;
+  margin: 0 auto 42px;
+  text-align: center;
+
+  h2 {
+    margin: 10px 0 12px;
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    line-height: 1.2;
+    font-weight: 800;
+    color: $text-dark;
+
+    span {
+      color: $red;
+    }
+  }
+
+  p {
+    margin: 0;
+    color: $text-light;
+    line-height: 1.6;
+  }
+
+  strong {
+    color: $text-dark;
+  }
+}
+
+.avis-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: $red;
+}
+
+.avis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 22px;
+  max-width: 1150px;
+  margin: 0 auto;
+}
+
+.avis-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+  padding: 26px;
+  border: 1px solid $border;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(20, 30, 50, 0.06);
+}
+
+.avis-stars span {
+  font-size: 1.15rem;
+  color: #d0d5dd;
+
+  &.on {
+    color: $star;
+  }
+}
+
+blockquote {
+  flex: 1;
+  margin: 0;
+  color: $text;
+  line-height: 1.65;
+  overflow-wrap: break-word;
+}
+
+footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid $border;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  strong {
+    color: $text-dark;
+  }
+
+  span:not(.avatar) {
+    font-size: 0.8rem;
+    color: $text-light;
+    overflow-wrap: anywhere;
+  }
+}
+
+.avatar {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #eaf1ff;
+  color: $blue;
+  font-weight: 800;
+}
+
+@media (max-width: 600px) {
+  .avis-section {
+    padding: 60px 16px;
+  }
+
+  .avis-grid {
+    grid-template-columns: 1fr;
+  }
+}

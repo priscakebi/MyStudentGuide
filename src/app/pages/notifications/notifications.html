@@ -96,6 +96,26 @@
         <!-- ACTIONS                         -->
         <!-- ============================= -->
 
+
+        <!-- Rappel de J+10 : réponse Oui / Pas encore -->
+        @if (attendReponse(selectedNotification)) {
+          <div class="documents-question">
+            <p>Avez-vous envoyé vos documents sur la plateforme dédiée ?</p>
+            <div class="documents-answers">
+              <button type="button" class="answer-yes" [disabled]="answeringId !== null" (click)="repondreDocuments(selectedNotification, true)">Oui, c'est fait</button>
+              <button type="button" class="answer-no" [disabled]="answeringId !== null" (click)="repondreDocuments(selectedNotification, false)">Pas encore</button>
+            </div>
+          </div>
+        }
+
+        @if (answerMessage) {
+          <p class="answer-feedback success" role="status">{{ answerMessage }}</p>
+        }
+
+        @if (answerError) {
+          <p class="answer-feedback error" role="alert">{{ answerError }}</p>
+        }
+
         <div class="notification-detail-actions">
 
 
@@ -207,6 +227,15 @@
     <!-- ============================= -->
     <!-- MESSAGE D'ERREUR               -->
     <!-- ============================= -->
+
+    <!-- Réponse au rappel « documents envoyés » depuis la liste -->
+    @if (answerMessage) {
+      <p class="answer-feedback success" role="status">{{ answerMessage }}</p>
+    }
+
+    @if (answerError) {
+      <p class="answer-feedback error" role="alert">{{ answerError }}</p>
+    }
 
     @if (errorMessage) {
 
@@ -355,6 +384,13 @@
               <!-- ============================= -->
               <!-- ACTIONS                         -->
               <!-- ============================= -->
+
+              @if (attendReponse(notification)) {
+                <div class="documents-answers" (click)="$event.stopPropagation()">
+                  <button type="button" class="answer-yes" [disabled]="answeringId !== null" (click)="repondreDocuments(notification, true)">Oui, c'est fait</button>
+                  <button type="button" class="answer-no" [disabled]="answeringId !== null" (click)="repondreDocuments(notification, false)">Pas encore</button>
+                </div>
+              }
 
               <div class="notification-actions">
 

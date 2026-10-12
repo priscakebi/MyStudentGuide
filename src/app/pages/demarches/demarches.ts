@@ -6,7 +6,8 @@
 // et d'utiliser le cycle de vie OnInit.
 import {
   Component,
-  OnInit
+  OnInit,
+  inject
 } from '@angular/core';
 
 // Permet d'utiliser les fonctionnalités communes
@@ -30,6 +31,11 @@ import {
   Router
 } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { AvisForm } from '../../components/avis-form/avis-form';
+import {
+  DemarcheStatut,
+  StudentDemarcheService
+} from '../../services/student-demarche.service';
 
 
 // ============================================================
@@ -86,7 +92,13 @@ interface StudentDemarche {
    * TERMINEE
    * NON_CONCERNEE
    */
-  statut: string;
+  statut: DemarcheStatut;
+
+  /** Progression calculée par l'API (0, 25, 50 ou 100). */
+  progression?: number;
+
+  /** Vrai si l'étudiant a déjà donné son avis. */
+  avisDonne?: boolean;
 
 
   /**
@@ -159,7 +171,8 @@ interface StudentDemarche {
    * [ngClass] dans le HTML.
    */
   imports: [
-    CommonModule
+    CommonModule,
+    AvisForm
   ],
 
 
@@ -226,6 +239,19 @@ export class Demarches implements OnInit {
    * actuellement aucune erreur.
    */
   errorMessage = '';
+
+  /** Service partagé (statut, progression, avis). */
+  private studentDemarcheService = inject(StudentDemarcheService);
+
+  /** Démarche en cours de mise à jour (évite les doubles clics). */
+  updatingId: number | null = null;
+
+  /** Messages affichés après une action. */
+  actionMessage = '';
+  actionError = '';
+
+  /** Démarche pour laquelle la fenêtre d'avis est ouverte. */
+  avisPour: StudentDemarche | null = null;
 
 
   // ============================================================
@@ -397,10 +423,6 @@ export class Demarches implements OnInit {
          * Permet de vérifier que le profil
          * arrive correctement dans Angular.
          */
-        console.log(
-          '✅ PROFIL REÇU PAR ANGULAR :',
-          profile
-        );
 
 
         // ------------------------------------------------------
@@ -462,10 +484,6 @@ export class Demarches implements OnInit {
              * Permet de vérifier que les démarches
              * arrivent correctement dans Angular.
              */
-            console.log(
-              '✅ DÉMARCHES REÇUES PAR ANGULAR :',
-              studentDemarches
-            );
 
 
             // --------------------------------------------------
@@ -499,20 +517,12 @@ export class Demarches implements OnInit {
             /**
              * Log permettant de vérifier l'état final.
              */
-            console.log(
-              '✅ CHARGEMENT DES DÉMARCHES TERMINÉ :',
-              this.isLoading
-            );
 
 
             /**
              * Log supplémentaire permettant de vérifier
              * le nombre de démarches reçues.
              */
-            console.log(
-              '📋 NOMBRE DE DÉMARCHES :',
-              this.studentDemarches.length
-            );
           },
 
 
@@ -756,26 +766,69 @@ export class Demarches implements OnInit {
   // ============================================================
 
   /**
-   * Méthode appelée lorsque l'utilisateur clique
-   * sur "Commencer".
+   * Bouton « Commencer » / « Continuer ».
    *
-   * Pour le moment, cette méthode affiche simplement
-   * la démarche sélectionnée dans la console.
-   *
-   * La logique permettant de modifier le statut
-   * pourra être ajoutée ultérieurement.
-   *
-   * @param studentDemarche
-   * Démarche sélectionnée par l'utilisateur.
+   * - À FAIRE  : la démarche passe EN COURS (progression 25 %)
+   *              et la carte est mise à jour immédiatement ;
+   * - EN COURS : ouvre le suivi détaillé (/dashboard/suivis).
    */
   commencerDemarche(
     studentDemarche: StudentDemarche
   ): void {
 
-    console.log(
-      '➡️ DÉMARCHE SÉLECTIONNÉE :',
-      studentDemarche
-    );
+    if (studentDemarche.statut !== 'A_FAIRE') {
+      this.router.navigate(['/dashboard/suivis']);
+      return;
+    }
+
+    if (this.updatingId !== null) {
+      return;
+    }
+
+    this.updatingId = studentDemarche.id;
+    this.actionMessage = '';
+    this.actionError = '';
+
+    this.studentDemarcheService
+      .changerStatut(studentDemarche.id, 'EN_COURS')
+      .subscribe({
+        next: (updated) => {
+          this.updatingId = null;
+          studentDemarche.statut = updated?.statut ?? 'EN_COURS';
+          studentDemarche.progression = updated?.progression ?? 25;
+          this.actionMessage =
+            'Démarche commencée ! Suivez votre progression depuis « Mon espace ».';
+        },
+        error: (error) => {
+          this.updatingId = null;
+          this.actionError =
+            error.error?.message || 'Impossible de commencer cette démarche.';
+        }
+      });
+  }
+
+
+  // ============================================================
+  // DONNER MON AVIS (démarche terminée)
+  // ============================================================
+
+  ouvrirAvis(studentDemarche: StudentDemarche): void {
+    this.actionMessage = '';
+    this.actionError = '';
+    this.avisPour = studentDemarche;
+  }
+
+  fermerAvis(): void {
+    this.avisPour = null;
+  }
+
+  onAvisEnregistre(): void {
+    if (this.avisPour) {
+      this.avisPour.avisDonne = true;
+    }
+    this.avisPour = null;
+    this.actionMessage =
+      "Merci ! Votre avis est maintenant visible sur la page d'accueil.";
   }
 
 
@@ -819,10 +872,6 @@ export class Demarches implements OnInit {
      * Affiche l'identifiant utilisé
      * pour la navigation.
      */
-    console.log(
-      '➡️ NAVIGATION VERS LA DÉMARCHE :',
-      studentDemarche.demarche.id
-    );
 
 
     /**

@@ -766,3 +766,67 @@ justify-content: center;
     width: 100%;
   }
 }
+
+
+/* ==========================================================
+   RAPPEL DE J+10 : « AVEZ-VOUS ENVOYÉ VOS DOCUMENTS ? »
+   ========================================================== */
+
+.documents-question {
+  margin: 18px 0 0;
+  padding: 16px 18px;
+  border: 1px solid #c9d8f5;
+  border-radius: 14px;
+  background: #eaf1ff;
+
+  p {
+    margin: 0 0 12px;
+    font-weight: 700;
+    color: #172033;
+  }
+}
+
+.documents-answers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+
+  button {
+    min-height: 38px;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font: inherit;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+  }
+
+  .answer-yes {
+    border: none;
+    background: #16845b;
+    color: #fff;
+  }
+
+  .answer-no {
+    border: 1px solid #d0d5dd;
+    background: #fff;
+    color: #344054;
+  }
+}
+
+.answer-feedback {
+  margin: 14px 0 0;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+
+  &.success { background: #eaf8f2; color: #16845b; }
+  &.error { background: #fff0f1; color: #c92535; }
+}

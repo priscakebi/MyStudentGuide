@@ -55,8 +55,49 @@ export class AuthService {
       .pipe(tap((response) => this.saveSession(response)));
   }
 
+  /**
+   * Mot de passe oublié : demande l'envoi d'un lien de réinitialisation par e-mail.
+   * L'API répond toujours de la même façon, que l'adresse existe ou non.
+   * `espace` limite la demande aux comptes de l'espace concerné.
+   */
+  forgotPassword(email: string, espace: 'ETUDIANT' | 'ADMIN'): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.apiUrl}/forgot-password`, { email, espace });
+  }
+
+  /** Définit un nouveau mot de passe à partir du jeton reçu par e-mail. */
+  resetPassword(token: string, newPassword: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.apiUrl}/reset-password`, { token, newPassword });
+  }
+
   /** Enregistre le token et les informations de l'utilisateur. */
+  /** Renouvelle le JWT (appelé tant que l'utilisateur est actif). */
+  /**
+   * Change le mot de passe de l'utilisateur connecté
+   * (étudiant ou administrateur).
+   *
+   * PUT /api/account/password
+   */
+  changePassword(currentPassword: string, newPassword: string): Observable<{ success: boolean; message: string }> {
+    return this.http.put<{ success: boolean; message: string }>(
+      `${environment.apiUrl}/account/password`,
+      { currentPassword, newPassword }
+    );
+  }
+
+  refreshToken(): Observable<LoginResponse> {
+    return this.http
+      .post<LoginResponse>(`${this.apiUrl}/refresh`, {})
+      .pipe(tap((response) => this.setToken(response.token)));
+  }
+
+  /** Remplace uniquement le token (renouvellement, changement d'email...). */
+  setToken(token: string): void {
+    localStorage.setItem('token', token);
+  }
+
   saveSession(response: LoginResponse): void {
+    // Démarre le compteur d'inactivité à partir de la connexion.
+    localStorage.setItem('lastActivity', String(Date.now()));
     localStorage.setItem('token', response.token);
     localStorage.setItem('userId', response.userId.toString());
     localStorage.setItem('email', response.email);
@@ -65,6 +106,7 @@ export class AuthService {
 
   /** Supprime toute la session. */
   logout(): void {
+    localStorage.removeItem('lastActivity');
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
     localStorage.removeItem('email');

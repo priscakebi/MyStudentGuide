@@ -2,7 +2,7 @@
 // IMPORTS
 // ============================================================
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import {
@@ -19,6 +19,7 @@ import {
 
 import { Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
+import { AuthService } from '../../../services/auth.service';
 
 
 // ============================================================
@@ -75,6 +76,8 @@ interface UserAccount {
   styleUrl: './admin-account.scss'
 })
 export class AdminAccount implements OnInit {
+
+  private authService = inject(AuthService);
 
 
   // ==========================================================
@@ -311,7 +314,7 @@ export class AdminAccount implements OnInit {
    */
   private getToken(): string | null {
 
-    return localStorage.getItem('token');
+    return this.authService.getToken();
   }
 
 
@@ -831,9 +834,8 @@ export class AdminAccount implements OnInit {
    * Vérifie les données du formulaire
    * de changement de mot de passe.
    *
-   * IMPORTANT :
-   * Le changement réel du mot de passe
-   * devra être relié au backend.
+   * Le changement est enregistré par l'API
+   * (PUT /api/account/password).
    */
   changePassword(): void {
 
@@ -888,22 +890,32 @@ export class AdminAccount implements OnInit {
     this.isLoading = true;
 
 
-    /**
-     * TEMPORAIRE :
+    const { currentPassword, newPassword } = this.passwordForm.value;
+
+    /*
+     * PUT /api/account/password
      *
-     * Cette simulation sera remplacée par
-     * une véritable requête HTTP vers Spring Boot.
+     * L'API vérifie le mot de passe actuel, les règles de sécurité,
+     * chiffre le nouveau mot de passe (BCrypt) et envoie un e-mail
+     * de confirmation.
      */
-    setTimeout(() => {
+    this.authService.changePassword(currentPassword, newPassword).subscribe({
 
-      this.isLoading = false;
+      next: (response) => {
+        this.isLoading = false;
+        this.successMessage =
+          response?.message || 'Votre mot de passe a été modifié avec succès.';
+        this.resetPasswordForm();
+      },
 
-      this.successMessage =
-        'Le nouveau mot de passe respecte les règles de sécurité.';
-
-      this.resetPasswordForm();
-
-    }, 500);
+      error: (error) => {
+        this.isLoading = false;
+        this.errorMessage =
+          error.status === 0
+            ? 'Impossible de joindre le serveur. Réessayez plus tard.'
+            : error.error?.message || 'Impossible de modifier le mot de passe.';
+      }
+    });
   }
 
 
@@ -915,6 +927,11 @@ export class AdminAccount implements OnInit {
    * Vide complètement le formulaire
    * de changement de mot de passe.
    */
+  /** Lien « Mot de passe oublié ? » de l'espace administrateur. */
+  forgotPassword(): void {
+    this.router.navigate(['/admin-forgot-password']);
+  }
+
   resetPasswordForm(): void {
 
     this.passwordForm.reset();

@@ -4,6 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../services/auth.service';
+import { AvisPublics } from '../../components/avis-publics/avis-publics';
 
 /**
  * Page d'accueil de MyStudentGuide (route : /home).
@@ -23,7 +24,7 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, AvisPublics],
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })

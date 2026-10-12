@@ -386,6 +386,46 @@
           informations de votre compte.
         </p>
 
+      
+        <!-- ==================================================
+             PROGRESSION DE MES DÉMARCHES
+             25 % : démarche commencée
+             50 % : documents envoyés (réponse « Oui » au rappel de J+10)
+             100 % : démarche terminée
+             ================================================== -->
+        @if (progressionChargee && mesDemarches.length > 0) {
+
+          <div class="progress-card">
+
+            <div class="progress-card-header">
+              <div>
+                <span class="progress-card-label">MA PROGRESSION</span>
+                <strong>{{ progressionGlobale }}% de mon parcours</strong>
+              </div>
+              <a routerLink="/dashboard/suivis" class="progress-card-link">Mes démarches →</a>
+            </div>
+
+            <div
+              class="progress-track"
+              role="progressbar"
+              aria-label="Progression de mes démarches"
+              [attr.aria-valuenow]="progressionGlobale"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            >
+              <div class="progress-fill" [style.width.%]="progressionGlobale"></div>
+            </div>
+
+            <ul class="progress-stats">
+              <li><span class="dot todo"></span>{{ demarchesAFaire }} à faire</li>
+              <li><span class="dot doing"></span>{{ demarchesEnCours }} en cours</li>
+              <li><span class="dot done"></span>{{ demarchesTerminees }} terminée{{ demarchesTerminees > 1 ? 's' : '' }}</li>
+            </ul>
+
+          </div>
+
+        }
+
       </section>
 
     }
