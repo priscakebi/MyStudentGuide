@@ -33,12 +33,30 @@ $transition: 0.25s ease;
 
 
 // ============================================================
+// CORRECTIF DÉBORDEMENT
+// ============================================================
+// Par défaut, le padding s'AJOUTE à la largeur : un bloc en
+// width: 100% avec padding: 70px 8% faisait 116 % de l'écran
+// et créait une barre de défilement horizontale.
+// Avec border-box, le padding est INCLUS dans la largeur.
+
+.demarches-page,
+.demarches-page *,
+.demarches-page *::before,
+.demarches-page *::after {
+  box-sizing: border-box;
+}
+
+
+// ============================================================
 // PAGE PRINCIPALE
 // ============================================================
 
 .demarches-page {
   width: 100%;
   min-height: 100vh;
+
+  overflow-x: hidden;
 
   background: $background;
   color: $text;
@@ -132,6 +150,7 @@ $transition: 0.25s ease;
   position: relative;
 
   width: 320px;
+  max-width: 100%;
   height: 230px;
 
   flex-shrink: 0;
@@ -189,6 +208,7 @@ $transition: 0.25s ease;
   gap: 15px;
 
   width: 250px;
+  max-width: 100%;
 
   padding: 20px;
 
@@ -309,7 +329,9 @@ $transition: 0.25s ease;
 .demarches-list {
   display: grid;
 
-  grid-template-columns: repeat(3, 1fr);
+  // minmax(0, 1fr) empêche une carte au contenu très long
+  // (texte sans espace, lien...) d'élargir la grille.
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 
   gap: 24px;
 
@@ -337,6 +359,8 @@ $transition: 0.25s ease;
   border-radius: 18px;
 
   box-shadow: $shadow;
+
+  overflow-wrap: anywhere;
 
   transition:
     transform $transition,
@@ -785,6 +809,7 @@ $transition: 0.25s ease;
   justify-content: space-between;
 
   width: 100%;
+  min-width: 0;
 
   gap: 25px;
 }
@@ -792,6 +817,7 @@ $transition: 0.25s ease;
 
 .tracking-text {
   flex: 1;
+  min-width: 0;
 }
 
 
@@ -834,6 +860,22 @@ $transition: 0.25s ease;
 
 
 // ============================================================
+// MESSAGES APRÈS UNE ACTION (Commencer / Donner mon avis)
+// ============================================================
+
+.action-message {
+  margin: 0 0 18px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+
+  &.success { background: #eaf8f2; color: #16845b; }
+  &.error { background: #fff0f1; color: #c92535; }
+}
+
+
+// ============================================================
 // TABLETTE
 // ============================================================
 
@@ -856,7 +898,7 @@ $transition: 0.25s ease;
 
 
   .demarches-list {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
 }
@@ -898,7 +940,7 @@ $transition: 0.25s ease;
 
 
   .demarches-list {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
 
@@ -966,16 +1008,4 @@ $transition: 0.25s ease;
     flex-direction: column;
   }
 
-}
-
-/* Messages après une action (Commencer / Donner mon avis) */
-.action-message {
-  margin: 0 0 18px;
-  padding: 12px 16px;
-  border-radius: 10px;
-  font-size: 0.9rem;
-  font-weight: 600;
-
-  &.success { background: #eaf8f2; color: #16845b; }
-  &.error { background: #fff0f1; color: #c92535; }
 }
