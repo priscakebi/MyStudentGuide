@@ -137,7 +137,7 @@ h2 {
   display: grid;
 
   // Deux colonnes égales.
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 
   // Espace entre les champs.
   gap: 12px;
