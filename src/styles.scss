@@ -1,1 +1,70 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* ================================================================
+   BASE RESPONSIVE GLOBALE
+   ----------------------------------------------------------------
+   Règles communes à toute l'application pour éviter les débordements
+   horizontaux sur téléphone (~375px) et tablette (~768px).
+   Aucune police ni couleur n'est définie ici.
+   ================================================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Les médias ne dépassent jamais leur conteneur */
+img,
+video,
+svg,
+canvas,
+iframe {
+  max-width: 100%;
+}
+
+img,
+video {
+  height: auto;
+}
+
+/* Les champs reprennent la police de la page */
+input,
+select,
+textarea,
+button {
+  max-width: 100%;
+  font: inherit;
+}
+
+/* Les mots très longs (URL, e-mails) passent à la ligne */
+p,
+li,
+td,
+th,
+h1,
+h2,
+h3,
+h4,
+span,
+a {
+  overflow-wrap: break-word;
+}
+
+/* iPhone zoome sur les champs dont la police est inférieure à 16px */
+@media (max-width: 600px) {
+
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+
+}

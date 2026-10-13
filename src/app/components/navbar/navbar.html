@@ -42,10 +42,35 @@
 
 
   <!-- =========================================================
+       BOUTON BURGER (800px et moins)
+       ========================================================= -->
+
+  <!--
+    Déplie les liens dans un panneau sous la navbar.
+    Les 3 barres se transforment en croix quand le menu est ouvert.
+  -->
+  <button
+    type="button"
+    class="menu-toggle"
+    [class.open]="menuOpen"
+    [attr.aria-expanded]="menuOpen"
+    aria-label="Menu"
+    (click)="toggleMenu()"
+  >
+    <span class="menu-bar"></span>
+    <span class="menu-bar"></span>
+    <span class="menu-bar"></span>
+  </button>
+
+
+  <!-- =========================================================
        NAVIGATION PRINCIPALE
        ========================================================= -->
 
-  <div class="navbar-links">
+  <div
+    class="navbar-links"
+    [class.open]="menuOpen"
+  >
 
     <!-- ---------------------------------------------------------
          ACCUEIL
@@ -104,6 +129,34 @@
         class="nav-link"
       >
         Notifications
+      </a>
+
+    }
+
+
+    <!-- ---------------------------------------------------------
+         CONNEXION / DÉCONNEXION DANS LE MENU (600px et moins)
+
+         Sur téléphone, les boutons de droite sont masqués :
+         ils sont repris ici, dans le menu déroulant.
+         --------------------------------------------------------- -->
+    @if (isLoggedIn) {
+
+      <button
+        type="button"
+        class="mobile-logout"
+        (click)="logout()"
+      >
+        Déconnexion
+      </button>
+
+    } @else {
+
+      <a
+        routerLink="/login"
+        class="mobile-login"
+      >
+        Se connecter
       </a>
 
     }

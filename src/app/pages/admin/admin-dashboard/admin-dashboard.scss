@@ -1444,3 +1444,105 @@ $transition: 0.2s ease;
     }
   }
 }
+
+
+// ============================================================
+// RESPONSIVE - SIDEBAR AU-DESSUS DU CONTENU (760px et moins)
+// ============================================================
+//
+// Sur téléphone, la sidebar fixe (210-230px) écrasait le contenu.
+// Elle passe au-dessus de la page, sur toute la largeur, et la
+// navigation devient une ligne horizontale qui défile.
+
+@media (max-width: 760px) {
+
+  .admin-container {
+
+    flex-direction: column;
+  }
+
+
+  .sidebar {
+
+    position: relative;
+
+    width: 100%;
+
+    height: auto;
+
+    padding: 15px;
+
+    border-right: none;
+
+    border-bottom: 1px solid $border;
+
+    z-index: 1;
+  }
+
+
+  .logo {
+
+    padding: 0 5px 12px;
+
+    font-size: 18px;
+  }
+
+
+  .sidebar-nav {
+
+    flex-direction: row;
+
+    gap: 6px;
+
+    margin-top: 12px;
+
+    padding-bottom: 6px;
+
+    overflow-x: auto;
+
+    overflow-y: hidden;
+
+    -webkit-overflow-scrolling: touch;
+  }
+
+
+  .nav-item {
+
+    flex-shrink: 0;
+
+    white-space: nowrap;
+  }
+
+
+  .sidebar-bottom {
+
+    flex-direction: row;
+
+    flex-wrap: wrap;
+
+    margin-top: 10px;
+  }
+
+
+  .sidebar-action,
+  .sidebar-bottom .logout-button {
+
+    flex: 1 1 140px;
+
+    width: auto;
+  }
+
+
+  .admin-sidebar-info {
+
+    display: none;
+  }
+
+
+  .main-content {
+
+    width: 100%;
+
+    margin-left: 0;
+  }
+}

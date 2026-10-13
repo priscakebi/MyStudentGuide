@@ -353,25 +353,139 @@ $transition: 0.25s ease;
 }
 
 
+/* ================================================================
+   MENU BURGER
+   ================================================================ */
+
+/* Masqué sur grand écran */
+.menu-toggle {
+  display: none;
+
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+
+  width: 42px;
+  height: 42px;
+
+  padding: 0 9px;
+
+  border: 1px solid $border;
+  border-radius: 9px;
+
+  background: $white;
+
+  cursor: pointer;
+}
+
+.menu-bar {
+  display: block;
+
+  width: 100%;
+  height: 2px;
+
+  border-radius: 2px;
+
+  background: $blue-dark;
+
+  transition:
+    transform $transition,
+    opacity $transition;
+}
+
+/* Les 3 barres deviennent une croix */
+.menu-toggle.open .menu-bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.menu-toggle.open .menu-bar:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle.open .menu-bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Connexion / déconnexion dans le menu : téléphone uniquement */
+.mobile-logout,
+.mobile-login {
+  display: none;
+}
+
+
 @media (max-width: 800px) {
 
   .navbar {
-    gap: 15px;
+    gap: 12px;
   }
 
   .logo-text {
     display: none;
   }
 
-  .nav-link {
-    padding-left: 7px;
-    padding-right: 7px;
-
-    font-size: 0.82rem;
-  }
-
   .profile-name {
     display: none;
+  }
+
+  /* Ordre : logo | espace utilisateur | burger */
+  .navbar-logo {
+    margin-right: auto;
+  }
+
+  .navbar-user,
+  .login-button {
+    order: 1;
+  }
+
+  .menu-toggle {
+    display: flex;
+
+    order: 2;
+  }
+
+  /* Panneau déroulant sous la navbar */
+  .navbar-links {
+    position: absolute;
+
+    top: 100%;
+    left: 0;
+    right: 0;
+
+    display: none;
+
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+
+    padding: 8px 0;
+
+    background: $white;
+
+    border-bottom: 1px solid $border;
+
+    box-shadow: $shadow;
+  }
+
+  .navbar-links.open {
+    display: flex;
+  }
+
+  .nav-link {
+    padding: 14px 5%;
+
+    font-size: 0.95rem;
+  }
+
+  /* Soulignement remplacé par une barre à gauche */
+  .nav-link::after {
+    left: 0;
+    right: auto;
+    top: 0;
+
+    width: 3px;
+    height: 100%;
+
+    border-radius: 0 4px 4px 0;
   }
 
 }
@@ -383,25 +497,51 @@ $transition: 0.25s ease;
     padding: 0 15px;
   }
 
-  .navbar-links {
-    gap: 0;
-  }
-
-  .nav-link {
-    padding-left: 5px;
-    padding-right: 5px;
-
-    font-size: 0.72rem;
-  }
-
   .navbar-user {
     gap: 8px;
   }
 
-  .logout-button {
-    padding: 8px 9px;
+  .nav-link {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
 
-    font-size: 0.72rem;
+  .logout-button,
+  .login-button {
+    display: none;
+  }
+
+  .mobile-logout,
+  .mobile-login {
+    display: block;
+
+    margin: 8px 15px 4px;
+    padding: 12px;
+
+    border-radius: 9px;
+
+    font-size: 0.9rem;
+    font-weight: 700;
+
+    text-align: center;
+
+    text-decoration: none;
+  }
+
+  .mobile-logout {
+    border: 1px solid rgba(230, 57, 70, 0.25);
+
+    background: $white;
+
+    color: $red;
+
+    cursor: pointer;
+  }
+
+  .mobile-login {
+    background: $blue;
+
+    color: $white;
   }
 
 }

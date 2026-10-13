@@ -49,6 +49,9 @@ export class Navbar implements OnInit, OnDestroy {
   userName = 'Étudiant';
   userInitial = 'É';
 
+  /** Vrai si le menu burger (mobile) est déplié. */
+  menuOpen = false;
+
   /** Destination du clic sur l'avatar : /admin pour un admin, /dashboard sinon. */
   get profileRoute(): string {
     return this.isAdmin ? '/admin' : '/dashboard';
@@ -61,7 +64,10 @@ export class Navbar implements OnInit, OnDestroy {
 
     this.navigationSubscription = this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => this.refreshSession());
+      .subscribe(() => {
+        this.refreshSession();
+        this.closeMenu();
+      });
   }
 
   ngOnDestroy(): void {
@@ -90,8 +96,19 @@ export class Navbar implements OnInit, OnDestroy {
     }
   }
 
+  /** Ouvre ou ferme le menu burger (mobile). */
+  toggleMenu(): void {
+    this.menuOpen = !this.menuOpen;
+  }
+
+  /** Referme le menu burger. */
+  closeMenu(): void {
+    this.menuOpen = false;
+  }
+
   /** Déconnecte l'utilisateur puis revient sur l'accueil. */
   logout(): void {
+    this.closeMenu();
     this.authService.logout();
 
     // Données d'affichage ajoutées par la page "Mon compte".
