@@ -840,9 +840,9 @@
 }
 
 .form-group select:focus {
-  border-color: #c90000;
+  border-color: var(--msg-focus);
 
-  box-shadow: 0 0 0 3px rgba(201, 0, 0, 0.08);
+  box-shadow: var(--msg-focus-ring);
 }
 
 .form-group select:disabled {

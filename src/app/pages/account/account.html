@@ -787,9 +787,17 @@
               <textarea
                 id="deletionDetails"
                 formControlName="deletionDetails"
+                maxlength="1000"
                 rows="4"
                 placeholder="Vous pouvez préciser la raison de votre demande..."
               ></textarea>
+
+              <span
+                class="field-counter"
+                [class.near-limit]="(deleteAccountForm.get('deletionDetails')?.value?.length ?? 0) > 900"
+              >
+                {{ deleteAccountForm.get('deletionDetails')?.value?.length ?? 0 }} / 1000
+              </span>
 
             </div>
 

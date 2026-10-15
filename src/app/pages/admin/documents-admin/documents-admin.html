@@ -172,11 +172,16 @@
             id="nom"
             type="text"
             name="nom"
+            maxlength="150"
             [(ngModel)]="documentForm.nom"
             placeholder="Exemple : Passeport"
             autocomplete="off"
             required
           />
+
+          <span class="field-counter" [class.near-limit]="(documentForm.nom || '').length > 135">
+            {{ (documentForm.nom || '').length }} / 150
+          </span>
 
           <small class="field-help">
             Indiquez le nom clairement identifiable du document.
@@ -198,10 +203,15 @@
           <textarea
             id="description"
             name="description"
+            maxlength="1000"
             [(ngModel)]="documentForm.description"
             placeholder="Exemple : Passeport en cours de validité permettant de justifier l'identité de l'étudiant."
             rows="5"
           ></textarea>
+
+          <span class="field-counter" [class.near-limit]="(documentForm.description || '').length > 900">
+            {{ (documentForm.description || '').length }} / 1000
+          </span>
 
           <small class="field-help">
             Ajoutez les précisions utiles concernant le document

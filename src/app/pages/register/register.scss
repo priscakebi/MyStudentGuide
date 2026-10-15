@@ -237,11 +237,11 @@ input:focus {
   background: #ffffff;
 
   // Bordure rouge.
-  border-color: #c90000;
+  border-color: var(--msg-focus);
 
   // Halo léger.
   box-shadow:
-    0 0 0 3px rgba(201, 0, 0, 0.10);
+    var(--msg-focus-ring);
 }
 
 

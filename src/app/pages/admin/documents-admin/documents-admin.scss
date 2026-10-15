@@ -217,8 +217,8 @@
       box-shadow 0.2s ease;
 
     &:focus {
-      border-color: #c62828;
-      box-shadow: 0 0 0 3px rgba(198, 40, 40, 0.1);
+      border-color: var(--msg-focus);
+      box-shadow: var(--msg-focus-ring);
     }
 
     &::placeholder {

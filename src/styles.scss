@@ -19,6 +19,12 @@
   --msg-text: #344054;
   --msg-text-light: #667085;
   --msg-background: #f5f7fb;
+  --msg-border: #e6eaf0;
+
+  /* Champ de formulaire actif : toujours bleu. Le rouge est réservé aux erreurs. */
+  --msg-focus: #1646a0;
+  --msg-focus-ring: 0 0 0 3px rgba(22, 70, 160, 0.14);
+  --msg-error: #c62828;
 
   --msg-font: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
 }
@@ -103,4 +109,73 @@ a {
     font-size: 16px;
   }
 
+}
+
+/* ================================================================
+   BASE COMMUNE DES FORMULAIRES
+   ----------------------------------------------------------------
+   Chaque page garde son propre style de champ ; ces règles ne font
+   que compléter ce qu'elles ne définissent pas, pour que tous les
+   formulaires se comportent de la même façon.
+   ================================================================ */
+
+::placeholder {
+  color: #98a2b3;
+  opacity: 1;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 44px;
+  line-height: 1.5;
+}
+
+/* Cases à cocher et boutons radio aux couleurs de la marque */
+input[type='checkbox'],
+input[type='radio'] {
+  accent-color: var(--msg-blue);
+  cursor: pointer;
+}
+
+/* Champs et boutons désactivés : même rendu partout */
+input:disabled,
+select:disabled,
+textarea:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+/* Le remplissage automatique du navigateur ne colore plus le champ en jaune */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--msg-text-dark);
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset;
+  transition: background-color 9999s ease-out 0s;
+}
+
+/* Un champ en erreur reste visible sous la barre de navigation fixe */
+input,
+select,
+textarea {
+  scroll-margin-top: 96px;
+}
+
+/* Compteur de caractères placé sous un champ limité en longueur */
+.field-counter {
+  display: block;
+  margin-top: 6px;
+  color: var(--msg-text-light);
+  font-size: 12px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.field-counter.near-limit {
+  color: #b45309;
+  font-weight: 600;
 }

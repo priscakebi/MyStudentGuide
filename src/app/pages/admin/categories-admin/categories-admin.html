@@ -72,10 +72,15 @@
           id="nom"
           type="text"
           name="nom"
+          maxlength="100"
           [(ngModel)]="categorieForm.nom"
           placeholder="Ex : Titre de séjour"
           required
         />
+
+        <span class="field-counter" [class.near-limit]="(categorieForm.nom || '').length > 90">
+          {{ (categorieForm.nom || '').length }} / 100
+        </span>
 
       </div>
 
@@ -93,10 +98,15 @@
         <textarea
           id="description"
           name="description"
+          maxlength="500"
           [(ngModel)]="categorieForm.description"
           placeholder="Décrivez cette catégorie..."
           rows="4"
         ></textarea>
+
+        <span class="field-counter" [class.near-limit]="(categorieForm.description || '').length > 450">
+          {{ (categorieForm.description || '').length }} / 500
+        </span>
 
       </div>
 

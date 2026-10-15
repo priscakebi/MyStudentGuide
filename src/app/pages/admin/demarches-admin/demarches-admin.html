@@ -255,10 +255,15 @@
           id="titre"
           type="text"
           name="titre"
+          maxlength="150"
           [(ngModel)]="demarcheForm.titre"
           placeholder="Ex : Renouvellement du titre de séjour"
           required
         />
+
+        <span class="field-counter" [class.near-limit]="(demarcheForm.titre || '').length > 135">
+          {{ (demarcheForm.titre || '').length }} / 150
+        </span>
 
       </div>
 
@@ -276,11 +281,16 @@
         <textarea
           id="description"
           name="description"
+          maxlength="5000"
           [(ngModel)]="demarcheForm.description"
           placeholder="Décrivez la démarche et les informations importantes..."
           rows="5"
           required
         ></textarea>
+
+        <span class="field-counter" [class.near-limit]="(demarcheForm.description || '').length > 4500">
+          {{ (demarcheForm.description || '').length }} / 5000
+        </span>
 
         <small>
           Présentez ici les informations générales permettant
