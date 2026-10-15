@@ -28,6 +28,17 @@ import {
 } from '../../services/student-demarche.service';
 
 
+/** Notification de suggestion de démarche (envoyée par un administrateur). */
+interface SuggestionNotification {
+  id: number;
+  titre: string;
+  message: string;
+  demarcheId: number;
+  action?: string | null;
+  actionTraitee?: boolean | null;
+}
+
+
 /**
  * Composant principal de l'espace personnel étudiant.
  *
@@ -110,6 +121,145 @@ export class Dashboard implements OnInit, OnDestroy {
         // Pas de profil (404) ou erreur réseau : la carte reste masquée.
         this.mesDemarches = [];
         this.progressionChargee = true;
+      }
+    });
+
+    // Autres blocs de la page « Mon espace ».
+    this.loadSuggestions();
+    this.loadProfilComplet();
+  }
+
+
+  // ==========================================================
+  // PAGE « MON ESPACE » : BLOCS COMPLÉMENTAIRES
+  // ==========================================================
+
+  /** Date du jour, affichée au-dessus du message de bienvenue. */
+  readonly today = new Date();
+
+  /** Suggestions de démarches encore ouvertes (notifications). */
+  suggestions: SuggestionNotification[] = [];
+
+  /** Suggestion en cours de traitement (« Commencer »). */
+  suggestionEnCours: number | null = null;
+  suggestionErreur = '';
+
+  /** null tant que le profil n'est pas chargé. */
+  profilComplet: boolean | null = null;
+
+  /** Démarches en cours, les plus avancées en premier (3 max). */
+  get demarchesActives(): StudentDemarche[] {
+    return this.mesDemarches
+      .filter((d) => d.statut === 'EN_COURS')
+      .sort((a, b) => this.progression(b) - this.progression(a))
+      .slice(0, 3);
+  }
+
+  /**
+   * Démarches en cours qui ont une date limite à venir,
+   * de la plus proche à la plus lointaine (3 max).
+   */
+  get prochainesEcheances(): { sd: StudentDemarche; jours: number }[] {
+    const aujourdhui = new Date();
+    aujourdhui.setHours(0, 0, 0, 0);
+
+    return this.mesDemarches
+      .filter((d) => d.statut === 'EN_COURS' && d.demarche.dateLimite)
+      .map((sd) => ({
+        sd,
+        jours: Math.round(
+          (new Date(sd.demarche.dateLimite!).getTime() - aujourdhui.getTime()) / 86_400_000
+        )
+      }))
+      .filter((e) => e.jours >= 0)
+      .sort((a, b) => a.jours - b.jours)
+      .slice(0, 3);
+  }
+
+  progression(sd: StudentDemarche): number {
+    return this.studentDemarcheService.progression(sd);
+  }
+
+  /** Prochaine action conseillée pour une démarche en cours. */
+  prochaineEtape(sd: StudentDemarche): string {
+    return sd.documentsEnvoyes
+      ? 'Marquez-la comme terminée une fois la démarche finalisée.'
+      : 'Prochaine étape : envoyer vos documents sur la plateforme officielle.';
+  }
+
+  /** Suggestions envoyées par l'administration et pas encore commencées. */
+  private loadSuggestions(): void {
+    const userId = this.getUserId();
+    const headers = this.getAuthHeaders();
+
+    if (!userId || !headers) {
+      return;
+    }
+
+    this.http.get<SuggestionNotification[]>(
+      `${this.apiUrl}/notifications/user/${userId}`,
+      { headers }
+    ).subscribe({
+      next: (notifications) => {
+        this.suggestions = (notifications ?? [])
+          .filter((n) => n.action === 'SUGGESTION_DEMARCHE'
+            && !n.actionTraitee
+            && !!n.demarcheId)
+          .slice(0, 3);
+      },
+      error: () => {
+        this.suggestions = [];
+      }
+    });
+  }
+
+  /** Vérifie si le profil est rempli (sinon on affiche un rappel). */
+  private loadProfilComplet(): void {
+    const headers = this.getAuthHeaders();
+
+    if (!headers) {
+      return;
+    }
+
+    this.http.get<{ profileCompleted?: boolean }>(
+      `${this.apiUrl}/student-profiles/me`,
+      { headers }
+    ).subscribe({
+      next: (profil) => {
+        this.profilComplet = !!profil?.profileCompleted;
+      },
+      // 404 : aucun profil créé.
+      error: () => {
+        this.profilComplet = false;
+      }
+    });
+  }
+
+  /** « Voir plus » sur une suggestion. */
+  voirSuggestion(suggestion: SuggestionNotification): void {
+    this.router.navigate(['/demarches', suggestion.demarcheId]);
+  }
+
+  /** « Commencer » sur une suggestion : la démarche passe dans mes démarches. */
+  commencerSuggestion(suggestion: SuggestionNotification): void {
+    if (this.suggestionEnCours !== null) {
+      return;
+    }
+
+    this.suggestionEnCours = suggestion.id;
+    this.suggestionErreur = '';
+
+    this.studentDemarcheService.commencer(suggestion.demarcheId).subscribe({
+      next: () => {
+        this.suggestionEnCours = null;
+        // Recharge progression, démarches en cours et suggestions.
+        this.loadProgression();
+        this.loadUnreadNotifications();
+      },
+      error: (error) => {
+        this.suggestionEnCours = null;
+        this.suggestionErreur =
+          error.error?.message || 'Impossible de commencer cette démarche.';
       }
     });
   }

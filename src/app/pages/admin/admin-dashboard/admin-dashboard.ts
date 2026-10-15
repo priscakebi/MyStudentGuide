@@ -31,6 +31,24 @@ import { environment } from '../../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 
 
+/** Réponse de GET /api/admin/stats (AdminStatsResponse côté API). */
+export interface AdminStats {
+  etudiants: number;
+  nouveauxEtudiants7j: number;
+  etudiantsSansDemarche: number;
+  demarches: number;
+  categories: number;
+  suivisEnCours: number;
+  suivisTermines: number;
+  tauxCompletion: number;
+  avis: number;
+  noteMoyenne: number | null;
+  topDemarches: { id: number; titre: string; commencees: number; terminees: number }[];
+  inscriptionsParSemaine: { debutSemaine: string; inscriptions: number }[];
+  activiteRecente: { titre: string; message: string; date: string; lu: boolean }[];
+}
+
+
 /**
  * Composant principal du tableau de bord administrateur.
  *
@@ -76,24 +94,31 @@ export class AdminDashboard implements OnInit {
   // =========================================================
 
   /**
-   * Nombre total de catégories enregistrées.
+   * Statistiques renvoyées par GET /api/admin/stats
+   * (null tant qu'elles ne sont pas chargées).
    */
-  nombreCategories: number = 0;
+  stats: AdminStats | null = null;
 
-  /**
-   * Nombre total de démarches enregistrées.
-   */
-  nombreDemarches: number = 0;
+  /** Date du jour, affichée au-dessus du message de bienvenue. */
+  readonly today = new Date();
 
-  /**
-   * Nombre total d'utilisateurs enregistrés.
-   */
-  nombreUtilisateurs: number = 0;
+  /** Total des inscriptions sur 8 semaines (graphique vide si 0). */
+  get totalInscriptions(): number {
+    return (this.stats?.inscriptionsParSemaine ?? [])
+      .reduce((total, semaine) => total + semaine.inscriptions, 0);
+  }
 
-  /**
-   * Nombre total de notifications.
-   */
-  nombreNotifications: number = 0;
+  /** Hauteur d'une colonne, en % de la semaine la plus haute. */
+  hauteurColonne(valeur: number): number {
+    const max = Math.max(...(this.stats?.inscriptionsParSemaine ?? []).map((s) => s.inscriptions), 1);
+    return (valeur / max) * 100;
+  }
+
+  /** Largeur d'une barre, en % de la démarche la plus suivie. */
+  largeurBarre(valeur: number): number {
+    const max = Math.max(...(this.stats?.topDemarches ?? []).map((d) => d.commencees), 1);
+    return (valeur / max) * 100;
+  }
 
 
   // =========================================================
@@ -451,181 +476,33 @@ export class AdminDashboard implements OnInit {
   // =========================================================
 
   /**
-   * Charge les différentes statistiques
-   * affichées sur le tableau de bord administrateur.
+   * Charge toutes les statistiques du tableau de bord
+   * en une seule requête : GET /api/admin/stats.
+   *
+   * (Avant, quatre listes complètes étaient téléchargées
+   * uniquement pour être comptées.)
    */
   loadStatistics(): void {
 
-    // Activation de l'indicateur de chargement.
     this.loading = true;
-
-    // Suppression d'un ancien message.
     this.message = '';
 
-
-    // ---------------------------------------------------------
-    // CHARGEMENT DES CATÉGORIES
-    // ---------------------------------------------------------
-
-    /**
-     * L'API retourne la liste complète
-     * des catégories.
-     *
-     * La longueur du tableau permet donc
-     * de connaître le nombre total.
-     */
-    this.http.get<any[]>(
-
-      `${this.API_URL}/categories`,
-
-      {
-        headers: this.getHeaders()
-      }
-
+    this.http.get<AdminStats>(
+      `${this.API_URL}/admin/stats`,
+      { headers: this.getHeaders() }
     ).subscribe({
 
-      // Requête réussie.
-      next: (categories) => {
-
-        // Nombre total de catégories.
-        this.nombreCategories =
-          categories.length;
+      next: (stats) => {
+        this.stats = stats;
+        this.loading = false;
       },
 
-      // Gestion d'une erreur.
       error: () => {
-
-        // Valeur par défaut.
-        this.nombreCategories = 0;
+        this.loading = false;
+        this.messageType = 'error';
+        this.message = 'Impossible de charger les statistiques. Réessayez avec « Actualiser ».';
       }
     });
-
-
-    // ---------------------------------------------------------
-    // CHARGEMENT DES DÉMARCHES
-    // ---------------------------------------------------------
-
-    /**
-     * Récupération de la liste
-     * des démarches administratives.
-     */
-    this.http.get<any[]>(
-
-      `${this.API_URL}/demarches`,
-
-      {
-        headers: this.getHeaders()
-      }
-
-    ).subscribe({
-
-      // Requête réussie.
-      next: (demarches) => {
-
-        // Nombre total de démarches.
-        this.nombreDemarches =
-          demarches.length;
-      },
-
-      // Gestion d'une erreur.
-      error: () => {
-
-        // Valeur par défaut.
-        this.nombreDemarches = 0;
-      }
-    });
-
-
-    // ---------------------------------------------------------
-    // CHARGEMENT DES UTILISATEURS
-    // ---------------------------------------------------------
-
-    /**
-     * Cette requête suppose que le backend possède
-     * un endpoint :
-     *
-     * GET /api/users
-     *
-     * Si l'endpoint n'existe pas encore,
-     * le compteur restera simplement à 0.
-     */
-    this.http.get<any[]>(
-
-      `${this.API_URL}/users`,
-
-      {
-        headers: this.getHeaders()
-      }
-
-    ).subscribe({
-
-      // Requête réussie.
-      next: (users) => {
-
-        // Nombre total d'utilisateurs.
-        this.nombreUtilisateurs =
-          users.length;
-      },
-
-      // Gestion d'une erreur.
-      error: () => {
-
-        // Valeur par défaut.
-        this.nombreUtilisateurs = 0;
-      }
-    });
-
-
-    // ---------------------------------------------------------
-// CHARGEMENT DES NOTIFICATIONS
-// ---------------------------------------------------------
-
-/**
- * Récupération de toutes les notifications
- * pour l'administration.
- *
- * L'endpoint réservé à l'administrateur est :
- *
- * GET /api/notifications/admin/all
- *
- * Le backend vérifie que l'utilisateur possède
- * le rôle ADMIN.
- */
-this.http.get<any[]>(
-
-  `${this.API_URL}/notifications/admin/all`,
-
-  {
-    headers: this.getHeaders()
-  }
-
-).subscribe({
-
-  // Requête réussie.
-  next: (notifications) => {
-
-    // Nombre total de notifications.
-    this.nombreNotifications =
-      notifications.length;
-  },
-
-  // Gestion d'une erreur.
-  error: () => {
-
-    // Valeur par défaut.
-    this.nombreNotifications = 0;
-  },
-
-  /**
-   * Cette méthode est appelée lorsque
-   * la requête est terminée avec succès.
-   */
-  complete: () => {
-
-    // Désactivation du chargement.
-    this.loading = false;
-  }
-});
   }
 
 

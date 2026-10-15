@@ -374,70 +374,298 @@
     -->
     @if (isDashboardHome()) {
 
-      <section class="dashboard-welcome">
+      <section class="home">
 
-        <h1>
-          Bienvenue dans votre espace personnel 👋
-        </h1>
 
-        <p>
-          Dans cet espace, vous pourrez suivre l’avancement
-          de vos démarches administratives et gérer les
-          informations de votre compte.
-        </p>
-
-      
         <!-- ==================================================
-             PROGRESSION DE MES DÉMARCHES
-             25 % : démarche commencée
-             50 % : documents envoyés (réponse « Oui » au rappel de J+10)
-             100 % : démarche terminée
+             BIENVENUE + PROGRESSION GLOBALE
              ================================================== -->
-        @if (progressionChargee && mesDemarches.length > 0) {
 
-          <div class="progress-card">
+        <section class="home-hero">
 
-            <div class="progress-card-header">
-              <div>
-                <span class="progress-card-label">MA PROGRESSION</span>
-                <strong>{{ progressionGlobale }}% de mon parcours</strong>
-              </div>
-              <a routerLink="/dashboard/suivis" class="progress-card-link">Mes démarches →</a>
-            </div>
-
-            <div
-              class="progress-track"
-              role="progressbar"
-              aria-label="Progression de mes démarches"
-              [attr.aria-valuenow]="progressionGlobale"
-              aria-valuemin="0"
-              aria-valuemax="100"
-            >
-              <div class="progress-fill" [style.width.%]="progressionGlobale"></div>
-            </div>
-
-            <!-- Seules les démarches commencées sont suivies : plus de « à faire ». -->
-            <ul class="progress-stats">
-              <li><span class="dot doing"></span>{{ demarchesEnCours }} en cours</li>
-              <li><span class="dot done"></span>{{ demarchesTerminees }} terminée{{ demarchesTerminees > 1 ? 's' : '' }}</li>
-            </ul>
-
-          </div>
-
-        } @else if (progressionChargee) {
-
-          <!-- Aucune démarche commencée : on oriente vers le catalogue. -->
-          <div class="progress-card">
-            <div class="progress-card-header">
-              <div>
-                <span class="progress-card-label">MA PROGRESSION</span>
-                <strong>Vous n'avez commencé aucune démarche</strong>
-              </div>
-              <a routerLink="/demarches" class="progress-card-link">Voir les démarches →</a>
+          <div class="home-hero-text">
+            <span class="home-date">{{ today | date: 'EEEE d MMMM y' }}</span>
+            <h1>Bonjour {{ userName }} 👋</h1>
+            <p>
+              Suivez l'avancement de vos démarches et retrouvez
+              ce qui vous attend cette semaine.
+            </p>
+            <div class="home-hero-actions">
+              <a routerLink="/demarches" class="hero-btn primary">Explorer les démarches</a>
+              <a routerLink="/dashboard/suivis" class="hero-btn ghost">Mes démarches</a>
             </div>
           </div>
 
-        }
+          <!--
+            Progression globale (moyenne des démarches commencées).
+            25 % : commencée · 50 % : documents envoyés · 100 % : terminée
+          -->
+          <div
+            class="hero-ring-wrapper"
+            role="img"
+            [attr.aria-label]="'Progression globale : ' + progressionGlobale + ' %'"
+          >
+            <div class="hero-ring" [style.--pct]="progressionGlobale"></div>
+            <div class="hero-ring-value" aria-hidden="true">
+              <strong>{{ progressionGlobale }}%</strong>
+              <span>de mon parcours</span>
+            </div>
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             CHIFFRES CLÉS
+             ================================================== -->
+
+        <section class="kpi-grid" aria-label="Mes chiffres clés">
+
+          <a routerLink="/dashboard/suivis" class="kpi-card">
+            <span class="kpi-icon doing" aria-hidden="true">⏳</span>
+            <div>
+              <strong>{{ demarchesEnCours }}</strong>
+              <span>démarche{{ demarchesEnCours > 1 ? 's' : '' }} en cours</span>
+            </div>
+          </a>
+
+          <a routerLink="/dashboard/suivis" class="kpi-card">
+            <span class="kpi-icon done" aria-hidden="true">✅</span>
+            <div>
+              <strong>{{ demarchesTerminees }}</strong>
+              <span>terminée{{ demarchesTerminees > 1 ? 's' : '' }}</span>
+            </div>
+          </a>
+
+          <a routerLink="/dashboard/notifications" class="kpi-card">
+            <span class="kpi-icon notif" aria-hidden="true">🔔</span>
+            <div>
+              <strong>{{ unreadCount }}</strong>
+              <span>notification{{ unreadCount > 1 ? 's' : '' }} non lue{{ unreadCount > 1 ? 's' : '' }}</span>
+            </div>
+          </a>
+
+          <a routerLink="/dashboard/profile" class="kpi-card">
+            <span class="kpi-icon profil" aria-hidden="true">👤</span>
+            <div>
+              <strong class="kpi-text">
+                @if (profilComplet === null) {
+                  …
+                } @else if (profilComplet) {
+                  Complet
+                } @else {
+                  À compléter
+                }
+              </strong>
+              <span>mon profil</span>
+            </div>
+          </a>
+
+        </section>
+
+
+        <!-- ==================================================
+             CONTENU EN DEUX COLONNES
+             ================================================== -->
+
+        <div class="home-columns">
+
+
+          <!-- ------------------------------------------------
+               DÉMARCHES EN COURS
+               ------------------------------------------------ -->
+
+          <section class="home-panel">
+
+            <header class="home-panel-header">
+              <h2>Mes démarches en cours</h2>
+              @if (demarchesEnCours > 3) {
+                <a routerLink="/dashboard/suivis">Tout voir ({{ demarchesEnCours }}) →</a>
+              }
+            </header>
+
+            @if (!progressionChargee) {
+
+              <p class="home-empty">Chargement…</p>
+
+            } @else if (demarchesActives.length === 0) {
+
+              <div class="home-empty-state">
+                <span aria-hidden="true">🧭</span>
+                <p>Vous n'avez aucune démarche en cours.</p>
+                <a routerLink="/demarches" class="hero-btn primary small">Choisir une démarche</a>
+              </div>
+
+            } @else {
+
+              <ul class="active-list">
+                @for (sd of demarchesActives; track sd.id) {
+                  <li>
+                    <a [routerLink]="['/demarches', sd.demarche.id]" class="active-item">
+
+                      <div class="active-top">
+                        <div>
+                          @if (sd.demarche.categorie) {
+                            <span class="active-category">{{ sd.demarche.categorie.nom }}</span>
+                          }
+                          <strong>{{ sd.demarche.titre }}</strong>
+                        </div>
+                        <span class="active-pct">{{ progression(sd) }}%</span>
+                      </div>
+
+                      <div
+                        class="active-track"
+                        role="progressbar"
+                        [attr.aria-label]="'Progression de ' + sd.demarche.titre"
+                        [attr.aria-valuenow]="progression(sd)"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                      >
+                        <div class="active-fill" [style.width.%]="progression(sd)"></div>
+                      </div>
+
+                      <p class="active-next">{{ prochaineEtape(sd) }}</p>
+
+                    </a>
+                  </li>
+                }
+              </ul>
+
+            }
+
+          </section>
+
+
+          <!-- ------------------------------------------------
+               COLONNE DE DROITE
+               ------------------------------------------------ -->
+
+          <div class="home-side">
+
+
+            <!-- Rappel : profil incomplet -->
+            @if (profilComplet === false) {
+              <section class="home-panel profile-reminder">
+                <span class="reminder-icon" aria-hidden="true">✍️</span>
+                <div>
+                  <h2>Complétez votre profil</h2>
+                  <p>
+                    Votre nationalité, votre visa et votre logement nous
+                    aident à vous suggérer les bonnes démarches.
+                  </p>
+                  <a routerLink="/dashboard/profile" class="hero-btn primary small">Compléter mon profil</a>
+                </div>
+              </section>
+            }
+
+
+            <!-- Prochaines échéances -->
+            <section class="home-panel">
+
+              <header class="home-panel-header">
+                <h2>Prochaines échéances</h2>
+              </header>
+
+              @if (prochainesEcheances.length === 0) {
+                <p class="home-empty">Aucune date limite à venir pour vos démarches en cours.</p>
+              } @else {
+                <ul class="deadline-list">
+                  @for (e of prochainesEcheances; track e.sd.id) {
+                    <li [class.urgent]="e.jours <= 7">
+                      <div class="deadline-date">
+                        <strong>{{ e.sd.demarche.dateLimite | date: 'dd' }}</strong>
+                        <span>{{ e.sd.demarche.dateLimite | date: 'MMM' }}</span>
+                      </div>
+                      <div>
+                        <strong>{{ e.sd.demarche.titre }}</strong>
+                        <span class="deadline-left">
+                          @if (e.jours === 0) {
+                            Aujourd'hui
+                          } @else if (e.jours === 1) {
+                            Demain
+                          } @else {
+                            Dans {{ e.jours }} jours
+                          }
+                        </span>
+                      </div>
+                    </li>
+                  }
+                </ul>
+              }
+
+            </section>
+
+
+            <!-- Suggestions de l'administration -->
+            @if (suggestions.length > 0) {
+              <section class="home-panel">
+
+                <header class="home-panel-header">
+                  <h2>Suggéré pour vous</h2>
+                </header>
+
+                @if (suggestionErreur) {
+                  <p class="home-error" role="alert">{{ suggestionErreur }}</p>
+                }
+
+                <ul class="suggestion-list">
+                  @for (s of suggestions; track s.id) {
+                    <li>
+                      <p>{{ s.message }}</p>
+                      <div class="suggestion-actions">
+                        <button type="button" class="hero-btn ghost small" (click)="voirSuggestion(s)">Voir plus</button>
+                        <button
+                          type="button"
+                          class="hero-btn primary small"
+                          [disabled]="suggestionEnCours !== null"
+                          (click)="commencerSuggestion(s)"
+                        >
+                          {{ suggestionEnCours === s.id ? 'Ajout…' : 'Commencer' }}
+                        </button>
+                      </div>
+                    </li>
+                  }
+                </ul>
+
+              </section>
+            }
+
+          </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             RACCOURCIS
+             ================================================== -->
+
+        <section class="shortcut-grid" aria-label="Raccourcis">
+
+          <a routerLink="/demarches" class="shortcut">
+            <span aria-hidden="true">📋</span>
+            <div>
+              <strong>Toutes les démarches</strong>
+              <small>Séjour, santé, logement, banque…</small>
+            </div>
+          </a>
+
+          <a routerLink="/documents" class="shortcut">
+            <span aria-hidden="true">📄</span>
+            <div>
+              <strong>Documents requis</strong>
+              <small>Préparez vos pièces à l'avance</small>
+            </div>
+          </a>
+
+          <a routerLink="/dashboard/account" class="shortcut">
+            <span aria-hidden="true">⚙️</span>
+            <div>
+              <strong>Mon compte</strong>
+              <small>Mot de passe et sécurité</small>
+            </div>
+          </a>
+
+        </section>
 
       </section>
 

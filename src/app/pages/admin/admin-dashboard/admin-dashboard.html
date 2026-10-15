@@ -333,44 +333,32 @@
 
 
         <!-- =================================================== -->
-        <!-- MESSAGE D'INFORMATION / ERREUR                      -->
+        <!-- MESSAGE D'ERREUR                                    -->
         <!-- =================================================== -->
 
         @if (message) {
-
           <div
             class="message"
             [class.success]="messageType === 'success'"
             [class.error]="messageType === 'error'"
+            role="alert"
           >
-
             {{ message }}
-
           </div>
-
         }
 
 
         <!-- =================================================== -->
-        <!-- TITRE DE BIENVENUE                                  -->
+        <!-- BIENVENUE                                           -->
         <!-- =================================================== -->
 
         <section class="welcome-section">
 
           <div>
-
-            <h2>
-              Bienvenue, {{ adminName }} 👋
-            </h2>
-
-            <p>
-              Voici un aperçu de l'activité de votre plateforme.
-            </p>
-
+            <span class="welcome-date">{{ today | date: 'EEEE d MMMM y' }}</span>
+            <h2>Bienvenue, {{ adminName }} 👋</h2>
+            <p>Voici l'activité de la plateforme et des étudiants.</p>
           </div>
-
-
-          <!-- Bouton d'actualisation -->
 
           <button
             type="button"
@@ -378,136 +366,257 @@
             (click)="refreshStatistics()"
             [disabled]="loading"
           >
-
-            <span class="refresh-icon">
-              🔄
-            </span>
-
-            <span>
-              {{ loading ? 'Actualisation...' : 'Actualiser' }}
-            </span>
-
+            <span class="refresh-icon" [class.spinning]="loading">🔄</span>
+            <span>{{ loading ? 'Actualisation...' : 'Actualiser' }}</span>
           </button>
 
         </section>
 
 
         <!-- =================================================== -->
-        <!-- CARTES STATISTIQUES                                 -->
+        <!-- CHIFFRES CLÉS                                       -->
         <!-- =================================================== -->
 
-        <section class="statistics-grid">
+        <section class="statistics-grid" aria-label="Chiffres clés">
 
-
-          <!-- UTILISATEURS -->
+          <a routerLink="/admin/users" class="stat-card">
+            <div class="stat-icon users-icon">👥</div>
+            <div class="stat-content">
+              <span class="stat-label">Étudiants inscrits</span>
+              <strong class="stat-value">{{ stats?.etudiants ?? '—' }}</strong>
+              <span class="stat-description">
+                @if (stats?.nouveauxEtudiants7j) {
+                  <span class="trend-up">+{{ stats!.nouveauxEtudiants7j }}</span> cette semaine
+                } @else {
+                  Aucun nouveau cette semaine
+                }
+              </span>
+            </div>
+          </a>
 
           <article class="stat-card">
-
-            <div class="stat-icon users-icon">
-              👥
-            </div>
-
+            <div class="stat-icon progress-icon">⏳</div>
             <div class="stat-content">
-
-              <span class="stat-label">
-                Utilisateurs
-              </span>
-
-              <strong class="stat-value">
-                {{ nombreUtilisateurs }}
-              </strong>
-
-              <span class="stat-description">
-                utilisateurs enregistrés
-              </span>
-
+              <span class="stat-label">Démarches en cours</span>
+              <strong class="stat-value">{{ stats?.suivisEnCours ?? '—' }}</strong>
+              <span class="stat-description">suivies par les étudiants</span>
             </div>
-
           </article>
-
-
-          <!-- DÉMARCHES -->
 
           <article class="stat-card">
-
-            <div class="stat-icon demarches-icon">
-              📋
-            </div>
-
+            <div class="stat-icon done-icon">✅</div>
             <div class="stat-content">
-
-              <span class="stat-label">
-                Démarches
-              </span>
-
-              <strong class="stat-value">
-                {{ nombreDemarches }}
-              </strong>
-
-              <span class="stat-description">
-                démarches disponibles
-              </span>
-
+              <span class="stat-label">Démarches terminées</span>
+              <strong class="stat-value">{{ stats?.suivisTermines ?? '—' }}</strong>
+              <span class="stat-description">depuis le lancement</span>
             </div>
-
           </article>
-
-
-          <!-- CATÉGORIES -->
 
           <article class="stat-card">
-
-            <div class="stat-icon categories-icon">
-              📁
-            </div>
-
+            <div class="stat-icon avis-icon">⭐</div>
             <div class="stat-content">
-
-              <span class="stat-label">
-                Catégories
-              </span>
-
+              <span class="stat-label">Satisfaction</span>
               <strong class="stat-value">
-                {{ nombreCategories }}
+                @if (stats?.noteMoyenne != null) {
+                  {{ stats!.noteMoyenne }}<small>/5</small>
+                } @else {
+                  —
+                }
               </strong>
-
               <span class="stat-description">
-                catégories disponibles
+                {{ stats?.avis ?? 0 }} avis déposé{{ (stats?.avis ?? 0) > 1 ? 's' : '' }}
               </span>
-
             </div>
-
           </article>
-
-
-          <!-- NOTIFICATIONS -->
-
-          <article class="stat-card">
-
-            <div class="stat-icon notifications-icon">
-              🔔
-            </div>
-
-            <div class="stat-content">
-
-              <span class="stat-label">
-                Notifications
-              </span>
-
-              <strong class="stat-value">
-                {{ nombreNotifications }}
-              </strong>
-
-              <span class="stat-description">
-                notifications
-              </span>
-
-            </div>
-
-          </article>
-
 
         </section>
+
+
+        <!-- =================================================== -->
+        <!-- GRAPHIQUES                                          -->
+        <!-- =================================================== -->
+
+        <section class="charts-grid">
+
+
+          <!-- ------------------------------------------------- -->
+          <!-- TAUX DE COMPLÉTION                                -->
+          <!-- ------------------------------------------------- -->
+
+          <article class="panel completion-panel">
+
+            <header class="panel-header">
+              <h3>Taux de complétion</h3>
+              <p>Part des démarches commencées qui sont terminées</p>
+            </header>
+
+            <div
+              class="completion-wrapper"
+              role="img"
+              [attr.aria-label]="'Taux de complétion : ' + (stats?.tauxCompletion ?? 0) + ' %'"
+            >
+              <!-- Anneau masqué au centre : le texte est un frère, posé par-dessus. -->
+              <div class="completion-ring" [style.--pct]="stats?.tauxCompletion ?? 0"></div>
+              <div class="completion-value" aria-hidden="true">
+                <strong>{{ stats?.tauxCompletion ?? 0 }}%</strong>
+                <span>terminées</span>
+              </div>
+            </div>
+
+            <ul class="completion-legend">
+              <li>
+                <span class="legend-swatch done"></span>
+                {{ stats?.suivisTermines ?? 0 }} terminée{{ (stats?.suivisTermines ?? 0) > 1 ? 's' : '' }}
+              </li>
+              <li>
+                <span class="legend-swatch doing"></span>
+                {{ stats?.suivisEnCours ?? 0 }} en cours
+              </li>
+            </ul>
+
+          </article>
+
+
+          <!-- ------------------------------------------------- -->
+          <!-- INSCRIPTIONS PAR SEMAINE                          -->
+          <!-- ------------------------------------------------- -->
+
+          <article class="panel">
+
+            <header class="panel-header">
+              <h3>Inscriptions d'étudiants</h3>
+              <p>8 dernières semaines</p>
+            </header>
+
+            @if (stats && totalInscriptions > 0) {
+
+              <div class="column-chart" role="list" aria-label="Inscriptions par semaine">
+                @for (semaine of stats.inscriptionsParSemaine; track semaine.debutSemaine; let last = $last) {
+                  <div
+                    class="column"
+                    role="listitem"
+                    tabindex="0"
+                    [attr.aria-label]="'Semaine du ' + (semaine.debutSemaine | date: 'd MMMM') + ' : ' + semaine.inscriptions + ' inscription(s)'"
+                  >
+                    <span class="column-value">{{ semaine.inscriptions || '' }}</span>
+                    <div class="column-track">
+                      <div
+                        class="column-bar"
+                        [class.current]="last"
+                        [style.height.%]="hauteurColonne(semaine.inscriptions)"
+                      ></div>
+                    </div>
+                    <span class="column-label">{{ semaine.debutSemaine | date: 'dd/MM' }}</span>
+                    <span class="chart-tooltip">
+                      Semaine du {{ semaine.debutSemaine | date: 'd MMMM' }}<br>
+                      <strong>{{ semaine.inscriptions }}</strong> inscription{{ semaine.inscriptions > 1 ? 's' : '' }}
+                    </span>
+                  </div>
+                }
+              </div>
+
+            } @else {
+              <p class="panel-empty">Aucune inscription sur cette période.</p>
+            }
+
+          </article>
+
+
+          <!-- ------------------------------------------------- -->
+          <!-- DÉMARCHES LES PLUS COMMENCÉES                     -->
+          <!-- ------------------------------------------------- -->
+
+          <article class="panel">
+
+            <header class="panel-header">
+              <h3>Démarches les plus suivies</h3>
+              <p>Nombre d'étudiants qui les ont commencées</p>
+            </header>
+
+            @if (stats?.topDemarches?.length) {
+
+              <ol class="bar-list">
+                @for (demarche of stats!.topDemarches; track demarche.id) {
+                  <li
+                    tabindex="0"
+                    [attr.aria-label]="demarche.titre + ' : ' + demarche.commencees + ' commencée(s), ' + demarche.terminees + ' terminée(s)'"
+                  >
+                    <div class="bar-row">
+                      <span class="bar-name">{{ demarche.titre }}</span>
+                      <span class="bar-value">{{ demarche.commencees }}</span>
+                    </div>
+                    <div class="bar-track">
+                      <div class="bar-fill" [style.width.%]="largeurBarre(demarche.commencees)"></div>
+                    </div>
+                    <span class="chart-tooltip">
+                      <strong>{{ demarche.titre }}</strong><br>
+                      {{ demarche.commencees }} commencée{{ demarche.commencees > 1 ? 's' : '' }}
+                      · {{ demarche.terminees }} terminée{{ demarche.terminees > 1 ? 's' : '' }}
+                    </span>
+                  </li>
+                }
+              </ol>
+
+            } @else {
+              <p class="panel-empty">Aucune démarche n'a encore été commencée.</p>
+            }
+
+          </article>
+
+
+          <!-- ------------------------------------------------- -->
+          <!-- ACTIVITÉ RÉCENTE                                  -->
+          <!-- ------------------------------------------------- -->
+
+          <article class="panel">
+
+            <header class="panel-header panel-header-row">
+              <div>
+                <h3>Activité récente</h3>
+                <p>Dernières actions des étudiants</p>
+              </div>
+              <a routerLink="/admin/notifications" class="panel-link">Tout voir →</a>
+            </header>
+
+            @if (stats?.activiteRecente?.length) {
+
+              <ul class="activity-list">
+                @for (activite of stats!.activiteRecente; track $index) {
+                  <li [class.unread]="!activite.lu">
+                    <span class="activity-dot" aria-hidden="true"></span>
+                    <div>
+                      <strong>{{ activite.titre }}</strong>
+                      <p>{{ activite.message }}</p>
+                      <time>{{ activite.date | date: 'dd/MM à HH:mm' }}</time>
+                    </div>
+                  </li>
+                }
+              </ul>
+
+            } @else {
+              <p class="panel-empty">Aucune activité récente.</p>
+            }
+
+          </article>
+
+        </section>
+
+
+        <!-- =================================================== -->
+        <!-- À FAIRE                                             -->
+        <!-- =================================================== -->
+
+        @if (stats?.etudiantsSansDemarche) {
+          <section class="todo-banner">
+            <span class="todo-icon" aria-hidden="true">💡</span>
+            <p>
+              <strong>{{ stats!.etudiantsSansDemarche }} étudiant{{ stats!.etudiantsSansDemarche > 1 ? 's' : '' }}</strong>
+              n'{{ stats!.etudiantsSansDemarche > 1 ? 'ont' : 'a' }} encore commencé aucune démarche.
+              Envoyez-leur une suggestion depuis la gestion des utilisateurs.
+            </p>
+            <a routerLink="/admin/users" class="todo-button">Suggérer une démarche</a>
+          </section>
+        }
 
 
         <!-- =================================================== -->
@@ -517,184 +626,53 @@
         <section class="quick-section">
 
           <div class="section-header">
-
             <div>
-
-              <h2>
-                Gestion de la plateforme
-              </h2>
-
-              <p>
-                Accédez rapidement aux principales fonctionnalités.
-              </p>
-
+              <h2>Accès rapides</h2>
+              <p>Gérez le contenu proposé aux étudiants.</p>
             </div>
-
           </div>
-
-
-          <!-- ================================================= -->
-          <!-- GRILLE DES ACCÈS RAPIDES                          -->
-          <!-- ================================================= -->
 
           <div class="quick-grid">
 
-
-            <!-- CATÉGORIES -->
-
-            <a
-              routerLink="/admin/categories-admin"
-              class="quick-card"
-            >
-
-              <div class="quick-icon">
-                📁
-              </div>
-
+            <a routerLink="/admin/demarches-admin" class="quick-card">
+              <div class="quick-icon">📋</div>
               <div class="quick-content">
-
-                <h3>
-                  Catégories
-                </h3>
-
-                <p>
-                  Créez, modifiez et supprimez les catégories
-                  de démarches administratives.
-                </p>
-
-                <span class="quick-link">
-                  Gérer les catégories →
-                </span>
-
+                <h3>Démarches</h3>
+                <p>{{ stats?.demarches ?? '—' }} démarche{{ (stats?.demarches ?? 0) > 1 ? 's' : '' }} publiée{{ (stats?.demarches ?? 0) > 1 ? 's' : '' }}</p>
+                <span class="quick-link">Gérer →</span>
               </div>
-
             </a>
 
-
-            <!-- DÉMARCHES -->
-
-            <a
-              routerLink="/admin/demarches-admin"
-              class="quick-card"
-            >
-
-              <div class="quick-icon">
-                📋
-              </div>
-
+            <a routerLink="/admin/categories-admin" class="quick-card">
+              <div class="quick-icon">📁</div>
               <div class="quick-content">
-
-                <h3>
-                  Démarches
-                </h3>
-
-                <p>
-                  Ajoutez et gérez les démarches proposées
-                  aux étudiants.
-                </p>
-
-                <span class="quick-link">
-                  Gérer les démarches →
-                </span>
-
+                <h3>Catégories</h3>
+                <p>{{ stats?.categories ?? '—' }} catégorie{{ (stats?.categories ?? 0) > 1 ? 's' : '' }}</p>
+                <span class="quick-link">Gérer →</span>
               </div>
-
             </a>
 
-
-            <!-- UTILISATEURS -->
-
-            <a
-              routerLink="/admin/users"
-              class="quick-card"
-            >
-
-              <div class="quick-icon">
-                👥
-              </div>
-
+            <a routerLink="/admin/users" class="quick-card">
+              <div class="quick-icon">👥</div>
               <div class="quick-content">
-
-                <h3>
-                  Utilisateurs
-                </h3>
-
-                <p>
-                  Consultez les utilisateurs inscrits
-                  sur la plateforme.
-                </p>
-
-                <span class="quick-link">
-                  Gérer les utilisateurs →
-                </span>
-
+                <h3>Utilisateurs</h3>
+                <p>Profils, suivis et suggestions</p>
+                <span class="quick-link">Gérer →</span>
               </div>
-
             </a>
 
-
-            <!-- NOTIFICATIONS -->
-
-            <a
-              routerLink="/admin/notifications"
-              class="quick-card"
-            >
-
-              <div class="quick-icon">
-                🔔
-              </div>
-
+            <a routerLink="/admin/documents" class="quick-card">
+              <div class="quick-icon">📄</div>
               <div class="quick-content">
-
-                <h3>
-                  Notifications
-                </h3>
-
-                <p>
-                  Consultez et gérez les notifications
-                  de la plateforme.
-                </p>
-
-                <span class="quick-link">
-                  Gérer les notifications →
-                </span>
-
+                <h3>Documents requis</h3>
+                <p>Pièces demandées par démarche</p>
+                <span class="quick-link">Gérer →</span>
               </div>
-
             </a>
-
 
           </div>
 
         </section>
-
-
-        <!-- =================================================== -->
-        <!-- CARTE D'INFORMATION                                 -->
-        <!-- =================================================== -->
-
-        <section class="info-card">
-
-          <div class="info-icon">
-            ℹ️
-          </div>
-
-          <div>
-
-            <h3>
-              Espace administrateur
-            </h3>
-
-            <p>
-              Depuis cet espace, vous pouvez gérer les contenus
-              proposés aux étudiants et suivre l'activité
-              générale de la plateforme.
-            </p>
-
-          </div>
-
-        </section>
-
 
       </section>
 

@@ -1503,3 +1503,633 @@ $transition: 0.25s ease;
     &.done { background: #16845b; }
   }
 }
+
+
+
+/*
+ * ==========================================================
+ * PAGE « MON ESPACE »
+ * ==========================================================
+ *
+ * Bienvenue + progression, chiffres clés, démarches en cours,
+ * échéances, suggestions et raccourcis.
+ */
+
+$green: #16845b;
+$green-light: #e8f7ed;
+$orange: #c96a00;
+$orange-light: #fff3e3;
+$track: #e9edf3;
+$border-soft: #e6eaf0;
+
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  max-width: 1200px;
+  margin: 0 auto 30px;
+}
+
+
+// ----------------------------------------------------------
+// Boutons
+// ----------------------------------------------------------
+
+.hero-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 11px 18px;
+
+  border: 1.5px solid transparent;
+  border-radius: 10px;
+
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition: background 0.2s ease, transform 0.2s ease;
+
+  &:hover:not(:disabled) { transform: translateY(-1px); }
+
+  &:disabled { opacity: 0.6; cursor: wait; }
+
+  &.primary {
+    background: $red;
+    color: $white;
+
+    &:hover:not(:disabled) { background: $red-dark; }
+  }
+
+  &.ghost {
+    border-color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.08);
+    color: $white;
+  }
+
+  &.small {
+    padding: 8px 13px;
+    font-size: 0.8rem;
+  }
+}
+
+// Bouton « ghost » posé sur fond blanc.
+.home-panel .hero-btn.ghost {
+  border-color: $border-soft;
+  background: $white;
+  color: $text-dark;
+
+  &:hover { border-color: $blue; color: $blue; }
+}
+
+
+// ----------------------------------------------------------
+// Bienvenue
+// ----------------------------------------------------------
+
+.home-hero {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+
+  padding: 32px 36px;
+
+  border-radius: 22px;
+
+  background:
+    radial-gradient(circle at 90% 10%, rgba(255, 255, 255, 0.12), transparent 40%),
+    linear-gradient(120deg, $blue-dark, $blue);
+
+  color: $white;
+
+  overflow: hidden;
+
+  // Liseré tricolore.
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #0055a4 0 33%, #ffffff 33% 66%, #ef4135 66%);
+  }
+
+  h1 {
+    margin: 4px 0 8px;
+    font-size: 1.9rem;
+    line-height: 1.2;
+  }
+
+  p {
+    max-width: 520px;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.82);
+    line-height: 1.6;
+  }
+}
+
+.home-date {
+  display: block;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.82rem;
+  font-weight: 600;
+
+  &::first-letter { text-transform: uppercase; }
+}
+
+.home-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.hero-ring-wrapper {
+  position: relative;
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+}
+
+.hero-ring {
+  --pct: 0;
+
+  width: 150px;
+  height: 150px;
+
+  border-radius: 50%;
+
+  background: conic-gradient($white calc(var(--pct) * 1%), rgba(255, 255, 255, 0.18) 0);
+
+  mask: radial-gradient(farthest-side, transparent 74%, #000 75%);
+  -webkit-mask: radial-gradient(farthest-side, transparent 74%, #000 75%);
+}
+
+.hero-ring-value {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  strong {
+    font-size: 1.9rem;
+    line-height: 1;
+  }
+
+  span {
+    margin-top: 4px;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.72rem;
+  }
+}
+
+
+// ----------------------------------------------------------
+// Chiffres clés
+// ----------------------------------------------------------
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.kpi-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  padding: 18px;
+
+  border: 1px solid $border-soft;
+  border-radius: 16px;
+
+  background: $white;
+  box-shadow: 0 6px 18px rgba(20, 44, 90, 0.05);
+
+  color: inherit;
+  text-decoration: none;
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 26px rgba(20, 44, 90, 0.09);
+  }
+
+  strong {
+    display: block;
+    color: $text-dark;
+    font-size: 1.55rem;
+    line-height: 1.1;
+  }
+
+  .kpi-text { font-size: 1.05rem; }
+
+  span:not(.kpi-icon) {
+    color: $text-light;
+    font-size: 0.8rem;
+  }
+}
+
+.kpi-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+
+  width: 46px;
+  height: 46px;
+
+  border-radius: 13px;
+
+  font-size: 1.3rem;
+
+  &.doing { background: $blue-light; }
+  &.done { background: $green-light; }
+  &.notif { background: $red-light; }
+  &.profil { background: $orange-light; }
+}
+
+
+// ----------------------------------------------------------
+// Panneaux
+// ----------------------------------------------------------
+
+.home-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.home-side {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+
+.home-panel {
+  padding: 22px 24px;
+
+  border: 1px solid $border-soft;
+  border-radius: 18px;
+
+  background: $white;
+  box-shadow: 0 6px 18px rgba(20, 44, 90, 0.05);
+
+  h2 {
+    margin: 0;
+    color: $text-dark;
+    font-size: 1.05rem;
+  }
+}
+
+.home-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  margin-bottom: 16px;
+
+  a {
+    color: $blue;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+}
+
+.home-empty {
+  margin: 0;
+  color: $text-light;
+  font-size: 0.88rem;
+}
+
+.home-error {
+  margin: 0 0 12px;
+  padding: 9px 12px;
+  border-radius: 9px;
+  background: $red-light;
+  color: $red-dark;
+  font-size: 0.85rem;
+}
+
+.home-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  padding: 26px 10px;
+
+  text-align: center;
+
+  span { font-size: 2rem; }
+
+  p {
+    margin: 0;
+    color: $text-light;
+  }
+}
+
+
+// ----------------------------------------------------------
+// Démarches en cours
+// ----------------------------------------------------------
+
+.active-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+.active-item {
+  display: block;
+
+  padding: 16px;
+
+  border: 1px solid $border-soft;
+  border-radius: 14px;
+
+  color: inherit;
+  text-decoration: none;
+
+  transition: border-color 0.2s ease, background 0.2s ease;
+
+  &:hover {
+    border-color: #cbd9f5;
+    background: #fafbff;
+  }
+}
+
+.active-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+
+  strong {
+    color: $text-dark;
+    font-size: 0.95rem;
+  }
+}
+
+.active-category {
+  display: block;
+  margin-bottom: 3px;
+  color: $blue;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.active-pct {
+  color: $text-dark;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.active-track {
+  height: 8px;
+  margin: 12px 0 10px;
+  border-radius: 4px;
+  background: $track;
+}
+
+.active-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: $blue;
+  transition: width 0.4s ease;
+}
+
+.active-next {
+  margin: 0;
+  color: $text-light;
+  font-size: 0.8rem;
+}
+
+
+// ----------------------------------------------------------
+// Rappel profil
+// ----------------------------------------------------------
+
+.profile-reminder {
+  display: flex;
+  gap: 14px;
+
+  border-color: #f5d9b3;
+  background: $orange-light;
+
+  p {
+    margin: 6px 0 14px;
+    color: $text;
+    font-size: 0.85rem;
+    line-height: 1.55;
+  }
+}
+
+.reminder-icon {
+  font-size: 1.6rem;
+}
+
+
+// ----------------------------------------------------------
+// Échéances
+// ----------------------------------------------------------
+
+.deadline-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    > div:last-child strong {
+      display: block;
+      color: $text-dark;
+      font-size: 0.88rem;
+    }
+  }
+}
+
+.deadline-date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+
+  width: 52px;
+  padding: 6px 0;
+
+  border-radius: 11px;
+
+  background: $blue-light;
+  color: $blue;
+
+  strong {
+    font-size: 1.15rem;
+    line-height: 1.1;
+  }
+
+  span {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .urgent & {
+    background: $red-light;
+    color: $red-dark;
+  }
+}
+
+.deadline-left {
+  color: $text-light;
+  font-size: 0.78rem;
+
+  .urgent & {
+    color: $red-dark;
+    font-weight: 700;
+  }
+}
+
+
+// ----------------------------------------------------------
+// Suggestions
+// ----------------------------------------------------------
+
+.suggestion-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+
+  li {
+    padding: 14px;
+    border-radius: 12px;
+    background: $blue-light;
+  }
+
+  p {
+    margin: 0 0 10px;
+    color: $text;
+    font-size: 0.84rem;
+    line-height: 1.5;
+  }
+}
+
+.suggestion-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+
+// ----------------------------------------------------------
+// Raccourcis
+// ----------------------------------------------------------
+
+.shortcut-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.shortcut {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  padding: 16px 18px;
+
+  border: 1px dashed #cbd5e3;
+  border-radius: 14px;
+
+  color: inherit;
+  text-decoration: none;
+
+  transition: border-color 0.2s ease, background 0.2s ease;
+
+  &:hover {
+    border-color: $blue;
+    border-style: solid;
+    background: $white;
+  }
+
+  > span { font-size: 1.5rem; }
+
+  strong {
+    display: block;
+    color: $text-dark;
+    font-size: 0.9rem;
+  }
+
+  small {
+    color: $text-light;
+    font-size: 0.78rem;
+  }
+}
+
+
+// ----------------------------------------------------------
+// Responsive
+// ----------------------------------------------------------
+
+@media (max-width: 1100px) {
+  .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .home-columns { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 700px) {
+  .home-hero {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 26px 22px;
+
+    h1 { font-size: 1.5rem; }
+  }
+
+  .hero-ring-wrapper { align-self: center; }
+
+  .shortcut-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 420px) {
+  .kpi-grid { grid-template-columns: minmax(0, 1fr); }
+
+  .home-panel { padding: 18px 16px; }
+}

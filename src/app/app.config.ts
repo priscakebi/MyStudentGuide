@@ -1,7 +1,10 @@
 import {
   ApplicationConfig,
+  LOCALE_ID,
   provideZoneChangeDetection
 } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
 import { provideRouter } from '@angular/router';
 import {
   provideHttpClient,
@@ -15,8 +18,14 @@ import { routes } from './app.routes';
 // le token JWT aux requêtes HTTP.
 import { authInterceptor } from './interceptors/auth.interceptor';
 
+// Dates et nombres au format français (« jeudi 15 octobre », « 4,5 »).
+registerLocaleData(localeFr);
+
 export const appConfig: ApplicationConfig = {
   providers: [
+
+    // Langue de l'application : le pipe date affiche les jours et mois en français.
+    { provide: LOCALE_ID, useValue: 'fr' },
 
     // Détection de changements basée sur zone.js.
     //

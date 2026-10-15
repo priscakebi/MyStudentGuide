@@ -97,3 +97,25 @@ France). Les animations sont coupées si le système demande de réduire les ani
 - Nouvelle section « Toutes vos démarches, par thème » : 8 cartes (Séjour & visa, Santé, Logement, Études,
   Banque & budget, Emploi, Transports, Vie quotidienne), chacune listant des exemples de démarches.
 - Illustration dans la section « Notre objectif » (`public/images/etudiant-demarches.svg`).
+
+## 7. Dashboards étudiant et administrateur
+**Étudiant (`/dashboard`, page « Mon espace »)** :
+- Bandeau de bienvenue (date, prénom) avec la progression globale en anneau et deux boutons
+  (« Explorer les démarches », « Mes démarches »).
+- 4 chiffres clés cliquables : démarches en cours, terminées, notifications non lues, état du profil.
+- « Mes démarches en cours » : les 3 plus avancées, avec barre de progression et prochaine étape conseillée.
+- « Prochaines échéances » : dates limites à venir (en rouge à 7 jours ou moins).
+- « Suggéré pour vous » : suggestions de l'administration avec « Voir plus » / « Commencer ».
+- Rappel « Complétez votre profil » tant que le profil n'est pas complet ; raccourcis en bas de page.
+
+**Administrateur (`/admin`)** :
+- Nouvel endpoint `GET /api/admin/stats` (ADMIN) : toutes les statistiques en une requête
+  (avant, quatre listes complètes étaient téléchargées juste pour être comptées).
+- Chiffres clés : étudiants inscrits (+ nouveaux de la semaine), démarches en cours, terminées, satisfaction (note moyenne des avis).
+- Graphiques : taux de complétion (anneau), inscriptions des 8 dernières semaines (colonnes),
+  5 démarches les plus suivies (barres). Valeurs affichées, infobulle au survol et au clavier.
+- Activité récente (dernières notifications de l'admin) et bandeau « X étudiants n'ont commencé
+  aucune démarche » qui renvoie vers les suggestions.
+
+**Langue** : la locale `fr` est enregistrée (`app.config.ts`), les dates s'affichent en français
+(« jeudi 15 octobre »).
