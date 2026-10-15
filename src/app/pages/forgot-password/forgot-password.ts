@@ -4,6 +4,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { AuthService } from '../../services/auth.service';
+import { LangueService } from '../../i18n/langue.service';
+import { TPipe } from '../../i18n/t.pipe';
+import { LangueSwitch } from '../../components/langue-switch/langue-switch';
 
 /**
  * Page « Mot de passe oublié ».
@@ -19,7 +22,7 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-forgot-password',
   standalone: true,
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, TPipe, LangueSwitch],
   templateUrl: './forgot-password.html',
   styleUrl: './forgot-password.scss'
 })
@@ -27,6 +30,7 @@ export class ForgotPassword {
 
   private authService = inject(AuthService);
   private route = inject(ActivatedRoute);
+  private langue = inject(LangueService);
 
   /** Vrai si la page est utilisée depuis l'espace administrateur. */
   readonly isAdmin = this.route.snapshot.data['space'] === 'admin';
@@ -46,12 +50,12 @@ export class ForgotPassword {
     const email = this.email.trim();
 
     if (!email) {
-      this.errorMessage = 'Veuillez saisir votre adresse e-mail.';
+      this.errorMessage = this.langue.t('forgot.emailVide');
       return;
     }
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      this.errorMessage = "L'adresse e-mail n'est pas valide.";
+      this.errorMessage = this.langue.t('forgot.emailInvalide');
       return;
     }
 
@@ -73,9 +77,7 @@ export class ForgotPassword {
         error: (error: HttpErrorResponse) => {
           this.loading = false;
 
-          this.errorMessage = error.status === 0
-            ? 'Impossible de joindre le serveur. Réessayez plus tard.'
-            : 'Une erreur est survenue. Veuillez réessayer.';
+          this.errorMessage = this.langue.t(error.status === 0 ? 'form.serveurInjoignable' : 'form.erreur');
         }
       });
   }

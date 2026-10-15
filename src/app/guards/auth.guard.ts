@@ -4,24 +4,30 @@ import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
 /**
- * Guard d'authentification.
+ * Guard de l'espace étudiant (/dashboard).
  *
- * Autorise la route uniquement si l'utilisateur possède un token valide
- * (non expiré). Sinon, redirection vers /login en mémorisant la page
- * demandée dans "returnUrl".
+ * - utilisateur non connecté (ou token expiré) → /login, en mémorisant
+ *   la page demandée dans "returnUrl" ;
+ * - administrateur → /admin : l'espace étudiant ne le concerne pas
+ *   (sinon il verrait un tableau de bord étudiant vide) ;
+ * - étudiant connecté → accès autorisé.
  *
- * Il ne vérifie pas le rôle : c'est le rôle de adminGuard.
+ * L'espace administrateur est protégé par adminGuard.
  */
 export const authGuard: CanActivateFn = (route, state) => {
 
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  if (authService.isLoggedIn()) {
-    return true;
+  if (!authService.isLoggedIn()) {
+    return router.createUrlTree(['/login'], {
+      queryParams: { returnUrl: state.url }
+    });
   }
 
-  return router.createUrlTree(['/login'], {
-    queryParams: { returnUrl: state.url }
-  });
+  if (authService.isAdmin()) {
+    return router.createUrlTree(['/admin']);
+  }
+
+  return true;
 };

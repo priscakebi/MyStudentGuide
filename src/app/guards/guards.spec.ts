@@ -33,6 +33,13 @@ describe('Guards de sécurité (confort UX — la vraie protection est côté AP
     expect(run(authGuard)).toBe(true);
   });
 
+  it('authGuard renvoie un administrateur vers /admin (l’espace étudiant ne le concerne pas)', () => {
+    loggedIn = true;
+    admin = true;
+    const result = run(authGuard) as UrlTree;
+    expect(router.serializeUrl(result)).toBe('/admin');
+  });
+
   it('authGuard redirige un anonyme vers /login en mémorisant returnUrl', () => {
     const result = run(authGuard) as UrlTree;
     expect(router.serializeUrl(result)).toBe('/login?returnUrl=%2Fadmin%2Fusers');

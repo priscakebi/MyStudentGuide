@@ -5,7 +5,10 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { AuthService } from '../../services/auth.service';
 import { LoginLoader, LOGIN_LOADER_DURATION } from '../../components/login-loader/login-loader';
-import { EMAIL_MAX, EMAIL_MESSAGE, PASSWORD_MAX, isValidEmail } from '../../utils/form-rules';
+import { EMAIL_MAX, PASSWORD_MAX, isValidEmail } from '../../utils/form-rules';
+import { LangueService } from '../../i18n/langue.service';
+import { TPipe } from '../../i18n/t.pipe';
+import { LangueSwitch } from '../../components/langue-switch/langue-switch';
 
 /**
  * Page de connexion de l'espace étudiant.
@@ -25,7 +28,7 @@ import { EMAIL_MAX, EMAIL_MESSAGE, PASSWORD_MAX, isValidEmail } from '../../util
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, RouterLink, LoginLoader],
+  imports: [FormsModule, RouterLink, LoginLoader, TPipe, LangueSwitch],
   templateUrl: './login.html',
   styleUrl: './login.scss'
 })
@@ -34,10 +37,10 @@ export class Login implements OnDestroy {
   private authService = inject(AuthService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private langue = inject(LangueService);
 
   readonly emailMax = EMAIL_MAX;
   readonly passwordMax = PASSWORD_MAX;
-  readonly emailMessage = EMAIL_MESSAGE;
 
   email = '';
   password = '';
@@ -58,9 +61,9 @@ export class Login implements OnDestroy {
   constructor() {
     // Message affiché quand l'interceptor a déconnecté l'utilisateur (token expiré).
     if (this.route.snapshot.queryParamMap.get('reason') === 'idle') {
-      this.infoMessage = 'Vous avez été déconnecté après une période d\'inactivité. Veuillez vous reconnecter.';
+      this.infoMessage = this.langue.t('login.inactivite');
     } else if (this.route.snapshot.queryParamMap.get('sessionExpired')) {
-      this.infoMessage = 'Votre session a expiré. Veuillez vous reconnecter.';
+      this.infoMessage = this.langue.t('login.sessionExpiree');
     }
   }
 
@@ -84,13 +87,13 @@ export class Login implements OnDestroy {
     const email = this.email.trim();
 
     if (!email || !this.password) {
-      this.errorMessage = 'Veuillez remplir tous les champs.';
+      this.errorMessage = this.langue.t('form.champsVides');
       return;
     }
 
     if (!this.emailValid) {
       this.emailTouched = true;
-      this.errorMessage = EMAIL_MESSAGE;
+      this.errorMessage = this.langue.t('form.email.message');
       return;
     }
 
@@ -117,7 +120,7 @@ export class Login implements OnDestroy {
 
         // Rôle inconnu : on ne garde aucune session.
         this.authService.logout();
-        this.errorMessage = 'Ce compte ne peut pas se connecter ici.';
+        this.errorMessage = this.langue.t('login.compteRefuse');
       },
 
       error: (error: HttpErrorResponse) => {
@@ -126,21 +129,14 @@ export class Login implements OnDestroy {
 
         // 429 : trop de tentatives, le compte est bloqué quelques minutes
         // (le message de l'API donne le délai d'attente).
+        // Le message de l'API (délai d'attente) est en français : en anglais, message générique.
         this.errorMessage = error.status === 0
-          ? 'Impossible de joindre le serveur. Réessayez plus tard.'
+          ? this.langue.t('form.serveurInjoignable')
           : error.status === 429
-            ? (error.error?.message || 'Trop de tentatives de connexion. Réessayez dans quelques minutes.')
-            : 'Adresse e-mail ou mot de passe incorrect.';
+            ? (this.langue.langue() === 'fr' && error.error?.message) || this.langue.t('login.tropDeTentatives')
+            : this.langue.t('login.incorrect');
       }
     });
-  }
-
-  goToRegister(): void {
-    this.router.navigate(['/register']);
-  }
-
-  forgotPassword(): void {
-    this.router.navigate(['/forgot-password']);
   }
 
   ngOnDestroy(): void {

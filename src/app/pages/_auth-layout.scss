@@ -1,0 +1,634 @@
+// ============================================================
+// MISE EN PAGE COMMUNE DES FORMULAIRES D'ACCÈS
+// ============================================================
+//
+// Utilisée par : connexion étudiant (login), inscription (register)
+// et connexion administrateur (admin-login), via
+//   @use '../auth-layout';
+//
+// - grand écran : panneau de marque à gauche, formulaire à droite ;
+// - tablette / téléphone : bandeau de marque compact au-dessus du formulaire ;
+// - .auth-shell.admin : panneau bleu nuit pour l'espace administrateur.
+// ============================================================
+
+$blue: #1646a0;
+$blue-dark: #0d2f70;
+$red: #e63946;
+$text: #172033;
+$text-soft: #344054;
+$muted: #667085;
+$border: #d0d5dd;
+$background: #f5f7fb;
+$error: #d92d20;
+$success: #067647;
+
+:host {
+  display: block;
+}
+
+
+// ------------------------------------------------------------
+// STRUCTURE
+// ------------------------------------------------------------
+
+.auth-shell {
+  display: grid;
+  grid-template-columns: minmax(360px, 44%) minmax(0, 1fr);
+  min-height: 100vh;
+  background: $background;
+  color: $text;
+}
+
+
+// ------------------------------------------------------------
+// PANNEAU DE MARQUE (gauche)
+// ------------------------------------------------------------
+
+.auth-brand {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  overflow: hidden;
+  padding: 40px 48px 36px;
+  color: #ffffff;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(255, 255, 255, 0.14), transparent 42%),
+    radial-gradient(circle at 95% 85%, rgba(230, 57, 70, 0.22), transparent 38%),
+    linear-gradient(160deg, $blue-dark 0%, $blue 68%, #2563c9 100%);
+
+  // Liseré bleu-blanc-rouge en haut du panneau.
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 5px;
+    background: linear-gradient(90deg, #2f6fe4 0 33.3%, #ffffff 33.3% 66.6%, $red 66.6% 100%);
+  }
+}
+
+.auth-logo {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 11px;
+  color: #ffffff;
+  font-size: 1.15rem;
+  font-weight: 800;
+  text-decoration: none;
+
+  &:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 4px;
+    border-radius: 8px;
+  }
+}
+
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.14);
+  font-size: 1.2rem;
+}
+
+.auth-brand-body {
+  h2 {
+    max-width: 16ch;
+    margin: 0 0 14px;
+    font-size: clamp(1.75rem, 2.6vw, 2.45rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    max-width: 38ch;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+}
+
+.auth-points {
+  display: grid;
+  gap: 12px;
+  margin: 26px 0 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+}
+
+.point-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.14);
+  font-size: 0.95rem;
+}
+
+.auth-illustration {
+  align-self: center;
+  width: min(330px, 82%);
+  height: auto;
+  margin-top: auto;
+  filter: drop-shadow(0 18px 30px rgba(5, 20, 60, 0.35));
+}
+
+.auth-brand-foot {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.8rem;
+}
+
+// Espace administrateur : panneau bleu nuit.
+.auth-shell.admin .auth-brand {
+  background:
+    radial-gradient(circle at 12% 8%, rgba(255, 255, 255, 0.1), transparent 42%),
+    radial-gradient(circle at 95% 85%, rgba(47, 111, 228, 0.25), transparent 40%),
+    linear-gradient(160deg, #0b1220 0%, #15203a 60%, #1d2b4d 100%);
+}
+
+.admin-emblem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  width: 150px;
+  height: 150px;
+  margin-top: auto;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 40px;
+  background: rgba(255, 255, 255, 0.06);
+
+  svg {
+    width: 76px;
+    height: 76px;
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.85);
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+
+// ------------------------------------------------------------
+// ZONE DU FORMULAIRE (droite)
+// ------------------------------------------------------------
+
+.auth-main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 84px 24px 48px;
+}
+
+// Barre du haut : retour à l'accueil + choix de la langue.
+.auth-top {
+  position: absolute;
+  top: 22px;
+  right: 28px;
+  left: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.auth-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: $muted;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: $blue;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $blue;
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+}
+
+.auth-card {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 440px;
+  padding: 38px 38px 30px;
+  border: 1px solid #e6eaf0;
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow: 0 24px 60px rgba(16, 24, 40, 0.08);
+
+  &.wide {
+    max-width: 520px;
+  }
+}
+
+.auth-eyebrow {
+  display: inline-block;
+  margin: 0 0 8px;
+  color: $red;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.auth-title {
+  margin: 0 0 8px;
+  color: $text;
+  font-size: 1.85rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.auth-subtitle {
+  margin: 0 0 28px;
+  color: $muted;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+
+// ------------------------------------------------------------
+// CHAMPS
+// ------------------------------------------------------------
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+label {
+  display: block;
+  margin-bottom: 7px;
+  color: $text-soft;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+// Champ avec icône à gauche.
+.field {
+  position: relative;
+
+  input {
+    padding-left: 44px;
+  }
+
+  &:focus-within .field-icon {
+    stroke: $blue;
+  }
+}
+
+.field-icon {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  width: 18px;
+  height: 18px;
+  transform: translateY(-50%);
+  fill: none;
+  stroke: #98a2b3;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+  transition: stroke 0.15s ease;
+}
+
+input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 50px;
+  padding: 0 14px;
+  border: 1px solid $border;
+  border-radius: 12px;
+  background: #ffffff;
+  color: $text;
+  font: inherit;
+  font-size: 0.95rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+
+  &::placeholder {
+    color: #98a2b3;
+  }
+
+  &:hover {
+    border-color: #98a2b3;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--msg-focus, $blue);
+    box-shadow: var(--msg-focus-ring, 0 0 0 4px rgba(22, 70, 160, 0.14));
+  }
+
+  &.invalid {
+    border-color: $error;
+    background: #fffbfa;
+
+    &:focus {
+      box-shadow: 0 0 0 4px rgba(217, 45, 32, 0.12);
+    }
+  }
+}
+
+.field-error {
+  margin: 6px 0 0;
+  color: $error;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+// Mot de passe : bouton « œil » à droite du champ.
+.password-container {
+  position: relative;
+
+  input {
+    padding-right: 52px;
+  }
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 7px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 38px;
+  height: 38px;
+  padding: 0 8px;
+  transform: translateY(-50%);
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+  color: $muted;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background: #f2f4f7;
+    color: $blue;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $blue;
+    outline-offset: 1px;
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+// Prénom + nom côte à côte.
+.name-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+// Critères du mot de passe, cochés en direct.
+.password-rules {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 14px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: $muted;
+    font-size: 0.78rem;
+    line-height: 1.4;
+
+    &.ok {
+      color: $success;
+      font-weight: 600;
+    }
+  }
+}
+
+
+// ------------------------------------------------------------
+// LIENS, MESSAGES ET BOUTON
+// ------------------------------------------------------------
+
+.forgot-password,
+.forgot-link {
+  margin: -6px 0 20px;
+  font-size: 0.875rem;
+  text-align: right;
+
+  a {
+    color: $blue;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.error,
+.info {
+  margin: 0 0 16px;
+  padding: 11px 14px;
+  border-radius: 11px;
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+.error {
+  border: 1px solid #fecdca;
+  background: #fef3f2;
+  color: #b42318;
+}
+
+.info {
+  border: 1px solid #c7d7fe;
+  background: #eff4ff;
+  color: #1e3a8a;
+}
+
+.login-button,
+.register-button {
+  width: 100%;
+  height: 52px;
+  border: none;
+  border-radius: 12px;
+  background: $blue;
+  color: #ffffff;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 10px 22px rgba(22, 70, 160, 0.24);
+  transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background: $blue-dark;
+    transform: translateY(-1px);
+    box-shadow: 0 14px 26px rgba(22, 70, 160, 0.3);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  &:focus-visible {
+    outline: 3px solid rgba(22, 70, 160, 0.35);
+    outline-offset: 2px;
+  }
+}
+
+.auth-switch {
+  margin: 24px 0 0;
+  padding-top: 20px;
+  border-top: 1px solid #eef0f4;
+  color: $muted;
+  font-size: 0.9rem;
+  text-align: center;
+
+  a {
+    margin-left: 4px;
+    color: $blue;
+    font-weight: 700;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.admin-link {
+  margin: 14px 0 0;
+  font-size: 0.8rem;
+  text-align: center;
+
+  a {
+    color: #98a2b3;
+    text-decoration: none;
+
+    &:hover {
+      color: $muted;
+      text-decoration: underline;
+    }
+  }
+}
+
+
+// ------------------------------------------------------------
+// TABLETTE ET TÉLÉPHONE
+// ------------------------------------------------------------
+
+@media (max-width: 960px) {
+  .auth-shell {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  // Le panneau devient un bandeau compact.
+  .auth-brand {
+    gap: 14px;
+    padding: 24px 22px 26px;
+  }
+
+  .auth-points,
+  .auth-illustration,
+  .admin-emblem,
+  .auth-brand-foot {
+    display: none;
+  }
+
+  .auth-brand-body {
+    h2 {
+      max-width: none;
+      margin-bottom: 6px;
+      font-size: 1.35rem;
+    }
+
+    p {
+      font-size: 0.9rem;
+    }
+  }
+
+  .auth-main {
+    justify-content: flex-start;
+    padding: 20px 16px 48px;
+  }
+
+  .auth-top {
+    position: static;
+    width: 100%;
+    max-width: 520px;
+    margin-bottom: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 28px 20px 24px;
+    border-radius: 18px;
+  }
+
+  .auth-title {
+    font-size: 1.55rem;
+  }
+
+  .name-row,
+  .password-rules {
+    grid-template-columns: 1fr;
+  }
+
+  .name-row {
+    gap: 0;
+  }
+}

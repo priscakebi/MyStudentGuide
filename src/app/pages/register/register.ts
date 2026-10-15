@@ -20,15 +20,15 @@ import { LoginLoader, LOGIN_LOADER_DURATION } from '../../components/login-loade
 // Règles des champs (mêmes règles que l'API).
 import {
   EMAIL_MAX,
-  EMAIL_MESSAGE,
-  NAME_MESSAGE,
   PASSWORD_MAX,
-  PASSWORD_MESSAGE,
   isStrongPassword,
   isValidEmail,
   isValidName,
   passwordChecks
 } from '../../utils/form-rules';
+import { LangueService } from '../../i18n/langue.service';
+import { TPipe } from '../../i18n/t.pipe';
+import { LangueSwitch } from '../../components/langue-switch/langue-switch';
 
 
 /**
@@ -50,7 +50,9 @@ import {
   imports: [
     FormsModule,
     RouterLink,
-    LoginLoader
+    LoginLoader,
+    TPipe,
+    LangueSwitch
   ],
   templateUrl: './register.html',
   styleUrl: './register.scss'
@@ -59,12 +61,11 @@ export class Register implements OnDestroy {
 
   private authService = inject(AuthService);
   private router = inject(Router);
+  private langue = inject(LangueService);
 
   // Limites affichées dans le HTML (maxlength).
   readonly emailMax = EMAIL_MAX;
   readonly passwordMax = PASSWORD_MAX;
-  readonly nameMessage = NAME_MESSAGE;
-  readonly emailMessage = EMAIL_MESSAGE;
 
   loading = false;
 
@@ -161,9 +162,7 @@ export class Register implements OnDestroy {
     this.submitted = true;
 
     if (!this.formValid) {
-      this.errorMessage = !this.passwordValid
-        ? PASSWORD_MESSAGE
-        : 'Veuillez corriger les champs signalés.';
+      this.errorMessage = this.langue.t(!this.passwordValid ? 'form.motDePasse.message' : 'form.corriger');
       return;
     }
 
@@ -192,14 +191,15 @@ export class Register implements OnDestroy {
         this.loading = false;
 
         // 400 : e-mail déjà utilisé ou champ refusé par l'API.
+        // Le message de l'API est en français : en anglais, message générique.
         if (error.status === 400 && error.error?.message) {
-          this.errorMessage = error.error.message;
+          this.errorMessage = this.langue.langue() === 'fr'
+            ? error.error.message
+            : this.langue.t('register.erreur.refus');
         } else if (error.status === 0) {
-          this.errorMessage =
-            'Impossible de joindre le serveur. Réessayez plus tard.';
+          this.errorMessage = this.langue.t('form.serveurInjoignable');
         } else {
-          this.errorMessage =
-            'Une erreur est survenue lors de l\'inscription.';
+          this.errorMessage = this.langue.t('register.erreur');
         }
       }
     });

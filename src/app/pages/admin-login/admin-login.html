@@ -1,79 +1,152 @@
-<div class="admin-login-page">
-  <section class="admin-login-card">
+<!-- ===================================================== -->
+<!-- CONNEXION ADMINISTRATEUR                               -->
+<!-- Mise en page commune : pages/_auth-layout.scss         -->
+<!-- (variante .admin : panneau bleu nuit)                  -->
+<!-- ===================================================== -->
 
-    <div class="badge" aria-hidden="true">
+<div class="auth-shell admin">
+
+  <!-- Panneau de marque (bandeau compact sur téléphone) -->
+  <aside class="auth-brand">
+
+    <a routerLink="/home" class="auth-logo">
+      <span class="brand-mark" aria-hidden="true">🎓</span>
+      MyStudentGuide
+    </a>
+
+    <div class="auth-brand-body">
+      <h2>Administration de la plateforme</h2>
+      <p>Gérez les démarches, les documents requis, les étudiants et leurs demandes.</p>
+
+      <ul class="auth-points">
+        <li><span class="point-icon" aria-hidden="true">📋</span>Démarches et contenus officiels</li>
+        <li><span class="point-icon" aria-hidden="true">👥</span>Suivi des étudiants</li>
+        <li><span class="point-icon" aria-hidden="true">💬</span>Signalements et demandes d'aide</li>
+      </ul>
+    </div>
+
+    <div class="admin-emblem" aria-hidden="true">
       <svg viewBox="0 0 24 24">
         <path d="M12 3l8 3v6c0 4.5-3.2 8.3-8 9-4.8-.7-8-4.5-8-9V6l8-3Z" />
         <path d="M9 12l2 2 4-4" />
       </svg>
     </div>
 
-    <h1>MyStudentGuide</h1>
-    <h2>Espace administrateur</h2>
-    <p class="description">
-      Connexion réservée à l'équipe de gestion de la plateforme.
-    </p>
+    <p class="auth-brand-foot">Accès réservé à l'équipe MyStudentGuide.</p>
 
-    <form (ngSubmit)="onLogin()">
+  </aside>
 
-      <div class="form-group">
-        <label for="admin-email">Adresse e-mail</label>
-        <input
-          id="admin-email"
-          type="email"
-          name="email"
-          autocomplete="username"
-          [(ngModel)]="email"
-          placeholder="admin@exemple.com"
-          required
-        >
-      </div>
 
-      <div class="form-group">
-        <label for="admin-password">Mot de passe</label>
+  <!-- Formulaire -->
+  <main class="auth-main">
 
-        <div class="password-container">
-          <input
-            id="admin-password"
-            [type]="passwordVisible ? 'text' : 'password'"
-            name="password"
-            autocomplete="current-password"
-            [(ngModel)]="password"
-            placeholder="Votre mot de passe"
-            required
-          >
+    <div class="auth-top">
+      <a routerLink="/home" class="auth-back">← Retour au site</a>
+    </div>
 
-          <button
-            type="button"
-            class="password-toggle"
-            (click)="togglePassword()"
-          >
-            {{ passwordVisible ? 'Masquer' : 'Afficher' }}
-          </button>
+    <div class="auth-card">
+
+      <span class="auth-eyebrow">Espace administrateur</span>
+      <h1 class="auth-title">Connexion</h1>
+      <p class="auth-subtitle">Connexion réservée à l'équipe de gestion de la plateforme.</p>
+
+      <form (ngSubmit)="onLogin()" novalidate>
+
+        <!-- E-mail -->
+        <div class="form-group">
+
+          <label for="admin-email">Adresse e-mail</label>
+
+          <div class="field">
+            <svg class="field-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="14" rx="2" />
+              <path d="m4 7 8 6 8-6" />
+            </svg>
+            <input
+              id="admin-email"
+              type="email"
+              name="email"
+              autocomplete="username"
+              [(ngModel)]="email"
+              placeholder="admin@exemple.com"
+              required
+            >
+          </div>
+
         </div>
-      </div>
 
-      <p class="forgot-link">
-        <a routerLink="/admin-forgot-password">Mot de passe oublié ?</a>
-      </p>
 
-      @if (infoMessage) {
-        <p class="info" role="status">{{ infoMessage }}</p>
-      }
+        <!-- Mot de passe -->
+        <div class="form-group">
 
-      @if (errorMessage) {
-        <p class="error" role="alert">{{ errorMessage }}</p>
-      }
+          <label for="admin-password">Mot de passe</label>
 
-      <button type="submit" class="login-button" [disabled]="loading">
-        {{ loading ? 'Connexion...' : 'Se connecter' }}
-      </button>
+          <div class="field password-container">
+            <svg class="field-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="5" y="11" width="14" height="9" rx="2" />
+              <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+            </svg>
+            <input
+              id="admin-password"
+              [type]="passwordVisible ? 'text' : 'password'"
+              name="password"
+              autocomplete="current-password"
+              [(ngModel)]="password"
+              placeholder="Votre mot de passe"
+              required
+            >
 
-      <p class="student-link">
-        Vous êtes étudiant ?
-        <a routerLink="/login">Connexion étudiant</a>
-      </p>
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="togglePassword()"
+              [attr.aria-label]="passwordVisible ? 'Masquer le mot de passe' : 'Afficher le mot de passe'"
+              [attr.aria-pressed]="passwordVisible"
+            >
+              @if (passwordVisible) {
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M3 3l18 18" />
+                  <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8" />
+                  <path d="M9.9 5.2A10.8 10.8 0 0 1 12 5c5 0 8.5 4 9.8 7-.5 1.1-1.5 2.7-3.1 4.1" />
+                  <path d="M6.1 6.1C4.4 7.4 3.1 9.2 2.2 12c1.3 3 4.8 7 9.8 7 1.2 0 2.3-.2 3.3-.6" />
+                </svg>
+              } @else {
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M2.2 12C3.5 9 7 5 12 5s8.5 4 9.8 7C20.5 15 17 19 12 19s-8.5-4-9.8-7Z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              }
+            </button>
+          </div>
 
-    </form>
-  </section>
+        </div>
+
+
+        <p class="forgot-link">
+          <a routerLink="/admin-forgot-password">Mot de passe oublié ?</a>
+        </p>
+
+        @if (infoMessage) {
+          <p class="info" role="status">{{ infoMessage }}</p>
+        }
+
+        @if (errorMessage) {
+          <p class="error" role="alert">{{ errorMessage }}</p>
+        }
+
+        <button type="submit" class="login-button" [disabled]="loading">
+          {{ loading ? 'Connexion...' : 'Se connecter' }}
+        </button>
+
+        <p class="auth-switch">
+          Vous êtes étudiant ?
+          <a routerLink="/login">Connexion étudiant</a>
+        </p>
+
+      </form>
+
+    </div>
+
+  </main>
+
 </div>

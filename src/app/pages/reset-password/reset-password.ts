@@ -4,7 +4,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { AuthService } from '../../services/auth.service';
-import { PASSWORD_MAX, PASSWORD_MESSAGE, isStrongPassword, passwordChecks } from '../../utils/form-rules';
+import { PASSWORD_MAX, isStrongPassword, passwordChecks } from '../../utils/form-rules';
+import { LangueService } from '../../i18n/langue.service';
+import { TPipe } from '../../i18n/t.pipe';
+import { LangueSwitch } from '../../components/langue-switch/langue-switch';
 
 /**
  * Page « Nouveau mot de passe » : ouverte depuis le lien reçu par e-mail
@@ -18,7 +21,7 @@ import { PASSWORD_MAX, PASSWORD_MESSAGE, isStrongPassword, passwordChecks } from
 @Component({
   selector: 'app-reset-password',
   standalone: true,
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, TPipe, LangueSwitch],
   templateUrl: './reset-password.html',
   styleUrl: '../forgot-password/forgot-password.scss'
 })
@@ -26,6 +29,7 @@ export class ResetPassword {
 
   private authService = inject(AuthService);
   private route = inject(ActivatedRoute);
+  private langue = inject(LangueService);
 
   readonly isAdmin = this.route.snapshot.data['space'] === 'admin';
   readonly loginRoute = this.isAdmin ? '/admin-login' : '/login';
@@ -61,17 +65,17 @@ export class ResetPassword {
     this.errorMessage = '';
 
     if (!this.password || !this.confirmPassword) {
-      this.errorMessage = 'Veuillez remplir tous les champs.';
+      this.errorMessage = this.langue.t('form.champsVides');
       return;
     }
 
     if (!isStrongPassword(this.password)) {
-      this.errorMessage = PASSWORD_MESSAGE;
+      this.errorMessage = this.langue.t('form.motDePasse.message');
       return;
     }
 
     if (this.password !== this.confirmPassword) {
-      this.errorMessage = 'Les mots de passe ne correspondent pas.';
+      this.errorMessage = this.langue.t('form.motDePasse.differents');
       return;
     }
 
@@ -94,17 +98,19 @@ export class ResetPassword {
         this.loading = false;
 
         if (error.status === 0) {
-          this.errorMessage = 'Impossible de joindre le serveur. Réessayez plus tard.';
+          this.errorMessage = this.langue.t('form.serveurInjoignable');
         } else if (error.status === 400 && error.error?.errors?.newPassword) {
           // Règle de validation du mot de passe refusée par l'API
-          this.errorMessage = error.error.errors.newPassword;
+          this.errorMessage = this.langue.langue() === 'fr'
+            ? error.error.errors.newPassword
+            : this.langue.t('form.motDePasse.message');
         } else if (error.status === 400) {
           // Lien invalide ou expiré
           this.linkProblem = true;
-          this.errorMessage = error.error?.message
-            ?? 'Ce lien est invalide ou a expiré.';
+          this.errorMessage = (this.langue.langue() === 'fr' && error.error?.message)
+            || this.langue.t('reset.lienInvalide');
         } else {
-          this.errorMessage = 'Une erreur est survenue. Veuillez réessayer.';
+          this.errorMessage = this.langue.t('form.erreur');
         }
       }
     });

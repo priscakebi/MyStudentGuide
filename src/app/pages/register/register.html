@@ -1,383 +1,295 @@
-<!-- Conteneur principal de la page -->
-<div class="register-container">
+<!-- ===================================================== -->
+<!-- PAGE D'INSCRIPTION                                     -->
+<!-- Mise en page commune : pages/_auth-layout.scss         -->
+<!-- ===================================================== -->
 
-  <!-- Carte d'inscription -->
-  <div class="register-card">
+<div class="auth-shell">
 
-    <!-- ================================= -->
-    <!-- EN-TÊTE                           -->
-    <!-- ================================= -->
+  <!-- Panneau de marque (bandeau compact sur téléphone) -->
+  <aside class="auth-brand">
 
-    <div class="register-header">
+    <a routerLink="/home" class="auth-logo">
+      <span class="brand-mark" aria-hidden="true">🎓</span>
+      MyStudentGuide
+    </a>
 
-      <!-- Nom de l'application -->
-      <h1>MyStudentGuide</h1>
+    <div class="auth-brand-body">
+      <h2>{{ 'authBrand.titre' | t }}</h2>
+      <p>{{ 'authBrand.texte' | t }}</p>
 
-      <!-- Titre -->
-      <h2>Créer un compte</h2>
+      <ul class="auth-points">
+        <li><span class="point-icon" aria-hidden="true">🧭</span>{{ 'authBrand.point1' | t }}</li>
+        <li><span class="point-icon" aria-hidden="true">⏰</span>{{ 'authBrand.point2' | t }}</li>
+        <li><span class="point-icon" aria-hidden="true">🔗</span>{{ 'authBrand.point3' | t }}</li>
+      </ul>
+    </div>
 
-      <!-- Petite description -->
-      <p>
-        Inscrivez-vous pour commencer votre expérience
-        avec MyStudentGuide.
-      </p>
+    <img
+      class="auth-illustration"
+      src="images/etudiants-france.svg"
+      [alt]="'accueil.illustration.alt' | t"
+      width="330"
+      height="275"
+    >
+
+    <p class="auth-brand-foot">{{ 'authBrand.pied' | t }}</p>
+
+  </aside>
+
+
+  <!-- Formulaire -->
+  <main class="auth-main">
+
+    <div class="auth-top">
+      <a routerLink="/home" class="auth-back">{{ 'authBrand.retour' | t }}</a>
+      <app-langue-switch></app-langue-switch>
+    </div>
+
+    <div class="auth-card wide">
+
+      <span class="auth-eyebrow">{{ 'register.eyebrow' | t }}</span>
+      <h1 class="auth-title">{{ 'register.titre' | t }}</h1>
+      <p class="auth-subtitle">{{ 'register.description' | t }}</p>
+
+      <form (ngSubmit)="onRegister()" novalidate>
+
+        <!-- Prénom + nom -->
+        <div class="name-row">
+
+          <div class="form-group">
+            <label for="firstName">{{ 'register.prenom' | t }}</label>
+
+            <div class="field">
+              <svg class="field-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="8" r="3.5" />
+                <path d="M5 20a7 7 0 0 1 14 0" />
+              </svg>
+              <input
+                id="firstName"
+                type="text"
+                name="firstName"
+                [(ngModel)]="firstName"
+                [placeholder]="'register.prenom' | t"
+                autocomplete="given-name"
+                maxlength="50"
+                required
+                (blur)="touch('firstName')"
+                [class.invalid]="showError('firstName', firstNameValid)"
+                [attr.aria-invalid]="showError('firstName', firstNameValid)"
+                aria-describedby="firstName-error"
+              >
+            </div>
+
+            @if (showError('firstName', firstNameValid)) {
+              <p id="firstName-error" class="field-error">{{ 'form.nom.message' | t }}</p>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="lastName">{{ 'register.nom' | t }}</label>
+
+            <div class="field">
+              <svg class="field-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="8" r="3.5" />
+                <path d="M5 20a7 7 0 0 1 14 0" />
+              </svg>
+              <input
+                id="lastName"
+                type="text"
+                name="lastName"
+                [(ngModel)]="lastName"
+                [placeholder]="'register.nom' | t"
+                autocomplete="family-name"
+                maxlength="50"
+                required
+                (blur)="touch('lastName')"
+                [class.invalid]="showError('lastName', lastNameValid)"
+                [attr.aria-invalid]="showError('lastName', lastNameValid)"
+                aria-describedby="lastName-error"
+              >
+            </div>
+
+            @if (showError('lastName', lastNameValid)) {
+              <p id="lastName-error" class="field-error">{{ 'form.nom.message' | t }}</p>
+            }
+          </div>
+
+        </div>
+
+
+        <!-- E-mail -->
+        <div class="form-group">
+
+          <label for="email">{{ 'form.email' | t }}</label>
+
+          <div class="field">
+            <svg class="field-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="14" rx="2" />
+              <path d="m4 7 8 6 8-6" />
+            </svg>
+            <input
+              id="email"
+              type="email"
+              name="email"
+              [(ngModel)]="email"
+              [placeholder]="'form.email.placeholder' | t"
+              autocomplete="email"
+              inputmode="email"
+              [attr.maxlength]="emailMax"
+              required
+              (blur)="touch('email')"
+              [class.invalid]="showError('email', emailValid)"
+              [attr.aria-invalid]="showError('email', emailValid)"
+              aria-describedby="email-error"
+            >
+          </div>
+
+          @if (showError('email', emailValid)) {
+            <p id="email-error" class="field-error">{{ 'form.email.message' | t }}</p>
+          }
+
+        </div>
+
+
+        <!-- Mot de passe -->
+        <div class="form-group">
+
+          <label for="password">{{ 'form.motDePasse' | t }}</label>
+
+          <div class="field password-container">
+            <svg class="field-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="5" y="11" width="14" height="9" rx="2" />
+              <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+            </svg>
+            <input
+              id="password"
+              [type]="passwordVisible ? 'text' : 'password'"
+              name="password"
+              [(ngModel)]="password"
+              [placeholder]="'register.motDePasse.placeholder' | t"
+              autocomplete="new-password"
+              [attr.maxlength]="passwordMax"
+              required
+              (blur)="touch('password')"
+              [class.invalid]="showError('password', passwordValid)"
+              [attr.aria-invalid]="showError('password', passwordValid)"
+              aria-describedby="password-rules"
+            >
+
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="togglePassword()"
+              [attr.aria-label]="(passwordVisible ? 'form.motDePasse.masquer' : 'form.motDePasse.afficher') | t"
+              [attr.aria-pressed]="passwordVisible"
+            >
+              @if (passwordVisible) {
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M3 3l18 18" />
+                  <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8" />
+                  <path d="M9.9 5.2A10.8 10.8 0 0 1 12 5c5 0 8.5 4 9.8 7-.5 1.1-1.5 2.7-3.1 4.1" />
+                  <path d="M6.1 6.1C4.4 7.4 3.1 9.2 2.2 12c1.3 3 4.8 7 9.8 7 1.2 0 2.3-.2 3.3-.6" />
+                </svg>
+              } @else {
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M2.2 12C3.5 9 7 5 12 5s8.5 4 9.8 7C20.5 15 17 19 12 19s-8.5-4-9.8-7Z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              }
+            </button>
+          </div>
+
+          <!-- Critères du mot de passe (CNIL / ANSSI), mis à jour en direct -->
+          <ul id="password-rules" class="password-rules">
+            @for (check of passwordChecks; track check.label) {
+              <li [class.ok]="check.ok">
+                <span aria-hidden="true">{{ check.ok ? '✓' : '○' }}</span>
+                {{ check.cle | t }}
+              </li>
+            }
+          </ul>
+
+        </div>
+
+
+        <!-- Confirmation -->
+        <div class="form-group">
+
+          <label for="confirmPassword">{{ 'form.motDePasse.confirmer' | t }}</label>
+
+          <div class="field password-container">
+            <svg class="field-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="5" y="11" width="14" height="9" rx="2" />
+              <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+            </svg>
+            <input
+              id="confirmPassword"
+              [type]="confirmPasswordVisible ? 'text' : 'password'"
+              name="confirmPassword"
+              [(ngModel)]="confirmPassword"
+              [placeholder]="'register.confirmer.placeholder' | t"
+              autocomplete="new-password"
+              [attr.maxlength]="passwordMax"
+              required
+              (blur)="touch('confirmPassword')"
+              [class.invalid]="showError('confirmPassword', confirmValid)"
+              [attr.aria-invalid]="showError('confirmPassword', confirmValid)"
+              aria-describedby="confirm-error"
+            >
+
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="toggleConfirmPassword()"
+              [attr.aria-label]="(confirmPasswordVisible ? 'form.motDePasse.masquer' : 'form.motDePasse.afficher') | t"
+              [attr.aria-pressed]="confirmPasswordVisible"
+            >
+              @if (confirmPasswordVisible) {
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M3 3l18 18" />
+                  <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8" />
+                  <path d="M9.9 5.2A10.8 10.8 0 0 1 12 5c5 0 8.5 4 9.8 7-.5 1.1-1.5 2.7-3.1 4.1" />
+                  <path d="M6.1 6.1C4.4 7.4 3.1 9.2 2.2 12c1.3 3 4.8 7 9.8 7 1.2 0 2.3-.2 3.3-.6" />
+                </svg>
+              } @else {
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M2.2 12C3.5 9 7 5 12 5s8.5 4 9.8 7C20.5 15 17 19 12 19s-8.5-4-9.8-7Z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              }
+            </button>
+          </div>
+
+          @if (showError('confirmPassword', confirmValid)) {
+            <p id="confirm-error" class="field-error">{{ 'form.motDePasse.differents' | t }}</p>
+          }
+
+        </div>
+
+
+        <!-- Message d'erreur -->
+        @if (errorMessage) {
+          <p class="error" role="alert">{{ errorMessage }}</p>
+        }
+
+
+        <!-- Créer mon compte -->
+        <button type="submit" class="register-button" [disabled]="loading">
+          {{ (loading ? 'register.creation' : 'register.creer') | t }}
+        </button>
+
+
+        <!-- Lien connexion -->
+        <p class="auth-switch">
+          {{ 'register.dejaCompte' | t }}
+          <a routerLink="/login">{{ 'commun.seConnecter' | t }}</a>
+        </p>
+
+      </form>
 
     </div>
 
-
-    <!-- ================================= -->
-    <!-- FORMULAIRE                        -->
-    <!-- ================================= -->
-
-    <form (ngSubmit)="onRegister()">
-
-
-      <!-- ================================= -->
-      <!-- PRÉNOM + NOM                      -->
-      <!-- ================================= -->
-
-      <div class="name-row">
-
-        <!-- Prénom -->
-        <div class="form-group">
-
-          <label for="firstName">
-            Prénom
-          </label>
-
-          <input
-            id="firstName"
-            type="text"
-            name="firstName"
-            [(ngModel)]="firstName"
-            placeholder="Prénom"
-            autocomplete="given-name"
-            maxlength="50"
-            required
-            (blur)="touch('firstName')"
-            [class.invalid]="showError('firstName', firstNameValid)"
-            [attr.aria-invalid]="showError('firstName', firstNameValid)"
-            aria-describedby="firstName-error"
-          >
-
-          @if (showError('firstName', firstNameValid)) {
-            <p id="firstName-error" class="field-error">{{ nameMessage }}</p>
-          }
-
-        </div>
-
-
-        <!-- Nom -->
-        <div class="form-group">
-
-          <label for="lastName">
-            Nom
-          </label>
-
-          <input
-            id="lastName"
-            type="text"
-            name="lastName"
-            [(ngModel)]="lastName"
-            placeholder="Nom"
-            autocomplete="family-name"
-            maxlength="50"
-            required
-            (blur)="touch('lastName')"
-            [class.invalid]="showError('lastName', lastNameValid)"
-            [attr.aria-invalid]="showError('lastName', lastNameValid)"
-            aria-describedby="lastName-error"
-          >
-
-          @if (showError('lastName', lastNameValid)) {
-            <p id="lastName-error" class="field-error">{{ nameMessage }}</p>
-          }
-
-        </div>
-
-      </div>
-
-
-      <!-- ================================= -->
-      <!-- E-MAIL                             -->
-      <!-- ================================= -->
-
-      <div class="form-group">
-
-        <label for="email">
-          Adresse e-mail
-        </label>
-
-        <input
-          id="email"
-          type="email"
-          name="email"
-          [(ngModel)]="email"
-          placeholder="nom@domaine.fr"
-          autocomplete="email"
-          inputmode="email"
-          [attr.maxlength]="emailMax"
-          required
-          (blur)="touch('email')"
-          [class.invalid]="showError('email', emailValid)"
-          [attr.aria-invalid]="showError('email', emailValid)"
-          aria-describedby="email-error"
-        >
-
-        @if (showError('email', emailValid)) {
-          <p id="email-error" class="field-error">{{ emailMessage }}</p>
-        }
-
-      </div>
-
-
-      <!-- ================================= -->
-      <!-- MOT DE PASSE                       -->
-      <!-- ================================= -->
-
-      <div class="form-group">
-
-        <label for="password">
-          Mot de passe
-        </label>
-
-        <div class="password-container">
-
-          <input
-            id="password"
-            [type]="passwordVisible ? 'text' : 'password'"
-            name="password"
-            [(ngModel)]="password"
-            placeholder="12 caractères minimum"
-            autocomplete="new-password"
-            [attr.maxlength]="passwordMax"
-            required
-            (blur)="touch('password')"
-            [class.invalid]="showError('password', passwordValid)"
-            [attr.aria-invalid]="showError('password', passwordValid)"
-            aria-describedby="password-rules"
-          >
-
-          <!-- Icône œil -->
-          <button
-            type="button"
-            class="password-toggle"
-            (click)="togglePassword()"
-            [attr.aria-label]="passwordVisible
-              ? 'Masquer le mot de passe'
-              : 'Afficher le mot de passe'"
-          >
-
-            @if (passwordVisible) {
-
-              <!-- Œil barré -->
-              <svg
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path d="M3 3l18 18"></path>
-
-                <path
-                  d="M10.6 10.6a2 2 0 0 0 2.8 2.8"
-                ></path>
-
-                <path
-                  d="M9.9 5.2A10.8 10.8 0 0 1 12 5
-                  c5 0 8.5 4 9.8 7
-                  -.5 1.1-1.5 2.7-3.1 4.1"
-                ></path>
-
-                <path
-                  d="M6.1 6.1C4.4 7.4 3.1 9.2 2.2 12
-                  c1.3 3 4.8 7 9.8 7
-                  1.2 0 2.3-.2 3.3-.6"
-                ></path>
-              </svg>
-
-            } @else {
-
-              <!-- Œil normal -->
-              <svg
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  d="M2.2 12
-                  C3.5 9 7 5 12 5
-                  s8.5 4 9.8 7
-                  C20.5 15 17 19 12 19
-                  s-8.5-4-9.8-7Z"
-                ></path>
-
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="3"
-                ></circle>
-              </svg>
-
-            }
-
-          </button>
-
-        </div>
-
-        <!-- Critères du mot de passe (CNIL / ANSSI), mis à jour en direct -->
-        <ul id="password-rules" class="password-rules">
-          @for (check of passwordChecks; track check.label) {
-            <li [class.ok]="check.ok">
-              <span aria-hidden="true">{{ check.ok ? '✓' : '○' }}</span>
-              {{ check.label }}
-            </li>
-          }
-        </ul>
-
-      </div>
-
-
-      <!-- ================================= -->
-      <!-- CONFIRMATION MOT DE PASSE          -->
-      <!-- ================================= -->
-
-      <div class="form-group">
-
-        <label for="confirmPassword">
-          Confirmer le mot de passe
-        </label>
-
-        <div class="password-container">
-
-          <input
-            id="confirmPassword"
-            [type]="confirmPasswordVisible
-              ? 'text'
-              : 'password'"
-            name="confirmPassword"
-            [(ngModel)]="confirmPassword"
-            placeholder="Confirmer votre mot de passe"
-            autocomplete="new-password"
-            [attr.maxlength]="passwordMax"
-            required
-            (blur)="touch('confirmPassword')"
-            [class.invalid]="showError('confirmPassword', confirmValid)"
-            [attr.aria-invalid]="showError('confirmPassword', confirmValid)"
-            aria-describedby="confirm-error"
-          >
-
-          <!-- Icône œil -->
-          <button
-            type="button"
-            class="password-toggle"
-            (click)="toggleConfirmPassword()"
-            [attr.aria-label]="confirmPasswordVisible
-              ? 'Masquer le mot de passe'
-              : 'Afficher le mot de passe'"
-          >
-
-            @if (confirmPasswordVisible) {
-
-              <svg
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path d="M3 3l18 18"></path>
-
-                <path
-                  d="M10.6 10.6a2 2 0 0 0 2.8 2.8"
-                ></path>
-
-                <path
-                  d="M9.9 5.2A10.8 10.8 0 0 1 12 5
-                  c5 0 8.5 4 9.8 7
-                  -.5 1.1-1.5 2.7-3.1 4.1"
-                ></path>
-
-                <path
-                  d="M6.1 6.1C4.4 7.4 3.1 9.2 2.2 12
-                  c1.3 3 4.8 7 9.8 7
-                  1.2 0 2.3-.2 3.3-.6"
-                ></path>
-              </svg>
-
-            } @else {
-
-              <svg
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  d="M2.2 12
-                  C3.5 9 7 5 12 5
-                  s8.5 4 9.8 7
-                  C20.5 15 17 19 12 19
-                  s-8.5-4-9.8-7Z"
-                ></path>
-
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="3"
-                ></circle>
-              </svg>
-
-            }
-
-          </button>
-
-        </div>
-
-        @if (showError('confirmPassword', confirmValid)) {
-          <p id="confirm-error" class="field-error">Les mots de passe ne correspondent pas.</p>
-        }
-
-      </div>
-
-
-      <!-- ================================= -->
-      <!-- MESSAGE D'ERREUR                   -->
-      <!-- ================================= -->
-
-      @if (errorMessage) {
-
-        <p class="error" role="alert">
-          {{ errorMessage }}
-        </p>
-
-      }
-
-
-      <!-- ================================= -->
-      <!-- BOUTON INSCRIPTION                 -->
-      <!-- ================================= -->
-
-      <button
-        type="submit"
-        class="register-button"
-        [disabled]="loading"
-      >
-        {{ loading ? 'Création en cours...' : 'Créer mon compte' }}
-      </button>
-
-
-      <!-- ================================= -->
-      <!-- LIEN CONNEXION                     -->
-      <!-- ================================= -->
-
-      <div class="login-link">
-
-        <p>
-          Vous avez déjà un compte ?
-
-          <a routerLink="/login">
-            Se connecter
-          </a>
-        </p>
-
-      </div>
-
-    </form>
-
-  </div>
+  </main>
 
 </div>
 

@@ -297,3 +297,38 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
   (pas de `ViewEncapsulation.None` ni de `::ng-deep`), et aucune de ces classes n'est ajoutée par le code.
 - Aucun changement visible : compilation et tests OK, pages contrôlées à l'œil.
 - Il n'y avait aucun `console.log` dans le code ; les `console.error` des gestionnaires d'erreurs sont conservés.
+
+## 20. Version anglaise de l'interface étudiante
+- Bouton **FR / EN** dans la barre du haut, dans la barre latérale de l'espace étudiant et sur les pages de connexion,
+  d'inscription et de mot de passe. À la première visite, la langue du navigateur est utilisée (anglais si le
+  navigateur n'est pas en français) ; le choix est ensuite mémorisé. Le changement est immédiat, sans rechargement.
+- Traduit : accueil, démarches et détail, documents, aide, notifications, connexion / inscription / mot de passe,
+  espace étudiant (tableau de bord, suivis, profil, compte), menus, pied de page, titres d'onglets, dates
+  (« Thursday 15 October 2026 ») et fichier agenda (.ics). L'administration reste en français.
+- **Non traduit** (contenu, pas interface) : titres, descriptions et étapes des démarches (Service-Public / admin),
+  notifications et réponses de l'équipe. En anglais, une note l'indique sur la page d'une démarche et des notifications.
+  Les messages d'erreur de l'API sont en français : en anglais, un message générique les remplace.
+- Technique, sans dépendance : `src/app/i18n/` — `LangueService` (langue courante), pipes `t` (texte) et `dateL` (date),
+  textes rangés par page dans `i18n/textes/*.ts` avec le français et l'anglais côte à côte.
+  Ajouter un texte : `'page.cle': { fr: '…', en: '…' }` dans le bon fichier, puis `{{ 'page.cle' | t }}` dans le template.
+  Une clé mal écrite ou une traduction manquante bloque la compilation ; un test vérifie qu'il n'y a ni doublon, ni
+  texte anglais vide, ni paramètre `{n}` différent entre les deux langues.
+- Les tests unitaires tournent avec un navigateur simulé en français (`src/test-setup.ts`).
+
+## 21. Administrateur sur le site public
+- L'espace étudiant (`/dashboard`) renvoie un administrateur vers `/admin` (`authGuard`) : il ne voit plus un
+  tableau de bord étudiant vide.
+- Barre du haut : pour un administrateur, « Notifications » mène à `/admin/notifications` ; la page publique
+  `/notifications` l'y redirige aussi.
+- Accueil : un administrateur venu « voir le site » est salué « Bonjour Admin » et a un bouton
+  « Retour à l'administration » ; la section « Mon parcours » (réservée aux étudiants) lui est masquée.
+
+## 22. Nouveau visuel des formulaires de connexion et d'inscription
+- Connexion étudiant, inscription et connexion administrateur partagent une mise en page commune
+  (`src/app/pages/_auth-layout.scss`) : panneau de marque à gauche (dégradé bleu, liseré bleu-blanc-rouge,
+  atouts, illustration), formulaire dans une carte à droite ; sur téléphone, le panneau devient un bandeau compact.
+- Champs plus hauts avec icône (e-mail, cadenas, personne), focus bleu, bouton principal bleu,
+  messages d'erreur et d'information harmonisés, lien « Retour à l'accueil » et choix FR / EN en haut.
+- Administrateur : même structure, panneau bleu nuit et bouclier, textes en français.
+- « Mot de passe oublié » et « Nouveau mot de passe » (étudiant et administrateur) suivent la même mise en page,
+  avec un message de confirmation vert et le contrôle du mot de passe en direct.
