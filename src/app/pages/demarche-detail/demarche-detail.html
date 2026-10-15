@@ -309,10 +309,58 @@ class="back-button"
       </h2>
 
       <p>
-        Voici les documents nécessaires pour effectuer cette démarche.
+        @if (suivi && demarche.documentsRequis.length > 0) {
+          Cochez les documents au fur et à mesure que vous les rassemblez :
+          votre liste est enregistrée dans votre espace.
+        } @else {
+          Voici les documents nécessaires pour effectuer cette démarche.
+        }
       </p>
     </div>
   </div>
+
+
+  <!-- Progression de la checklist (étudiant ayant commencé la démarche) -->
+  @if (suivi && demarche.documentsRequis.length > 0) {
+
+    <div class="checklist-progress" [class.complete]="nbDocumentsPrets === demarche.documentsRequis.length">
+
+      <div class="checklist-progress-text">
+        <strong>
+          @if (nbDocumentsPrets === demarche.documentsRequis.length) {
+            ✓ Dossier complet : tous vos documents sont prêts
+          } @else {
+            {{ nbDocumentsPrets }} / {{ demarche.documentsRequis.length }} documents prêts
+          }
+        </strong>
+        <span>{{ pourcentageDocuments }} %</span>
+      </div>
+
+      <div
+        class="checklist-bar"
+        role="progressbar"
+        aria-label="Documents prêts"
+        [attr.aria-valuenow]="pourcentageDocuments"
+        aria-valuemin="0"
+        aria-valuemax="100"
+      >
+        <span [style.width.%]="pourcentageDocuments"></span>
+      </div>
+
+    </div>
+
+    @if (erreurChecklist) {
+      <p class="checklist-error" role="alert">{{ erreurChecklist }}</p>
+    }
+
+  } @else if (peutCommencer && !suivi && demarche.documentsRequis.length > 0) {
+
+    <p class="checklist-hint">
+      💡 Commencez la démarche pour cocher les documents que vous avez déjà
+      et voir ce qu'il vous manque.
+    </p>
+
+  }
 
 
   <!-- Liste des documents -->
@@ -321,38 +369,72 @@ class="back-button"
     class="documents-grid"
   >
 
-    <article
-      *ngFor="let document of demarche.documentsRequis"
-      class="document-card"
-    >
+    @for (document of demarche.documentsRequis; track document.id) {
 
-      <!-- Icône document -->
-      <div class="document-icon">
-        📄
-      </div>
+      @if (suivi) {
 
-      <!-- Informations du document -->
-      <div class="document-content">
-
-        <h3>
-          {{ document.nom }}
-        </h3>
-
-        <p>
-          {{ document.description }}
-        </p>
-
-        <!-- Type du document si renseigné -->
-        <span
-          *ngIf="document.type"
-          class="document-type"
+        <!-- Checklist : toute la carte est cliquable -->
+        <label
+          class="document-card checkable"
+          [class.ready]="estPret(document)"
         >
-          {{ document.type }}
-        </span>
 
-      </div>
+          <input
+            type="checkbox"
+            class="document-check"
+            [checked]="estPret(document)"
+            [disabled]="documentEnCours !== null"
+            (change)="basculerDocument(document)"
+          >
 
-    </article>
+          <div class="document-content">
+            <h3>{{ document.nom }}</h3>
+            @if (document.description) {
+              <p>{{ document.description }}</p>
+            }
+            @if (document.type) {
+              <span class="document-type">{{ libelleType(document.type) }}</span>
+            }
+          </div>
+
+        </label>
+
+      } @else {
+
+        <article class="document-card">
+
+          <!-- Icône document -->
+          <div class="document-icon">
+            📄
+          </div>
+
+          <!-- Informations du document -->
+          <div class="document-content">
+
+            <h3>
+              {{ document.nom }}
+            </h3>
+
+            @if (document.description) {
+              <p>
+                {{ document.description }}
+              </p>
+            }
+
+            <!-- Type du document si renseigné -->
+            @if (document.type) {
+              <span class="document-type">
+                {{ libelleType(document.type) }}
+              </span>
+            }
+
+          </div>
+
+        </article>
+
+      }
+
+    }
 
   </div>
 

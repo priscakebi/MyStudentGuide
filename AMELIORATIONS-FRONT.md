@@ -226,3 +226,16 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
   - pluriels (« logements ») et une faute de frappe d'une lettre sur les mots d'au moins 5 lettres (« prefecure ») ;
   - tri : titre avant catégorie avant description, et un mot exact avant un synonyme ou une faute.
 - Pour ajouter un synonyme : compléter la table `SYNONYMES` de `utils/recherche.ts` (mots sans accents, en minuscules).
+
+## 14. Checklist des documents
+- Page de détail d'une démarche, section « Documents requis » : un étudiant qui a **commencé** la démarche
+  coche les documents au fur et à mesure qu'il les rassemble (toute la carte est cliquable).
+- Barre de progression « 2 / 5 documents prêts », qui devient verte avec « Dossier complet » quand tout est coché.
+- La case change tout de suite ; si l'enregistrement échoue, elle revient en arrière avec un message.
+- Étudiant qui n'a pas encore commencé la démarche : invitation à la commencer pour utiliser la checklist.
+  Visiteur et administrateur : simple liste, comme avant.
+- Types de documents affichés en clair (« Identité », « Domicile »… au lieu de IDENTITE, DOMICILE).
+- Aucun fichier n'est envoyé : c'est un aide-mémoire. Un document supprimé par l'admin ne compte plus.
+- API : `PUT /api/student-demarches/{id}/documents-prets/{documentId}?pret=true|false` (ETUDIANT propriétaire du suivi) ;
+  le suivi renvoie `documentsPrets` (identifiants cochés), stocké dans la table `student_demarche_documents_prets`
+  (créée automatiquement au démarrage).

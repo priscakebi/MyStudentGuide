@@ -26,6 +26,8 @@ export interface StudentDemarche {
   documentsEnvoyes?: boolean;
   dateEnvoiDocuments?: string | null;
   avisDonne?: boolean;
+  /** Checklist : identifiants des documents requis cochés comme prêts. */
+  documentsPrets?: number[];
   /** Calculée par l'API : 0, 25, 50 ou 100. */
   progression?: number;
   demarche: {
@@ -108,6 +110,15 @@ export class StudentDemarcheService {
       `${this.apiUrl}/student-demarches/${id}/documents`,
       {},
       { params: { envoyes } }
+    );
+  }
+
+  /** Checklist : coche (pret = true) ou décoche un document requis. */
+  marquerDocumentPret(id: number, documentId: number, pret: boolean): Observable<StudentDemarche> {
+    return this.http.put<StudentDemarche>(
+      `${this.apiUrl}/student-demarches/${id}/documents-prets/${documentId}`,
+      {},
+      { params: { pret } }
     );
   }
 

@@ -203,6 +203,70 @@ export class DemarcheDetailComponent implements OnInit {
     });
   }
 
+  // ==========================================================
+  // CHECKLIST DES DOCUMENTS (étudiant ayant commencé la démarche)
+  // ==========================================================
+
+  /** Libellé lisible d'un type de document (IDENTITE → Identité). */
+  libelleType(type: string): string {
+    const libelles: Record<string, string> = {
+      IDENTITE: 'Identité',
+      SCOLARITE: 'Scolarité',
+      DOMICILE: 'Domicile',
+      RESSOURCES: 'Ressources',
+      PHOTO: 'Photo',
+      ASSURANCE: 'Assurance',
+      AUTRE: 'Autre'
+    };
+    return libelles[type] || type;
+  }
+
+  /** Document dont la case est en cours d'enregistrement. */
+  documentEnCours: number | null = null;
+
+  erreurChecklist = '';
+
+  estPret(document: DocumentRequis): boolean {
+    return !!this.suivi?.documentsPrets?.includes(document.id);
+  }
+
+  /** Nombre de documents requis cochés (les anciens documents supprimés ne comptent pas). */
+  get nbDocumentsPrets(): number {
+    return (this.demarche?.documentsRequis ?? []).filter((d) => this.estPret(d)).length;
+  }
+
+  get pourcentageDocuments(): number {
+    const total = this.demarche?.documentsRequis.length ?? 0;
+    return total ? Math.round((this.nbDocumentsPrets / total) * 100) : 0;
+  }
+
+  /** Coche ou décoche un document ; la case change tout de suite et revient en arrière si l'API refuse. */
+  basculerDocument(document: DocumentRequis): void {
+    if (!this.suivi || this.documentEnCours !== null) {
+      return;
+    }
+
+    const suivi = this.suivi;
+    const avant = suivi.documentsPrets ?? [];
+    const pret = !avant.includes(document.id);
+
+    suivi.documentsPrets = pret ? [...avant, document.id] : avant.filter((id) => id !== document.id);
+    this.documentEnCours = document.id;
+    this.erreurChecklist = '';
+
+    this.studentDemarcheService.marquerDocumentPret(suivi.id, document.id, pret).subscribe({
+      next: (maj) => {
+        this.documentEnCours = null;
+        suivi.documentsPrets = maj?.documentsPrets ?? suivi.documentsPrets;
+      },
+      error: () => {
+        this.documentEnCours = null;
+        suivi.documentsPrets = avant;
+        this.erreurChecklist = 'La case n\'a pas pu être enregistrée. Réessayez.';
+      }
+    });
+  }
+
   /** Ouvre le suivi détaillé dans le dashboard. */
   /**
    * Vrai si la démarche se fait en préfecture : un lien officiel
