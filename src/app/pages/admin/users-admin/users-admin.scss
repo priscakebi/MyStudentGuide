@@ -26,19 +26,6 @@
   margin-bottom: 25px;
 }
 
-.page-header-text h2 {
-  margin: 0 0 7px;
-  font-size: 24px;
-  font-weight: 700;
-  color: #222;
-}
-
-.page-header-text p {
-  margin: 0;
-  font-size: 14px;
-  color: #777;
-}
-
 
 /* ============================================================
    BOUTON ACTUALISER
@@ -1132,14 +1119,6 @@
 
 
 @media (max-width: 480px) {
-
-  .page-header-text h2 {
-    font-size: 21px;
-  }
-
-  .page-header-text p {
-    font-size: 13px;
-  }
 
   .users-table th,
   .users-table td {

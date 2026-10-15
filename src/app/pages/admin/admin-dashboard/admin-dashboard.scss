@@ -750,33 +750,6 @@ $side-line: rgba(255, 255, 255, 0.08);
 
 
 
-.demarches-icon {
-
-  background: $red-light;
-
-  color: $red;
-}
-
-
-
-.categories-icon {
-
-  background: #fff3cd;
-
-  color: #856404;
-}
-
-
-
-.notifications-icon {
-
-  background: #e5f6ed;
-
-  color: #197044;
-}
-
-
-
 // ============================================================
 // CONTENU STATISTIQUE
 // ============================================================
@@ -990,82 +963,6 @@ $side-line: rgba(255, 255, 255, 0.08);
   font-size: 12px;
 
   font-weight: 600;
-}
-
-
-
-// ============================================================
-// CARTE D'INFORMATION
-// ============================================================
-
-.info-card {
-
-  display: flex;
-
-  align-items: flex-start;
-
-  gap: 18px;
-
-  margin-top: 15px;
-
-  padding: 25px;
-
-  background: #fffafa;
-
-  border: 1px solid #f1d0d0;
-
-  border-radius: $radius;
-
-  h3 {
-
-    margin: 0;
-
-    color: $dark;
-
-    font-size: 16px;
-  }
-
-  p {
-
-    margin: 7px 0 0;
-
-    color: $text-light;
-
-    font-size: 13px;
-
-    line-height: 1.6;
-  }
-}
-
-
-
-// ============================================================
-// ICÔNE INFORMATION
-// ============================================================
-
-.info-icon {
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  width: 42px;
-
-  height: 42px;
-
-  flex-shrink: 0;
-
-  border-radius: 50%;
-
-  background: $red-light;
-
-  color: $red;
-
-  font-size: 18px;
-
-  font-weight: 700;
 }
 
 

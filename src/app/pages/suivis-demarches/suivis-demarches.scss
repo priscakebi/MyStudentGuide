@@ -509,14 +509,6 @@ $transition: 0.25s ease;
   border-top: 1px solid $border;
 }
 
-.card-info {
-  min-width: 0;
-  color: $text-light;
-  font-size: 0.72rem;
-  line-height: 1.5;
-  overflow-wrap: break-word;
-}
-
 
 /* ================================================================
    BOUTON CONSULTER
@@ -840,10 +832,6 @@ a.reset-filter-button {
     flex-direction: column;
   }
 
-  .card-info {
-    width: 100%;
-  }
-
   .view-button,
   .footer-buttons,
   .remove-button {
@@ -998,7 +986,6 @@ a.reset-filter-button {
   &:hover:not(:disabled) { transform: translateY(-2px); }
   &:disabled { opacity: 0.6; cursor: wait; }
 
-  &.primary { background: $blue; color: $white; }
   &.success { background: $success; color: $white; }
   &.outline { border-color: $blue; background: $white; color: $blue; }
   &.avis { background: #fff6e5; border-color: #f5a524; color: #9a5b00; }

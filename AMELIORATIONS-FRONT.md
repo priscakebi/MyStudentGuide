@@ -287,3 +287,13 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
 - `POST /api/aide`, `GET /api/aide/me`, `DELETE /api/aide/{id}` (étudiant).
 - `GET /api/admin/aide?statut=`, `PUT /api/admin/aide/{id}/reponse`, `PATCH /api/admin/aide/{id}?statut=` (admin).
 - Nouvelle table `demandes_aide` (créée automatiquement, `ddl-auto=update`) ; `demandesAideOuvertes` ajouté à `/api/admin/stats`.
+
+## 19. Nettoyage du style inutilisé
+- 53 classes CSS que plus aucune page n'utilisait ont été retirées de 9 pages (accueil, tableau de bord,
+  démarches, suivis, profil, mot de passe oublié, administration : tableau de bord, documents, utilisateurs),
+  soit environ 750 lignes de SCSS en moins. Restes d'anciennes versions des pages (carte « Ma progression »,
+  décorations de l'accueil, aperçu de démarche dans la gestion des documents…).
+- Vérifié avant suppression : les styles de chaque page ne s'appliquent qu'à son propre template
+  (pas de `ViewEncapsulation.None` ni de `::ng-deep`), et aucune de ces classes n'est ajoutée par le code.
+- Aucun changement visible : compilation et tests OK, pages contrôlées à l'œil.
+- Il n'y avait aucun `console.log` dans le code ; les `console.error` des gestionnaires d'erreurs sont conservés.

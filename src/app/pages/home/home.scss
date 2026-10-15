@@ -234,192 +234,6 @@ $transition: 0.25s ease;
 }
 
 
-/* Petit indicateur sous le texte */
-
-.hero-highlight {
-
-  display: inline-flex;
-
-  align-items: center;
-
-  gap: 10px;
-
-  margin-top: 25px;
-
-  padding: 10px 16px;
-
-  border-radius: 30px;
-
-  background: rgba(255, 255, 255, 0.09);
-
-  border: 1px solid rgba(255, 255, 255, 0.15);
-
-  font-size: 0.88rem;
-
-  color: rgba(255, 255, 255, 0.9);
-}
-
-
-.highlight-dot {
-
-  width: 9px;
-
-  height: 9px;
-
-  border-radius: 50%;
-
-  background: $red;
-
-  box-shadow: 0 0 0 5px rgba(230, 57, 70, 0.18);
-}
-
-
-/* ================================================================
-   DÉCORATION DU HERO
-   ================================================================ */
-
-.hero-decoration {
-
-  position: relative;
-
-  width: 320px;
-
-  height: 260px;
-
-  flex-shrink: 0;
-}
-
-
-/* Cercles décoratifs */
-
-.decoration-circle {
-
-  position: absolute;
-
-  border-radius: 50%;
-}
-
-
-.circle-blue {
-
-  width: 250px;
-
-  height: 250px;
-
-  top: -30px;
-
-  right: 0;
-
-  background: rgba(255, 255, 255, 0.08);
-
-  border: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-
-.circle-red {
-
-  width: 95px;
-
-  height: 95px;
-
-  right: 35px;
-
-  bottom: 0;
-
-  background: $red;
-
-  opacity: 0.9;
-
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.18);
-}
-
-
-/* Carte flottante */
-
-.guide-card {
-
-  position: absolute;
-
-  top: 65px;
-
-  right: 35px;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 15px;
-
-  width: 245px;
-
-  padding: 18px;
-
-  border-radius: $radius-md;
-
-  background: $white;
-
-  box-shadow: $shadow-lg;
-
-  transform: rotate(-3deg);
-}
-
-
-/* Icône */
-
-.guide-icon {
-
-  width: 50px;
-
-  height: 50px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  border-radius: 14px;
-
-  background: $blue-light;
-
-  font-size: 1.5rem;
-}
-
-
-/* Texte de la carte */
-
-.guide-card-content {
-
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 4px;
-}
-
-
-.guide-card-content span {
-
-  font-size: 0.68rem;
-
-  font-weight: 800;
-
-  letter-spacing: 0.08em;
-
-  color: $red;
-}
-
-
-.guide-card-content strong {
-
-  font-size: 0.9rem;
-
-  line-height: 1.35;
-
-  color: $text-dark;
-}
-
-
 /* ================================================================
    SECTIONS COMMUNES
    ================================================================ */
@@ -1088,84 +902,6 @@ $transition: 0.25s ease;
 }
 
 
-/* Décoration */
-
-.about-decoration {
-
-  position: relative;
-
-  width: 250px;
-
-  height: 200px;
-
-  flex-shrink: 0;
-}
-
-
-.about-shape {
-
-  position: absolute;
-
-  border-radius: 50%;
-}
-
-
-.blue-shape {
-
-  width: 180px;
-
-  height: 180px;
-
-  right: 20px;
-
-  top: 0;
-
-  background: rgba(255, 255, 255, 0.08);
-}
-
-
-.red-shape {
-
-  width: 75px;
-
-  height: 75px;
-
-  right: 0;
-
-  bottom: 0;
-
-  background: $red;
-}
-
-
-.about-icon {
-
-  position: absolute;
-
-  top: 55px;
-
-  right: 75px;
-
-  width: 85px;
-
-  height: 85px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  border-radius: 22px;
-
-  background: $white;
-
-  box-shadow: $shadow-lg;
-
-  font-size: 2.2rem;
-}
-
-
 /* ================================================================
    RESPONSIVE TABLETTE
    ================================================================ */
@@ -1175,12 +911,6 @@ $transition: 0.25s ease;
   .hero-section {
 
     padding: 60px 6%;
-  }
-
-
-  .hero-decoration {
-
-    width: 260px;
   }
 
 
@@ -1210,12 +940,6 @@ $transition: 0.25s ease;
   .journey-card {
 
     width: min(850px, 100%);
-  }
-
-
-  .about-decoration {
-
-    display: none;
   }
 }
 
@@ -1252,11 +976,6 @@ $transition: 0.25s ease;
     de laisser davantage d'espace au texte.
 
   */
-
-  .hero-decoration {
-
-    display: none;
-  }
 
 
   .why-section,
