@@ -124,9 +124,13 @@ export class Login implements OnDestroy {
         this.loading = false;
         this.password = '';
 
+        // 429 : trop de tentatives, le compte est bloqué quelques minutes
+        // (le message de l'API donne le délai d'attente).
         this.errorMessage = error.status === 0
           ? 'Impossible de joindre le serveur. Réessayez plus tard.'
-          : 'Adresse e-mail ou mot de passe incorrect.';
+          : error.status === 429
+            ? (error.error?.message || 'Trop de tentatives de connexion. Réessayez dans quelques minutes.')
+            : 'Adresse e-mail ou mot de passe incorrect.';
       }
     });
   }

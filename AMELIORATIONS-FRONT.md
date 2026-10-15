@@ -175,3 +175,13 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
   la carte affiche la ville reconnue et invite à ajouter le code postal (« Saint-Denis 93200 »), qui est pris en compte.
 - Ville non renseignée : la carte invite à compléter le profil. Réponses gardées 24 h en mémoire.
 - API : `GET /api/annuaire/prefecture/me` (ETUDIANT), `GET /api/annuaire/prefecture?ville=` (connecté).
+
+## 10. Protection de la connexion (force brute)
+- Après **5 mots de passe incorrects en 15 minutes** pour une même adresse e-mail, la connexion à cette adresse
+  est refusée pendant **15 minutes** (HTTP 429 + en-tête `Retry-After`). Les pages de connexion étudiant et admin
+  affichent « Trop de tentatives de connexion. Réessayez dans N minutes ou réinitialisez votre mot de passe. »
+- Le blocage est vérifié avant le mot de passe (même le bon est refusé pendant le blocage) ; une connexion réussie
+  remet le compteur à zéro. Même règle pour une adresse inexistante : rien ne révèle si un compte existe.
+- Par compte et non par adresse IP : sur Render, toutes les requêtes passent par le même proxy.
+- Réglable sans toucher au code : `app.login.max-echecs`, `app.login.fenetre-minutes`, `app.login.blocage-minutes`.
+- Compteurs en mémoire : adapté à une seule instance de l'API ; un redémarrage les remet à zéro.

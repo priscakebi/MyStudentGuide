@@ -100,6 +100,10 @@ export class AdminLogin {
         if (error.status === 0) {
           this.errorMessage =
             'Impossible de joindre le serveur. Réessayez plus tard.';
+        } else if (error.status === 429) {
+          // Trop de tentatives : le compte est bloqué quelques minutes.
+          this.errorMessage = error.error?.message
+            || 'Trop de tentatives de connexion. Réessayez dans quelques minutes.';
         } else {
           // Message volontairement générique : on ne révèle pas
           // si c'est l'e-mail ou le mot de passe qui est faux.
