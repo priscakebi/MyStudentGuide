@@ -1814,6 +1814,32 @@ $border-soft: #e6eaf0;
   }
 }
 
+// Export des dates limites vers l'agenda (.ics).
+.agenda-link {
+  flex-shrink: 0;
+
+  padding: 0;
+  border: none;
+  background: none;
+
+  color: $blue;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $blue;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
 .home-empty {
   margin: 0;
   color: $text-light;

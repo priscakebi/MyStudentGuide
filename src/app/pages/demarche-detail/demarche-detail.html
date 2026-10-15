@@ -137,6 +137,18 @@ class="back-button"
       <span class="meta-value">
         {{ demarche.dateLimite | date:'dd/MM/yyyy' }}
       </span>
+
+      @if (dateLimiteAVenir) {
+        <button
+          type="button"
+          class="agenda-button"
+          (click)="ajouterAgenda()"
+          title="Télécharge un fichier .ics avec un rappel une semaine avant et la veille"
+        >
+          <span aria-hidden="true">📅</span>
+          Ajouter à mon agenda
+        </button>
+      }
     </div>
 
     <!-- Nombre d'étapes -->

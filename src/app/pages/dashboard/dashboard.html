@@ -568,6 +568,16 @@
 
               <header class="home-panel-header">
                 <h2>Prochaines échéances</h2>
+                @if (prochainesEcheances.length > 0) {
+                  <button
+                    type="button"
+                    class="agenda-link"
+                    (click)="ajouterEcheancesAgenda()"
+                    title="Télécharge un fichier .ics avec un rappel une semaine avant et la veille"
+                  >
+                    <span aria-hidden="true">📅</span> Ajouter à mon agenda
+                  </button>
+                }
               </header>
 
               @if (prochainesEcheances.length === 0) {

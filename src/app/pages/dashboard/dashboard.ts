@@ -27,6 +27,7 @@ import {
   StudentDemarche,
   StudentDemarcheService
 } from '../../services/student-demarche.service';
+import { telechargerIcs } from '../../utils/calendrier';
 
 
 /** Notification de suggestion de démarche (envoyée par un administrateur). */
@@ -157,11 +158,29 @@ export class Dashboard implements OnInit, OnDestroy {
       .slice(0, 3);
   }
 
+  /** Les 3 dates limites à venir les plus proches. */
+  get prochainesEcheances(): { sd: StudentDemarche; jours: number }[] {
+    return this.echeancesAVenir().slice(0, 3);
+  }
+
+  /**
+   * Télécharge toutes les dates limites à venir au format agenda (.ics),
+   * avec un rappel une semaine avant et la veille.
+   */
+  ajouterEcheancesAgenda(): void {
+    telechargerIcs('mes-dates-limites.ics', this.echeancesAVenir().map(({ sd }) => ({
+      id: sd.demarche.id,
+      titre: sd.demarche.titre,
+      dateLimite: sd.demarche.dateLimite!,
+      url: `${window.location.origin}/demarches/${sd.demarche.id}`
+    })));
+  }
+
   /**
    * Démarches en cours qui ont une date limite à venir,
-   * de la plus proche à la plus lointaine (3 max).
+   * de la plus proche à la plus lointaine.
    */
-  get prochainesEcheances(): { sd: StudentDemarche; jours: number }[] {
+  private echeancesAVenir(): { sd: StudentDemarche; jours: number }[] {
     const aujourdhui = new Date();
     aujourdhui.setHours(0, 0, 0, 0);
 
@@ -174,8 +193,7 @@ export class Dashboard implements OnInit, OnDestroy {
         )
       }))
       .filter((e) => e.jours >= 0)
-      .sort((a, b) => a.jours - b.jours)
-      .slice(0, 3);
+      .sort((a, b) => a.jours - b.jours);
   }
 
   progression(sd: StudentDemarche): number {

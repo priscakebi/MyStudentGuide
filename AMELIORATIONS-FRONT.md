@@ -239,3 +239,15 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
 - API : `PUT /api/student-demarches/{id}/documents-prets/{documentId}?pret=true|false` (ETUDIANT propriétaire du suivi) ;
   le suivi renvoie `documentsPrets` (identifiants cochés), stocké dans la table `student_demarche_documents_prets`
   (créée automatiquement au démarrage).
+
+## 15. Export des dates limites vers l'agenda
+- Page de détail d'une démarche : bouton « Ajouter à mon agenda » sous la date limite (si elle n'est pas passée),
+  pour tous les visiteurs.
+- Tableau de bord, panneau « Prochaines échéances » : « Ajouter à mon agenda » exporte d'un coup toutes les
+  dates limites à venir des démarches en cours (pas seulement les 3 affichées).
+- Fichier `.ics` standard (Google Agenda, Apple Calendrier, Outlook) : événement « toute la journée » le jour de
+  la date limite, rappels une semaine avant et la veille à 9 h, lien vers la démarche dans la description.
+  Sur téléphone, ouvrir le fichier propose directement de l'ajouter à l'agenda.
+- Tout est généré dans le navigateur (`src/app/utils/calendrier.ts`) : aucun changement côté API.
+- Limite : c'est une copie ; si l'administrateur change ensuite la date limite, il faut réexporter.
+  Certains agendas (Google Agenda en import) ignorent les rappels du fichier.

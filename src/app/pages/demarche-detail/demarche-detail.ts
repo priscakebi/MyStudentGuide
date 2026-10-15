@@ -10,6 +10,7 @@ import {
   StudentDemarche,
   StudentDemarcheService
 } from '../../services/student-demarche.service';
+import { nomFichierIcs, telechargerIcs } from '../../utils/calendrier';
 
 /**
  * Représente un document nécessaire pour effectuer une démarche.
@@ -448,6 +449,26 @@ export class DemarcheDetailComponent implements OnInit {
    */
   retourAuxDemarches(): void {
     this.router.navigate(['/demarches']);
+  }
+
+  /** Vrai si la date limite est aujourd'hui ou plus tard (inutile d'exporter une date passée). */
+  get dateLimiteAVenir(): boolean {
+    const date = this.demarche?.dateLimite?.slice(0, 10);
+    return !!date && date >= new Date().toLocaleDateString('sv-SE'); // « AAAA-MM-JJ » local
+  }
+
+  /** Télécharge la date limite au format agenda (.ics), avec rappels. */
+  ajouterAgenda(): void {
+    if (!this.demarche?.dateLimite) {
+      return;
+    }
+
+    telechargerIcs(nomFichierIcs(this.demarche.titre), [{
+      id: this.demarche.id,
+      titre: this.demarche.titre,
+      dateLimite: this.demarche.dateLimite,
+      url: `${window.location.origin}/demarches/${this.demarche.id}`
+    }]);
   }
 
   /**
