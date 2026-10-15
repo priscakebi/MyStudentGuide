@@ -470,6 +470,101 @@ class="back-button"
 <!-- =======================================================
      BOUTON RETOUR FINAL
      ======================================================= -->
+<!-- =======================================================
+     PRÉFECTURE DE L'ÉTUDIANT
+     Pour les démarches qui se font en préfecture.
+     ======================================================= -->
+@if (peutCommencer && concernePrefecture) {
+  <div class="prefecture-section">
+    <app-prefecture-card titre="Votre préfecture pour cette démarche"></app-prefecture-card>
+  </div>
+}
+
+
+<!-- =======================================================
+     SIGNALER UNE ERREUR (étudiants connectés)
+     Les étudiants aident à garder les informations à jour.
+     ======================================================= -->
+@if (peutCommencer) {
+
+  <section class="report-section">
+
+    @if (!signalementOuvert && !signalementEnvoye) {
+
+      <p>
+        <strong>Une information est incorrecte ou n'est plus à jour ?</strong>
+        Prévenez-nous, l'équipe vérifiera la démarche.
+      </p>
+
+      <button type="button" class="report-button" (click)="ouvrirSignalement()">
+        ⚠️ Signaler une erreur
+      </button>
+
+    }
+
+    @if (signalementEnvoye) {
+      <p class="report-success" role="status">
+        ✓ Merci ! Votre signalement a été transmis. Vous serez prévenu
+        dès que la démarche aura été vérifiée.
+      </p>
+    }
+
+    @if (signalementOuvert) {
+
+      <form class="report-form" (ngSubmit)="envoyerSignalement()">
+
+        <h3>Signaler une erreur</h3>
+
+        <fieldset>
+          <legend>Quel est le problème ?</legend>
+          @for (m of motifs; track m.value) {
+            <label class="report-choice">
+              <input
+                type="radio"
+                name="motif"
+                [value]="m.value"
+                [(ngModel)]="signalementMotif"
+              >
+              {{ m.label }}
+            </label>
+          }
+        </fieldset>
+
+        <label for="report-comment">Précisions (facultatif)</label>
+        <textarea
+          id="report-comment"
+          name="commentaire"
+          rows="3"
+          maxlength="1000"
+          placeholder="Ex. : le montant de la taxe a changé, le lien ANEF ne s'ouvre plus…"
+          [(ngModel)]="signalementCommentaire"
+        ></textarea>
+
+        @if (signalementErreur) {
+          <p class="start-message error" role="alert">{{ signalementErreur }}</p>
+        }
+
+        <div class="report-actions">
+          <button
+            type="submit"
+            class="primary-button"
+            [disabled]="!signalementMotif || signalementEnCours"
+          >
+            {{ signalementEnCours ? 'Envoi…' : 'Envoyer le signalement' }}
+          </button>
+          <button type="button" class="secondary-button" (click)="fermerSignalement()">
+            Annuler
+          </button>
+        </div>
+
+      </form>
+
+    }
+
+  </section>
+
+}
+
 <div class="bottom-action">
 
   <button

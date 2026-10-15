@@ -46,6 +46,7 @@ export interface AdminStats {
   topDemarches: { id: number; titre: string; commencees: number; terminees: number }[];
   inscriptionsParSemaine: { debutSemaine: string; inscriptions: number }[];
   activiteRecente: { titre: string; message: string; date: string; lu: boolean }[];
+  signalementsOuverts: number;
 }
 
 
@@ -399,6 +400,17 @@ export class AdminDashboard implements OnInit {
         "Créez et gérez les documents nécessaires \à\
         l'accomplissement des démarches administratives.";
 
+    }
+
+
+    // =======================================================
+    // PAGE SIGNALEMENTS
+    // =======================================================
+
+    else if (url.includes('/signalements')) {
+      this.pageTitle = 'Signalements des étudiants';
+      this.pageDescription =
+        'Informations erronées ou obsolètes signalées par les étudiants.';
     }
 
 

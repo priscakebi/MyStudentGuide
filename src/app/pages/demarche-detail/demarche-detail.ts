@@ -2,7 +2,9 @@ import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { environment } from '../../../environments/environment';
+import { PrefectureCard } from '../../components/prefecture-card/prefecture-card';
 import { AuthService } from '../../services/auth.service';
 import {
   StudentDemarche,
@@ -77,7 +79,7 @@ interface DemarcheDetail {
 @Component({
   selector: 'app-demarche-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, FormsModule, PrefectureCard],
   templateUrl: './demarche-detail.html',
   styleUrl: './demarche-detail.scss'
 })
@@ -202,6 +204,73 @@ export class DemarcheDetailComponent implements OnInit {
   }
 
   /** Ouvre le suivi détaillé dans le dashboard. */
+  /**
+   * Vrai si la démarche se fait en préfecture : un lien officiel
+   * mentionne la préfecture (ex. : « Où s'adresser : Préfecture »).
+   */
+  get concernePrefecture(): boolean {
+    return (this.demarche?.liensOfficiels ?? [])
+      .some((lien) => /pr[ée]fecture/i.test(lien.nom));
+  }
+
+
+  // ==========================================================
+  // SIGNALER UNE ERREUR
+  // ==========================================================
+
+  /** Motifs proposés (enum MotifSignalement côté API). */
+  readonly motifs = [
+    { value: 'INFO_OBSOLETE', label: 'L\'information n\'est plus à jour' },
+    { value: 'LIEN_CASSE', label: 'Un lien officiel ne fonctionne pas' },
+    { value: 'INFO_MANQUANTE', label: 'Il manque une étape ou un document' },
+    { value: 'ERREUR', label: 'Il y a une erreur dans le contenu' },
+    { value: 'AUTRE', label: 'Autre' }
+  ];
+
+  signalementOuvert = false;
+  signalementEnvoye = false;
+  signalementEnCours = false;
+  signalementMotif = '';
+  signalementCommentaire = '';
+  signalementErreur = '';
+
+  ouvrirSignalement(): void {
+    this.signalementOuvert = true;
+    this.signalementErreur = '';
+  }
+
+  fermerSignalement(): void {
+    this.signalementOuvert = false;
+    this.signalementMotif = '';
+    this.signalementCommentaire = '';
+  }
+
+  /** POST /api/demarches/{id}/signalements : l'équipe est prévenue. */
+  envoyerSignalement(): void {
+    if (!this.demarche || !this.signalementMotif || this.signalementEnCours) {
+      return;
+    }
+
+    this.signalementEnCours = true;
+    this.signalementErreur = '';
+
+    this.http.post(
+      `${environment.apiUrl}/demarches/${this.demarche.id}/signalements`,
+      { motif: this.signalementMotif, commentaire: this.signalementCommentaire.trim() || null }
+    ).subscribe({
+      next: () => {
+        this.signalementEnCours = false;
+        this.signalementEnvoye = true;
+        this.fermerSignalement();
+      },
+      error: (error: HttpErrorResponse) => {
+        this.signalementEnCours = false;
+        this.signalementErreur =
+          error.error?.message || 'Le signalement n\'a pas pu être envoyé.';
+      }
+    });
+  }
+
   ouvrirSuivi(): void {
     this.router.navigate(['/dashboard/suivis']);
   }

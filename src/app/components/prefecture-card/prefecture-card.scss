@@ -1,0 +1,122 @@
+// ============================================================
+// CARTE « MA PRÉFECTURE »
+// ============================================================
+
+.prefecture-card {
+  padding: 22px 24px;
+
+  border: 1px solid #e6eaf0;
+  border-radius: 18px;
+
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(20, 44, 90, 0.05);
+
+  header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  h2 {
+    margin: 0;
+    color: #172033;
+    font-size: 1.05rem;
+  }
+}
+
+.prefecture-icon {
+  display: grid;
+  place-items: center;
+
+  width: 36px;
+  height: 36px;
+
+  border-radius: 10px;
+
+  background: #eaf1ff;
+
+  font-size: 1.1rem;
+}
+
+.prefecture-nom {
+  display: block;
+  margin-bottom: 8px;
+  color: #1646a0;
+  font-size: 0.98rem;
+}
+
+.ligne {
+  margin: 4px 0;
+  color: #344054;
+  font-size: 0.86rem;
+  line-height: 1.5;
+
+  a {
+    color: #1646a0;
+    font-weight: 600;
+    text-decoration: none;
+  }
+}
+
+.horaires {
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    color: #344054;
+    font-size: 0.84rem;
+    line-height: 1.6;
+  }
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.btn {
+  padding: 8px 12px;
+
+  border: 1px solid #e6eaf0;
+  border-radius: 9px;
+
+  background: #ffffff;
+  color: #172033;
+
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+
+  &:hover {
+    border-color: #1646a0;
+    color: #1646a0;
+  }
+
+  &.primary {
+    border-color: #1646a0;
+    background: #1646a0;
+    color: #ffffff;
+
+    &:hover { background: #0d2f70; }
+  }
+}
+
+.source {
+  margin: 14px 0 0;
+  color: #98a2b3;
+  font-size: 0.72rem;
+  line-height: 1.5;
+
+  a { color: #667085; }
+}
+
+.muted {
+  margin: 0 0 12px;
+  color: #667085;
+  font-size: 0.86rem;
+  line-height: 1.55;
+}

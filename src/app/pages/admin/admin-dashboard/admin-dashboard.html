@@ -170,6 +170,31 @@
       </a>
 
 
+      <!-- ===================================================== -->
+      <!-- SIGNALEMENTS DES ÉTUDIANTS                            -->
+      <!-- ===================================================== -->
+
+      <a
+        routerLink="/admin/signalements"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+
+        <span class="icon">
+          ⚠️
+        </span>
+
+        <span>
+          Signalements
+        </span>
+
+        @if (stats?.signalementsOuverts) {
+          <span class="nav-badge">{{ stats!.signalementsOuverts }}</span>
+        }
+
+      </a>
+
+
     </nav>
 
 
@@ -605,6 +630,18 @@
         <!-- =================================================== -->
         <!-- À FAIRE                                             -->
         <!-- =================================================== -->
+
+        @if (stats?.signalementsOuverts) {
+          <section class="todo-banner warning">
+            <span class="todo-icon" aria-hidden="true">⚠️</span>
+            <p>
+              <strong>{{ stats!.signalementsOuverts }} signalement{{ stats!.signalementsOuverts > 1 ? 's' : '' }}</strong>
+              d'étudiant{{ stats!.signalementsOuverts > 1 ? 's' : '' }} à traiter : une information
+              serait erronée ou obsolète.
+            </p>
+            <a routerLink="/admin/signalements" class="todo-button">Voir les signalements</a>
+          </section>
+        }
 
         @if (stats?.etudiantsSansDemarche) {
           <section class="todo-banner">

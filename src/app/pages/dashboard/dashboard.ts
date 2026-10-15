@@ -22,6 +22,7 @@ import {
   HttpHeaders
 } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { PrefectureCard } from '../../components/prefecture-card/prefecture-card';
 import {
   StudentDemarche,
   StudentDemarcheService
@@ -70,7 +71,8 @@ interface SuggestionNotification {
     CommonModule,
     RouterLink,
     RouterLinkActive,
-    RouterOutlet
+    RouterOutlet,
+    PrefectureCard
   ],
 
   // Template HTML du Dashboard.

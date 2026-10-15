@@ -1,0 +1,67 @@
+<section class="prefecture-card" aria-labelledby="prefecture-titre">
+
+  <header>
+    <span class="prefecture-icon" aria-hidden="true">🏛️</span>
+    <h2 id="prefecture-titre">{{ titre }}</h2>
+  </header>
+
+  @if (chargement) {
+
+    <p class="muted">Recherche de votre préfecture…</p>
+
+  } @else if (prefecture) {
+
+    <strong class="prefecture-nom">{{ prefecture.nom }}</strong>
+
+    @if (prefecture.adresse) {
+      <p class="ligne">📍 {{ prefecture.adresse }}</p>
+    }
+
+    @if (prefecture.telephone) {
+      <p class="ligne">📞 <a [href]="lienTelephone">{{ prefecture.telephone }}</a></p>
+    }
+
+    @if (prefecture.horaires.length) {
+      <ul class="horaires">
+        @for (h of prefecture.horaires; track $index) {
+          <li>🕘 {{ h }}</li>
+        }
+      </ul>
+    }
+
+    <div class="actions">
+      @if (prefecture.rendezVous) {
+        <a class="btn primary" [href]="prefecture.rendezVous" target="_blank" rel="noopener">
+          Prendre rendez-vous ↗
+        </a>
+      }
+      @if (itineraire) {
+        <a class="btn" [href]="itineraire" target="_blank" rel="noopener">Itinéraire ↗</a>
+      }
+      @if (prefecture.ficheAnnuaire) {
+        <a class="btn" [href]="prefecture.ficheAnnuaire" target="_blank" rel="noopener">Fiche officielle ↗</a>
+      }
+    </div>
+
+    <p class="source">
+      D'après votre ville d'études : {{ prefecture.ville }} ({{ prefecture.departement }}).
+      Ce n'est pas la bonne ? Ajoutez le code postal dans
+      <a routerLink="/dashboard/profile">votre profil</a> (ex. : Saint-Denis 93200).
+      <br>Source : Annuaire de l'administration, Service-Public.gouv.fr.
+    </p>
+
+  } @else if (villeManquante) {
+
+    <p class="muted">
+      Renseignez votre ville d'études pour connaître l'adresse, les horaires
+      et la prise de rendez-vous de votre préfecture.
+    </p>
+    <a class="btn primary" routerLink="/dashboard/profile">Compléter mon profil</a>
+
+  } @else if (indisponible) {
+
+    <p class="muted">L'annuaire de l'administration ne répond pas pour le moment.</p>
+
+  }
+
+</section>

@@ -597,6 +597,25 @@ export const routes: Routes = [
 
 
     // ====================================================================
+    // SIGNALEMENTS DES ÉTUDIANTS
+    // ====================================================================
+
+    {
+      /*
+       * URL :
+       * /admin/signalements
+       *
+       * Erreurs ou informations obsolètes signalées par les étudiants.
+       */
+      path: 'signalements',
+
+      loadComponent: () =>
+        import('./pages/admin/signalements-admin/signalements-admin')
+          .then(m => m.SignalementsAdmin)
+    },
+
+
+    // ====================================================================
     // MON COMPTE ADMINISTRATEUR
     // ====================================================================
 

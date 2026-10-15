@@ -156,3 +156,22 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
 - À l'import, la catégorie est pré-sélectionnée : thème du catalogue, sinon thème officiel de la fiche
   (« Social - Santé » → Santé, « Étranger - Europe » → Séjour & visa…). Une catégorie créée par l'admin
   est aussi reconnue par mots-clés (« Titre de séjour » → Séjour & visa). L'admin peut la changer.
+
+## 9. Signalements des étudiants et préfecture de l'étudiant
+**« Signaler une erreur »** (page d'une démarche, étudiants connectés) :
+- Motifs : information obsolète, lien cassé, information manquante, erreur, autre + précisions facultatives.
+- Un seul signalement ouvert par étudiant et par démarche ; impossible sur un brouillon.
+- Les admins reçoivent une notification. Nouvelle page **Admin → Signalements** (pastille du nombre à traiter,
+  bandeau sur le dashboard) : « Voir la démarche », « Corriger », « ✓ Traité » (l'étudiant est remercié
+  par notification), « Rejeter », « Rouvrir ».
+- API : `POST /api/demarches/{id}/signalements` (ETUDIANT), `GET /api/admin/signalements?statut=`,
+  `PATCH /api/admin/signalements/{id}?statut=` (ADMIN). Nouvelle table `signalements_demarches`
+  (supprimée avec la démarche ; les signalements d'un étudiant sont supprimés avec son compte).
+
+**Carte « Ma préfecture »** (dashboard étudiant + démarches qui se font en préfecture) :
+- Ville d'études du profil → département (geo.api.gouv.fr) → préfecture (API Annuaire de l'administration, DILA) :
+  adresse, téléphone, horaires, prise de rendez-vous, itinéraire, fiche officielle.
+- Paris : Préfecture de police. Villes homonymes : « Saint-Denis » seul donne La Réunion (la plus peuplée) ;
+  la carte affiche la ville reconnue et invite à ajouter le code postal (« Saint-Denis 93200 »), qui est pris en compte.
+- Ville non renseignée : la carte invite à compléter le profil. Réponses gardées 24 h en mémoire.
+- API : `GET /api/annuaire/prefecture/me` (ETUDIANT), `GET /api/annuaire/prefecture?ville=` (connecté).

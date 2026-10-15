@@ -1,0 +1,129 @@
+<!-- ============================================================
+     SIGNALEMENTS DES ÉTUDIANTS
+     ============================================================ -->
+
+<section class="content">
+
+  <div class="intro">
+    <p>
+      Les étudiants signalent ici les informations erronées ou obsolètes.
+      Ouvrez la démarche pour la corriger, puis marquez le signalement
+      <strong>traité</strong> : l'étudiant sera remercié par notification.
+    </p>
+  </div>
+
+
+  <!-- Filtres -->
+  <div class="filters" role="group" aria-label="Filtrer les signalements">
+    @for (f of filtres; track f.label) {
+      <button
+        type="button"
+        class="filter"
+        [class.active]="filtre === f.value"
+        (click)="choisirFiltre(f.value)"
+      >
+        {{ f.label }}
+      </button>
+    }
+  </div>
+
+
+  @if (message) {
+    <p class="message success" role="status">{{ message }}</p>
+  }
+
+  @if (erreur) {
+    <p class="message error" role="alert">{{ erreur }}</p>
+  }
+
+
+  @if (loading) {
+
+    <p class="state">Chargement des signalements…</p>
+
+  } @else if (signalements.length === 0) {
+
+    <div class="empty">
+      <span aria-hidden="true">✅</span>
+      <p>
+        @if (filtre === 'OUVERT') {
+          Aucun signalement à traiter. Tout est à jour !
+        } @else {
+          Aucun signalement.
+        }
+      </p>
+    </div>
+
+  } @else {
+
+    <ul class="list">
+      @for (s of signalements; track s.id) {
+        <li class="item" [class.done]="s.statut !== 'OUVERT'">
+
+          <div class="item-main">
+
+            <div class="item-top">
+              <span class="badge motif">{{ s.motifLibelle }}</span>
+              <span class="badge" [class]="'statut-' + s.statut">{{ libelleStatut(s.statut) }}</span>
+              <time>{{ s.dateCreation | date: 'd MMM y à HH:mm' }}</time>
+            </div>
+
+            <h3>{{ s.demarcheTitre }}</h3>
+
+            @if (s.commentaire) {
+              <blockquote>« {{ s.commentaire }} »</blockquote>
+            } @else {
+              <p class="muted">Aucune précision.</p>
+            }
+
+            <p class="author">Signalé par {{ s.auteur || 'un étudiant' }}</p>
+
+          </div>
+
+          <div class="item-actions">
+
+            <a class="btn btn-light" [routerLink]="['/demarches', s.demarcheId]" target="_blank">
+              Voir la démarche ↗
+            </a>
+
+            <a class="btn btn-light" routerLink="/admin/demarches-admin">
+              Corriger
+            </a>
+
+            @if (s.statut === 'OUVERT') {
+              <button
+                type="button"
+                class="btn btn-success"
+                [disabled]="enCours === s.id"
+                (click)="changerStatut(s, 'TRAITE')"
+              >
+                ✓ Traité
+              </button>
+              <button
+                type="button"
+                class="btn btn-reject"
+                [disabled]="enCours === s.id"
+                (click)="changerStatut(s, 'REJETE')"
+              >
+                Rejeter
+              </button>
+            } @else {
+              <button
+                type="button"
+                class="btn btn-light"
+                [disabled]="enCours === s.id"
+                (click)="changerStatut(s, 'OUVERT')"
+              >
+                Rouvrir
+              </button>
+            }
+
+          </div>
+
+        </li>
+      }
+    </ul>
+
+  }
+
+</section>
