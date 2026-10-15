@@ -17,11 +17,12 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { forkJoin, of, catchError } from 'rxjs';
 
 import { AvisForm } from '../../components/avis-form/avis-form';
 import { AuthService } from '../../services/auth.service';
+import { rechercherDemarches } from '../../utils/recherche';
 import {
   Demarche,
   StudentDemarche,
@@ -43,6 +44,7 @@ import {
 export class Demarches implements OnInit {
 
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
   private studentDemarcheService = inject(StudentDemarcheService);
 
@@ -62,6 +64,9 @@ export class Demarches implements OnInit {
 
   /** Catégorie sélectionnée dans le filtre (null = toutes). */
   categorieFiltre: number | null = null;
+
+  /** Texte de la recherche, gardé dans l'adresse (/demarches?q=...). */
+  recherche = '';
 
   isLoading = false;
   errorMessage = '';
@@ -91,6 +96,7 @@ export class Demarches implements OnInit {
     const connecte = this.authService.isLoggedIn();
     this.estVisiteur = !connecte;
     this.peutCommencer = connecte && !this.authService.isAdmin();
+    this.recherche = this.route.snapshot.queryParamMap.get('q') ?? '';
 
     this.loadDemarches();
   }
@@ -118,6 +124,13 @@ export class Demarches implements OnInit {
         this.demarches = demarches;
         this.suivis = new Map(suivis.map((sd) => [sd.demarche.id, sd]));
         this.isLoading = false;
+
+        // Arrivée depuis la recherche de l'accueil : on descend jusqu'aux résultats.
+        if (this.recherche) {
+          setTimeout(() =>
+            document.querySelector('.search-bar')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+          );
+        }
       },
       error: () => {
         this.demarches = [];
@@ -143,14 +156,38 @@ export class Demarches implements OnInit {
     return [...parId.values()];
   }
 
+  /** Démarches de la catégorie choisie qui correspondent à la recherche, les plus pertinentes d'abord. */
   get demarchesFiltrees(): Demarche[] {
-    return this.categorieFiltre === null
+    const parCategorie = this.categorieFiltre === null
       ? this.demarches
       : this.demarches.filter((d) => d.categorie?.id === this.categorieFiltre);
+    return rechercherDemarches(parCategorie, this.recherche);
   }
 
   choisirCategorie(id: number | null): void {
     this.categorieFiltre = id;
+  }
+
+
+  // ============================================================
+  // RECHERCHE
+  // ============================================================
+
+  rechercher(texte: string): void {
+    this.recherche = texte;
+
+    // L'adresse suit la recherche sans créer d'entrée d'historique à chaque lettre.
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { q: texte.trim() || null },
+      queryParamsHandling: 'merge',
+      replaceUrl: true
+    });
+  }
+
+  effacerFiltres(): void {
+    this.categorieFiltre = null;
+    this.rechercher('');
   }
 
 

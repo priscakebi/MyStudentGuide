@@ -67,6 +67,21 @@
         </p>
 
 
+        <!-- Recherche : ouvre la page des démarches filtrée -->
+        <form class="hero-search" role="search" (submit)="rechercher($event, champRecherche.value)">
+          <span class="hero-search-icon" aria-hidden="true">🔍</span>
+          <input
+            #champRecherche
+            type="search"
+            placeholder="CAF, carte Vitale, séjour…"
+            aria-label="Rechercher une démarche"
+            maxlength="100"
+            autocomplete="off"
+          >
+          <button type="submit">Rechercher</button>
+        </form>
+
+
         <!-- Boutons d'action : dépendent de la connexion -->
         <div class="hero-actions">
 

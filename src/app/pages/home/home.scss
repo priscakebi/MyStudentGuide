@@ -1418,6 +1418,92 @@ $transition: 0.25s ease;
    BOUTONS D'ACTION (hero + bandeau final)
    ================================================================ */
 
+/* Recherche du hero */
+
+.hero-search {
+
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+
+  max-width: 560px;
+
+  margin-top: 28px;
+
+  padding: 6px;
+
+  border-radius: $radius-md;
+
+  background: $white;
+
+  box-shadow: $shadow-lg;
+
+  input {
+    flex: 1;
+    min-width: 0;
+
+    padding: 10px 10px 10px 40px;
+
+    border: none;
+
+    background: transparent;
+    color: $text-dark;
+
+    font-family: inherit;
+    font-size: 0.95rem;
+
+    &::placeholder { color: $text-light; }
+
+    &:focus { outline: none; }
+
+    &::-webkit-search-cancel-button { display: none; }
+  }
+
+  &:focus-within {
+    box-shadow: $shadow-lg, 0 0 0 4px rgba(255, 255, 255, 0.35);
+  }
+
+  button {
+    flex-shrink: 0;
+
+    padding: 11px 18px;
+
+    border: none;
+    border-radius: $radius-sm;
+
+    background: $red;
+    color: $white;
+
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: background $transition;
+
+    &:hover { background: $red-dark; }
+  }
+}
+
+.hero-search-icon {
+
+  position: absolute;
+
+  left: 18px;
+
+  pointer-events: none;
+}
+
+@media (max-width: 420px) {
+
+  .hero-search button {
+    padding: 11px 12px;
+  }
+}
+
 .hero-actions {
 
   display: flex;

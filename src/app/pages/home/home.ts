@@ -167,4 +167,12 @@ export class Home implements OnInit {
         }
       });
   }
+
+  /** Recherche du hero : ouvre /demarches?q=... (ou toutes les démarches si vide). */
+  rechercher(event: Event, texte: string): void {
+    event.preventDefault();
+
+    const q = texte.trim();
+    this.router.navigate(['/demarches'], { queryParams: q ? { q } : {} });
+  }
 }

@@ -213,3 +213,16 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
 - API (ADMIN) : `GET /api/admin/demarches/{id}/contenu`, `POST|PUT|DELETE …/etapes[/{etapeId}]`,
   `PUT …/etapes/ordre` (`{"ids":[…]}`, la liste complète des étapes), `POST|PUT|DELETE …/liens[/{lienId}]`.
   Chaque appel renvoie le contenu complet à jour.
+
+## 13. Recherche dans les démarches
+- Page « Mes démarches » : champ de recherche au-dessus des catégories (les deux filtres se combinent),
+  nombre de résultats, et message « Aucune démarche ne correspond » avec un bouton pour tout réafficher.
+- Accueil : champ de recherche dans le bandeau, qui ouvre `/demarches?q=…` et descend jusqu'aux résultats.
+  La recherche reste dans l'adresse : une recherche peut être partagée ou mise en favori.
+- Recherche faite dans le navigateur (aucun appel à l'API en plus), dans `utils/recherche.ts` :
+  - insensible aux majuscules et aux accents (« sejour » trouve « séjour ») ; petits mots ignorés (« de », « la », « mon »…) ;
+  - tous les mots cherchés doivent se retrouver dans le titre, la catégorie ou la description ;
+  - synonymes du quotidien étudiant : CAF ↔ APL, sécu / ameli → carte Vitale, banque ↔ bancaire, job ↔ emploi… ;
+  - pluriels (« logements ») et une faute de frappe d'une lettre sur les mots d'au moins 5 lettres (« prefecure ») ;
+  - tri : titre avant catégorie avant description, et un mot exact avant un synonyme ou une faute.
+- Pour ajouter un synonyme : compléter la table `SYNONYMES` de `utils/recherche.ts` (mots sans accents, en minuscules).

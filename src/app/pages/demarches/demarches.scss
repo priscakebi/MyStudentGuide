@@ -932,6 +932,98 @@ a.button {
 // FILTRE PAR CATÉGORIE
 // ============================================================
 
+// ============================================================
+// RECHERCHE
+// ============================================================
+
+.search-bar {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  max-width: 680px;
+  margin-bottom: 16px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 18px;
+
+  font-size: 1rem;
+
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+
+  padding: 15px 48px 15px 50px;
+
+  border: 1px solid $border;
+  border-radius: 14px;
+
+  background: $white;
+  box-shadow: $shadow;
+
+  color: $text-dark;
+
+  font-family: inherit;
+  font-size: 0.95rem;
+
+  transition: border-color $transition, box-shadow $transition;
+
+  &::placeholder {
+    color: $text-light;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $blue;
+    box-shadow: 0 0 0 4px rgba(22, 70, 160, 0.12);
+  }
+
+  // Le navigateur ajoute sa propre croix : on garde la nôtre.
+  &::-webkit-search-cancel-button {
+    display: none;
+  }
+}
+
+.search-clear {
+  position: absolute;
+  right: 10px;
+
+  display: grid;
+  place-items: center;
+
+  width: 30px;
+  height: 30px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: $background;
+  color: $text-light;
+
+  font-size: 0.8rem;
+
+  cursor: pointer;
+
+  &:hover {
+    background: $blue-light;
+    color: $blue;
+  }
+}
+
+.results-count {
+  margin: 0 0 16px;
+
+  color: $text-light;
+
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
 .category-filters {
   display: flex;
   gap: 8px;

@@ -137,6 +137,43 @@
 
 
     <!-- ========================================================
+         RECHERCHE
+         ======================================================== -->
+
+    @if (!isLoading && !errorMessage && demarches.length > 0) {
+
+      <div class="search-bar" role="search">
+
+        <span class="search-icon" aria-hidden="true">🔍</span>
+
+        <input
+          type="search"
+          class="search-input"
+          [value]="recherche"
+          (input)="rechercher($any($event.target).value)"
+          placeholder="Rechercher une démarche : titre de séjour, CAF, carte Vitale…"
+          aria-label="Rechercher une démarche"
+          maxlength="100"
+          autocomplete="off"
+        >
+
+        @if (recherche) {
+          <button
+            type="button"
+            class="search-clear"
+            aria-label="Effacer la recherche"
+            (click)="rechercher('')"
+          >
+            ✕
+          </button>
+        }
+
+      </div>
+
+    }
+
+
+    <!-- ========================================================
          FILTRE PAR CATÉGORIE
          ======================================================== -->
 
@@ -280,10 +317,56 @@
       demarches.length > 0
     ) {
 
+      @let resultats = demarchesFiltrees;
+
+      @if (recherche.trim() || categorieFiltre !== null) {
+        <p class="results-count" role="status">
+          @if (resultats.length === 0) {
+            Aucune démarche trouvée
+          } @else if (resultats.length === 1) {
+            1 démarche trouvée
+          } @else {
+            {{ resultats.length }} démarches trouvées
+          }
+          @if (recherche.trim()) {
+            pour « {{ recherche.trim() }} »
+          }
+        </p>
+      }
+
+      @if (resultats.length === 0) {
+
+        <div class="state-card empty-card">
+
+          <div class="state-icon">
+            🔍
+          </div>
+
+          <h3>
+            Aucune démarche ne correspond
+          </h3>
+
+          <p>
+            Essayez un autre mot (par exemple « logement », « santé » ou « banque »)
+            ou affichez toutes les démarches.
+          </p>
+
+          <button
+            type="button"
+            class="button button-primary"
+            (click)="effacerFiltres()"
+          >
+            Voir toutes les démarches
+          </button>
+
+        </div>
+
+      }
+
       <div class="demarches-list">
 
         @for (
-          demarche of demarchesFiltrees;
+          demarche of resultats;
           track demarche.id
         ) {
 
