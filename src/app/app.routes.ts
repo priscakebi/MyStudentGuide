@@ -140,7 +140,7 @@ export const routes: Routes = [
          * /home
          */
         path: 'home',
-        title: "Vos démarches d'étudiant en France",
+        title: 'titre.accueil',
 
         loadComponent: () =>
           import('./pages/home/home')
@@ -161,7 +161,7 @@ export const routes: Routes = [
          * des démarches administratives.
          */
         path: 'demarches',
-        title: 'Toutes les démarches',
+        title: 'titre.demarches',
 
         loadComponent: () =>
           import('./pages/demarches/demarches')
@@ -179,7 +179,7 @@ export const routes: Routes = [
          * /demarches/:id
          */
         path: 'demarches/:id',
-        title: 'Démarche',
+        title: 'titre.demarche',
 
         loadComponent: () =>
           import('./pages/demarche-detail/demarche-detail')
@@ -202,7 +202,7 @@ export const routes: Routes = [
          * Aucun document personnel n'est stocké.
          */
         path: 'documents',
-        title: 'Documents requis',
+        title: 'titre.documents',
 
         loadComponent: () =>
           import('./pages/documents/documents')
@@ -223,7 +223,7 @@ export const routes: Routes = [
          * Un utilisateur connecté utilise /dashboard/notifications.
          */
         path: 'notifications',
-        title: 'Notifications',
+        title: 'titre.notifications',
 
         loadComponent: () =>
           import('./pages/notifications/notifications')
@@ -245,7 +245,7 @@ export const routes: Routes = [
      * Page de connexion.
      */
     path: 'login',
-    title: 'Connexion',
+    title: 'titre.connexion',
 
     component: Login
   },
@@ -259,7 +259,7 @@ export const routes: Routes = [
      * Page d'inscription.
      */
     path: 'register',
-    title: 'Inscription',
+    title: 'titre.inscription',
 
     component: Register
   },
@@ -294,7 +294,7 @@ export const routes: Routes = [
      * "space" indique s'il s'agit de l'espace étudiant ou administrateur.
      */
     path: 'forgot-password',
-    title: 'Mot de passe oublié',
+    title: 'titre.motDePasseOublie',
     data: { space: 'student' },
     loadComponent: () =>
       import('./pages/forgot-password/forgot-password')
@@ -303,7 +303,7 @@ export const routes: Routes = [
 
   {
     path: 'reset-password',
-    title: 'Nouveau mot de passe',
+    title: 'titre.nouveauMotDePasse',
     data: { space: 'student' },
     loadComponent: () =>
       import('./pages/reset-password/reset-password')
@@ -352,7 +352,7 @@ export const routes: Routes = [
      * pas accéder directement à son espace.
      */
     path: 'dashboard',
-    title: 'Mon espace',
+    title: 'titre.monEspace',
 
     /*
      * Vérifie que l'utilisateur est connecté.
@@ -381,7 +381,7 @@ export const routes: Routes = [
          * /dashboard/profile
          */
         path: 'profile',
-        title: 'Mon profil',
+        title: 'titre.monProfil',
 
         loadComponent: () =>
           import('./pages/profile/profile')
@@ -402,7 +402,7 @@ export const routes: Routes = [
          * ses démarches personnelles.
          */
         path: 'suivis',
-        title: 'Mes démarches',
+        title: 'titre.mesDemarches',
 
         loadComponent: () =>
           import('./pages/suivis-demarches/suivis-demarches')
@@ -426,7 +426,7 @@ export const routes: Routes = [
          * /dashboard/suivis
          */
         path: 'demarches',
-        title: 'Mes démarches',
+        title: 'titre.mesDemarches',
 
         loadComponent: () =>
           import('./pages/suivis-demarches/suivis-demarches')
@@ -444,7 +444,7 @@ export const routes: Routes = [
          * /dashboard/notifications
          */
         path: 'notifications',
-        title: 'Mes notifications',
+        title: 'titre.mesNotifications',
 
         loadComponent: () =>
           import('./pages/notifications/notifications')
@@ -462,7 +462,7 @@ export const routes: Routes = [
          * /dashboard/account
          */
         path: 'account',
-        title: 'Mon compte',
+        title: 'titre.monCompte',
 
         loadComponent: () =>
           import('./pages/account/account')
@@ -483,7 +483,7 @@ export const routes: Routes = [
          * Accepte ?demarche=<id> pour présélectionner une démarche.
          */
         path: 'aide',
-        title: "Besoin d'aide ?",
+        title: 'titre.aide',
 
         loadComponent: () =>
           import('./pages/aide/aide')

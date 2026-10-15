@@ -24,23 +24,22 @@
 
     <div class="header-content">
 
-      <span class="section-label">MON ESPACE</span>
+      <span class="section-label">{{ 'suivis.label' | t }}</span>
 
-      <h1>Suivi de mes démarches</h1>
+      <h1>{{ 'suivis.titre' | t }}</h1>
 
       <p>
-        Retrouvez ici l'ensemble de vos démarches administratives
-        et faites évoluer leur statut au fil de votre avancée.
+        {{ 'suivis.intro' | t }}
       </p>
 
     </div>
 
     @if (!loading && !errorMessage && demarches.length > 0) {
 
-      <div class="global-progress" aria-label="Progression globale">
+      <div class="global-progress" [attr.aria-label]="'suivis.progressionGlobale' | t">
 
         <div class="progress-header">
-          <span>Progression globale</span>
+          <span>{{ 'suivis.progressionGlobale' | t }}</span>
           <strong>{{ progressionGlobale }}%</strong>
         </div>
 
@@ -66,17 +65,17 @@
       <div class="filters">
 
         <button type="button" class="filter-button" [class.active]="filtre === 'TOUTES'" (click)="changerFiltre('TOUTES')">
-          <span>Toutes</span>
+          <span>{{ 'suivis.filtre.toutes' | t }}</span>
           <span class="filter-count">{{ demarches.length }}</span>
         </button>
 
         <button type="button" class="filter-button" [class.active]="filtre === 'EN_COURS'" (click)="changerFiltre('EN_COURS')">
-          <span>En cours</span>
+          <span>{{ 'suivis.filtre.enCours' | t }}</span>
           <span class="filter-count">{{ compterParStatut('EN_COURS') }}</span>
         </button>
 
         <button type="button" class="filter-button" [class.active]="filtre === 'TERMINEE'" (click)="changerFiltre('TERMINEE')">
-          <span>Terminées</span>
+          <span>{{ 'suivis.filtre.terminees' | t }}</span>
           <span class="filter-count">{{ compterParStatut('TERMINEE') }}</span>
         </button>
 
@@ -103,8 +102,8 @@
 
       <section class="state-container loading-state">
         <div class="loader"></div>
-        <h2>Chargement de vos démarches</h2>
-        <p>Nous récupérons votre parcours administratif...</p>
+        <h2>{{ 'suivis.chargement.titre' | t }}</h2>
+        <p>{{ 'suivis.chargement.texte' | t }}</p>
       </section>
 
     }
@@ -118,9 +117,9 @@
 
       <section class="state-container error-state">
         <div class="state-icon error-icon">!</div>
-        <h2>Une erreur est survenue</h2>
+        <h2>{{ 'suivis.erreur.titre' | t }}</h2>
         <p>{{ errorMessage }}</p>
-        <button type="button" class="retry-button" (click)="chargerDemarches()">Réessayer</button>
+        <button type="button" class="retry-button" (click)="chargerDemarches()">{{ 'commun.reessayer' | t }}</button>
       </section>
 
     }
@@ -137,13 +136,12 @@
         <div class="list-header">
 
           <div>
-            <span class="section-label">VOTRE PARCOURS</span>
-            <h2>Vos démarches</h2>
+            <span class="section-label">{{ 'suivis.parcours' | t }}</span>
+            <h2>{{ 'suivis.vosDemarches' | t }}</h2>
           </div>
 
           <span class="results-count">
-            {{ demarchesFiltrees.length }}
-            démarche{{ demarchesFiltrees.length > 1 ? 's' : '' }}
+            {{ (demarchesFiltrees.length > 1 ? 'suivis.compte.n' : 'suivis.compte.1') | t: { n: demarchesFiltrees.length } }}
           </span>
 
         </div>
@@ -176,7 +174,7 @@
 
                 <span class="status-badge" [ngClass]="getClasseStatut(sd.statut)">
                   <span class="status-dot"></span>
-                  {{ service.libelleStatut(sd.statut) }}
+                  {{ libelleStatut(sd.statut) }}
                 </span>
 
               </div>
@@ -193,7 +191,7 @@
                 <div class="progress-section">
 
                   <div class="progress-header">
-                    <span>Progression</span>
+                    <span>{{ 'suivis.progression' | t }}</span>
                     <strong>{{ service.progression(sd) }}%</strong>
                   </div>
 
@@ -207,9 +205,9 @@
 
                   <!-- Étapes : Commencée → Documents envoyés → Terminée -->
                   <ol class="steps">
-                    <li [class.done]="sd.statut === 'EN_COURS' || sd.statut === 'TERMINEE'">Commencée</li>
-                    <li [class.done]="sd.documentsEnvoyes || sd.statut === 'TERMINEE'">Documents envoyés</li>
-                    <li [class.done]="sd.statut === 'TERMINEE'">Terminée</li>
+                    <li [class.done]="sd.statut === 'EN_COURS' || sd.statut === 'TERMINEE'">{{ 'suivis.etape.commencee' | t }}</li>
+                    <li [class.done]="sd.documentsEnvoyes || sd.statut === 'TERMINEE'">{{ 'suivis.etape.documents' | t }}</li>
+                    <li [class.done]="sd.statut === 'TERMINEE'">{{ 'suivis.etape.terminee' | t }}</li>
                   </ol>
 
                 </div>
@@ -225,20 +223,20 @@
                   @case ('EN_COURS') {
                     @if (!sd.documentsEnvoyes) {
                       <button type="button" class="action-button outline" [disabled]="estEnMiseAJour(sd)" (click)="confirmerDocuments(sd)">
-                        📤 J'ai envoyé mes documents
+                        {{ 'suivis.documentsEnvoyes' | t }}
                       </button>
                     }
                     <button type="button" class="action-button success" [disabled]="estEnMiseAJour(sd)" (click)="terminer(sd)">
-                      ✓ Marquer comme terminée
+                      {{ 'suivis.marquerTerminee' | t }}
                     </button>
                   }
 
                   @case ('TERMINEE') {
                     @if (sd.avisDonne) {
-                      <span class="avis-done">★ Merci pour votre avis</span>
+                      <span class="avis-done">{{ 'suivis.merciAvis' | t }}</span>
                     } @else {
                       <button type="button" class="action-button avis" (click)="ouvrirAvis(sd)">
-                        ★ Donner mon avis
+                        {{ 'demarches.donnerAvis' | t }}
                       </button>
                     }
                   }
@@ -252,14 +250,14 @@
               <div class="card-footer">
 
                 <label class="status-select">
-                  <span>Statut</span>
+                  <span>{{ 'suivis.statut' | t }}</span>
                   <select
                     [value]="sd.statut"
                     [disabled]="estEnMiseAJour(sd)"
                     (change)="onStatutChoisi(sd, $event)"
                   >
                     @for (option of statutsModifiables; track option.value) {
-                      <option [value]="option.value" [selected]="option.value === sd.statut">{{ option.label }}</option>
+                      <option [value]="option.value" [selected]="option.value === sd.statut">{{ libelleStatut(option.value) }}</option>
                     }
                   </select>
                 </label>
@@ -267,11 +265,11 @@
                 <div class="footer-buttons">
 
                   <button type="button" class="remove-button" [disabled]="estEnMiseAJour(sd)" (click)="retirer(sd)">
-                    Retirer
+                    {{ 'suivis.retirer' | t }}
                   </button>
 
                   <button type="button" class="view-button" (click)="consulterDemarche(sd)">
-                    <span>Consulter</span>
+                    <span>{{ 'suivis.consulter' | t }}</span>
                     <span class="arrow">→</span>
                   </button>
 
@@ -300,21 +298,21 @@
 
         <div class="state-icon empty-icon">✓</div>
 
-        <h2>Aucune démarche</h2>
+        <h2>{{ 'suivis.vide.titre' | t }}</h2>
 
         @switch (filtre) {
-          @case ('TOUTES') { <p>Vous n'avez encore commencé aucune démarche.</p> }
-          @case ('EN_COURS') { <p>Vous n'avez aucune démarche en cours.</p> }
-          @case ('TERMINEE') { <p>Vous n'avez encore terminé aucune démarche.</p> }
+          @case ('TOUTES') { <p>{{ 'suivis.vide.toutes' | t }}</p> }
+          @case ('EN_COURS') { <p>{{ 'suivis.vide.enCours' | t }}</p> }
+          @case ('TERMINEE') { <p>{{ 'suivis.vide.terminees' | t }}</p> }
         }
 
         @if (filtre !== 'TOUTES') {
           <button type="button" class="reset-filter-button" (click)="changerFiltre('TOUTES')">
-            Voir toutes mes démarches
+            {{ 'suivis.voirToutes' | t }}
           </button>
         } @else {
           <a routerLink="/demarches" class="reset-filter-button">
-            Parcourir les démarches
+            {{ 'suivis.parcourir' | t }}
           </a>
         }
 

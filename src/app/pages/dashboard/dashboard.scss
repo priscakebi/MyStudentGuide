@@ -329,6 +329,12 @@ $transition: 0.25s ease;
   border-top: 1px solid $border;
 }
 
+// Choix de la langue (FR / EN), au-dessus de « Retour au site ».
+.sidebar-langue {
+  align-self: flex-start;
+  margin: 0 0 8px 10px;
+}
+
 .logout-button:hover {
   background: $red-light;
   color: $red;

@@ -6,13 +6,14 @@ import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 import { IdleService } from './services/idle.service';
+import { TPipe } from './i18n/t.pipe';
 
 @Component({
   // Nom du composant racine de l'application.
   selector: 'app-root',
 
   // Permet d'utiliser <router-outlet> dans app.html.
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, TPipe],
 
   // Fichier HTML du composant principal.
   templateUrl: './app.html',

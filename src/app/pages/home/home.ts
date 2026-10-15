@@ -5,6 +5,8 @@ import { Router, RouterLink } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 import { AvisPublics } from '../../components/avis-publics/avis-publics';
+import { TPipe } from '../../i18n/t.pipe';
+import { Cle } from '../../i18n/textes';
 
 /**
  * Page d'accueil de MyStudentGuide (route : /home).
@@ -24,7 +26,7 @@ import { AvisPublics } from '../../components/avis-publics/avis-publics';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink, AvisPublics],
+  imports: [RouterLink, AvisPublics, TPipe],
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })
@@ -37,8 +39,14 @@ export class Home implements OnInit {
   /** Vrai si le visiteur possède une session valide. */
   isLoggedIn = false;
 
+  /**
+   * Vrai pour un administrateur venu « voir le site » : l'accueil lui propose
+   * de revenir à l'administration au lieu du parcours étudiant.
+   */
+  isAdmin = false;
+
   /** Prénom affiché dans le titre (étudiant connecté). */
-  userName = 'Étudiant';
+  userName = '';
 
   /** Vrai pendant la vérification du profil (évite les doubles clics). */
   startingJourney = false;
@@ -48,61 +56,62 @@ export class Home implements OnInit {
    * Chaque thème regroupe plusieurs démarches (ex. : « Santé »
    * = Sécurité sociale, mutuelle, médecin traitant).
    */
-  readonly themes: { icon: string; titre: string; couleur: string; demarches: string[] }[] = [
+  readonly themes: { icon: string; titre: Cle; couleur: string; demarches: Cle[] }[] = [
     {
       icon: '🛂',
-      titre: 'Séjour & visa',
+      titre: 'accueil.theme.sejour',
       couleur: 'blue',
-      demarches: ['Validation du VLS-TS', 'Titre de séjour', 'Renouvellement']
+      demarches: ['accueil.theme.sejour.1', 'accueil.theme.sejour.2', 'accueil.theme.sejour.3']
     },
     {
       icon: '🩺',
-      titre: 'Santé',
+      titre: 'accueil.theme.sante',
       couleur: 'red',
-      demarches: ['Sécurité sociale (Ameli)', 'Mutuelle', 'Médecin traitant']
+      demarches: ['accueil.theme.sante.1', 'accueil.theme.sante.2', 'accueil.theme.sante.3']
     },
     {
       icon: '🏠',
-      titre: 'Logement',
+      titre: 'accueil.theme.logement',
       couleur: 'green',
-      demarches: ['Logement CROUS', 'Aide au logement (CAF)', 'Assurance habitation']
+      demarches: ['accueil.theme.logement.1', 'accueil.theme.logement.2', 'accueil.theme.logement.3']
     },
     {
       icon: '🎓',
-      titre: 'Études',
+      titre: 'accueil.theme.etudes',
       couleur: 'purple',
-      demarches: ['Inscription universitaire', 'CVEC', 'Bourses']
+      demarches: ['accueil.theme.etudes.1', 'accueil.theme.etudes.2', 'accueil.theme.etudes.3']
     },
     {
       icon: '💶',
-      titre: 'Banque & budget',
+      titre: 'accueil.theme.banque',
       couleur: 'orange',
-      demarches: ['Ouverture d\'un compte', 'RIB', 'Aides financières']
+      demarches: ['accueil.theme.banque.1', 'accueil.theme.banque.2', 'accueil.theme.banque.3']
     },
     {
       icon: '💼',
-      titre: 'Emploi',
+      titre: 'accueil.theme.emploi',
       couleur: 'blue',
-      demarches: ['Job étudiant', 'Droit au travail', 'Stage']
+      demarches: ['accueil.theme.emploi.1', 'accueil.theme.emploi.2', 'accueil.theme.emploi.3']
     },
     {
       icon: '🚆',
-      titre: 'Transports',
+      titre: 'accueil.theme.transports',
       couleur: 'green',
-      demarches: ['Abonnement étudiant', 'Carte Avantage Jeune', 'Vélo en libre-service']
+      demarches: ['accueil.theme.transports.1', 'accueil.theme.transports.2', 'accueil.theme.transports.3']
     },
     {
       icon: '📱',
-      titre: 'Vie quotidienne',
+      titre: 'accueil.theme.quotidien',
       couleur: 'red',
-      demarches: ['Forfait mobile', 'Permis de conduire', 'Déclaration d\'impôts']
+      demarches: ['accueil.theme.quotidien.1', 'accueil.theme.quotidien.2', 'accueil.theme.quotidien.3']
     }
   ];
 
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isLoggedIn();
+    this.isAdmin = this.isLoggedIn && this.authService.isAdmin();
 
-    if (this.isLoggedIn) {
+    if (this.isLoggedIn && !this.isAdmin) {
       this.loadUserName();
     }
   }
@@ -132,6 +141,12 @@ export class Home implements OnInit {
 
     if (!this.authService.isLoggedIn()) {
       this.router.navigate(['/login']);
+      return;
+    }
+
+    // Le parcours étudiant ne concerne pas l'administrateur.
+    if (this.authService.isAdmin()) {
+      this.router.navigate(['/admin']);
       return;
     }
 

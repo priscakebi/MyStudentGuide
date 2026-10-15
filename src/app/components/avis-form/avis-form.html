@@ -8,11 +8,11 @@
     (click)="$event.stopPropagation()"
   >
 
-    <button type="button" class="avis-close" aria-label="Fermer" (click)="fermer()">✕</button>
+    <button type="button" class="avis-close" [attr.aria-label]="'commun.fermer' | t" (click)="fermer()">✕</button>
 
-    <span class="avis-label">DONNER MON AVIS</span>
+    <span class="avis-label">{{ 'avis.label' | t }}</span>
 
-    <h2 id="avis-title">Comment s'est passé votre suivi ?</h2>
+    <h2 id="avis-title">{{ 'avis.titre' | t }}</h2>
 
     @if (demarcheTitre) {
       <p class="avis-demarche">{{ demarcheTitre }}</p>
@@ -22,36 +22,36 @@
 
       <!-- Note en étoiles -->
       <fieldset class="avis-stars" (mouseleave)="survol = 0">
-        <legend>Votre note</legend>
+        <legend>{{ 'avis.note' | t }}</legend>
 
         @for (etoile of etoiles; track etoile) {
           <button
             type="button"
             class="star"
             [class.filled]="etoile <= (survol || note)"
-            [attr.aria-label]="etoile + ' étoile' + (etoile > 1 ? 's' : '')"
+            [attr.aria-label]="(etoile > 1 ? 'avis.etoile.n' : 'avis.etoile.1') | t: { n: etoile }"
             [attr.aria-pressed]="note === etoile"
             (mouseenter)="survol = etoile"
             (click)="note = etoile"
           >★</button>
         }
 
-        <span class="star-caption">{{ libelles[survol || note] }}</span>
+        <span class="star-caption">{{ libelle(survol || note) }}</span>
       </fieldset>
 
       <!-- Commentaire -->
-      <label for="avis-commentaire">Votre commentaire</label>
+      <label for="avis-commentaire">{{ 'avis.commentaire' | t }}</label>
       <textarea
         id="avis-commentaire"
         name="commentaire"
         rows="5"
         maxlength="1000"
-        placeholder="Ce qui vous a aidé, ce qui pourrait être amélioré…"
+        [placeholder]="'avis.placeholder' | t"
         [(ngModel)]="commentaire"
       ></textarea>
 
       <div class="avis-meta">
-        <span>Votre prénom et l'initiale de votre nom seront affichés sur la page d'accueil.</span>
+        <span>{{ 'avis.affichage' | t }}</span>
         <span>{{ commentaire.length }}/1000</span>
       </div>
 
@@ -61,10 +61,10 @@
 
       <div class="avis-actions">
         <button type="button" class="btn-secondary" [disabled]="envoi" (click)="fermer()">
-          Annuler
+          {{ 'commun.annuler' | t }}
         </button>
         <button type="submit" class="btn-primary" [disabled]="envoi || note < 1 || !commentaireValide">
-          {{ envoi ? 'Envoi…' : 'Publier mon avis' }}
+          {{ (envoi ? 'avis.envoi' : 'avis.publier') | t }}
         </button>
       </div>
 

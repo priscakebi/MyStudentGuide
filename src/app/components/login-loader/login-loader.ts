@@ -15,18 +15,21 @@
 // ============================================================
 
 import { Component, Input } from '@angular/core';
+import { TPipe } from '../../i18n/t.pipe';
+import { Cle } from '../../i18n/textes';
 
 /** Durée de l'écran de chargement, en millisecondes. */
 export const LOGIN_LOADER_DURATION = 2800;
 
 interface LoaderIcon {
   icon: string;
-  label: string;
+  label: Cle;
 }
 
 @Component({
   selector: 'app-login-loader',
   standalone: true,
+  imports: [TPipe],
   templateUrl: './login-loader.html',
   styleUrl: './login-loader.scss'
 })
@@ -40,25 +43,25 @@ export class LoginLoader {
 
   /** Première bande : les démarches. */
   readonly demarches: LoaderIcon[] = [
-    { icon: '🛂', label: 'Titre de séjour' },
-    { icon: '🩺', label: 'Santé' },
-    { icon: '🏠', label: 'Logement' },
-    { icon: '💶', label: 'Banque' },
-    { icon: '📄', label: 'Documents' },
-    { icon: '🏛️', label: 'Préfecture' },
-    { icon: '💼', label: 'Job étudiant' }
+    { icon: '🛂', label: 'loader.sejour' },
+    { icon: '🩺', label: 'loader.sante' },
+    { icon: '🏠', label: 'loader.logement' },
+    { icon: '💶', label: 'loader.banque' },
+    { icon: '📄', label: 'loader.documents' },
+    { icon: '🏛️', label: 'loader.prefecture' },
+    { icon: '💼', label: 'loader.job' }
   ];
 
   /** Seconde bande : vie étudiante et France. */
   readonly vieEtudiante: LoaderIcon[] = [
-    { icon: '🎓', label: 'Études' },
+    { icon: '🎓', label: 'loader.etudes' },
     // (le drapeau 🇫🇷 s'affiche « FR » sous Windows : on utilise la baguette)
-    { icon: '🥖', label: 'France' },
-    { icon: '📚', label: 'Bibliothèque' },
-    { icon: '🗼', label: 'Paris' },
-    { icon: '🚆', label: 'Transports' },
-    { icon: '🥐', label: 'Vie en France' },
-    { icon: '🎒', label: 'Campus' }
+    { icon: '🥖', label: 'loader.france' },
+    { icon: '📚', label: 'loader.bibliotheque' },
+    { icon: '🗼', label: 'loader.paris' },
+    { icon: '🚆', label: 'loader.transports' },
+    { icon: '🥐', label: 'loader.vie' },
+    { icon: '🎒', label: 'loader.campus' }
   ];
 
   /**

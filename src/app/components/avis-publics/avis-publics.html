@@ -4,16 +4,16 @@
 
     <div class="avis-heading">
 
-      <span class="avis-label">AVIS DES ÉTUDIANTS</span>
+      <span class="avis-label">{{ 'avisPublics.label' | t }}</span>
 
       <h2 id="avis-publics-title">
-        Ils ont été <span>accompagnés</span>
+        {{ 'avisPublics.titre' | t }} <span>{{ 'avisPublics.titre.fin' | t }}</span>
       </h2>
 
       <p>
-        Note moyenne
+        {{ 'avisPublics.moyenne' | t }}
         <strong>{{ moyenne }}/5</strong>
-        sur les derniers avis laissés après une démarche terminée.
+        {{ 'avisPublics.moyenne.suite' | t }}
       </p>
 
     </div>
@@ -24,7 +24,7 @@
 
         <article class="avis-card">
 
-          <div class="avis-stars" [attr.aria-label]="item.note + ' sur 5'">
+          <div class="avis-stars" [attr.aria-label]="'avisPublics.surCinq' | t: { n: item.note }">
             @for (etoile of etoiles; track etoile) {
               <span [class.on]="etoile <= item.note" aria-hidden="true">★</span>
             }
@@ -36,7 +36,7 @@
             <span class="avatar" aria-hidden="true">{{ initiale(item.auteur) }}</span>
             <div>
               <strong>{{ item.auteur }}</strong>
-              <span>{{ item.demarcheTitre }} · {{ item.dateCreation | date:'dd/MM/yyyy' }}</span>
+              <span>{{ item.demarcheTitre }} · {{ item.dateCreation | dateL }}</span>
             </div>
           </footer>
 

@@ -25,16 +25,9 @@
         <strong>MyStudentGuide</strong>
       </a>
 
-      <p>
-        Le guide des démarches administratives pour les étudiants
-        internationaux en France : étapes, documents et dates limites
-        au même endroit.
-      </p>
+      <p>{{ 'footer.presentation' | t }}</p>
 
-      <p class="footer-notice">
-        Informations données à titre indicatif : vérifiez toujours
-        auprès des sites officiels avant une démarche.
-      </p>
+      <p class="footer-notice">{{ 'footer.avertissement' | t }}</p>
 
     </div>
 
@@ -45,21 +38,21 @@
 
     <nav class="footer-column" aria-labelledby="footer-nav-title">
 
-      <h2 id="footer-nav-title">Navigation</h2>
+      <h2 id="footer-nav-title">{{ 'footer.navigation' | t }}</h2>
 
       <ul>
-        <li><a routerLink="/home">Accueil</a></li>
-        <li><a routerLink="/demarches">Démarches</a></li>
-        <li><a routerLink="/documents">Documents requis</a></li>
+        <li><a routerLink="/home">{{ 'nav.accueil' | t }}</a></li>
+        <li><a routerLink="/demarches">{{ 'footer.demarches' | t }}</a></li>
+        <li><a routerLink="/documents">{{ 'titre.documents' | t }}</a></li>
         @if (!isAdmin) {
           <!-- Un visiteur est invité à se connecter, puis ramené ici. -->
-          <li><a routerLink="/dashboard/aide">Besoin d'aide ?</a></li>
+          <li><a routerLink="/dashboard/aide">{{ 'titre.aide' | t }}</a></li>
         }
         @if (isLoggedIn) {
-          <li><a [routerLink]="isAdmin ? '/admin' : '/dashboard'">Mon espace</a></li>
+          <li><a [routerLink]="isAdmin ? '/admin' : '/dashboard'">{{ 'titre.monEspace' | t }}</a></li>
         } @else {
-          <li><a routerLink="/login">Se connecter</a></li>
-          <li><a routerLink="/register">Créer un compte</a></li>
+          <li><a routerLink="/login">{{ 'commun.seConnecter' | t }}</a></li>
+          <li><a routerLink="/register">{{ 'commun.creerCompte' | t }}</a></li>
         }
       </ul>
 
@@ -72,15 +65,15 @@
 
     <div class="footer-column">
 
-      <h2 id="footer-links-title">Sites officiels</h2>
+      <h2 id="footer-links-title">{{ 'footer.sitesOfficiels' | t }}</h2>
 
       <ul aria-labelledby="footer-links-title">
         @for (site of officialSites; track site.url) {
           <li>
             <a [href]="site.url" target="_blank" rel="noopener noreferrer">
-              {{ site.label }}
+              {{ site.label | t }}
               <span class="external" aria-hidden="true">↗</span>
-              <span class="visually-hidden">(nouvel onglet)</span>
+              <span class="visually-hidden">{{ 'commun.nouvelOnglet' | t }}</span>
             </a>
           </li>
         }
@@ -97,11 +90,11 @@
 
   <div class="footer-bottom">
 
-    <p>© {{ year }} MyStudentGuide — Votre guide administratif étudiant</p>
+    <p>© {{ year }} MyStudentGuide — {{ 'footer.slogan' | t }}</p>
 
     <button type="button" class="back-to-top" (click)="scrollToTop()">
       <span aria-hidden="true">↑</span>
-      Haut de page
+      {{ 'footer.hautDePage' | t }}
     </button>
 
   </div>

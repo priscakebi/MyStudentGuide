@@ -29,16 +29,15 @@
     <div class="header-content">
 
       <p class="eyebrow">
-        MON ESPACE
+        {{ 'profil.label' | t }}
       </p>
 
       <h1>
-        Mon profil
+        {{ 'profil.titre' | t }}
       </h1>
 
       <p>
-        Retrouvez et gérez les informations utilisées
-        pour personnaliser votre parcours administratif.
+        {{ 'profil.intro' | t }}
       </p>
 
     </div>
@@ -58,7 +57,7 @@
     <div class="loader"></div>
 
     <p>
-      Chargement de votre profil...
+      {{ 'profil.chargement' | t }}
     </p>
 
   </div>
@@ -121,16 +120,15 @@
         <div>
 
           <span class="section-label">
-            {{ profile ? 'MODIFICATION' : 'PREMIÈRE CONFIGURATION' }}
+            {{ (profile ? 'profil.form.label.modification' : 'profil.form.label.premiere') | t }}
           </span>
 
           <h2>
-            {{ profile ? 'Modifier mon profil' : 'Complétez votre profil' }}
+            {{ (profile ? 'profil.form.titre.modifier' : 'profil.form.titre.completer') | t }}
           </h2>
 
           <p>
-            Ces informations permettent à MyStudentGuide
-            de mieux adapter votre parcours administratif.
+            {{ 'profil.form.intro' | t }}
           </p>
 
         </div>
@@ -163,11 +161,11 @@
             <div>
 
               <h3>
-                Informations personnelles
+                {{ 'profil.section.perso' | t }}
               </h3>
 
               <p>
-                Quelques informations générales sur vous.
+                {{ 'profil.section.perso.texte' | t }}
               </p>
 
             </div>
@@ -186,7 +184,7 @@
 
               <label for="nationalite">
 
-                Nationalité
+                {{ 'profil.nationalite' | t }}
 
                 <span class="required">
                   *
@@ -200,7 +198,7 @@
                 name="nationalite"
                 type="text"
                 [(ngModel)]="profileForm.nationalite"
-                placeholder="Ex. Ivoirienne"
+                [placeholder]="'profil.nationalite.placeholder' | t"
                 autocomplete="country-name"
                 minlength="2"
                 pattern="[A-Za-zÀ-ÖØ-öø-ÿ' -]+"
@@ -217,8 +215,7 @@
                   !isNationaliteValid()
                 "
               >
-                La nationalité doit contenir uniquement des lettres,
-                espaces, apostrophes ou tirets.
+                {{ 'profil.nationalite.erreur' | t }}
               </small>
 
             </div>
@@ -232,7 +229,7 @@
 
               <label for="telephone">
 
-                Numéro de téléphone
+                {{ 'profil.telephone.label' | t }}
 
                 <span class="required">
                   *
@@ -246,7 +243,7 @@
                 name="telephone"
                 type="tel"
                 [(ngModel)]="profileForm.telephone"
-                placeholder="Ex. 0612345678"
+                [placeholder]="'profil.telephone.placeholder' | t"
                 inputmode="numeric"
                 maxlength="10"
                 minlength="10"
@@ -265,8 +262,7 @@
                   !isPhoneValid()
                 "
               >
-                Le numéro doit contenir exactement 10 chiffres
-                et commencer par 01 à 09.
+                {{ 'profil.telephone.erreur' | t }}
               </small>
 
             </div>
@@ -291,12 +287,11 @@
             <div>
 
               <h3>
-                Mes études
+                {{ 'profil.section.etudes' | t }}
               </h3>
 
               <p>
-                Informations concernant votre établissement
-                et votre parcours d'études.
+                {{ 'profil.section.etudes.texte' | t }}
               </p>
 
             </div>
@@ -315,7 +310,7 @@
 
               <label for="niveauEtudes">
 
-                Niveau d'études
+                {{ 'profil.niveau' | t }}
 
                 <span class="required">
                   *
@@ -332,14 +327,14 @@
               >
 
                 <option value="">
-                  Sélectionnez votre niveau
+                  {{ 'profil.niveau.choisir' | t }}
                 </option>
 
                 <option
                   *ngFor="let niveau of niveauxEtudes"
                   [value]="niveau"
                 >
-                  {{ niveau }}
+                  {{ libelleNiveau(niveau) }}
                 </option>
 
               </select>
@@ -355,7 +350,7 @@
 
               <label for="universite">
 
-                Université / établissement
+                {{ 'profil.universite' | t }}
 
                 <span class="required">
                   *
@@ -369,7 +364,7 @@
                 name="universite"
                 type="text"
                 [(ngModel)]="profileForm.universite"
-                placeholder="Ex. Université Paris Cité"
+                [placeholder]="'profil.universite.placeholder' | t"
                 autocomplete="organization"
                 minlength="2"
                 pattern="[A-Za-zÀ-ÖØ-öø-ÿ0-9' .,&()/-]+"
@@ -386,8 +381,7 @@
                   !isUniversiteValid()
                 "
               >
-                Le nom de l'établissement contient des caractères
-                non autorisés.
+                {{ 'profil.universite.erreur' | t }}
               </small>
 
             </div>
@@ -401,7 +395,7 @@
 
               <label for="villeEtudes">
 
-                Ville d'études
+                {{ 'profil.ville' | t }}
 
                 <span class="required">
                   *
@@ -415,7 +409,7 @@
                 name="villeEtudes"
                 type="text"
                 [(ngModel)]="profileForm.villeEtudes"
-                placeholder="Ex. Paris"
+                [placeholder]="'profil.ville.placeholder' | t"
                 autocomplete="address-level2"
                 minlength="2"
                 pattern="[A-Za-zÀ-ÖØ-öø-ÿ' -]+"
@@ -432,8 +426,7 @@
                   !isVilleValid()
                 "
               >
-                La ville doit contenir uniquement des lettres,
-                espaces, apostrophes ou tirets.
+                {{ 'profil.ville.erreur' | t }}
               </small>
 
             </div>
@@ -458,12 +451,11 @@
             <div>
 
               <h3>
-                Situation administrative
+                {{ 'profil.section.situation' | t }}
               </h3>
 
               <p>
-                Ces informations permettent d'adapter
-                les démarches proposées.
+                {{ 'profil.section.situation.texte' | t }}
               </p>
 
             </div>
@@ -482,7 +474,7 @@
 
               <label for="typeVisa">
 
-                Type de visa / séjour
+                {{ 'profil.visa' | t }}
 
                 <span class="required">
                   *
@@ -499,14 +491,14 @@
               >
 
                 <option value="">
-                  Sélectionnez votre situation
+                  {{ 'profil.visa.choisir' | t }}
                 </option>
 
                 <option
                   *ngFor="let visa of typesVisa"
                   [value]="visa.value"
                 >
-                  {{ visa.label }}
+                  {{ visa.label | t }}
                 </option>
 
               </select>
@@ -522,7 +514,7 @@
 
               <label>
 
-                Première arrivée en France
+                {{ 'profil.arrivee' | t }}
 
                 <span class="required">
                   *
@@ -551,12 +543,11 @@
                 <span class="checkbox-content">
 
                   <strong>
-                    Oui, c'est ma première arrivée
+                    {{ 'profil.arrivee.oui' | t }}
                   </strong>
 
                   <small>
-                    Cette information peut être utilisée
-                    pour adapter certaines démarches.
+                    {{ 'profil.arrivee.texte' | t }}
                   </small>
 
                 </span>
@@ -585,11 +576,11 @@
             <div>
 
               <h3>
-                Mon logement
+                {{ 'profil.section.logement' | t }}
               </h3>
 
               <p>
-                Indiquez votre situation de logement actuelle.
+                {{ 'profil.section.logement.texte' | t }}
               </p>
 
             </div>
@@ -608,7 +599,7 @@
 
               <label for="typeLogement">
 
-                Type de logement
+                {{ 'profil.logement' | t }}
 
                 <span class="required">
                   *
@@ -625,14 +616,14 @@
               >
 
                 <option value="">
-                  Sélectionnez votre logement
+                  {{ 'profil.logement.choisir' | t }}
                 </option>
 
                 <option
                   *ngFor="let logement of typesLogement"
                   [value]="logement.value"
                 >
-                  {{ logement.label }}
+                  {{ logement.label | t }}
                 </option>
 
               </select>
@@ -648,7 +639,7 @@
 
               <label for="adresse">
 
-                Adresse
+                {{ 'profil.adresse' | t }}
 
                 <span class="required">
                   *
@@ -662,7 +653,7 @@
                 name="adresse"
                 type="text"
                 [(ngModel)]="profileForm.adresse"
-                placeholder="Ex. 10 rue de Paris, 75000 Paris"
+                [placeholder]="'profil.adresse.placeholder' | t"
                 autocomplete="street-address"
                 minlength="5"
                 pattern="[A-Za-zÀ-ÖØ-öø-ÿ0-9' .,\/-]+"
@@ -679,9 +670,7 @@
                   !isAdresseValid()
                 "
               >
-                Veuillez saisir une adresse valide.
-                Les lettres, chiffres, espaces, tirets et caractères
-                d'adresse courants sont autorisés.
+                {{ 'profil.adresse.erreur' | t }}
               </small>
 
             </div>
@@ -707,7 +696,7 @@
             (click)="cancelEditing()"
             [disabled]="saving"
           >
-            Annuler
+            {{ 'commun.annuler' | t }}
           </button>
 
 
@@ -732,11 +721,11 @@
             <span>
 
               {{
-                saving
-                  ? 'Enregistrement...'
+                (saving
+                  ? 'profil.enregistrement'
                   : profile
-                    ? 'Enregistrer les modifications'
-                    : 'Créer mon profil'
+                    ? 'profil.enregistrer'
+                    : 'profil.creer') | t
               }}
 
             </span>
@@ -767,23 +756,22 @@
       <div class="profile-summary">
 
         <div class="avatar">
-          {{ profile.nationalite.charAt(0).toUpperCase() }}
+          {{ profile.nationalite ? profile.nationalite.charAt(0).toUpperCase() : '👤' }}
         </div>
 
 
         <div class="profile-identity">
 
           <span class="section-label">
-            PROFIL ÉTUDIANT
+            {{ 'profil.affichage.label' | t }}
           </span>
 
           <h2>
-            Mon profil
+            {{ 'profil.titre' | t }}
           </h2>
 
           <p>
-            Les informations utilisées pour personnaliser
-            votre parcours.
+            {{ 'profil.affichage.texte' | t }}
           </p>
 
         </div>
@@ -801,7 +789,7 @@
             ✎
           </span>
 
-          Modifier
+          {{ 'commun.modifier' | t }}
 
         </button>
 
@@ -828,7 +816,7 @@
             </span>
 
             <h3>
-              Informations personnelles
+              {{ 'profil.section.perso' | t }}
             </h3>
 
           </div>
@@ -840,11 +828,11 @@
             <div class="information-item">
 
               <span class="information-label">
-                Nationalité
+                {{ 'profil.nationalite' | t }}
               </span>
 
               <strong>
-                {{ profile.nationalite || 'Non renseignée' }}
+                {{ profile.nationalite || ('profil.nonRenseignee' | t) }}
               </strong>
 
             </div>
@@ -853,11 +841,11 @@
             <div class="information-item">
 
               <span class="information-label">
-                Téléphone
+                {{ 'profil.telephone' | t }}
               </span>
 
               <strong>
-                {{ profile.telephone || 'Non renseigné' }}
+                {{ profile.telephone || ('profil.nonRenseigne' | t) }}
               </strong>
 
             </div>
@@ -880,7 +868,7 @@
             </span>
 
             <h3>
-              Mes études
+              {{ 'profil.section.etudes' | t }}
             </h3>
 
           </div>
@@ -892,11 +880,11 @@
             <div class="information-item">
 
               <span class="information-label">
-                Niveau d'études
+                {{ 'profil.niveau' | t }}
               </span>
 
               <strong>
-                {{ profile.niveauEtudes || 'Non renseigné' }}
+                {{ profile.niveauEtudes ? libelleNiveau(profile.niveauEtudes) : ('profil.nonRenseigne' | t) }}
               </strong>
 
             </div>
@@ -905,11 +893,11 @@
             <div class="information-item">
 
               <span class="information-label">
-                Université / établissement
+                {{ 'profil.universite' | t }}
               </span>
 
               <strong>
-                {{ profile.universite || 'Non renseigné' }}
+                {{ profile.universite || ('profil.nonRenseigne' | t) }}
               </strong>
 
             </div>
@@ -918,11 +906,11 @@
             <div class="information-item">
 
               <span class="information-label">
-                Ville d'études
+                {{ 'profil.ville' | t }}
               </span>
 
               <strong>
-                {{ profile.villeEtudes || 'Non renseignée' }}
+                {{ profile.villeEtudes || ('profil.nonRenseignee' | t) }}
               </strong>
 
             </div>
@@ -945,7 +933,7 @@
             </span>
 
             <h3>
-              Situation administrative
+              {{ 'profil.section.situation' | t }}
             </h3>
 
           </div>
@@ -957,7 +945,7 @@
             <div class="information-item">
 
               <span class="information-label">
-                Type de visa / séjour
+                {{ 'profil.visa' | t }}
               </span>
 
               <strong>
@@ -970,7 +958,7 @@
             <div class="information-item">
 
               <span class="information-label">
-                Première arrivée en France
+                {{ 'profil.arrivee' | t }}
               </span>
 
               <strong
@@ -978,11 +966,7 @@
                 [class.status-no]="!profile.premiereArrivee"
               >
 
-                {{
-                  profile.premiereArrivee
-                    ? 'Oui'
-                    : 'Non'
-                }}
+                {{ (profile.premiereArrivee ? 'commun.oui' : 'commun.non') | t }}
 
               </strong>
 
@@ -1006,7 +990,7 @@
             </span>
 
             <h3>
-              Mon logement
+              {{ 'profil.section.logement' | t }}
             </h3>
 
           </div>
@@ -1018,7 +1002,7 @@
             <div class="information-item">
 
               <span class="information-label">
-                Type de logement
+                {{ 'profil.logement' | t }}
               </span>
 
               <strong>
@@ -1031,11 +1015,11 @@
             <div class="information-item full-width">
 
               <span class="information-label">
-                Adresse
+                {{ 'profil.adresse' | t }}
               </span>
 
               <strong>
-                {{ profile.adresse || 'Non renseignée' }}
+                {{ profile.adresse || ('profil.nonRenseignee' | t) }}
               </strong>
 
             </div>
@@ -1063,12 +1047,11 @@
       </div>
 
       <h2>
-        Votre profil n'est pas encore configuré
+        {{ 'profil.vide.titre' | t }}
       </h2>
 
       <p>
-        Complétez votre profil pour permettre à MyStudentGuide
-        de personnaliser votre parcours administratif.
+        {{ 'profil.vide.texte' | t }}
       </p>
 
       <button
@@ -1076,7 +1059,7 @@
         class="btn btn-primary"
         (click)="editing = true"
       >
-        Créer mon profil
+        {{ 'profil.creer' | t }}
       </button>
 
     </section>

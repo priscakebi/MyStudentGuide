@@ -22,7 +22,7 @@
 
         <!-- Petit label au-dessus du titre -->
         <span class="hero-label">
-          VOTRE GUIDE ADMINISTRATIF
+          {{ 'accueil.label' | t }}
         </span>
 
 
@@ -31,13 +31,13 @@
 
           @if (isLoggedIn) {
 
-            Bonjour
+            {{ 'accueil.bonjour' | t }}
 
             <!--
               Prénom de l'étudiant connecté.
             -->
             <span class="user-name">
-              {{ userName }}
+              {{ isAdmin ? ('accueil.admin.nom' | t) : (userName || ('espace.etudiant' | t)) }}
             </span>
 
             <span class="wave">
@@ -46,7 +46,7 @@
 
           } @else {
 
-            Bienvenue sur
+            {{ 'accueil.bienvenue' | t }}
 
             <span class="user-name">
               MyStudentGuide
@@ -60,9 +60,8 @@
         <!-- Texte de présentation -->
         <p class="hero-description">
 
-          MyStudentGuide vous accompagne dans vos démarches
-          administratives et votre installation en France,
-          <strong>étape par étape.</strong>
+          {{ 'accueil.description' | t }}
+          <strong>{{ 'accueil.description.fin' | t }}</strong>
 
         </p>
 
@@ -73,19 +72,30 @@
           <input
             #champRecherche
             type="search"
-            placeholder="CAF, carte Vitale, séjour…"
-            aria-label="Rechercher une démarche"
+            [placeholder]="'accueil.recherche.placeholder' | t"
+            [attr.aria-label]="'accueil.recherche.label' | t"
             maxlength="100"
             autocomplete="off"
           >
-          <button type="submit">Rechercher</button>
+          <button type="submit">{{ 'accueil.recherche.bouton' | t }}</button>
         </form>
 
 
         <!-- Boutons d'action : dépendent de la connexion -->
         <div class="hero-actions">
 
-          @if (isLoggedIn) {
+          @if (isAdmin) {
+
+            <!-- Administrateur venu « voir le site » -->
+            <a routerLink="/admin" class="hero-button primary">
+              {{ 'accueil.admin.retour' | t }}
+            </a>
+
+            <a routerLink="/demarches" class="hero-button secondary">
+              {{ 'accueil.voirDemarches' | t }}
+            </a>
+
+          } @else if (isLoggedIn) {
 
             <button
               type="button"
@@ -93,21 +103,21 @@
               [disabled]="startingJourney"
               (click)="startJourney()"
             >
-              {{ startingJourney ? 'Chargement...' : 'Continuer mon parcours' }}
+              {{ (startingJourney ? 'commun.chargement' : 'accueil.continuer') | t }}
             </button>
 
             <a routerLink="/demarches" class="hero-button secondary">
-              Voir les démarches
+              {{ 'accueil.voirDemarches' | t }}
             </a>
 
           } @else {
 
             <a routerLink="/register" class="hero-button primary">
-              Créer un compte
+              {{ 'commun.creerCompte' | t }}
             </a>
 
             <a routerLink="/demarches" class="hero-button secondary">
-              Voir les démarches
+              {{ 'accueil.voirDemarches' | t }}
             </a>
 
           }
@@ -117,9 +127,9 @@
 
         <!-- Points forts -->
         <ul class="hero-trust">
-          <li><span aria-hidden="true">✓</span> Gratuit</li>
-          <li><span aria-hidden="true">✓</span> Liens officiels</li>
-          <li><span aria-hidden="true">✓</span> Suivi étape par étape</li>
+          <li><span aria-hidden="true">✓</span> {{ 'accueil.atout.gratuit' | t }}</li>
+          <li><span aria-hidden="true">✓</span> {{ 'accueil.atout.liens' | t }}</li>
+          <li><span aria-hidden="true">✓</span> {{ 'accueil.atout.suivi' | t }}</li>
         </ul>
 
       </div>
@@ -130,7 +140,7 @@
 
         <img
           src="images/etudiants-france.svg"
-          alt="Trois étudiants internationaux devant la tour Eiffel"
+          [alt]="'accueil.illustration.alt' | t"
           width="480"
           height="400"
         >
@@ -138,16 +148,16 @@
         <div class="floating-badge badge-top">
           <span class="badge-icon" aria-hidden="true">🛂</span>
           <div>
-            <strong>Titre de séjour</strong>
-            <small>Étape suivante : préfecture</small>
+            <strong>{{ 'accueil.badge.sejour' | t }}</strong>
+            <small>{{ 'accueil.badge.sejour.etape' | t }}</small>
           </div>
         </div>
 
         <div class="floating-badge badge-bottom">
           <span class="badge-icon" aria-hidden="true">🗼</span>
           <div>
-            <strong>Bienvenue en France</strong>
-            <small>Votre guide pas à pas</small>
+            <strong>{{ 'accueil.badge.bienvenue' | t }}</strong>
+            <small>{{ 'accueil.badge.guide' | t }}</small>
           </div>
         </div>
 
@@ -171,17 +181,16 @@
       <div class="section-heading">
 
         <span class="section-label">
-          SUR QUOI SOMMES-NOUS LÀ POUR VOUS ?
+          {{ 'accueil.themes.label' | t }}
         </span>
 
         <h2>
-          Toutes vos démarches,
-          <span>par thème</span>
+          {{ 'accueil.themes.titre' | t }}
+          <span>{{ 'accueil.themes.titre.fin' | t }}</span>
         </h2>
 
         <p>
-          Informez-vous et suivez vos démarches dans chaque domaine
-          de votre vie d'étudiant en France.
+          {{ 'accueil.themes.texte' | t }}
         </p>
 
       </div>
@@ -199,16 +208,16 @@
 
             <span class="theme-icon" aria-hidden="true">{{ theme.icon }}</span>
 
-            <h3>{{ theme.titre }}</h3>
+            <h3>{{ theme.titre | t }}</h3>
 
             <ul>
               @for (demarche of theme.demarches; track demarche) {
-                <li>{{ demarche }}</li>
+                <li>{{ demarche | t }}</li>
               }
             </ul>
 
             <span class="theme-link">
-              Découvrir <span aria-hidden="true">→</span>
+              {{ 'accueil.themes.decouvrir' | t }} <span aria-hidden="true">→</span>
             </span>
 
           </a>
@@ -230,16 +239,16 @@
       <div class="section-heading">
 
         <span class="section-label">
-          POURQUOI MYSTUDENTGUIDE ?
+          {{ 'accueil.pourquoi.label' | t }}
         </span>
 
 
         <h2>
 
-          Simplifiez votre installation
+          {{ 'accueil.pourquoi.titre' | t }}
 
           <span>
-            en France
+            {{ 'accueil.pourquoi.titre.fin' | t }}
           </span>
 
         </h2>
@@ -247,8 +256,7 @@
 
         <p>
 
-          Toutes les informations essentielles pour vous aider
-          à comprendre et réaliser vos démarches administratives.
+          {{ 'accueil.pourquoi.texte' | t }}
 
         </p>
 
@@ -270,14 +278,13 @@
 
 
           <h3>
-            Des démarches adaptées
+            {{ 'accueil.pourquoi.1.titre' | t }}
           </h3>
 
 
           <p>
 
-            Consultez toutes les démarches et recevez des
-            suggestions adaptées à votre situation étudiante.
+            {{ 'accueil.pourquoi.1.texte' | t }}
 
           </p>
 
@@ -297,14 +304,13 @@
 
 
           <h3>
-            Un parcours guidé
+            {{ 'accueil.pourquoi.2.titre' | t }}
           </h3>
 
 
           <p>
 
-            Avancez étape par étape et visualisez facilement
-            l'évolution de vos démarches.
+            {{ 'accueil.pourquoi.2.texte' | t }}
 
           </p>
 
@@ -324,14 +330,13 @@
 
 
           <h3>
-            Des informations fiables
+            {{ 'accueil.pourquoi.3.titre' | t }}
           </h3>
 
 
           <p>
 
-            Accédez aux informations nécessaires et aux liens
-            officiels pour effectuer vos démarches.
+            {{ 'accueil.pourquoi.3.texte' | t }}
 
           </p>
 
@@ -347,6 +352,8 @@
     <!-- MON PARCOURS                                              -->
     <!-- ========================================================= -->
 
+    <!-- Réservé aux étudiants et aux visiteurs : un administrateur n'a pas de parcours. -->
+    @if (!isAdmin) {
     <section class="assigned-section">
 
       <!-- ------------------------------------------------------- -->
@@ -359,22 +366,20 @@
 
           <!-- Petit label -->
           <span class="section-label">
-            MON PARCOURS
+            {{ 'accueil.parcours.label' | t }}
           </span>
 
 
           <!-- Titre -->
           <h2>
-            Commencez votre parcours
+            {{ 'accueil.parcours.titre' | t }}
           </h2>
 
 
           <!-- Explication -->
           <p>
 
-            Quelques informations sur votre situation nous permettent
-            de vous proposer les démarches adaptées à votre parcours
-            d'étudiant en France.
+            {{ 'accueil.parcours.texte' | t }}
 
           </p>
 
@@ -402,22 +407,20 @@
 
           <!-- Petit label -->
           <span class="journey-label">
-            VOTRE PARCOURS ÉTUDIANT
+            {{ 'accueil.parcours.carte.label' | t }}
           </span>
 
 
           <!-- Titre -->
           <h3>
-            Un parcours adapté à votre situation
+            {{ 'accueil.parcours.carte.titre' | t }}
           </h3>
 
 
           <!-- Explication -->
           <p>
 
-            Complétez votre profil pour que MyStudentGuide puisse
-            identifier les démarches qui vous concernent et vous
-            accompagner étape par étape.
+            {{ 'accueil.parcours.carte.texte' | t }}
 
           </p>
 
@@ -447,7 +450,7 @@
             (click)="startJourney()"
           >
 
-            {{ !isLoggedIn ? 'Se connecter pour commencer' : (startingJourney ? 'Chargement...' : 'Commencer') }}
+            {{ (!isLoggedIn ? 'accueil.parcours.seConnecter' : (startingJourney ? 'commun.chargement' : 'accueil.parcours.commencer')) | t }}
 
             <span>
               →
@@ -460,6 +463,7 @@
       </div>
 
     </section>
+    }
 
 
 
@@ -472,16 +476,16 @@
       <div class="section-heading">
 
         <span class="section-label">
-          COMMENT ÇA MARCHE ?
+          {{ 'accueil.etapes.label' | t }}
         </span>
 
 
         <h2>
 
-          Un parcours simple en
+          {{ 'accueil.etapes.titre' | t }}
 
           <span>
-            3 étapes
+            {{ 'accueil.etapes.titre.fin' | t }}
           </span>
 
         </h2>
@@ -506,14 +510,13 @@
           <div class="step-content">
 
             <h3>
-              Consultez vos démarches
+              {{ 'accueil.etape.1.titre' | t }}
             </h3>
 
 
             <p>
 
-              Parcourez les démarches par thème : séjour,
-              santé, logement, banque, études…
+              {{ 'accueil.etape.1.texte' | t }}
 
             </p>
 
@@ -537,14 +540,13 @@
           <div class="step-content">
 
             <h3>
-              Commencez une démarche
+              {{ 'accueil.etape.2.titre' | t }}
             </h3>
 
 
             <p>
 
-              Depuis votre espace démarches, cliquez sur
-              « Commencer » pour passer la démarche en cours.
+              {{ 'accueil.etape.2.texte' | t }}
 
             </p>
 
@@ -568,14 +570,13 @@
           <div class="step-content">
 
             <h3>
-              Suivez votre progression
+              {{ 'accueil.etape.3.titre' | t }}
             </h3>
 
 
             <p>
 
-              Consultez les informations, les étapes, les documents
-              nécessaires et les liens officiels.
+              {{ 'accueil.etape.3.texte' | t }}
 
             </p>
 
@@ -610,16 +611,16 @@
       <div class="about-content">
 
         <span class="section-label">
-          NOTRE OBJECTIF
+          {{ 'accueil.objectif.label' | t }}
         </span>
 
 
         <h2>
 
-          Vous aider à vous concentrer sur
+          {{ 'accueil.objectif.titre' | t }}
 
           <span>
-            vos études
+            {{ 'accueil.objectif.titre.fin' | t }}
           </span>
 
         </h2>
@@ -627,10 +628,7 @@
 
         <p>
 
-          S'installer dans un nouveau pays implique de nombreuses
-          démarches administratives. MyStudentGuide centralise les
-          informations essentielles afin de rendre votre parcours
-          plus clair et plus simple.
+          {{ 'accueil.objectif.texte' | t }}
 
         </p>
 
@@ -642,7 +640,7 @@
 
         <img
           src="images/etudiant-demarches.svg"
-          alt="Une étudiante suit ses démarches sur son ordinateur"
+          [alt]="'accueil.objectif.alt' | t"
           width="360"
           height="300"
           loading="lazy"
@@ -663,21 +661,20 @@
 
         <div class="cta-card">
 
-          <h2>Prêt à simplifier vos démarches ?</h2>
+          <h2>{{ 'accueil.cta.titre' | t }}</h2>
 
           <p>
-            Créez votre compte gratuitement, renseignez votre profil
-            et suivez vos démarches étape par étape.
+            {{ 'accueil.cta.texte' | t }}
           </p>
 
           <div class="cta-actions">
 
             <a routerLink="/register" class="hero-button primary">
-              Créer mon compte
+              {{ 'accueil.cta.creer' | t }}
             </a>
 
             <a routerLink="/login" class="hero-button secondary">
-              J'ai déjà un compte
+              {{ 'accueil.cta.dejaCompte' | t }}
             </a>
 
           </div>

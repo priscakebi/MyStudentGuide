@@ -14,11 +14,14 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { LangueService } from '../../i18n/langue.service';
+import { TPipe } from '../../i18n/t.pipe';
+import { Cle } from '../../i18n/textes';
 
 
 /**
@@ -63,7 +66,8 @@ interface StudentProfile {
 
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    TPipe
   ],
 
   templateUrl: './profile.html',
@@ -82,6 +86,8 @@ export class Profile implements OnInit {
    * Adresse de base de l'API Spring Boot.
    */
   private readonly apiUrl = environment.apiUrl;
+
+  private readonly langue = inject(LangueService);
 
 
   /*
@@ -165,27 +171,12 @@ export class Profile implements OnInit {
    * Les valeurs correspondent aux valeurs de l'enum
    * VisaType du backend.
    */
-  readonly typesVisa = [
-    {
-      value: 'VLS_TS_ETUDIANT',
-      label: 'VLS-TS étudiant'
-    },
-    {
-      value: 'TITRE_SEJOUR_ETUDIANT',
-      label: 'Titre de séjour étudiant'
-    },
-    {
-      value: 'COURT_SEJOUR',
-      label: 'Court séjour'
-    },
-    {
-      value: 'AUTRE',
-      label: 'Autre'
-    },
-    {
-      value: 'NON_RENSEIGNE',
-      label: 'Non renseigné'
-    }
+  readonly typesVisa: { value: string; label: Cle }[] = [
+    { value: 'VLS_TS_ETUDIANT', label: 'profil.visa.VLS_TS_ETUDIANT' },
+    { value: 'TITRE_SEJOUR_ETUDIANT', label: 'profil.visa.TITRE_SEJOUR_ETUDIANT' },
+    { value: 'COURT_SEJOUR', label: 'profil.visa.COURT_SEJOUR' },
+    { value: 'AUTRE', label: 'profil.visa.AUTRE' },
+    { value: 'NON_RENSEIGNE', label: 'profil.visa.NON_RENSEIGNE' }
   ];
 
 
@@ -195,40 +186,21 @@ export class Profile implements OnInit {
    * Les valeurs correspondent exactement à l'enum
    * LogementType du backend.
    */
-  readonly typesLogement = [
-    {
-      value: 'CROUS',
-      label: 'Résidence CROUS'
-    },
-    {
-      value: 'LOCATION_PRIVEE',
-      label: 'Location privée'
-    },
-    {
-      value: 'HEBERGEMENT_CHEZ_UN_PROCHE',
-      label: 'Hébergement chez un proche'
-    },
-    {
-      value: 'HEBERGEMENT_FAMILLE',
-      label: 'Hébergement chez un membre de ma famille'
-    },
-    {
-      value: 'RESIDENCE_ETUDIANTE',
-      label: 'Résidence étudiante privée'
-    },
-    {
-      value: 'SANS_LOGEMENT',
-      label: 'Je n’ai pas encore de logement'
-    },
-    {
-      value: 'AUTRE',
-      label: 'Autre'
-    },
-    {
-      value: 'NON_RENSEIGNE',
-      label: 'Je préfère ne pas renseigner'
-    }
+  readonly typesLogement: { value: string; label: Cle }[] = [
+    { value: 'CROUS', label: 'profil.logement.CROUS' },
+    { value: 'LOCATION_PRIVEE', label: 'profil.logement.LOCATION_PRIVEE' },
+    { value: 'HEBERGEMENT_CHEZ_UN_PROCHE', label: 'profil.logement.HEBERGEMENT_CHEZ_UN_PROCHE' },
+    { value: 'HEBERGEMENT_FAMILLE', label: 'profil.logement.HEBERGEMENT_FAMILLE' },
+    { value: 'RESIDENCE_ETUDIANTE', label: 'profil.logement.RESIDENCE_ETUDIANTE' },
+    { value: 'SANS_LOGEMENT', label: 'profil.logement.SANS_LOGEMENT' },
+    { value: 'AUTRE', label: 'profil.logement.AUTRE' },
+    { value: 'NON_RENSEIGNE', label: 'profil.logement.NON_RENSEIGNE' }
   ];
+
+  /** Libellé d'un niveau d'études (la valeur enregistrée reste en français). */
+  libelleNiveau(niveau: string): string {
+    return this.langue.tOu(`profil.niveau.${niveau}`, niveau);
+  }
 
 
   /*
@@ -342,8 +314,7 @@ export class Profile implements OnInit {
 
 
           // Erreur générale.
-          this.errorMessage =
-            'Impossible de charger votre profil.';
+          this.errorMessage = this.langue.t('profil.erreur.chargement');
 
           this.loading = false;
         }
@@ -453,7 +424,7 @@ export class Profile implements OnInit {
       (item) => item.value === this.profile?.typeVisa
     );
 
-    return visa?.label || 'Non renseigné';
+    return this.langue.t(visa?.label ?? 'profil.nonRenseigne');
   }
 
 
@@ -466,7 +437,7 @@ export class Profile implements OnInit {
       (item) => item.value === this.profile?.typeLogement
     );
 
-    return logement?.label || 'Non renseigné';
+    return this.langue.t(logement?.label ?? 'profil.nonRenseigne');
   }
 
 
@@ -708,8 +679,7 @@ export class Profile implements OnInit {
      */
     if (!this.isFormValid()) {
 
-      this.errorMessage =
-        'Veuillez corriger les informations indiquées dans le formulaire.';
+      this.errorMessage = this.langue.t('profil.erreur.formulaire');
 
       return;
     }
@@ -741,8 +711,7 @@ export class Profile implements OnInit {
 
           this.editing = false;
 
-          this.successMessage =
-            'Votre profil a été créé avec succès.';
+          this.successMessage = this.langue.t('profil.cree');
 
           this.saving = false;
         },
@@ -776,7 +745,7 @@ export class Profile implements OnInit {
 
           this.errorMessage =
             error.error?.message ||
-            'Impossible de créer votre profil.';
+            this.langue.t('profil.erreur.creation');
         }
       });
   }
@@ -806,8 +775,7 @@ export class Profile implements OnInit {
      */
     if (!this.isFormValid()) {
 
-      this.errorMessage =
-        'Veuillez corriger les informations indiquées dans le formulaire.';
+      this.errorMessage = this.langue.t('profil.erreur.formulaire');
 
       return;
     }
@@ -839,8 +807,7 @@ export class Profile implements OnInit {
 
           this.editing = false;
 
-          this.successMessage =
-            'Votre profil a été mis à jour avec succès.';
+          this.successMessage = this.langue.t('profil.maj');
 
           this.saving = false;
         },
@@ -874,7 +841,7 @@ export class Profile implements OnInit {
 
           this.errorMessage =
             error.error?.message ||
-            'Impossible de modifier votre profil.';
+            this.langue.t('profil.erreur.modification');
         }
       });
   }

@@ -182,6 +182,20 @@ $transition: 0.25s ease;
 
 
 /* ================================================================
+   LANGUE (FR / EN)
+   ================================================================ */
+
+// Les liens restent centrés ; le choix de langue se place à côté du compte.
+.navbar-links {
+  margin: 0 auto;
+}
+
+.navbar-langue {
+  margin-right: 18px;
+}
+
+
+/* ================================================================
    UTILISATEUR
    ================================================================ */
 
@@ -432,9 +446,14 @@ $transition: 0.25s ease;
     margin-right: auto;
   }
 
+  .navbar-langue,
   .navbar-user,
   .login-button {
     order: 1;
+  }
+
+  .navbar-langue {
+    margin: 0;
   }
 
   .menu-toggle {

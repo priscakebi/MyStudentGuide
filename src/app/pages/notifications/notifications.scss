@@ -874,3 +874,15 @@ justify-content: center;
   &.success { background: #eaf8f2; color: #16845b; }
   &.error { background: #fff0f1; color: #c92535; }
 }
+
+
+/* Interface en anglais : les notifications restent rédigées en français. */
+.content-language-note {
+  margin: 10px 0 0;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: #eff4ff;
+  color: #1e3a8a;
+  font-size: 13px;
+  line-height: 1.5;
+}

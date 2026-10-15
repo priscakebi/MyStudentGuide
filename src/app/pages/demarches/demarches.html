@@ -17,17 +17,15 @@
     <div class="hero-content">
 
       <span class="hero-label">
-        DÉMARCHES ADMINISTRATIVES
+        {{ 'demarches.label' | t }}
       </span>
 
       <h1>
-        Mes démarches
+        {{ 'demarches.titre' | t }}
       </h1>
 
       <p>
-        Retrouvez toutes les démarches administratives de
-        l'étudiant international, consultez leurs étapes
-        et commencez celles qui vous concernent.
+        {{ 'demarches.intro' | t }}
       </p>
 
     </div>
@@ -49,11 +47,11 @@
         <div class="hero-card-text">
 
           <strong>
-            Toutes les démarches
+            {{ 'demarches.carte.titre' | t }}
           </strong>
 
           <span>
-            Tout au même endroit
+            {{ 'demarches.carte.texte' | t }}
           </span>
 
         </div>
@@ -81,16 +79,15 @@
       <div>
 
         <span class="section-label">
-          CATALOGUE
+          {{ 'demarches.catalogue' | t }}
         </span>
 
         <h2>
-          Toutes les démarches
+          {{ 'demarches.carte.titre' | t }}
         </h2>
 
         <p>
-          Cliquez sur « Voir plus » pour le détail d'une démarche,
-          ou sur « Commencer » pour l'ajouter à votre suivi.
+          {{ 'demarches.aide' | t }}
         </p>
 
       </div>
@@ -107,9 +104,7 @@
       <div class="login-hint">
 
         <p>
-          Vous pouvez consulter toutes les démarches.
-          Pour en commencer une et suivre votre progression,
-          connectez-vous ou créez un compte étudiant.
+          {{ 'demarches.visiteur' | t }}
         </p>
 
         <div class="login-hint-actions">
@@ -119,14 +114,14 @@
             [queryParams]="{ returnUrl: '/demarches' }"
             class="button button-primary"
           >
-            Se connecter
+            {{ 'commun.seConnecter' | t }}
           </a>
 
           <a
             routerLink="/register"
             class="button button-secondary"
           >
-            Créer un compte
+            {{ 'commun.creerCompte' | t }}
           </a>
 
         </div>
@@ -151,8 +146,8 @@
           class="search-input"
           [value]="recherche"
           (input)="rechercher($any($event.target).value)"
-          placeholder="Rechercher une démarche : titre de séjour, CAF, carte Vitale…"
-          aria-label="Rechercher une démarche"
+          [placeholder]="'demarches.recherche.placeholder' | t"
+          [attr.aria-label]="'accueil.recherche.label' | t"
           maxlength="100"
           autocomplete="off"
         >
@@ -161,7 +156,7 @@
           <button
             type="button"
             class="search-clear"
-            aria-label="Effacer la recherche"
+            [attr.aria-label]="'demarches.recherche.effacer' | t"
             (click)="rechercher('')"
           >
             ✕
@@ -182,7 +177,7 @@
       <div
         class="category-filters"
         role="group"
-        aria-label="Filtrer par catégorie"
+        [attr.aria-label]="'demarches.filtre.label' | t"
       >
 
         <button
@@ -191,7 +186,7 @@
           [class.active]="categorieFiltre === null"
           (click)="choisirCategorie(null)"
         >
-          Toutes
+          {{ 'demarches.filtre.toutes' | t }}
         </button>
 
         @for (categorie of categories; track categorie.id) {
@@ -223,11 +218,11 @@
         <div class="spinner"></div>
 
         <h3>
-          Chargement des démarches...
+          {{ 'demarches.chargement.titre' | t }}
         </h3>
 
         <p>
-          Nous récupérons la liste des démarches.
+          {{ 'demarches.chargement.texte' | t }}
         </p>
 
       </div>
@@ -248,7 +243,7 @@
         </div>
 
         <h3>
-          Impossible de charger les démarches
+          {{ 'demarches.erreur.titre' | t }}
         </h3>
 
         <p>
@@ -260,7 +255,7 @@
           class="button button-primary"
           (click)="loadDemarches()"
         >
-          Réessayer
+          {{ 'commun.reessayer' | t }}
         </button>
 
       </div>
@@ -285,11 +280,11 @@
         </div>
 
         <h3>
-          Aucune démarche
+          {{ 'demarches.vide.titre' | t }}
         </h3>
 
         <p>
-          Aucune démarche n'est disponible pour le moment.
+          {{ 'demarches.vide.texte' | t }}
         </p>
 
       </div>
@@ -322,14 +317,14 @@
       @if (recherche.trim() || categorieFiltre !== null) {
         <p class="results-count" role="status">
           @if (resultats.length === 0) {
-            Aucune démarche trouvée
+            {{ 'demarches.resultats.0' | t }}
           } @else if (resultats.length === 1) {
-            1 démarche trouvée
+            {{ 'demarches.resultats.1' | t }}
           } @else {
-            {{ resultats.length }} démarches trouvées
+            {{ 'demarches.resultats.n' | t: { n: resultats.length } }}
           }
           @if (recherche.trim()) {
-            pour « {{ recherche.trim() }} »
+            {{ 'demarches.resultats.pour' | t: { q: recherche.trim() } }}
           }
         </p>
       }
@@ -343,12 +338,11 @@
           </div>
 
           <h3>
-            Aucune démarche ne correspond
+            {{ 'demarches.aucunResultat.titre' | t }}
           </h3>
 
           <p>
-            Essayez un autre mot (par exemple « logement », « santé » ou « banque »)
-            ou affichez toutes les démarches.
+            {{ 'demarches.aucunResultat.texte' | t }}
           </p>
 
           <button
@@ -356,7 +350,7 @@
             class="button button-primary"
             (click)="effacerFiltres()"
           >
-            Voir toutes les démarches
+            {{ 'demarches.voirToutes' | t }}
           </button>
 
         </div>
@@ -394,13 +388,13 @@
 
                 @if (suivi?.statut === 'EN_COURS') {
                   <span class="status-badge status-en-cours">
-                    En cours
+                    {{ 'statut.EN_COURS' | t }}
                   </span>
                 }
 
                 @if (suivi?.statut === 'TERMINEE') {
                   <span class="status-badge status-terminee">
-                    Terminée
+                    {{ 'statut.TERMINEE' | t }}
                   </span>
                 }
 
@@ -416,7 +410,7 @@
 
               @if (demarche.dateLimite) {
                 <span class="demarche-reference">
-                  Date limite : {{ demarche.dateLimite | date: 'dd/MM/yyyy' }}
+                  {{ 'demarches.dateLimite' | t: { date: demarche.dateLimite | dateL } }}
                 </span>
               }
 
@@ -431,7 +425,7 @@
                 class="button button-secondary"
                 (click)="voirPlus(demarche)"
               >
-                Voir plus
+                {{ 'commun.voirPlus' | t }}
                 <span class="button-arrow">→</span>
               </button>
 
@@ -443,13 +437,13 @@
                   class="button button-primary"
                   (click)="continuer()"
                 >
-                  Continuer
+                  {{ 'demarches.continuer' | t }}
                 </button>
 
               } @else if (suivi?.statut === 'TERMINEE') {
 
                 <span class="completed-label">
-                  ✓ Démarche terminée
+                  {{ 'demarches.terminee' | t }}
                 </span>
 
                 @if (!suivi!.avisDonne) {
@@ -458,7 +452,7 @@
                     class="button button-primary"
                     (click)="ouvrirAvis(suivi!)"
                   >
-                    ★ Donner mon avis
+                    {{ 'demarches.donnerAvis' | t }}
                   </button>
                 }
 
@@ -475,14 +469,14 @@
                   [attr.title]="
                     peutCommencer
                       ? null
-                      : 'Connectez-vous avec un compte étudiant pour commencer'
+                      : ('demarches.connexionRequise' | t)
                   "
                   (click)="commencer(demarche)"
                 >
                   @if (updatingId === demarche.id) {
-                    Ajout...
+                    {{ 'demarches.ajout' | t }}
                   } @else {
-                    Commencer
+                    {{ 'demarches.commencer' | t }}
                   }
                 </button>
 
@@ -521,16 +515,15 @@
           <div class="tracking-text">
 
             <span class="section-label">
-              BESOIN D'UN SUIVI PLUS COMPLET ?
+              {{ 'demarches.suivi.label' | t }}
             </span>
 
             <h2>
-              Suivez l'avancement de vos démarches
+              {{ 'demarches.suivi.titre' | t }}
             </h2>
 
             <p>
-              Retrouvez les démarches que vous avez commencées
-              et votre progression depuis votre espace personnel.
+              {{ 'demarches.suivi.texte' | t }}
             </p>
 
           </div>
@@ -540,7 +533,7 @@
             class="button tracking-button"
             (click)="continuer()"
           >
-            Mon espace
+            {{ 'titre.monEspace' | t }}
             <span class="button-arrow">→</span>
           </button>
 

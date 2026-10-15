@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
+import { LangueService } from '../../i18n/langue.service';
+import { TPipe } from '../../i18n/t.pipe';
 
 import {
   AvisPublic,
@@ -22,13 +24,14 @@ import {
 @Component({
   selector: 'app-avis-form',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, TPipe],
   templateUrl: './avis-form.html',
   styleUrl: './avis-form.scss'
 })
 export class AvisForm {
 
   private service = inject(StudentDemarcheService);
+  private langue = inject(LangueService);
 
   @Input({ required: true }) studentDemarcheId!: number;
   @Input() demarcheTitre = '';
@@ -40,7 +43,10 @@ export class AvisForm {
   @Output() closed = new EventEmitter<void>();
 
   readonly etoiles = [1, 2, 3, 4, 5];
-  readonly libelles = ['', 'Décevant', 'Moyen', 'Bien', 'Très bien', 'Excellent'];
+  /** Libellé d'une note (1 → Décevant / Disappointing) ; vide sans note. */
+  libelle(note: number): string {
+    return note >= 1 && note <= 5 ? this.langue.t(`avis.libelle.${note as 1 | 2 | 3 | 4 | 5}`) : '';
+  }
 
   note = 0;
   survol = 0;
@@ -57,12 +63,12 @@ export class AvisForm {
     this.erreur = '';
 
     if (this.note < 1) {
-      this.erreur = 'Choisissez une note de 1 à 5 étoiles.';
+      this.erreur = this.langue.t('avis.erreur.note');
       return;
     }
 
     if (!this.commentaireValide) {
-      this.erreur = 'Votre commentaire doit contenir entre 10 et 1000 caractères.';
+      this.erreur = this.langue.t('avis.erreur.commentaire');
       return;
     }
 
@@ -82,8 +88,8 @@ export class AvisForm {
         error: (error: HttpErrorResponse) => {
           this.envoi = false;
           this.erreur = error.status === 0
-            ? 'Impossible de joindre le serveur. Réessayez plus tard.'
-            : error.error?.message || "Impossible d'enregistrer votre avis.";
+            ? this.langue.t('form.serveurInjoignable')
+            : error.error?.message || this.langue.t('avis.erreur.enregistrer');
         }
       });
   }

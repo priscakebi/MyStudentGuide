@@ -1,6 +1,7 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, effect, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { RouterStateSnapshot, TitleStrategy } from '@angular/router';
+import { LangueService } from '../i18n/langue.service';
 
 /** Nom de l'application, ajouté à la fin de chaque titre d'onglet. */
 export const NOM_APPLICATION = 'MyStudentGuide';
@@ -23,30 +24,53 @@ export function resume(texte: string, max = 160): string {
 /**
  * Titre de l'onglet du navigateur (et description lue par les moteurs de recherche).
  *
- * Chaque route déclare son titre (propriété `title` dans app.routes.ts) ;
- * le nom de l'application est ajouté automatiquement. Une page dont le
- * titre dépend des données (détail d'une démarche) le remplace ensuite
- * avec PageTitleStrategy.definir().
+ * Chaque route déclare son titre (propriété `title` dans app.routes.ts) :
+ * une clé de traduction (« titre.accueil ») côté étudiant, un texte français
+ * côté administration. Le nom de l'application est ajouté automatiquement.
+ * Une page dont le titre dépend des données (détail d'une démarche) le
+ * remplace ensuite avec PageTitleStrategy.definir().
  */
 @Injectable({ providedIn: 'root' })
 export class PageTitleStrategy extends TitleStrategy {
   private readonly title = inject(Title);
   private readonly meta = inject(Meta);
+  private readonly langue = inject(LangueService);
 
   /** Description générale, celle de index.html. */
   private readonly descriptionParDefaut =
     this.meta.getTag('name="description"')?.content ?? '';
 
+  /** Titre de la route courante (clé ou texte) ou titre défini par la page. */
+  private titreRoute: string | undefined;
+  private titrePage: string | null = null;
+
+  constructor() {
+    super();
+    // Changement de langue : le titre de l'onglet suit.
+    effect(() => {
+      this.langue.langue();
+      this.appliquer();
+    });
+  }
+
   override updateTitle(snapshot: RouterStateSnapshot): void {
-    this.title.setTitle(titreComplet(this.buildTitle(snapshot)));
+    this.titreRoute = this.buildTitle(snapshot);
+    this.titrePage = null;
+    this.appliquer();
     this.meta.updateTag({ name: 'description', content: this.descriptionParDefaut });
   }
 
   /** Remplace le titre de la page courante (ex. : nom de la démarche chargée). */
   definir(titre: string, description?: string | null): void {
-    this.title.setTitle(titreComplet(titre));
+    this.titrePage = titre;
+    this.appliquer();
     if (description?.trim()) {
       this.meta.updateTag({ name: 'description', content: resume(description) });
     }
+  }
+
+  private appliquer(): void {
+    const titre = this.titrePage ?? (this.titreRoute ? this.langue.tSiCle(this.titreRoute) : null);
+    this.title.setTitle(titreComplet(titre));
   }
 }

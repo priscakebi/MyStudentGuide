@@ -18,6 +18,7 @@ import { HttpClient } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
 
 import { environment } from '../../../environments/environment';
+import { TPipe } from '../../i18n/t.pipe';
 
 export interface PrefectureInfo {
   nom: string;
@@ -37,7 +38,7 @@ export interface PrefectureInfo {
 @Component({
   selector: 'app-prefecture-card',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, TPipe],
   templateUrl: './prefecture-card.html',
   styleUrl: './prefecture-card.scss'
 })
@@ -46,7 +47,8 @@ export class PrefectureCard implements OnInit {
   private http = inject(HttpClient);
 
   /** Titre de la carte (ex. : « Votre préfecture pour cette démarche »). */
-  @Input() titre = 'Ma préfecture';
+  /** Titre de la carte ; « Ma préfecture » (traduit) s'il est vide. */
+  @Input() titre = '';
 
   prefecture: PrefectureInfo | null = null;
   chargement = true;

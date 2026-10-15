@@ -2,12 +2,12 @@
 
   <header>
     <span class="prefecture-icon" aria-hidden="true">🏛️</span>
-    <h2 id="prefecture-titre">{{ titre }}</h2>
+    <h2 id="prefecture-titre">{{ titre || ('prefecture.titre' | t) }}</h2>
   </header>
 
   @if (chargement) {
 
-    <p class="muted">Recherche de votre préfecture…</p>
+    <p class="muted">{{ 'prefecture.recherche' | t }}</p>
 
   } @else if (prefecture) {
 
@@ -32,35 +32,34 @@
     <div class="actions">
       @if (prefecture.rendezVous) {
         <a class="btn primary" [href]="prefecture.rendezVous" target="_blank" rel="noopener">
-          Prendre rendez-vous ↗
+          {{ 'prefecture.rendezVous' | t }}
         </a>
       }
       @if (itineraire) {
-        <a class="btn" [href]="itineraire" target="_blank" rel="noopener">Itinéraire ↗</a>
+        <a class="btn" [href]="itineraire" target="_blank" rel="noopener">{{ 'prefecture.itineraire' | t }}</a>
       }
       @if (prefecture.ficheAnnuaire) {
-        <a class="btn" [href]="prefecture.ficheAnnuaire" target="_blank" rel="noopener">Fiche officielle ↗</a>
+        <a class="btn" [href]="prefecture.ficheAnnuaire" target="_blank" rel="noopener">{{ 'prefecture.fiche' | t }}</a>
       }
     </div>
 
     <p class="source">
-      D'après votre ville d'études : {{ prefecture.ville }} ({{ prefecture.departement }}).
-      Ce n'est pas la bonne ? Ajoutez le code postal dans
-      <a routerLink="/dashboard/profile">votre profil</a> (ex. : Saint-Denis 93200).
-      <br>Source : Annuaire de l'administration, Service-Public.gouv.fr.
+      {{ 'prefecture.source.ville' | t: { ville: prefecture.ville, departement: prefecture.departement } }}
+      {{ 'prefecture.source.pasBonne' | t }}
+      <a routerLink="/dashboard/profile">{{ 'prefecture.source.profil' | t }}</a> {{ 'prefecture.source.exemple' | t }}
+      <br>{{ 'prefecture.source.annuaire' | t }}
     </p>
 
   } @else if (villeManquante) {
 
     <p class="muted">
-      Renseignez votre ville d'études pour connaître l'adresse, les horaires
-      et la prise de rendez-vous de votre préfecture.
+      {{ 'prefecture.villeManquante' | t }}
     </p>
-    <a class="btn primary" routerLink="/dashboard/profile">Compléter mon profil</a>
+    <a class="btn primary" routerLink="/dashboard/profile">{{ 'prefecture.completerProfil' | t }}</a>
 
   } @else if (indisponible) {
 
-    <p class="muted">L'annuaire de l'administration ne répond pas pour le moment.</p>
+    <p class="muted">{{ 'prefecture.indisponible' | t }}</p>
 
   }
 

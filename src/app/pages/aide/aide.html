@@ -5,11 +5,9 @@
 <section class="aide-page">
 
   <header class="page-header">
-    <h1>Besoin d'aide ?</h1>
+    <h1>{{ 'aide.titre' | t }}</h1>
     <p>
-      Une étape n'est pas claire, un document vous pose problème ?
-      Écrivez à l'équipe MyStudentGuide : la réponse vous arrivera
-      en notification et s'affichera ci-dessous.
+      {{ 'aide.intro' | t }}
     </p>
   </header>
 
@@ -22,13 +20,12 @@
 
     <div class="card">
 
-      <h2>Nouvelle demande</h2>
+      <h2>{{ 'aide.nouvelle' | t }}</h2>
 
       @if (limiteAtteinte) {
 
         <p class="notice warning" role="status">
-          Vous avez déjà 3 demandes en attente. Attendez une réponse
-          avant d'en envoyer une nouvelle.
+          {{ 'aide.limite' | t }}
         </p>
 
       } @else {
@@ -37,7 +34,7 @@
 
           <!-- Sujet -->
           <div class="form-group">
-            <label for="sujet">Sujet <span class="required" aria-hidden="true">*</span></label>
+            <label for="sujet">{{ 'aide.sujet' | t }} <span class="required" aria-hidden="true">*</span></label>
             <select
               id="sujet"
               name="sujet"
@@ -47,13 +44,13 @@
               [attr.aria-invalid]="sujetManquant"
               aria-describedby="sujet-error"
             >
-              <option value="" disabled>Choisissez un sujet</option>
+              <option value="" disabled>{{ 'aide.sujet.choisir' | t }}</option>
               @for (s of sujets; track s.value) {
-                <option [value]="s.value">{{ s.label }}</option>
+                <option [value]="s.value">{{ s.label | t }}</option>
               }
             </select>
             @if (sujetManquant) {
-              <p id="sujet-error" class="field-error">Choisissez le sujet de votre demande.</p>
+              <p id="sujet-error" class="field-error">{{ 'aide.sujet.manquant' | t }}</p>
             }
           </div>
 
@@ -61,10 +58,10 @@
           @if (demarcheUtile) {
             <div class="form-group">
               <label for="demarche">
-                Démarche concernée <span class="optional">Facultatif</span>
+                {{ 'aide.demarche' | t }} <span class="optional">{{ 'aide.facultatif' | t }}</span>
               </label>
               <select id="demarche" name="demarcheId" [(ngModel)]="demarcheId">
-                <option [ngValue]="null">Aucune en particulier</option>
+                <option [ngValue]="null">{{ 'aide.demarche.aucune' | t }}</option>
                 @for (d of demarches; track d.id) {
                   <option [ngValue]="d.id">{{ d.titre }}</option>
                 }
@@ -74,7 +71,7 @@
 
           <!-- Message -->
           <div class="form-group">
-            <label for="message">Votre message <span class="required" aria-hidden="true">*</span></label>
+            <label for="message">{{ 'aide.message' | t }} <span class="required" aria-hidden="true">*</span></label>
             <textarea
               id="message"
               name="message"
@@ -82,7 +79,7 @@
               [(ngModel)]="message"
               [attr.maxlength]="messageMax"
               required
-              placeholder="Expliquez votre difficulté : ce que vous avez essayé, à quelle étape vous êtes bloqué(e)…"
+              [placeholder]="'aide.message.placeholder' | t"
               [class.invalid]="messageInvalide"
               [attr.aria-invalid]="messageInvalide"
               aria-describedby="message-help message-error"
@@ -90,7 +87,7 @@
             <div class="field-footer">
               @if (messageInvalide) {
                 <p id="message-error" class="field-error">
-                  Votre message doit faire au moins {{ messageMin }} caractères.
+                  {{ 'aide.message.court' | t: { n: messageMin } }}
                 </p>
               }
               <span class="field-counter" [class.near-limit]="message.length > messageMax * 0.9">
@@ -98,8 +95,7 @@
               </span>
             </div>
             <p id="message-help" class="notice privacy">
-              🔒 N'indiquez pas de données sensibles : numéro de passeport ou
-              de titre de séjour, coordonnées bancaires, mot de passe.
+              {{ 'aide.confidentialite' | t }}
             </p>
           </div>
 
@@ -112,7 +108,7 @@
           }
 
           <button type="submit" class="btn-primary" [disabled]="envoiEnCours">
-            {{ envoiEnCours ? 'Envoi…' : 'Envoyer ma demande' }}
+            {{ (envoiEnCours ? 'aide.envoi' : 'aide.envoyer') | t }}
           </button>
 
         </form>
@@ -128,27 +124,24 @@
 
     <aside class="card tips" aria-labelledby="tips-title">
 
-      <h2 id="tips-title">Avant d'écrire</h2>
+      <h2 id="tips-title">{{ 'aide.avant.titre' | t }}</h2>
 
       <ul>
         <li>
-          <a routerLink="/demarches">Parcourez les démarches</a> :
-          chaque fiche détaille les étapes et les liens officiels.
+          <a routerLink="/demarches">{{ 'aide.avant.demarches' | t }}</a>
+          {{ 'aide.avant.demarches.suite' | t }}
         </li>
         <li>
-          <a routerLink="/documents">Consultez les documents requis</a>
-          pour chaque démarche.
+          <a routerLink="/documents">{{ 'aide.avant.documents' | t }}</a>
+          {{ 'aide.avant.documents.suite' | t }}
         </li>
         <li>
-          Une information est fausse ou dépassée ? Utilisez
-          « Signaler une erreur » sur la page de la démarche.
+          {{ 'aide.avant.signaler' | t }}
         </li>
       </ul>
 
       <p class="tips-note">
-        L'équipe répond en général sous quelques jours ouvrés.
-        Vos demandes sont conservées 12 mois après leur traitement,
-        et supprimées avec votre compte.
+        {{ 'aide.avant.delai' | t }}
       </p>
 
     </aside>
@@ -162,7 +155,7 @@
 
   <section class="history" aria-labelledby="history-title">
 
-    <h2 id="history-title">Mes demandes</h2>
+    <h2 id="history-title">{{ 'aide.mesDemandes' | t }}</h2>
 
     @if (erreurListe) {
       <p class="notice error" role="alert">{{ erreurListe }}</p>
@@ -170,11 +163,11 @@
 
     @if (chargement) {
 
-      <p class="muted">Chargement de vos demandes…</p>
+      <p class="muted">{{ 'aide.chargement' | t }}</p>
 
     } @else if (demandes.length === 0) {
 
-      <p class="empty">Vous n'avez encore envoyé aucune demande.</p>
+      <p class="empty">{{ 'aide.aucune' | t }}</p>
 
     } @else {
 
@@ -183,14 +176,14 @@
           <li class="demande" [class]="'statut-' + d.statut">
 
             <div class="demande-top">
-              <span class="badge sujet">{{ d.sujetLibelle }}</span>
+              <span class="badge sujet">{{ libelleSujet(d) }}</span>
               <span class="badge" [class]="'badge-' + d.statut">{{ libelleStatut(d.statut) }}</span>
-              <time [attr.datetime]="d.dateCreation">{{ d.dateCreation | date: 'd MMM y à HH:mm' }}</time>
+              <time [attr.datetime]="d.dateCreation">{{ d.dateCreation | dateL: ('aide.formatDate' | t) }}</time>
             </div>
 
             @if (d.demarcheTitre) {
               <p class="demarche">
-                Démarche :
+                {{ 'aide.demarcheLabel' | t }}
                 @if (d.demarcheId) {
                   <a [routerLink]="['/demarches', d.demarcheId]">{{ d.demarcheTitre }}</a>
                 } @else {
@@ -204,9 +197,9 @@
             @if (d.reponse) {
               <div class="reponse">
                 <strong>
-                  Réponse de l'équipe
+                  {{ 'aide.reponse' | t }}
                   @if (d.dateReponse) {
-                    <span>· {{ d.dateReponse | date: 'd MMM y' }}</span>
+                    <span>· {{ d.dateReponse | dateL: 'd MMM y' }}</span>
                   }
                 </strong>
                 <p>{{ d.reponse }}</p>
@@ -219,7 +212,7 @@
               [disabled]="suppressionEnCours === d.id"
               (click)="supprimer(d)"
             >
-              Supprimer
+              {{ 'commun.supprimer' | t }}
             </button>
 
           </li>

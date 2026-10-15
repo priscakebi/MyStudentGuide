@@ -15,6 +15,8 @@
 // connecter).
 // ============================================================
 
+import type { Cle } from '../i18n/textes';
+
 export const PASSWORD_MIN = 12;
 export const PASSWORD_MAX = 72;
 export const EMAIL_MAX = 254;
@@ -22,9 +24,13 @@ export const EMAIL_MAX = 254;
 const EMAIL_REGEX = /^[^@\s]+@[^@\s]+\.[A-Za-z]{2,}$/;
 const NAME_REGEX = /^\p{L}[\p{L}' -]{1,49}$/u;
 
-/** Un critère du mot de passe, affiché dans la checklist. */
+/**
+ * Un critère du mot de passe, affiché dans la checklist.
+ * `label` : texte français (administration) ; `cle` : clé de traduction (pages étudiantes).
+ */
 export interface PasswordCheck {
   label: string;
+  cle: Cle;
   ok: boolean;
 }
 
@@ -35,13 +41,14 @@ export function passwordChecks(password: string): PasswordCheck[] {
   return [
     {
       label: `${PASSWORD_MIN} caractères minimum`,
+      cle: 'form.motDePasse.12min',
       ok: value.length >= PASSWORD_MIN && value.length <= PASSWORD_MAX
     },
     // Unicode : les lettres accentuées comptent (É majuscule, é minuscule).
-    { label: 'Une lettre majuscule', ok: /\p{Lu}/u.test(value) },
-    { label: 'Une lettre minuscule', ok: /\p{Ll}/u.test(value) },
-    { label: 'Un chiffre', ok: /\d/.test(value) },
-    { label: 'Un caractère spécial (! @ # ? …)', ok: /[^\p{L}\p{N}\s]/u.test(value) }
+    { label: 'Une lettre majuscule', cle: 'form.motDePasse.majuscule', ok: /\p{Lu}/u.test(value) },
+    { label: 'Une lettre minuscule', cle: 'form.motDePasse.minuscule', ok: /\p{Ll}/u.test(value) },
+    { label: 'Un chiffre', cle: 'form.motDePasse.chiffre', ok: /\d/.test(value) },
+    { label: 'Un caractère spécial (! @ # ? …)', cle: 'form.motDePasse.special', ok: /[^\p{L}\p{N}\s]/u.test(value) }
   ];
 }
 

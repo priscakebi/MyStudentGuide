@@ -1,10 +1,10 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { DatePipe } from '@angular/common';
 
 import {
   AvisPublic,
   StudentDemarcheService
 } from '../../services/student-demarche.service';
+import { DateLPipe, TPipe } from '../../i18n/t.pipe';
 
 /**
  * Section « Ils ont été accompagnés » de la page d'accueil.
@@ -19,7 +19,7 @@ import {
 @Component({
   selector: 'app-avis-publics',
   standalone: true,
-  imports: [DatePipe],
+  imports: [TPipe, DateLPipe],
   templateUrl: './avis-publics.html',
   styleUrl: './avis-publics.scss'
 })

@@ -18,6 +18,9 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { LangueService } from '../../i18n/langue.service';
+import { DateLPipe, TPipe } from '../../i18n/t.pipe';
+import { Cle } from '../../i18n/textes';
 
 export type SujetAide = 'DEMARCHE' | 'DOCUMENT' | 'COMPTE' | 'TECHNIQUE' | 'AUTRE';
 export type StatutDemandeAide = 'OUVERTE' | 'REPONDUE' | 'FERMEE';
@@ -51,7 +54,7 @@ const MAX_DEMANDES_OUVERTES = 3;
 @Component({
   selector: 'app-aide',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, TPipe, DateLPipe],
   templateUrl: './aide.html',
   styleUrl: './aide.scss'
 })
@@ -59,17 +62,18 @@ export class Aide implements OnInit {
 
   private http = inject(HttpClient);
   private route = inject(ActivatedRoute);
+  private langue = inject(LangueService);
   private readonly apiUrl = environment.apiUrl;
 
   readonly messageMax = MESSAGE_MAX;
   readonly messageMin = MESSAGE_MIN;
 
-  readonly sujets: { value: SujetAide; label: string }[] = [
-    { value: 'DEMARCHE', label: 'Une démarche' },
-    { value: 'DOCUMENT', label: 'Un document' },
-    { value: 'COMPTE', label: 'Mon compte' },
-    { value: 'TECHNIQUE', label: 'Problème technique' },
-    { value: 'AUTRE', label: 'Autre' }
+  readonly sujets: { value: SujetAide; label: Cle }[] = [
+    { value: 'DEMARCHE', label: 'aide.sujet.DEMARCHE' },
+    { value: 'DOCUMENT', label: 'aide.sujet.DOCUMENT' },
+    { value: 'COMPTE', label: 'aide.sujet.COMPTE' },
+    { value: 'TECHNIQUE', label: 'aide.sujet.TECHNIQUE' },
+    { value: 'AUTRE', label: 'aide.sujet.AUTRE' }
   ];
 
   // Formulaire
@@ -150,7 +154,7 @@ export class Aide implements OnInit {
       error: () => {
         this.demandes = [];
         this.chargement = false;
-        this.erreurListe = 'Impossible de charger vos demandes. Réessayez dans un instant.';
+        this.erreurListe = this.langue.t('aide.erreur.liste');
       }
     });
   }
@@ -178,21 +182,21 @@ export class Aide implements OnInit {
         this.demarcheId = null;
         this.message = '';
         this.tentative = false;
-        this.succes = 'Votre demande a bien été envoyée. Vous recevrez la réponse en notification.';
+        this.succes = this.langue.t('aide.succes');
       },
       error: (err) => {
         this.envoiEnCours = false;
         const erreurs = err.error?.errors as Record<string, string> | undefined;
-        this.erreur = (erreurs && Object.values(erreurs)[0])
-          || err.error?.message
-          || "L'envoi a échoué. Réessayez dans un instant.";
+        // Les messages de l'API sont en français : en anglais, message générique.
+        const messageApi = (erreurs && Object.values(erreurs)[0]) || err.error?.message;
+        this.erreur = (this.langue.langue() === 'fr' && messageApi) || this.langue.t('aide.erreur.envoi');
       }
     });
   }
 
   supprimer(demande: DemandeAide): void {
     if (this.suppressionEnCours !== null
-      || !confirm('Supprimer définitivement cette demande et sa réponse ?')) {
+      || !confirm(this.langue.t('aide.supprimer.confirmer'))) {
       return;
     }
 
@@ -205,16 +209,17 @@ export class Aide implements OnInit {
       },
       error: () => {
         this.suppressionEnCours = null;
-        this.erreurListe = 'La suppression a échoué.';
+        this.erreurListe = this.langue.t('aide.erreur.suppression');
       }
     });
   }
 
   libelleStatut(statut: StatutDemandeAide): string {
-    switch (statut) {
-      case 'OUVERTE': return 'En attente';
-      case 'REPONDUE': return 'Répondue';
-      case 'FERMEE': return 'Fermée';
-    }
+    return this.langue.t(`aide.statut.${statut}`);
+  }
+
+  /** Sujet traduit (le libellé de l'API est en français). */
+  libelleSujet(demande: DemandeAide): string {
+    return this.langue.tOu(`aide.sujet.${demande.sujet}`, demande.sujetLibelle);
   }
 }

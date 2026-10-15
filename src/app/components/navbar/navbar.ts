@@ -25,13 +25,17 @@ import {
 import { Subscription, filter } from 'rxjs';
 
 import { AuthService } from '../../services/auth.service';
+import { TPipe } from '../../i18n/t.pipe';
+import { LangueSwitch } from '../langue-switch/langue-switch';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    TPipe,
+    LangueSwitch
   ],
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss'
@@ -47,8 +51,8 @@ export class Navbar implements OnInit, OnDestroy {
   /** Vrai si cet utilisateur est administrateur. */
   isAdmin = false;
 
-  userName = 'Étudiant';
-  userInitial = 'É';
+  /** Prénom affiché ; vide s'il n'est pas connu (« Étudiant » / « Student » est alors affiché). */
+  userName = '';
 
   /** Vrai si le menu burger (mobile) est déplié. */
   menuOpen = false;
@@ -58,9 +62,15 @@ export class Navbar implements OnInit, OnDestroy {
     return this.isAdmin ? '/admin' : '/dashboard';
   }
 
-  /** Lien « Notifications » : page d'invitation à se connecter pour un visiteur. */
+  /**
+   * Lien « Notifications » : celles de l'administration pour un admin,
+   * de l'espace étudiant pour un étudiant, page d'invitation pour un visiteur.
+   */
   get notificationsRoute(): string {
-    return this.isLoggedIn ? '/dashboard/notifications' : '/notifications';
+    if (!this.isLoggedIn) {
+      return '/notifications';
+    }
+    return this.isAdmin ? '/admin/notifications' : '/dashboard/notifications';
   }
 
   private navigationSubscription?: Subscription;
@@ -87,8 +97,7 @@ export class Navbar implements OnInit, OnDestroy {
     this.isAdmin = this.isLoggedIn && this.authService.isAdmin();
 
     if (!this.isLoggedIn) {
-      this.userName = 'Étudiant';
-      this.userInitial = 'É';
+      this.userName = '';
       return;
     }
 
@@ -98,7 +107,6 @@ export class Navbar implements OnInit, OnDestroy {
 
     if (name) {
       this.userName = name;
-      this.userInitial = name.charAt(0).toUpperCase();
     }
   }
 

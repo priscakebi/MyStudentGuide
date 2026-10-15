@@ -27,12 +27,12 @@
       </div>
 
       <div>
-        <span class="eyebrow">ESPACE PERSONNEL</span>
+        <span class="eyebrow">{{ 'compte.label' | t }}</span>
 
-        <h1>Mon compte</h1>
+        <h1>{{ 'compte.titre' | t }}</h1>
 
         <p>
-          Gérez les informations de votre compte et vos paramètres de sécurité.
+          {{ 'compte.intro' | t }}
         </p>
       </div>
 
@@ -62,10 +62,10 @@
         </div>
 
         <div>
-          <h2>Informations du compte</h2>
+          <h2>{{ 'compte.infos.titre' | t }}</h2>
 
           <p>
-            Consultez et modifiez les informations associées à votre compte.
+            {{ 'compte.infos.texte' | t }}
           </p>
         </div>
 
@@ -84,11 +84,11 @@
           <div class="information-item">
 
             <span class="information-label">
-              Prénom
+              {{ 'register.prenom' | t }}
             </span>
 
             <span class="information-value">
-              {{ firstName || 'Non renseigné' }}
+              {{ firstName || ('profil.nonRenseigne' | t) }}
             </span>
 
           </div>
@@ -98,11 +98,11 @@
           <div class="information-item">
 
             <span class="information-label">
-              Nom
+              {{ 'register.nom' | t }}
             </span>
 
             <span class="information-value">
-              {{ lastName || 'Non renseigné' }}
+              {{ lastName || ('profil.nonRenseigne' | t) }}
             </span>
 
           </div>
@@ -112,11 +112,11 @@
           <div class="information-item">
 
             <span class="information-label">
-              Adresse e-mail
+              {{ 'form.email' | t }}
             </span>
 
             <span class="information-value">
-              {{ email || 'Non renseignée' }}
+              {{ email || ('profil.nonRenseignee' | t) }}
             </span>
 
           </div>
@@ -139,7 +139,7 @@
             class="submit-button"
             (click)="openEditAccount()"
           >
-            Modifier mes informations
+            {{ 'compte.modifierInfos' | t }}
           </button>
 
         </div>
@@ -166,14 +166,14 @@
           <div class="form-group">
 
             <label for="prenom">
-              Prénom
+              {{ 'register.prenom' | t }}
             </label>
 
             <input
               id="prenom"
               type="text"
               formControlName="prenom"
-              placeholder="Entrez votre prénom"
+              [placeholder]="'compte.prenom.placeholder' | t"
               autocomplete="given-name"
             />
 
@@ -190,11 +190,11 @@
               <small class="field-error">
 
                 @if (accountForm.get('prenom')?.hasError('required')) {
-                  Le prénom est obligatoire.
+                  {{ 'compte.prenom.obligatoire' | t }}
                 }
 
                 @if (accountForm.get('prenom')?.hasError('minlength')) {
-                  Le prénom doit contenir au moins 2 caractères.
+                  {{ 'compte.prenom.court' | t }}
                 }
 
               </small>
@@ -211,14 +211,14 @@
           <div class="form-group">
 
             <label for="nom">
-              Nom
+              {{ 'register.nom' | t }}
             </label>
 
             <input
               id="nom"
               type="text"
               formControlName="nom"
-              placeholder="Entrez votre nom"
+              [placeholder]="'compte.nom.placeholder' | t"
               autocomplete="family-name"
             />
 
@@ -235,11 +235,11 @@
               <small class="field-error">
 
                 @if (accountForm.get('nom')?.hasError('required')) {
-                  Le nom est obligatoire.
+                  {{ 'compte.nom.obligatoire' | t }}
                 }
 
                 @if (accountForm.get('nom')?.hasError('minlength')) {
-                  Le nom doit contenir au moins 2 caractères.
+                  {{ 'compte.nom.court' | t }}
                 }
 
               </small>
@@ -256,14 +256,14 @@
           <div class="form-group">
 
             <label for="email">
-              Adresse e-mail
+              {{ 'form.email' | t }}
             </label>
 
             <input
               id="email"
               type="email"
               formControlName="email"
-              placeholder="Entrez votre adresse e-mail"
+              [placeholder]="'compte.email.placeholder' | t"
               autocomplete="email"
             />
 
@@ -279,11 +279,11 @@
               <small class="field-error">
 
                 @if (accountForm.get('email')?.hasError('required')) {
-                  L'adresse e-mail est obligatoire.
+                  {{ 'compte.email.obligatoire' | t }}
                 }
 
                 @if (accountForm.get('email')?.hasError('email')) {
-                  Veuillez saisir une adresse e-mail valide.
+                  {{ 'compte.email.invalide' | t }}
                 }
 
               </small>
@@ -309,7 +309,7 @@
               (click)="cancelEditAccount()"
               [disabled]="isUpdatingAccount"
             >
-              Annuler
+              {{ 'commun.annuler' | t }}
             </button>
 
 
@@ -325,13 +325,13 @@
               @if (isUpdatingAccount) {
 
                 <span>
-                  Modification...
+                  {{ 'compte.modification' | t }}
                 </span>
 
               } @else {
 
                 <span>
-                  Enregistrer les modifications
+                  {{ 'compte.enregistrer' | t }}
                 </span>
 
               }
@@ -361,11 +361,10 @@
         </div>
 
         <div>
-          <h2>Mot de passe</h2>
+          <h2>{{ 'compte.mdp.titre' | t }}</h2>
 
           <p>
-            Modifiez régulièrement votre mot de passe pour sécuriser
-            votre compte.
+            {{ 'compte.mdp.texte' | t }}
           </p>
         </div>
 
@@ -426,14 +425,14 @@
         <div class="form-group">
 
           <label for="currentPassword">
-            Mot de passe actuel
+            {{ 'compte.mdp.actuel' | t }}
           </label>
 
           <input
             id="currentPassword"
             type="password"
             formControlName="currentPassword"
-            placeholder="Entrez votre mot de passe actuel"
+            [placeholder]="'compte.mdp.actuel.placeholder' | t"
             autocomplete="current-password"
           />
 
@@ -444,7 +443,7 @@
           ) {
 
             <small class="field-error">
-              Le mot de passe actuel est obligatoire.
+              {{ 'compte.mdp.actuel.obligatoire' | t }}
             </small>
 
           }
@@ -456,14 +455,14 @@
         <div class="form-group">
 
           <label for="newPassword">
-            Nouveau mot de passe
+            {{ 'compte.mdp.nouveau' | t }}
           </label>
 
           <input
             id="newPassword"
             type="password"
             formControlName="newPassword"
-            placeholder="Entrez votre nouveau mot de passe"
+            [placeholder]="'compte.mdp.nouveau.placeholder' | t"
             autocomplete="new-password"
           />
 
@@ -474,12 +473,12 @@
           <div class="password-rules">
 
             <small class="field-help">
-              Le mot de passe doit respecter les règles suivantes :
+              {{ 'compte.mdp.regles' | t }}
             </small>
 
             <ul>
               @for (check of newPasswordChecks; track check.label) {
-                <li [class.valid]="check.ok">{{ check.label }}</li>
+                <li [class.valid]="check.ok">{{ check.cle | t }}</li>
               }
             </ul>
 
@@ -493,7 +492,7 @@
           ) {
 
             <small class="field-error">
-              Le mot de passe ne respecte pas toutes les règles de sécurité.
+              {{ 'compte.mdp.nonConforme' | t }}
             </small>
 
           }
@@ -505,14 +504,14 @@
         <div class="form-group">
 
           <label for="confirmPassword">
-            Confirmer le nouveau mot de passe
+            {{ 'compte.mdp.confirmer' | t }}
           </label>
 
           <input
             id="confirmPassword"
             type="password"
             formControlName="confirmPassword"
-            placeholder="Confirmez votre nouveau mot de passe"
+            [placeholder]="'compte.mdp.confirmer.placeholder' | t"
             autocomplete="new-password"
           />
 
@@ -527,7 +526,7 @@
           ) {
 
             <small class="field-error">
-              Les deux mots de passe ne correspondent pas.
+              {{ 'compte.mdp.differents' | t }}
             </small>
 
           }
@@ -542,9 +541,9 @@
         <!-- Mot de passe actuel oublié : lien de réinitialisation par e-mail -->
         <p class="forgot-password-hint">
           <button type="button" class="forgot-password-link" (click)="forgotPassword()">
-            Mot de passe actuel oublié ?
+            {{ 'compte.mdp.oublie' | t }}
           </button>
-          <span>Recevez un lien de réinitialisation par e-mail.</span>
+          <span>{{ 'compte.mdp.oublie.texte' | t }}</span>
         </p>
 
         <div class="form-actions">
@@ -555,7 +554,7 @@
             class="cancel-button"
             (click)="resetPasswordForm()"
           >
-            Annuler
+            {{ 'commun.annuler' | t }}
           </button>
 
 
@@ -574,13 +573,13 @@
             @if (isLoading) {
 
               <span>
-                Modification...
+                {{ 'compte.modification' | t }}
               </span>
 
             } @else {
 
               <span>
-                Modifier le mot de passe
+                {{ 'compte.mdp.modifier' | t }}
               </span>
 
             }
@@ -608,11 +607,10 @@
         </div>
 
         <div>
-          <h2>Supprimer mon compte</h2>
+          <h2>{{ 'compte.suppr.titre' | t }}</h2>
 
           <p>
-            La suppression de votre compte est une action importante.
-            Votre demande sera transmise à l'administration.
+            {{ 'compte.suppr.texte' | t }}
           </p>
         </div>
 
@@ -636,13 +634,11 @@
             <div>
 
               <strong>
-                Attention
+                {{ 'compte.suppr.attention' | t }}
               </strong>
 
               <p>
-                Avant de supprimer votre compte, assurez-vous de ne plus
-                avoir besoin des informations et du suivi associés à votre
-                compte MyStudentGuide.
+                {{ 'compte.suppr.avertissement' | t }}
               </p>
 
             </div>
@@ -656,7 +652,7 @@
             class="delete-account-button"
             (click)="openDeleteForm()"
           >
-            Supprimer mon compte
+            {{ 'compte.suppr.titre' | t }}
           </button>
 
         </div>
@@ -680,8 +676,7 @@
             </span>
 
             <p>
-              Pour envoyer votre demande de suppression, veuillez indiquer
-              le motif de votre demande et confirmer votre identité.
+              {{ 'compte.suppr.info' | t }}
             </p>
 
           </div>
@@ -718,7 +713,7 @@
             <div class="form-group">
 
               <label for="deletionReason">
-                Pourquoi souhaitez-vous supprimer votre compte ?
+                {{ 'compte.suppr.motif' | t }}
               </label>
 
               <select
@@ -727,27 +722,27 @@
               >
 
                 <option value="">
-                  Sélectionnez un motif
+                  {{ 'compte.suppr.motif.choisir' | t }}
                 </option>
 
                 <option value="JE_N_UTILISE_PLUS_L_APPLICATION">
-                  Je n'utilise plus l'application
+                  {{ 'compte.suppr.motif.plusUtilise' | t }}
                 </option>
 
                 <option value="J_AI_TERMINE_MES_DEMARCHES">
-                  J'ai terminé mes démarches
+                  {{ 'compte.suppr.motif.termine' | t }}
                 </option>
 
                 <option value="PROBLEME_AVEC_L_APPLICATION">
-                  Je rencontre un problème avec l'application
+                  {{ 'compte.suppr.motif.probleme' | t }}
                 </option>
 
                 <option value="AUTRE_COMPTE">
-                  Je souhaite utiliser un autre compte
+                  {{ 'compte.suppr.motif.autreCompte' | t }}
                 </option>
 
                 <option value="AUTRE">
-                  Autre
+                  {{ 'compte.suppr.motif.autre' | t }}
                 </option>
 
               </select>
@@ -760,7 +755,7 @@
               ) {
 
                 <small class="field-error">
-                  Veuillez sélectionner un motif.
+                  {{ 'compte.suppr.motif.obligatoire' | t }}
                 </small>
 
               }
@@ -776,10 +771,10 @@
 
               <label for="deletionDetails">
 
-                Précision supplémentaire
+                {{ 'compte.suppr.precision' | t }}
 
                 <span class="optional-label">
-                  Facultatif
+                  {{ 'compte.suppr.facultatif' | t }}
                 </span>
 
               </label>
@@ -789,7 +784,7 @@
                 formControlName="deletionDetails"
                 maxlength="1000"
                 rows="4"
-                placeholder="Vous pouvez préciser la raison de votre demande..."
+                [placeholder]="'compte.suppr.precision.placeholder' | t"
               ></textarea>
 
               <span
@@ -816,14 +811,13 @@
                 />
 
                 <span>
-                  Je confirme avoir pris connaissance des conséquences
-                  liées à la suppression de mon compte.
+                  {{ 'compte.suppr.confirmation' | t }}
                 </span>
 
               </label>
 
               <small class="field-help">
-                Cette confirmation est facultative.
+                {{ 'compte.suppr.confirmation.aide' | t }}
               </small>
 
             </div>
@@ -836,19 +830,19 @@
             <div class="form-group">
 
               <label for="deletionPassword">
-                Code de confirmation
+                {{ 'compte.suppr.code' | t }}
               </label>
 
               <input
                 id="deletionPassword"
                 type="password"
                 formControlName="deletionPassword"
-                placeholder="Entrez votre mot de passe"
+                [placeholder]="'compte.suppr.code.placeholder' | t"
                 autocomplete="current-password"
               />
 
               <small class="field-help">
-                Saisissez votre mot de passe afin de confirmer votre identité.
+                {{ 'compte.suppr.code.aide' | t }}
               </small>
 
 
@@ -859,8 +853,7 @@
               ) {
 
                 <small class="field-error">
-                  Votre mot de passe est obligatoire pour confirmer
-                  la suppression.
+                  {{ 'compte.suppr.code.obligatoire' | t }}
                 </small>
 
               }
@@ -881,7 +874,7 @@
                 (click)="cancelDeleteForm()"
                 [disabled]="isDeleting"
               >
-                Annuler
+                {{ 'commun.annuler' | t }}
               </button>
 
 
@@ -895,13 +888,13 @@
                 @if (isDeleting) {
 
                   <span>
-                    Envoi de la demande...
+                    {{ 'compte.suppr.envoi' | t }}
                   </span>
 
                 } @else {
 
                   <span>
-                    Supprimer définitivement mon compte
+                    {{ 'compte.suppr.definitif' | t }}
                   </span>
 
                 }

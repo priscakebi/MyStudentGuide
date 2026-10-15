@@ -26,7 +26,7 @@
       class="burger-button"
       aria-controls="student-sidebar"
       [attr.aria-expanded]="menuOpen"
-      [attr.aria-label]="menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'"
+      [attr.aria-label]="(menuOpen ? 'espace.menu.fermer' : 'espace.menu.ouvrir') | t"
       (click)="toggleMobileMenu()"
     >
       <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -48,8 +48,8 @@
       routerLink="/dashboard/notifications"
       class="mobile-bell"
       [attr.aria-label]="unreadCount > 0
-        ? 'Notifications : ' + unreadCount + ' non lue(s)'
-        : 'Notifications'"
+        ? ('espace.notifs.label' | t: { n: unreadCount })
+        : ('nav.notifications' | t)"
     >
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9Z" />
@@ -77,7 +77,7 @@
     id="student-sidebar"
     class="sidebar"
     [class.mobile-open]="menuOpen"
-    aria-label="Menu de l'espace étudiant"
+    [attr.aria-label]="'espace.menu.label' | t"
   >
 
     <!-- En-tête : logo (retour à l'accueil) -->
@@ -87,7 +87,7 @@
         <span class="brand-mark" aria-hidden="true">🎓</span>
         <span class="sidebar-logo-text">
           <strong>MyStudentGuide</strong>
-          <span>Espace étudiant</span>
+          <span>{{ 'espace.sousTitre' | t }}</span>
         </span>
       </a>
 
@@ -95,7 +95,7 @@
       <button
         type="button"
         class="sidebar-close"
-        aria-label="Fermer le menu"
+        [attr.aria-label]="'espace.menu.fermer' | t"
         (click)="closeMobileMenu()"
       >
         <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -107,14 +107,14 @@
 
 
     <!-- Carte de l'utilisateur connecté : mène au profil -->
-    <a routerLink="/dashboard/profile" class="sidebar-user" title="Voir mon profil">
+    <a routerLink="/dashboard/profile" class="sidebar-user" [title]="'espace.voirProfil' | t">
 
       <span class="sidebar-avatar" aria-hidden="true">
-        {{ userName.charAt(0).toUpperCase() }}
+        {{ nomAffiche.charAt(0).toUpperCase() }}
       </span>
 
       <span class="sidebar-user-info">
-        <strong>{{ userName }}</strong>
+        <strong>{{ nomAffiche }}</strong>
         @if (userEmail) {
           <span>{{ userEmail }}</span>
         }
@@ -126,7 +126,7 @@
     <!-- Menu, regroupé par usage -->
     <nav class="sidebar-menu">
 
-      <p class="menu-section">Mon parcours</p>
+      <p class="menu-section">{{ 'espace.section.parcours' | t }}</p>
 
       <a
         routerLink="/dashboard"
@@ -138,7 +138,7 @@
         <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M4 11.5 12 5l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5h-5v5H5a1 1 0 0 1-1-1Z" />
         </svg>
-        <span class="menu-label">Mon espace</span>
+        <span class="menu-label">{{ 'espace.menu.monEspace' | t }}</span>
       </a>
 
       <a
@@ -151,7 +151,7 @@
           <rect x="5" y="4" width="14" height="17" rx="2" />
           <path d="M9 4.5h6M9 10h6M9 14h6M9 18h3" />
         </svg>
-        <span class="menu-label">Mes démarches</span>
+        <span class="menu-label">{{ 'espace.menu.mesDemarches' | t }}</span>
       </a>
 
       <a
@@ -164,22 +164,22 @@
           <path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9Z" />
           <path d="M10 20a2.2 2.2 0 0 0 4 0" />
         </svg>
-        <span class="menu-label">Notifications</span>
+        <span class="menu-label">{{ 'espace.menu.notifications' | t }}</span>
         @if (unreadCount > 0) {
-          <span class="notification-badge" [attr.aria-label]="unreadCount + ' non lue(s)'">
+          <span class="notification-badge" [attr.aria-label]="'espace.nonLues' | t: { n: unreadCount }">
             {{ unreadCount }}
           </span>
         }
       </a>
 
-      <p class="menu-section">Explorer</p>
+      <p class="menu-section">{{ 'espace.section.explorer' | t }}</p>
 
       <a routerLink="/demarches" class="menu-item">
         <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true">
           <circle cx="11" cy="11" r="6.5" />
           <path d="m16 16 4 4" />
         </svg>
-        <span class="menu-label">Toutes les démarches</span>
+        <span class="menu-label">{{ 'espace.menu.toutesDemarches' | t }}</span>
       </a>
 
       <a routerLink="/documents" class="menu-item">
@@ -187,10 +187,10 @@
           <path d="M7 3h7l5 5v12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" />
           <path d="M14 3v5h5M9 13h6M9 17h6" />
         </svg>
-        <span class="menu-label">Documents requis</span>
+        <span class="menu-label">{{ 'espace.menu.documents' | t }}</span>
       </a>
 
-      <p class="menu-section">Mon compte</p>
+      <p class="menu-section">{{ 'espace.section.compte' | t }}</p>
 
       <a
         routerLink="/dashboard/profile"
@@ -202,7 +202,7 @@
           <circle cx="12" cy="8.5" r="3.5" />
           <path d="M5 20a7 7 0 0 1 14 0" />
         </svg>
-        <span class="menu-label">Mon profil</span>
+        <span class="menu-label">{{ 'espace.menu.profil' | t }}</span>
       </a>
 
       <a
@@ -215,7 +215,7 @@
           <circle cx="12" cy="12" r="3" />
           <path d="M12 3v2.5M12 18.5V21M4.2 7.5l2.2 1.3M17.6 15.2l2.2 1.3M4.2 16.5l2.2-1.3M17.6 8.8l2.2-1.3" />
         </svg>
-        <span class="menu-label">Paramètres du compte</span>
+        <span class="menu-label">{{ 'espace.menu.parametres' | t }}</span>
       </a>
 
       <a
@@ -228,7 +228,7 @@
           <circle cx="12" cy="12" r="8.5" />
           <path d="M9.6 9.5a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.1-2.4 3.6M12 17h.01" />
         </svg>
-        <span class="menu-label">Besoin d'aide ?</span>
+        <span class="menu-label">{{ 'espace.menu.aide' | t }}</span>
       </a>
 
     </nav>
@@ -237,18 +237,21 @@
     <!-- Bas de la sidebar : retour au site et déconnexion -->
     <div class="sidebar-footer">
 
+      <!-- Choix de la langue (FR / EN) -->
+      <app-langue-switch class="sidebar-langue"></app-langue-switch>
+
       <a routerLink="/home" class="footer-link">
         <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M19 12H5M11 6l-6 6 6 6" />
         </svg>
-        <span>Retour au site</span>
+        <span>{{ 'espace.retourSite' | t }}</span>
       </a>
 
       <button type="button" class="logout-button" (click)="logout()">
         <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M15 4h3a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-3M10 8l-4 4 4 4M6 12h10" />
         </svg>
-        <span>Déconnexion</span>
+        <span>{{ 'commun.deconnexion' | t }}</span>
       </button>
 
     </div>
@@ -288,15 +291,14 @@
         <section class="home-hero">
 
           <div class="home-hero-text">
-            <span class="home-date">{{ today | date: 'EEEE d MMMM y' }}</span>
-            <h1>Bonjour {{ userName }} 👋</h1>
+            <span class="home-date">{{ today | dateL: 'EEEE d MMMM y' }}</span>
+            <h1>{{ 'espace.bonjour' | t: { prenom: nomAffiche } }}</h1>
             <p>
-              Suivez l'avancement de vos démarches et retrouvez
-              ce qui vous attend cette semaine.
+              {{ 'espace.intro' | t }}
             </p>
             <div class="home-hero-actions">
-              <a routerLink="/demarches" class="hero-btn primary">Explorer les démarches</a>
-              <a routerLink="/dashboard/suivis" class="hero-btn ghost">Mes démarches</a>
+              <a routerLink="/demarches" class="hero-btn primary">{{ 'espace.explorer' | t }}</a>
+              <a routerLink="/dashboard/suivis" class="hero-btn ghost">{{ 'espace.menu.mesDemarches' | t }}</a>
             </div>
           </div>
 
@@ -307,12 +309,12 @@
           <div
             class="hero-ring-wrapper"
             role="img"
-            [attr.aria-label]="'Progression globale : ' + progressionGlobale + ' %'"
+            [attr.aria-label]="'espace.progression.label' | t: { n: progressionGlobale }"
           >
             <div class="hero-ring" [style.--pct]="progressionGlobale"></div>
             <div class="hero-ring-value" aria-hidden="true">
               <strong>{{ progressionGlobale }}%</strong>
-              <span>de mon parcours</span>
+              <span>{{ 'espace.progression.texte' | t }}</span>
             </div>
           </div>
 
@@ -323,13 +325,13 @@
              CHIFFRES CLÉS
              ================================================== -->
 
-        <section class="kpi-grid" aria-label="Mes chiffres clés">
+        <section class="kpi-grid" [attr.aria-label]="'espace.kpi.label' | t">
 
           <a routerLink="/dashboard/suivis" class="kpi-card">
             <span class="kpi-icon doing" aria-hidden="true">⏳</span>
             <div>
               <strong>{{ demarchesEnCours }}</strong>
-              <span>démarche{{ demarchesEnCours > 1 ? 's' : '' }} en cours</span>
+              <span>{{ (demarchesEnCours > 1 ? 'espace.kpi.enCours.n' : 'espace.kpi.enCours.1') | t }}</span>
             </div>
           </a>
 
@@ -337,7 +339,7 @@
             <span class="kpi-icon done" aria-hidden="true">✅</span>
             <div>
               <strong>{{ demarchesTerminees }}</strong>
-              <span>terminée{{ demarchesTerminees > 1 ? 's' : '' }}</span>
+              <span>{{ (demarchesTerminees > 1 ? 'espace.kpi.terminees.n' : 'espace.kpi.terminees.1') | t }}</span>
             </div>
           </a>
 
@@ -345,7 +347,7 @@
             <span class="kpi-icon notif" aria-hidden="true">🔔</span>
             <div>
               <strong>{{ unreadCount }}</strong>
-              <span>notification{{ unreadCount > 1 ? 's' : '' }} non lue{{ unreadCount > 1 ? 's' : '' }}</span>
+              <span>{{ (unreadCount > 1 ? 'espace.kpi.notifs.n' : 'espace.kpi.notifs.1') | t }}</span>
             </div>
           </a>
 
@@ -356,12 +358,12 @@
                 @if (profilComplet === null) {
                   …
                 } @else if (profilComplet) {
-                  Complet
+                  {{ 'espace.kpi.complet' | t }}
                 } @else {
-                  À compléter
+                  {{ 'espace.kpi.aCompleter' | t }}
                 }
               </strong>
-              <span>mon profil</span>
+              <span>{{ 'espace.kpi.profil' | t }}</span>
             </div>
           </a>
 
@@ -382,22 +384,22 @@
           <section class="home-panel">
 
             <header class="home-panel-header">
-              <h2>Mes démarches en cours</h2>
+              <h2>{{ 'espace.enCours.titre' | t }}</h2>
               @if (demarchesEnCours > 3) {
-                <a routerLink="/dashboard/suivis">Tout voir ({{ demarchesEnCours }}) →</a>
+                <a routerLink="/dashboard/suivis">{{ 'espace.toutVoir' | t: { n: demarchesEnCours } }}</a>
               }
             </header>
 
             @if (!progressionChargee) {
 
-              <p class="home-empty">Chargement…</p>
+              <p class="home-empty">{{ 'commun.chargement' | t }}</p>
 
             } @else if (demarchesActives.length === 0) {
 
               <div class="home-empty-state">
                 <span aria-hidden="true">🧭</span>
-                <p>Vous n'avez aucune démarche en cours.</p>
-                <a routerLink="/demarches" class="hero-btn primary small">Choisir une démarche</a>
+                <p>{{ 'espace.aucune' | t }}</p>
+                <a routerLink="/demarches" class="hero-btn primary small">{{ 'espace.choisir' | t }}</a>
               </div>
 
             } @else {
@@ -420,7 +422,7 @@
                       <div
                         class="active-track"
                         role="progressbar"
-                        [attr.aria-label]="'Progression de ' + sd.demarche.titre"
+                        [attr.aria-label]="'espace.progressionDe' | t: { titre: sd.demarche.titre }"
                         [attr.aria-valuenow]="progression(sd)"
                         aria-valuemin="0"
                         aria-valuemax="100"
@@ -452,12 +454,11 @@
               <section class="home-panel profile-reminder">
                 <span class="reminder-icon" aria-hidden="true">✍️</span>
                 <div>
-                  <h2>Complétez votre profil</h2>
+                  <h2>{{ 'espace.profil.titre' | t }}</h2>
                   <p>
-                    Votre nationalité, votre visa et votre logement nous
-                    aident à vous suggérer les bonnes démarches.
+                    {{ 'espace.profil.texte' | t }}
                   </p>
-                  <a routerLink="/dashboard/profile" class="hero-btn primary small">Compléter mon profil</a>
+                  <a routerLink="/dashboard/profile" class="hero-btn primary small">{{ 'prefecture.completerProfil' | t }}</a>
                 </div>
               </section>
             }
@@ -471,38 +472,38 @@
             <section class="home-panel">
 
               <header class="home-panel-header">
-                <h2>Prochaines échéances</h2>
+                <h2>{{ 'espace.echeances.titre' | t }}</h2>
                 @if (prochainesEcheances.length > 0) {
                   <button
                     type="button"
                     class="agenda-link"
                     (click)="ajouterEcheancesAgenda()"
-                    title="Télécharge un fichier .ics avec un rappel une semaine avant et la veille"
+                    [title]="'detail.agenda.aide' | t"
                   >
-                    <span aria-hidden="true">📅</span> Ajouter à mon agenda
+                    <span aria-hidden="true">📅</span> {{ 'detail.agenda' | t }}
                   </button>
                 }
               </header>
 
               @if (prochainesEcheances.length === 0) {
-                <p class="home-empty">Aucune date limite à venir pour vos démarches en cours.</p>
+                <p class="home-empty">{{ 'espace.echeances.aucune' | t }}</p>
               } @else {
                 <ul class="deadline-list">
                   @for (e of prochainesEcheances; track e.sd.id) {
                     <li [class.urgent]="e.jours <= 7">
                       <div class="deadline-date">
-                        <strong>{{ e.sd.demarche.dateLimite | date: 'dd' }}</strong>
-                        <span>{{ e.sd.demarche.dateLimite | date: 'MMM' }}</span>
+                        <strong>{{ e.sd.demarche.dateLimite | dateL: 'dd' }}</strong>
+                        <span>{{ e.sd.demarche.dateLimite | dateL: 'MMM' }}</span>
                       </div>
                       <div>
                         <strong>{{ e.sd.demarche.titre }}</strong>
                         <span class="deadline-left">
                           @if (e.jours === 0) {
-                            Aujourd'hui
+                            {{ 'espace.echeances.aujourdhui' | t }}
                           } @else if (e.jours === 1) {
-                            Demain
+                            {{ 'espace.echeances.demain' | t }}
                           } @else {
-                            Dans {{ e.jours }} jours
+                            {{ 'espace.echeances.dans' | t: { n: e.jours } }}
                           }
                         </span>
                       </div>
@@ -519,7 +520,7 @@
               <section class="home-panel">
 
                 <header class="home-panel-header">
-                  <h2>Suggéré pour vous</h2>
+                  <h2>{{ 'espace.suggestions.titre' | t }}</h2>
                 </header>
 
                 @if (suggestionErreur) {
@@ -531,14 +532,14 @@
                     <li>
                       <p>{{ s.message }}</p>
                       <div class="suggestion-actions">
-                        <button type="button" class="hero-btn ghost small" (click)="voirSuggestion(s)">Voir plus</button>
+                        <button type="button" class="hero-btn ghost small" (click)="voirSuggestion(s)">{{ 'commun.voirPlus' | t }}</button>
                         <button
                           type="button"
                           class="hero-btn primary small"
                           [disabled]="suggestionEnCours !== null"
                           (click)="commencerSuggestion(s)"
                         >
-                          {{ suggestionEnCours === s.id ? 'Ajout…' : 'Commencer' }}
+                          {{ (suggestionEnCours === s.id ? 'demarches.ajout' : 'demarches.commencer') | t }}
                         </button>
                       </div>
                     </li>
@@ -557,29 +558,29 @@
              RACCOURCIS
              ================================================== -->
 
-        <section class="shortcut-grid" aria-label="Raccourcis">
+        <section class="shortcut-grid" [attr.aria-label]="'espace.raccourcis' | t">
 
           <a routerLink="/demarches" class="shortcut">
             <span aria-hidden="true">📋</span>
             <div>
-              <strong>Toutes les démarches</strong>
-              <small>Séjour, santé, logement, banque…</small>
+              <strong>{{ 'espace.menu.toutesDemarches' | t }}</strong>
+              <small>{{ 'espace.raccourci.demarches.texte' | t }}</small>
             </div>
           </a>
 
           <a routerLink="/documents" class="shortcut">
             <span aria-hidden="true">📄</span>
             <div>
-              <strong>Documents requis</strong>
-              <small>Préparez vos pièces à l'avance</small>
+              <strong>{{ 'espace.menu.documents' | t }}</strong>
+              <small>{{ 'espace.raccourci.documents.texte' | t }}</small>
             </div>
           </a>
 
           <a routerLink="/dashboard/account" class="shortcut">
             <span aria-hidden="true">⚙️</span>
             <div>
-              <strong>Mon compte</strong>
-              <small>Mot de passe et sécurité</small>
+              <strong>{{ 'espace.section.compte' | t }}</strong>
+              <small>{{ 'espace.raccourci.compte.texte' | t }}</small>
             </div>
           </a>
 

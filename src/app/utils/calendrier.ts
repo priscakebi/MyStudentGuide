@@ -65,8 +65,31 @@ function plierLigne(ligne: string): string {
   return morceaux.join('\r\n ');
 }
 
+/** Textes de l'événement, dans la langue de l'interface. */
+const TEXTES_ICS = {
+  fr: {
+    resume: (titre: string) => `Date limite : ${titre}`,
+    description: (titre: string) => `Date limite de votre démarche « ${titre} ».`,
+    lien: (url: string) => `Détail de la démarche : ${url}`,
+    rappelSemaine: (titre: string) => `Dans 7 jours : ${titre}`,
+    rappelVeille: (titre: string) => `Demain : ${titre}`
+  },
+  en: {
+    resume: (titre: string) => `Deadline: ${titre}`,
+    description: (titre: string) => `Deadline for your procedure “${titre}”.`,
+    lien: (url: string) => `Procedure details: ${url}`,
+    rappelSemaine: (titre: string) => `In 7 days: ${titre}`,
+    rappelVeille: (titre: string) => `Tomorrow: ${titre}`
+  }
+};
+
 /** Contenu du fichier .ics pour une ou plusieurs dates limites. */
-export function genererIcs(echeances: EcheanceAgenda[], maintenant = new Date()): string {
+export function genererIcs(
+  echeances: EcheanceAgenda[],
+  maintenant = new Date(),
+  langue: 'fr' | 'en' = 'fr'
+): string {
+  const t = TEXTES_ICS[langue];
   const horodatage = maintenant.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
 
   const lignes = [
@@ -84,8 +107,8 @@ export function genererIcs(echeances: EcheanceAgenda[], maintenant = new Date())
     }
 
     const description = e.url
-      ? `Date limite de votre démarche « ${e.titre} ».\nDétail de la démarche : ${e.url}`
-      : `Date limite de votre démarche « ${e.titre} ».`;
+      ? `${t.description(e.titre)}\n${t.lien(e.url)}`
+      : t.description(e.titre);
 
     lignes.push(
       'BEGIN:VEVENT',
@@ -93,20 +116,20 @@ export function genererIcs(echeances: EcheanceAgenda[], maintenant = new Date())
       `DTSTAMP:${horodatage}`,
       `DTSTART;VALUE=DATE:${jour}`,
       `DTEND;VALUE=DATE:${lendemainIcs(jour)}`,
-      `SUMMARY:${texteIcs(`Date limite : ${e.titre}`)}`,
+      `SUMMARY:${texteIcs(t.resume(e.titre))}`,
       `DESCRIPTION:${texteIcs(description)}`,
       ...(e.url ? [`URL:${e.url}`] : []),
       'TRANSP:TRANSPARENT',
       // Rappel une semaine avant, à 9 h.
       'BEGIN:VALARM',
       'ACTION:DISPLAY',
-      `DESCRIPTION:${texteIcs(`Dans 7 jours : ${e.titre}`)}`,
+      `DESCRIPTION:${texteIcs(t.rappelSemaine(e.titre))}`,
       'TRIGGER:-P6DT15H',
       'END:VALARM',
       // Rappel la veille, à 9 h.
       'BEGIN:VALARM',
       'ACTION:DISPLAY',
-      `DESCRIPTION:${texteIcs(`Demain : ${e.titre}`)}`,
+      `DESCRIPTION:${texteIcs(t.rappelVeille(e.titre))}`,
       'TRIGGER:-PT15H',
       'END:VALARM',
       'END:VEVENT'
@@ -131,8 +154,8 @@ export function nomFichierIcs(titre: string): string {
 }
 
 /** Fait télécharger le fichier .ics (sur téléphone, l'agenda propose de l'ajouter). */
-export function telechargerIcs(nomFichier: string, echeances: EcheanceAgenda[]): void {
-  const blob = new Blob([genererIcs(echeances)], { type: 'text/calendar;charset=utf-8' });
+export function telechargerIcs(nomFichier: string, echeances: EcheanceAgenda[], langue: 'fr' | 'en' = 'fr'): void {
+  const blob = new Blob([genererIcs(echeances, new Date(), langue)], { type: 'text/calendar;charset=utf-8' });
   const url = URL.createObjectURL(blob);
 
   const lien = document.createElement('a');

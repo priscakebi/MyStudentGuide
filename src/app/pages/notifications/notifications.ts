@@ -5,6 +5,8 @@ import { Router, RouterLink } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 import { StudentDemarcheService } from '../../services/student-demarche.service';
+import { LangueService } from '../../i18n/langue.service';
+import { DateLPipe, TPipe } from '../../i18n/t.pipe';
 
 
 /**
@@ -75,7 +77,9 @@ interface Notification {
 
   imports: [
     CommonModule,
-    RouterLink
+    RouterLink,
+    TPipe,
+    DateLPipe
   ],
 
   templateUrl: './notifications.html',
@@ -88,6 +92,7 @@ export class Notifications implements OnInit {
   private studentDemarcheService = inject(StudentDemarcheService);
   private authService = inject(AuthService);
   private router = inject(Router);
+  protected langue = inject(LangueService);
 
   /**
    * Visiteur non connecté (route publique /notifications) :
@@ -162,6 +167,12 @@ export class Notifications implements OnInit {
     this.estVisiteur = !this.authService.isLoggedIn();
 
     if (this.estVisiteur) {
+      return;
+    }
+
+    // Un administrateur a ses propres notifications dans l'administration.
+    if (this.authService.isAdmin()) {
+      this.router.navigate(['/admin/notifications'], { replaceUrl: true });
       return;
     }
 
@@ -245,8 +256,7 @@ export class Notifications implements OnInit {
      */
     if (!userId) {
 
-      this.errorMessage =
-        'Impossible de récupérer votre identifiant utilisateur.';
+      this.errorMessage = this.langue.t('notif.erreur.identifiant');
 
       return;
 
@@ -302,8 +312,7 @@ export class Notifications implements OnInit {
           error
         );
 
-        this.errorMessage =
-          'Impossible de charger vos notifications.';
+        this.errorMessage = this.langue.t('notif.erreur.chargement');
 
         this.loading = false;
 
@@ -674,14 +683,15 @@ export class Notifications implements OnInit {
           // Le backend clôt la suggestion : on reflète l'état sans recharger.
           notification.actionTraitee = true;
           notification.lu = true;
-          this.answerMessage =
-            `« ${suivi?.demarche?.titre ?? 'La démarche'} » a été ajoutée à vos démarches.`;
+          this.answerMessage = this.langue.t('notif.ajoutee', {
+            titre: suivi?.demarche?.titre ?? this.langue.t('notif.laDemarche')
+          });
           this.loadUnreadCount();
         },
         error: (error) => {
           this.answeringId = null;
           this.answerError =
-            error.error?.message || 'Impossible de commencer cette démarche.';
+            error.error?.message || this.langue.t('demarches.erreurCommencer');
         }
       });
   }
@@ -704,15 +714,13 @@ export class Notifications implements OnInit {
           this.answeringId = null;
           notification.actionTraitee = true;
           notification.lu = true;
-          this.answerMessage = envoyes
-            ? 'Merci ! Votre progression a été mise à jour.'
-            : 'D\'accord, nous vous reposerons la question dans 10 jours.';
+          this.answerMessage = this.langue.t(envoyes ? 'notif.documents.merci' : 'notif.documents.plusTard');
           this.loadUnreadCount();
         },
         error: (error) => {
           this.answeringId = null;
           this.answerError =
-            error.error?.message || 'Impossible d\'enregistrer votre réponse.';
+            error.error?.message || this.langue.t('notif.erreur.reponse');
         }
       });
   }

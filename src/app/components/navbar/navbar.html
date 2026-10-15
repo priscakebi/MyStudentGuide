@@ -55,7 +55,7 @@
     class="menu-toggle"
     [class.open]="menuOpen"
     [attr.aria-expanded]="menuOpen"
-    aria-label="Menu"
+    [attr.aria-label]="'nav.menu' | t"
     (click)="toggleMenu()"
   >
     <span class="menu-bar"></span>
@@ -83,7 +83,7 @@
       [routerLinkActiveOptions]="{ exact: true }"
       class="nav-link"
     >
-      Accueil
+      {{ 'nav.accueil' | t }}
     </a>
 
 
@@ -100,7 +100,7 @@
       routerLinkActive="active"
       class="nav-link"
     >
-      Mes démarches
+      {{ 'nav.demarches' | t }}
     </a>
 
 
@@ -113,7 +113,7 @@
       routerLinkActive="active"
       class="nav-link"
     >
-      Documents
+      {{ 'nav.documents' | t }}
     </a>
 
 
@@ -128,7 +128,7 @@
       routerLinkActive="active"
       class="nav-link"
     >
-      Notifications
+      {{ 'nav.notifications' | t }}
     </a>
 
 
@@ -145,7 +145,7 @@
         class="mobile-logout"
         (click)="logout()"
       >
-        Déconnexion
+        {{ 'commun.deconnexion' | t }}
       </button>
 
     } @else {
@@ -154,12 +154,15 @@
         routerLink="/login"
         class="mobile-login"
       >
-        Se connecter
+        {{ 'commun.seConnecter' | t }}
       </a>
 
     }
 
   </div>
+
+<!-- Choix de la langue (FR / EN) -->
+<app-langue-switch class="navbar-langue"></app-langue-switch>
 
 <!-- =========================================================
      ESPACE UTILISATEUR
@@ -188,12 +191,12 @@
 
       <!-- Initiale du prénom -->
       <span class="profile-avatar">
-        {{ userInitial }}
+        {{ (userName || ('espace.etudiant' | t)).charAt(0).toUpperCase() }}
       </span>
 
       <!-- Prénom de l'étudiant -->
       <span class="profile-name">
-        {{ userName }}
+        {{ userName || ('espace.etudiant' | t) }}
       </span>
 
     </a>
@@ -212,7 +215,7 @@
       class="logout-button"
       (click)="logout()"
     >
-      Déconnexion
+      {{ 'commun.deconnexion' | t }}
     </button>
 
   </div>
@@ -232,7 +235,7 @@
     routerLink="/login"
     class="login-button"
   >
-    Se connecter
+    {{ 'commun.seConnecter' | t }}
   </a>
 
 }

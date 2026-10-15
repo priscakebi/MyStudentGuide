@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { forkJoin, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { LangueService } from '../../i18n/langue.service';
+import { TPipe } from '../../i18n/t.pipe';
 
 /**
  * Représente un document requis récupéré depuis le backend.
@@ -63,7 +65,8 @@ interface DocumentsParDemarche {
   selector: 'app-documents',
   standalone: true,
   imports: [
-    CommonModule
+    CommonModule,
+    TPipe
   ],
   templateUrl: './documents.html',
   styleUrl: './documents.scss'
@@ -95,6 +98,13 @@ export class Documents implements OnInit {
    * Injection du client HTTP Angular.
    */
   constructor(private http: HttpClient) {}
+
+  private langue = inject(LangueService);
+
+  /** Libellé lisible d'un type de document (IDENTITE → Identité / Identity). */
+  libelleType(type: string): string {
+    return this.langue.tOu(`docType.${type}`, type);
+  }
 
   /**
    * Méthode exécutée automatiquement lorsque
@@ -240,7 +250,7 @@ export class Documents implements OnInit {
             );
 
             this.errorMessage =
-              'Impossible de récupérer les documents requis.';
+              this.langue.t('documents.erreur.documents');
 
             this.isLoading = false;
           }
@@ -256,7 +266,7 @@ export class Documents implements OnInit {
         );
 
         this.errorMessage =
-          'Impossible de récupérer les démarches.';
+          this.langue.t('documents.erreur.demarches');
 
         this.isLoading = false;
       }

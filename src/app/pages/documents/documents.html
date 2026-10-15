@@ -30,12 +30,11 @@
     <div>
 
       <h1>
-        Mes documents
+        {{ 'documents.titre' | t }}
       </h1>
 
       <p>
-        Consultez les documents nécessaires pour effectuer
-        vos différentes démarches administratives.
+        {{ 'documents.intro' | t }}
       </p>
 
     </div>
@@ -56,23 +55,20 @@
     <div>
 
       <h2>
-        Les documents à préparer
+        {{ 'documents.info.titre' | t }}
       </h2>
 
       <p>
-        Cette page vous indique les documents nécessaires
-        pour chaque démarche administrative.
+        {{ 'documents.info.1' | t }}
       </p>
 
       <p>
-        Vous pouvez ainsi savoir à l'avance quelles pièces
-        préparer avant de commencer une démarche.
+        {{ 'documents.info.2' | t }}
       </p>
 
       <p>
         <strong>
-          Aucun document personnel n'est envoyé ou enregistré
-          sur MyStudentGuide.
+          {{ 'documents.info.3' | t }}
         </strong>
       </p>
 
@@ -92,7 +88,7 @@
       <div class="loader"></div>
 
       <p>
-        Chargement des documents...
+        {{ 'documents.chargement' | t }}
       </p>
 
     </div>
@@ -138,12 +134,11 @@
       </div>
 
       <h2>
-        Aucun document requis
+        {{ 'documents.vide.titre' | t }}
       </h2>
 
       <p>
-        Aucun document requis n'est actuellement disponible
-        pour les démarches proposées.
+        {{ 'documents.vide.texte' | t }}
       </p>
 
     </section>
@@ -188,9 +183,7 @@
               </h2>
 
               <span>
-                {{ groupe.documents.length }}
-                document{{ groupe.documents.length > 1 ? 's' : '' }}
-                requis
+                {{ (groupe.documents.length > 1 ? 'documents.compte.n' : 'documents.compte.1') | t: { n: groupe.documents.length } }}
               </span>
 
             </div>
@@ -241,7 +234,7 @@
                     </h3>
 
                     <span class="required-badge">
-                      Requis
+                      {{ 'documents.requis' | t }}
                     </span>
 
                   </div>
@@ -261,7 +254,7 @@
                   @if (document.type) {
 
                     <span class="document-type">
-                      {{ document.type }}
+                      {{ libelleType(document.type) }}
                     </span>
 
                   }

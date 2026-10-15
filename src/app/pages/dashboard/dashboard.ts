@@ -28,6 +28,9 @@ import {
   StudentDemarcheService
 } from '../../services/student-demarche.service';
 import { telechargerIcs } from '../../utils/calendrier';
+import { LangueService } from '../../i18n/langue.service';
+import { DateLPipe, TPipe } from '../../i18n/t.pipe';
+import { LangueSwitch } from '../../components/langue-switch/langue-switch';
 
 
 /** Notification de suggestion de démarche (envoyée par un administrateur). */
@@ -73,7 +76,10 @@ interface SuggestionNotification {
     RouterLink,
     RouterLinkActive,
     RouterOutlet,
-    PrefectureCard
+    PrefectureCard,
+    TPipe,
+    DateLPipe,
+    LangueSwitch
   ],
 
   // Template HTML du Dashboard.
@@ -89,6 +95,7 @@ export class Dashboard implements OnInit, OnDestroy {
   // ==========================================================
 
   private studentDemarcheService = inject(StudentDemarcheService);
+  private langue = inject(LangueService);
   private navigationSub?: Subscription;
 
   /** Démarches commencées par l'étudiant (pour la barre de progression). */
@@ -173,7 +180,7 @@ export class Dashboard implements OnInit, OnDestroy {
       titre: sd.demarche.titre,
       dateLimite: sd.demarche.dateLimite!,
       url: `${window.location.origin}/demarches/${sd.demarche.id}`
-    })));
+    })), this.langue.langue());
   }
 
   /**
@@ -203,8 +210,8 @@ export class Dashboard implements OnInit, OnDestroy {
   /** Prochaine action conseillée pour une démarche en cours. */
   prochaineEtape(sd: StudentDemarche): string {
     return sd.documentsEnvoyes
-      ? 'Marquez-la comme terminée une fois la démarche finalisée.'
-      : 'Prochaine étape : envoyer vos documents sur la plateforme officielle.';
+      ? this.langue.t('espace.prochaine.terminer')
+      : this.langue.t('espace.prochaine.documents');
   }
 
   /** Suggestions envoyées par l'administration et pas encore commencées. */
@@ -279,7 +286,7 @@ export class Dashboard implements OnInit, OnDestroy {
       error: (error) => {
         this.suggestionEnCours = null;
         this.suggestionErreur =
-          error.error?.message || 'Impossible de commencer cette démarche.';
+          error.error?.message || this.langue.t('demarches.erreurCommencer');
       }
     });
   }
@@ -310,7 +317,13 @@ export class Dashboard implements OnInit, OnDestroy {
    * Une valeur par défaut est utilisée si aucune
    * information n'est disponible.
    */
-  userName = 'Étudiant';
+  /** Prénom de l'étudiant ; vide tant qu'il n'est pas connu. */
+  userName = '';
+
+  /** Nom affiché : le prénom, ou « Étudiant » / « Student » s'il n'est pas encore connu. */
+  get nomAffiche(): string {
+    return this.userName || this.langue.t('espace.etudiant');
+  }
 
 
   /**

@@ -18,12 +18,11 @@
       </div>
 
       <h2>
-        Vos notifications
+        {{ 'notif.visiteur.titre' | t }}
       </h2>
 
       <p>
-        Connectez-vous pour recevoir vos rappels d'échéance
-        et des suggestions de démarches adaptées à votre profil.
+        {{ 'notif.visiteur.texte' | t }}
       </p>
 
       <div class="visitor-actions">
@@ -33,14 +32,14 @@
           [queryParams]="{ returnUrl: '/dashboard/notifications' }"
           class="visitor-primary"
         >
-          Se connecter
+          {{ 'commun.seConnecter' | t }}
         </a>
 
         <a
           routerLink="/register"
           class="visitor-secondary"
         >
-          Créer un compte
+          {{ 'commun.creerCompte' | t }}
         </a>
 
       </div>
@@ -69,7 +68,7 @@
         (click)="closeNotification()"
       >
 
-        ← Retour aux notifications
+        {{ 'notif.retour' | t }}
 
       </button>
 
@@ -103,7 +102,7 @@
           @if (!selectedNotification.lu) {
 
             <span class="unread-badge">
-              Non lue
+              {{ 'notif.nonLue' | t }}
             </span>
 
           }
@@ -116,7 +115,7 @@
 
           <div class="notification-detail-date">
 
-            {{ selectedNotification.dateCreation | date:'dd/MM/yyyy HH:mm' }}
+            {{ selectedNotification.dateCreation | dateL: 'dd/MM/yyyy HH:mm' }}
 
           </div>
 
@@ -145,10 +144,10 @@
         <!-- Rappel de J+10 : réponse Oui / Pas encore -->
         @if (attendReponse(selectedNotification)) {
           <div class="documents-question">
-            <p>Avez-vous envoyé vos documents sur la plateforme dédiée ?</p>
+            <p>{{ 'notif.documents.question' | t }}</p>
             <div class="documents-answers">
-              <button type="button" class="answer-yes" [disabled]="answeringId !== null" (click)="repondreDocuments(selectedNotification, true)">Oui, c'est fait</button>
-              <button type="button" class="answer-no" [disabled]="answeringId !== null" (click)="repondreDocuments(selectedNotification, false)">Pas encore</button>
+              <button type="button" class="answer-yes" [disabled]="answeringId !== null" (click)="repondreDocuments(selectedNotification, true)">{{ 'notif.documents.oui' | t }}</button>
+              <button type="button" class="answer-no" [disabled]="answeringId !== null" (click)="repondreDocuments(selectedNotification, false)">{{ 'notif.documents.non' | t }}</button>
             </div>
           </div>
         }
@@ -156,11 +155,11 @@
         <!-- Suggestion de démarche : Voir plus / Commencer -->
         @if (estSuggestion(selectedNotification)) {
           <div class="documents-answers">
-            <button type="button" class="answer-no" (click)="voirDemarche(selectedNotification)">Voir plus</button>
+            <button type="button" class="answer-no" (click)="voirDemarche(selectedNotification)">{{ 'commun.voirPlus' | t }}</button>
             @if (suggestionOuverte(selectedNotification)) {
-              <button type="button" class="answer-yes" [disabled]="answeringId !== null" (click)="commencerSuggestion(selectedNotification)">Commencer</button>
+              <button type="button" class="answer-yes" [disabled]="answeringId !== null" (click)="commencerSuggestion(selectedNotification)">{{ 'notif.commencer' | t }}</button>
             } @else {
-              <span class="suggestion-done">✓ Démarche commencée</span>
+              <span class="suggestion-done">{{ 'notif.commencee' | t }}</span>
             }
           </div>
         }
@@ -188,7 +187,7 @@
               (click)="markAsRead(selectedNotification)"
             >
 
-              ✓ Marquer comme lue
+              {{ 'notif.marquerLue' | t }}
 
             </button>
 
@@ -202,7 +201,7 @@
             (click)="deleteNotification(selectedNotification)"
           >
 
-            🗑 Supprimer
+            {{ 'notif.supprimer' | t }}
 
           </button>
 
@@ -234,12 +233,16 @@
       <div>
 
         <h1>
-          Notifications
+          {{ 'notif.titre' | t }}
         </h1>
 
         <p>
-          Retrouvez ici toutes vos notifications.
+          {{ 'notif.intro' | t }}
         </p>
+
+        @if (langue.langue() === 'en') {
+          <p class="content-language-note" lang="en">ℹ️ {{ 'notif.contenuFrancais' | t }}</p>
+        }
 
       </div>
 
@@ -252,7 +255,7 @@
         </span>
 
         <small>
-          non lue{{ unreadCount > 1 ? 's' : '' }}
+          {{ (unreadCount > 1 ? 'notif.nonLues.n' : 'notif.nonLues.1') | t }}
         </small>
 
       </div>
@@ -273,7 +276,7 @@
         [disabled]="loading"
       >
 
-        ↻ Actualiser
+        {{ 'notif.actualiser' | t }}
 
       </button>
 
@@ -314,7 +317,7 @@
 
       <div class="loading">
 
-        Chargement des notifications...
+        {{ 'notif.chargement' | t }}
 
       </div>
 
@@ -335,11 +338,11 @@
         </div>
 
         <h2>
-          Aucune notification
+          {{ 'notif.vide.titre' | t }}
         </h2>
 
         <p>
-          Vous n'avez actuellement aucune notification.
+          {{ 'notif.vide.texte' | t }}
         </p>
 
       </div>
@@ -408,7 +411,7 @@
                 @if (!notification.lu) {
 
                   <span class="unread-badge">
-                    Non lue
+                    {{ 'notif.nonLue' | t }}
                   </span>
 
                 }
@@ -431,7 +434,7 @@
 
                 <small>
 
-                  {{ notification.dateCreation | date:'dd/MM/yyyy HH:mm' }}
+                  {{ notification.dateCreation | dateL: 'dd/MM/yyyy HH:mm' }}
 
                 </small>
 
@@ -444,19 +447,19 @@
 
               @if (attendReponse(notification)) {
                 <div class="documents-answers" (click)="$event.stopPropagation()">
-                  <button type="button" class="answer-yes" [disabled]="answeringId !== null" (click)="repondreDocuments(notification, true)">Oui, c'est fait</button>
-                  <button type="button" class="answer-no" [disabled]="answeringId !== null" (click)="repondreDocuments(notification, false)">Pas encore</button>
+                  <button type="button" class="answer-yes" [disabled]="answeringId !== null" (click)="repondreDocuments(notification, true)">{{ 'notif.documents.oui' | t }}</button>
+                  <button type="button" class="answer-no" [disabled]="answeringId !== null" (click)="repondreDocuments(notification, false)">{{ 'notif.documents.non' | t }}</button>
                 </div>
               }
 
               <!-- Suggestion de démarche : Voir plus / Commencer -->
               @if (estSuggestion(notification)) {
                 <div class="documents-answers" (click)="$event.stopPropagation()">
-                  <button type="button" class="answer-no" (click)="voirDemarche(notification)">Voir plus</button>
+                  <button type="button" class="answer-no" (click)="voirDemarche(notification)">{{ 'commun.voirPlus' | t }}</button>
                   @if (suggestionOuverte(notification)) {
-                    <button type="button" class="answer-yes" [disabled]="answeringId !== null" (click)="commencerSuggestion(notification)">Commencer</button>
+                    <button type="button" class="answer-yes" [disabled]="answeringId !== null" (click)="commencerSuggestion(notification)">{{ 'notif.commencer' | t }}</button>
                   } @else {
-                    <span class="suggestion-done">✓ Démarche commencée</span>
+                    <span class="suggestion-done">{{ 'notif.commencee' | t }}</span>
                   }
                 </div>
               }
@@ -482,7 +485,7 @@
                     "
                   >
 
-                    ✓ Marquer comme lue
+                    {{ 'notif.marquerLue' | t }}
 
                   </button>
 
@@ -504,7 +507,7 @@
                   "
                 >
 
-                  🗑 Supprimer
+                  {{ 'notif.supprimer' | t }}
 
                 </button>
 

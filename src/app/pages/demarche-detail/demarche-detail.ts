@@ -12,6 +12,9 @@ import {
 } from '../../services/student-demarche.service';
 import { nomFichierIcs, telechargerIcs } from '../../utils/calendrier';
 import { PageTitleStrategy } from '../../services/page-title.strategy';
+import { LangueService } from '../../i18n/langue.service';
+import { DateLPipe, TPipe } from '../../i18n/t.pipe';
+import { Cle } from '../../i18n/textes';
 
 /**
  * Représente un document nécessaire pour effectuer une démarche.
@@ -81,7 +84,7 @@ interface DemarcheDetail {
 @Component({
   selector: 'app-demarche-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule, PrefectureCard],
+  imports: [CommonModule, RouterLink, FormsModule, PrefectureCard, TPipe, DateLPipe],
   templateUrl: './demarche-detail.html',
   styleUrl: './demarche-detail.scss'
 })
@@ -114,6 +117,7 @@ export class DemarcheDetailComponent implements OnInit {
   private authService = inject(AuthService);
   private studentDemarcheService = inject(StudentDemarcheService);
   private pageTitle = inject(PageTitleStrategy);
+  protected langue = inject(LangueService);
 
   /** Seul un étudiant connecté peut commencer la démarche. */
   peutCommencer = false;
@@ -195,13 +199,12 @@ export class DemarcheDetailComponent implements OnInit {
       next: (suivi) => {
         this.enCours = false;
         this.suivi = suivi;
-        this.messageAction =
-          'Démarche ajoutée à « Mes démarches ». Suivez votre progression depuis votre espace.';
+        this.messageAction = this.langue.t('detail.ajoutee');
       },
       error: (error: HttpErrorResponse) => {
         this.enCours = false;
         this.erreurAction =
-          error.error?.message || 'Impossible de commencer cette démarche.';
+          error.error?.message || this.langue.t('demarches.erreurCommencer');
       }
     });
   }
@@ -210,18 +213,9 @@ export class DemarcheDetailComponent implements OnInit {
   // CHECKLIST DES DOCUMENTS (étudiant ayant commencé la démarche)
   // ==========================================================
 
-  /** Libellé lisible d'un type de document (IDENTITE → Identité). */
+  /** Libellé lisible d'un type de document (IDENTITE → Identité / Identity). */
   libelleType(type: string): string {
-    const libelles: Record<string, string> = {
-      IDENTITE: 'Identité',
-      SCOLARITE: 'Scolarité',
-      DOMICILE: 'Domicile',
-      RESSOURCES: 'Ressources',
-      PHOTO: 'Photo',
-      ASSURANCE: 'Assurance',
-      AUTRE: 'Autre'
-    };
-    return libelles[type] || type;
+    return this.langue.tOu(`docType.${type}`, type);
   }
 
   /** Document dont la case est en cours d'enregistrement. */
@@ -265,7 +259,7 @@ export class DemarcheDetailComponent implements OnInit {
       error: () => {
         this.documentEnCours = null;
         suivi.documentsPrets = avant;
-        this.erreurChecklist = 'La case n\'a pas pu être enregistrée. Réessayez.';
+        this.erreurChecklist = this.langue.t('detail.documents.erreurCase');
       }
     });
   }
@@ -286,12 +280,12 @@ export class DemarcheDetailComponent implements OnInit {
   // ==========================================================
 
   /** Motifs proposés (enum MotifSignalement côté API). */
-  readonly motifs = [
-    { value: 'INFO_OBSOLETE', label: 'L\'information n\'est plus à jour' },
-    { value: 'LIEN_CASSE', label: 'Un lien officiel ne fonctionne pas' },
-    { value: 'INFO_MANQUANTE', label: 'Il manque une étape ou un document' },
-    { value: 'ERREUR', label: 'Il y a une erreur dans le contenu' },
-    { value: 'AUTRE', label: 'Autre' }
+  readonly motifs: { value: string; label: Cle }[] = [
+    { value: 'INFO_OBSOLETE', label: 'detail.motif.INFO_OBSOLETE' },
+    { value: 'LIEN_CASSE', label: 'detail.motif.LIEN_CASSE' },
+    { value: 'INFO_MANQUANTE', label: 'detail.motif.INFO_MANQUANTE' },
+    { value: 'ERREUR', label: 'detail.motif.ERREUR' },
+    { value: 'AUTRE', label: 'detail.motif.AUTRE' }
   ];
 
   signalementOuvert = false;
@@ -333,7 +327,7 @@ export class DemarcheDetailComponent implements OnInit {
       error: (error: HttpErrorResponse) => {
         this.signalementEnCours = false;
         this.signalementErreur =
-          error.error?.message || 'Le signalement n\'a pas pu être envoyé.';
+          error.error?.message || this.langue.t('detail.signaler.erreur');
       }
     });
   }
@@ -369,7 +363,7 @@ export class DemarcheDetailComponent implements OnInit {
      * on arrête le chargement et on affiche une erreur.
      */
     if (!id) {
-      this.erreur = 'Identifiant de la démarche introuvable.';
+      this.erreur = this.langue.t('detail.erreur.identifiant');
       this.chargement = false;
       return;
     }
@@ -438,7 +432,7 @@ export class DemarcheDetailComponent implements OnInit {
            * Message destiné à l'utilisateur.
            */
           this.erreur =
-            'Impossible de charger les informations de cette démarche.';
+            this.langue.t('detail.erreur.texte');
 
           /*
            * Même en cas d'erreur, il faut arrêter
@@ -473,7 +467,7 @@ export class DemarcheDetailComponent implements OnInit {
       titre: this.demarche.titre,
       dateLimite: this.demarche.dateLimite,
       url: `${window.location.origin}/demarches/${this.demarche.id}`
-    }]);
+    }], this.langue.langue());
   }
 
   /**

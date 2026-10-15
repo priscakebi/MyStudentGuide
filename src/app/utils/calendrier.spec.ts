@@ -45,6 +45,12 @@ describe('calendrier (export .ics)', () => {
     expect(ics.match(/BEGIN:VEVENT/g)?.length).toBe(2);
   });
 
+  it('rédige l’événement en anglais si demandé', () => {
+    const ics = genererIcs([{ id: 1, titre: 'Carte Vitale', dateLimite: '2026-11-30' }], maintenant, 'en');
+    expect(ics).toContain('SUMMARY:Deadline: Carte Vitale');
+    expect(ics).toContain('DESCRIPTION:Tomorrow: Carte Vitale');
+  });
+
   it('donne un nom de fichier lisible', () => {
     expect(nomFichierIcs('Titre de séjour étudiant')).toBe('titre-de-sejour-etudiant.ics');
     expect(nomFichierIcs('!!!')).toBe('date-limite.ics');

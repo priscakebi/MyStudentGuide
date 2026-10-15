@@ -23,8 +23,9 @@ import {
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { environment } from '../../../environments/environment';
+import { LangueService } from '../../i18n/langue.service';
+import { TPipe } from '../../i18n/t.pipe';
 import {
-  PASSWORD_MESSAGE,
   PasswordCheck,
   isStrongPassword,
   passwordChecks
@@ -100,7 +101,8 @@ interface UserAccount {
   // Modules nécessaires au fonctionnement du template.
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TPipe
   ],
 
   // Fichiers associés au composant.
@@ -247,6 +249,7 @@ export class Account implements OnInit {
   // ============================================================
 
   private authService = inject(AuthService);
+  private langue = inject(LangueService);
 
   constructor(
     private fb: FormBuilder,
@@ -433,7 +436,7 @@ export class Account implements OnInit {
     if (!token) {
 
       this.accountErrorMessage =
-        'Votre session a expiré. Veuillez vous reconnecter.';
+        this.langue.t('compte.sessionExpiree');
 
       return;
     }
@@ -506,8 +509,7 @@ export class Account implements OnInit {
 
 
         this.accountErrorMessage =
-          error.error?.message ||
-          'Impossible de récupérer les informations de votre compte.';
+          this.langue.messageApi(error.error?.message, 'compte.erreur.chargement');
       }
     });
   }
@@ -607,7 +609,7 @@ export class Account implements OnInit {
     if (!token) {
 
       this.accountErrorMessage =
-        'Votre session a expiré. Veuillez vous reconnecter.';
+        this.langue.t('compte.sessionExpiree');
 
       return;
     }
@@ -666,7 +668,7 @@ export class Account implements OnInit {
 
         // Message de réussite.
         this.accountSuccessMessage =
-          'Vos informations ont été modifiées avec succès.';
+          this.langue.t('compte.infosModifiees');
       },
 
 
@@ -701,8 +703,7 @@ export class Account implements OnInit {
 
         // Message retourné par le backend.
         this.accountErrorMessage =
-          error.error?.message ||
-          'Impossible de modifier les informations de votre compte.';
+          this.langue.messageApi(error.error?.message, 'compte.erreur.modification');
       }
     });
   }
@@ -787,7 +788,7 @@ export class Account implements OnInit {
       this.passwordForm.markAllAsTouched();
 
       this.errorMessage =
-        'Veuillez respecter toutes les règles de sécurité du mot de passe.';
+        this.langue.t('compte.mdp.erreur.regles');
 
       return;
     }
@@ -796,8 +797,7 @@ export class Account implements OnInit {
     // Vérifie une deuxième fois les règles de sécurité.
     if (!this.isPasswordSecure()) {
 
-      this.errorMessage =
-        PASSWORD_MESSAGE;
+      this.errorMessage = this.langue.t('form.motDePasse.message');
 
       return;
     }
@@ -807,7 +807,7 @@ export class Account implements OnInit {
     if (!this.passwordsMatch()) {
 
       this.errorMessage =
-        'Les deux nouveaux mots de passe ne correspondent pas.';
+        this.langue.t('compte.mdp.erreur.differents');
 
       return;
     }
@@ -852,7 +852,7 @@ export class Account implements OnInit {
       next: (response) => {
         this.isLoading = false;
         this.successMessage =
-          response?.message || 'Votre mot de passe a été modifié avec succès.';
+          this.langue.messageApi(response?.message, 'compte.mdp.modifie');
         this.resetPasswordForm();
       },
 
@@ -860,8 +860,8 @@ export class Account implements OnInit {
         this.isLoading = false;
         this.errorMessage =
           error.status === 0
-            ? 'Impossible de joindre le serveur. Réessayez plus tard.'
-            : error.error?.message || 'Impossible de modifier le mot de passe.';
+            ? this.langue.t('form.serveurInjoignable')
+            : this.langue.messageApi(error.error?.message, 'compte.mdp.erreur');
       }
     });
   }
@@ -946,7 +946,7 @@ export class Account implements OnInit {
       this.deleteAccountForm.markAllAsTouched();
 
       this.deleteErrorMessage =
-        'Veuillez compléter les informations obligatoires.';
+        this.langue.t('compte.suppr.erreur.champs');
 
       return;
     }
@@ -966,7 +966,7 @@ export class Account implements OnInit {
     if (!token) {
 
       this.deleteErrorMessage =
-        'Votre session a expiré. Veuillez vous reconnecter.';
+        this.langue.t('compte.sessionExpiree');
 
       return;
     }
@@ -1006,8 +1006,7 @@ export class Account implements OnInit {
         this.isDeleting = false;
 
         this.successMessage =
-          response.message ||
-          'Votre compte a été supprimé avec succès.';
+          this.langue.messageApi(response.message, 'compte.suppr.ok');
 
 
         // Supprime les informations de session
@@ -1039,16 +1038,7 @@ export class Account implements OnInit {
         this.isDeleting = false;
 
 
-        if (error.error?.message) {
-
-          this.deleteErrorMessage =
-            error.error.message;
-
-        } else {
-
-          this.deleteErrorMessage =
-            'Une erreur est survenue lors de la suppression de votre compte.';
-        }
+        this.deleteErrorMessage = this.langue.messageApi(error.error?.message, 'compte.suppr.erreur');
       }
     });
   }

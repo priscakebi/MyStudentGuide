@@ -23,6 +23,8 @@ import { forkJoin, of, catchError } from 'rxjs';
 import { AvisForm } from '../../components/avis-form/avis-form';
 import { AuthService } from '../../services/auth.service';
 import { rechercherDemarches } from '../../utils/recherche';
+import { LangueService } from '../../i18n/langue.service';
+import { DateLPipe, TPipe } from '../../i18n/t.pipe';
 import {
   Demarche,
   StudentDemarche,
@@ -36,7 +38,9 @@ import {
   imports: [
     CommonModule,
     RouterLink,
-    AvisForm
+    AvisForm,
+    TPipe,
+    DateLPipe
   ],
   templateUrl: './demarches.html',
   styleUrl: './demarches.scss'
@@ -47,6 +51,7 @@ export class Demarches implements OnInit {
   private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
   private studentDemarcheService = inject(StudentDemarcheService);
+  private langue = inject(LangueService);
 
 
   // ============================================================
@@ -135,7 +140,7 @@ export class Demarches implements OnInit {
       error: () => {
         this.demarches = [];
         this.isLoading = false;
-        this.errorMessage = 'Impossible de charger les démarches.';
+        this.errorMessage = this.langue.t('demarches.erreur.texte');
       }
     });
   }
@@ -225,14 +230,12 @@ export class Demarches implements OnInit {
       next: (suivi) => {
         this.updatingId = null;
         this.suivis.set(demarche.id, { ...suivi, demarche: suivi?.demarche ?? demarche });
-        this.actionMessage =
-          `« ${demarche.titre} » a été ajoutée à vos démarches. ` +
-          'Suivez votre progression depuis « Mon espace ».';
+        this.actionMessage = this.langue.t('demarches.ajoutee', { titre: demarche.titre });
       },
       error: (error: HttpErrorResponse) => {
         this.updatingId = null;
         this.actionError =
-          error.error?.message || 'Impossible de commencer cette démarche.';
+          error.error?.message || this.langue.t('demarches.erreurCommencer');
       }
     });
   }
@@ -262,7 +265,6 @@ export class Demarches implements OnInit {
       this.avisPour.avisDonne = true;
     }
     this.avisPour = null;
-    this.actionMessage =
-      "Merci ! Votre avis est maintenant visible sur la page d'accueil.";
+    this.actionMessage = this.langue.t('demarches.avisMerci');
   }
 }

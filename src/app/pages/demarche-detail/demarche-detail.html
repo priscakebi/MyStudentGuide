@@ -8,6 +8,7 @@
 <button
 type="button"
 class="back-button"
+[attr.aria-label]="'detail.retour' | t"
 (click)="retourAuxDemarches()">
 
 <span class="back-icon">←</span>
@@ -28,10 +29,10 @@ class="back-button"
     <div class="loader"></div>
 
 
-<h2>Chargement de la démarche...</h2>
+<h2>{{ 'detail.chargement.titre' | t }}</h2>
 
 <p>
-  Nous récupérons les informations de cette démarche.
+  {{ 'detail.chargement.texte' | t }}
 </p>
 
 
@@ -48,7 +49,7 @@ class="back-button"
   >
     <div class="state-icon">!</div>
 
-<h2>Impossible de charger la démarche</h2>
+<h2>{{ 'detail.erreur.titre' | t }}</h2>
 
 <p>
   {{ erreur }}
@@ -59,7 +60,7 @@ class="back-button"
   class="primary-button"
   (click)="retourAuxDemarches()"
 >
-
+  {{ 'detail.retour' | t }}
 </button>
 
   </div>
@@ -95,6 +96,11 @@ class="back-button"
     {{ demarche.description }}
   </p>
 
+  <!-- Interface en anglais : le contenu officiel reste en français. -->
+  @if (langue.langue() === 'en') {
+    <p class="content-language-note" lang="en">ℹ️ {{ 'detail.contenuFrancais' | t }}</p>
+  }
+
   <!--
     Mention obligatoire (Licence Ouverte) : source et date
     de mise à jour de l'information officielle.
@@ -102,11 +108,11 @@ class="back-button"
   @if (demarche.sourceUrl) {
     <p class="source-mention">
       <span aria-hidden="true">🏛️</span>
-      Source :
+      {{ 'detail.source' | t }}
       <a [href]="demarche.sourceUrl" target="_blank" rel="noopener">Service-Public.gouv.fr</a>
-      (Direction de l'information légale et administrative)
+      {{ 'detail.source.dila' | t }}
       @if (demarche.sourceDateMaj) {
-        · mise à jour le {{ demarche.sourceDateMaj | date: 'd MMMM y' }}
+        {{ 'detail.source.maj' | t: { date: demarche.sourceDateMaj | dateL: 'd MMMM y' } }}
       }
     </p>
   }
@@ -117,7 +123,7 @@ class="back-button"
     <!-- Date de création -->
     <div class="meta-item">
       <span class="meta-label">
-        Date de création
+        {{ 'detail.dateCreation' | t }}
       </span>
 
       <span class="meta-value">
@@ -131,7 +137,7 @@ class="back-button"
       class="meta-item deadline"
     >
       <span class="meta-label">
-        Date limite
+        {{ 'detail.dateLimite' | t }}
       </span>
 
       <span class="meta-value">
@@ -143,10 +149,10 @@ class="back-button"
           type="button"
           class="agenda-button"
           (click)="ajouterAgenda()"
-          title="Télécharge un fichier .ics avec un rappel une semaine avant et la veille"
+          [title]="'detail.agenda.aide' | t"
         >
           <span aria-hidden="true">📅</span>
-          Ajouter à mon agenda
+          {{ 'detail.agenda' | t }}
         </button>
       }
     </div>
@@ -154,7 +160,7 @@ class="back-button"
     <!-- Nombre d'étapes -->
     <div class="meta-item">
       <span class="meta-label">
-        Étapes
+        {{ 'detail.etapes' | t }}
       </span>
 
       <span class="meta-value">
@@ -165,7 +171,7 @@ class="back-button"
     <!-- Nombre de documents -->
     <div class="meta-item">
       <span class="meta-label">
-        Documents requis
+        {{ 'detail.documentsRequis' | t }}
       </span>
 
       <span class="meta-value">
@@ -185,11 +191,11 @@ class="back-button"
     @if (suivi?.statut === 'EN_COURS' || suivi?.statut === 'TERMINEE') {
 
       <span class="start-status">
-        {{ suivi?.statut === 'TERMINEE' ? '✓ Démarche terminée' : '✓ Démarche commencée' }}
+        {{ (suivi?.statut === 'TERMINEE' ? 'detail.terminee' : 'detail.commencee') | t }}
       </span>
 
       <button type="button" class="primary-button" (click)="ouvrirSuivi()">
-        Voir mon suivi
+        {{ 'detail.voirSuivi' | t }}
       </button>
 
     } @else if (peutCommencer) {
@@ -200,7 +206,7 @@ class="back-button"
         [disabled]="enCours"
         (click)="commencer()"
       >
-        {{ enCours ? 'Ajout...' : 'Commencer cette démarche' }}
+        {{ (enCours ? 'demarches.ajout' : 'detail.commencer') | t }}
       </button>
 
     } @else {
@@ -209,9 +215,9 @@ class="back-button"
         type="button"
         class="primary-button"
         disabled
-        title="Connectez-vous avec un compte étudiant pour commencer"
+        [title]="'demarches.connexionRequise' | t"
       >
-        Commencer cette démarche
+        {{ 'detail.commencer' | t }}
       </button>
 
       @if (estVisiteur) {
@@ -220,7 +226,7 @@ class="back-button"
           [queryParams]="{ returnUrl: '/demarches/' + demarche.id }"
           class="start-login-link"
         >
-          Connectez-vous pour commencer
+          {{ 'detail.connexionPourCommencer' | t }}
         </a>
       }
 
@@ -250,11 +256,11 @@ class="back-button"
       <span class="section-number">01</span>
 
       <h2>
-        Les étapes de la démarche
+        {{ 'detail.etapes.titre' | t }}
       </h2>
 
       <p>
-        Suivez ces différentes étapes pour effectuer votre démarche.
+        {{ 'detail.etapes.texte' | t }}
       </p>
     </div>
   </div>
@@ -300,7 +306,7 @@ class="back-button"
     class="empty-card"
   >
     <p>
-      Les étapes de cette démarche seront bientôt disponibles.
+      {{ 'detail.etapes.vide' | t }}
     </p>
   </div>
 
@@ -317,15 +323,14 @@ class="back-button"
       <span class="section-number">02</span>
 
       <h2>
-        Documents requis
+        {{ 'detail.documentsRequis' | t }}
       </h2>
 
       <p>
         @if (suivi && demarche.documentsRequis.length > 0) {
-          Cochez les documents au fur et à mesure que vous les rassemblez :
-          votre liste est enregistrée dans votre espace.
+          {{ 'detail.documents.cocher' | t }}
         } @else {
-          Voici les documents nécessaires pour effectuer cette démarche.
+          {{ 'detail.documents.texte' | t }}
         }
       </p>
     </div>
@@ -340,9 +345,9 @@ class="back-button"
       <div class="checklist-progress-text">
         <strong>
           @if (nbDocumentsPrets === demarche.documentsRequis.length) {
-            ✓ Dossier complet : tous vos documents sont prêts
+            {{ 'detail.documents.complet' | t }}
           } @else {
-            {{ nbDocumentsPrets }} / {{ demarche.documentsRequis.length }} documents prêts
+            {{ 'detail.documents.prets' | t: { n: nbDocumentsPrets, total: demarche.documentsRequis.length } }}
           }
         </strong>
         <span>{{ pourcentageDocuments }} %</span>
@@ -351,7 +356,7 @@ class="back-button"
       <div
         class="checklist-bar"
         role="progressbar"
-        aria-label="Documents prêts"
+        [attr.aria-label]="'detail.documents.pretsLabel' | t"
         [attr.aria-valuenow]="pourcentageDocuments"
         aria-valuemin="0"
         aria-valuemax="100"
@@ -368,8 +373,7 @@ class="back-button"
   } @else if (peutCommencer && !suivi && demarche.documentsRequis.length > 0) {
 
     <p class="checklist-hint">
-      💡 Commencez la démarche pour cocher les documents que vous avez déjà
-      et voir ce qu'il vous manque.
+      {{ 'detail.documents.astuce' | t }}
     </p>
 
   }
@@ -457,7 +461,7 @@ class="back-button"
     class="empty-card"
   >
     <p>
-      Aucun document requis n'est actuellement renseigné pour cette démarche.
+      {{ 'detail.documents.vide' | t }}
     </p>
   </div>
 
@@ -470,7 +474,7 @@ class="back-button"
       class="secondary-button"
       (click)="voirDocuments()"
     >
-      Voir la liste des documents
+      {{ 'detail.documents.voirListe' | t }}
       <span>→</span>
     </button>
 
@@ -489,11 +493,11 @@ class="back-button"
       <span class="section-number">03</span>
 
       <h2>
-        Sites officiels
+        {{ 'detail.liens.titre' | t }}
       </h2>
 
       <p>
-        Consultez les sources officielles liées à cette démarche.
+        {{ 'detail.liens.texte' | t }}
       </p>
     </div>
   </div>
@@ -537,7 +541,7 @@ class="back-button"
           rel="noopener noreferrer"
           class="official-button"
         >
-          Accéder au site officiel
+          {{ 'detail.liens.acceder' | t }}
           <span>↗</span>
         </a>
 
@@ -554,7 +558,7 @@ class="back-button"
     class="empty-card"
   >
     <p>
-      Aucun lien officiel n'est actuellement renseigné pour cette démarche.
+      {{ 'detail.liens.vide' | t }}
     </p>
   </div>
 
@@ -570,7 +574,7 @@ class="back-button"
      ======================================================= -->
 @if (peutCommencer && concernePrefecture) {
   <div class="prefecture-section">
-    <app-prefecture-card titre="Votre préfecture pour cette démarche"></app-prefecture-card>
+    <app-prefecture-card [titre]="'detail.prefecture' | t"></app-prefecture-card>
   </div>
 }
 
@@ -586,13 +590,13 @@ class="back-button"
     @if (!signalementOuvert && !signalementEnvoye) {
 
       <p>
-        <strong>Une information est incorrecte ou n'est plus à jour ?</strong>
-        Prévenez-nous, l'équipe vérifiera la démarche.
+        <strong>{{ 'detail.signaler.question' | t }}</strong>
+        {{ 'detail.signaler.texte' | t }}
       </p>
 
       <div class="report-actions">
         <button type="button" class="report-button" (click)="ouvrirSignalement()">
-          ⚠️ Signaler une erreur
+          {{ 'detail.signaler.bouton' | t }}
         </button>
 
         <!-- Question sur cette démarche : formulaire d'aide pré-rempli -->
@@ -601,7 +605,7 @@ class="back-button"
           routerLink="/dashboard/aide"
           [queryParams]="{ demarche: demarche.id }"
         >
-          Poser une question à l'équipe →
+          {{ 'detail.signaler.question.equipe' | t }}
         </a>
       </div>
 
@@ -609,8 +613,7 @@ class="back-button"
 
     @if (signalementEnvoye) {
       <p class="report-success" role="status">
-        ✓ Merci ! Votre signalement a été transmis. Vous serez prévenu
-        dès que la démarche aura été vérifiée.
+        {{ 'detail.signaler.merci' | t }}
       </p>
     }
 
@@ -618,10 +621,10 @@ class="back-button"
 
       <form class="report-form" (ngSubmit)="envoyerSignalement()">
 
-        <h3>Signaler une erreur</h3>
+        <h3>{{ 'detail.signaler.titre' | t }}</h3>
 
         <fieldset>
-          <legend>Quel est le problème ?</legend>
+          <legend>{{ 'detail.signaler.probleme' | t }}</legend>
           @for (m of motifs; track m.value) {
             <label class="report-choice">
               <input
@@ -630,18 +633,18 @@ class="back-button"
                 [value]="m.value"
                 [(ngModel)]="signalementMotif"
               >
-              {{ m.label }}
+              {{ m.label | t }}
             </label>
           }
         </fieldset>
 
-        <label for="report-comment">Précisions (facultatif)</label>
+        <label for="report-comment">{{ 'detail.signaler.precisions' | t }}</label>
         <textarea
           id="report-comment"
           name="commentaire"
           rows="3"
           maxlength="1000"
-          placeholder="Ex. : le montant de la taxe a changé, le lien ANEF ne s'ouvre plus…"
+          [placeholder]="'detail.signaler.placeholder' | t"
           [(ngModel)]="signalementCommentaire"
         ></textarea>
 
@@ -655,10 +658,10 @@ class="back-button"
             class="primary-button"
             [disabled]="!signalementMotif || signalementEnCours"
           >
-            {{ signalementEnCours ? 'Envoi…' : 'Envoyer le signalement' }}
+            {{ (signalementEnCours ? 'detail.signaler.envoi' : 'detail.signaler.envoyer') | t }}
           </button>
           <button type="button" class="secondary-button" (click)="fermerSignalement()">
-            Annuler
+            {{ 'commun.annuler' | t }}
           </button>
         </div>
 
@@ -678,7 +681,7 @@ class="back-button"
     (click)="retourAuxDemarches()"
   >
     <span class="back-icon">←</span>
-    Retour aux démarches
+    {{ 'detail.retour' | t }}
   </button>
 
 </div>

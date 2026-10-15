@@ -4,6 +4,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
 
 import { AvisForm } from '../../components/avis-form/avis-form';
+import { LangueService } from '../../i18n/langue.service';
+import { TPipe } from '../../i18n/t.pipe';
 import {
   DemarcheStatut,
   StudentDemarche,
@@ -33,7 +35,7 @@ type Filtre = 'TOUTES' | 'EN_COURS' | 'TERMINEE';
 @Component({
   selector: 'app-suivis-demarches',
   standalone: true,
-  imports: [CommonModule, RouterLink, AvisForm],
+  imports: [CommonModule, RouterLink, AvisForm, TPipe],
   templateUrl: './suivis-demarches.html',
   styleUrl: './suivis-demarches.scss'
 })
@@ -41,6 +43,7 @@ export class SuivisDemarches implements OnInit {
 
   private readonly router = inject(Router);
   readonly service = inject(StudentDemarcheService);
+  private readonly langue = inject(LangueService);
 
   demarches: StudentDemarche[] = [];
   loading = true;
@@ -56,10 +59,15 @@ export class SuivisDemarches implements OnInit {
   avisPour: StudentDemarche | null = null;
 
   /** Pour quitter le suivi, on utilise « Retirer » (plus de retour à « À faire »). */
-  readonly statutsModifiables: { value: DemarcheStatut; label: string }[] = [
-    { value: 'EN_COURS', label: 'En cours' },
-    { value: 'TERMINEE', label: 'Terminée' }
+  readonly statutsModifiables: { value: DemarcheStatut }[] = [
+    { value: 'EN_COURS' },
+    { value: 'TERMINEE' }
   ];
+
+  /** Libellé traduit d'un statut (EN_COURS → En cours / In progress). */
+  libelleStatut(statut: DemarcheStatut): string {
+    return this.langue.tOu(`statut.${statut}`, statut);
+  }
 
   ngOnInit(): void {
     this.chargerDemarches();
@@ -78,7 +86,7 @@ export class SuivisDemarches implements OnInit {
         this.loading = false;
 
         // 401 : géré par l'interceptor (déconnexion + /login).
-        this.errorMessage = 'Impossible de récupérer vos démarches pour le moment.';
+        this.errorMessage = this.langue.t('suivis.erreur.chargement');
       }
     });
   }
@@ -128,7 +136,7 @@ export class SuivisDemarches implements OnInit {
 
   /** « Marquer comme terminée » : 100 %. */
   terminer(sd: StudentDemarche): void {
-    this.changerStatut(sd, 'TERMINEE', 'Bravo, démarche terminée ! Vous pouvez maintenant donner votre avis.');
+    this.changerStatut(sd, 'TERMINEE', this.langue.t('suivis.bravo'));
   }
 
   /** Changement libre via la liste déroulante. */
@@ -140,7 +148,7 @@ export class SuivisDemarches implements OnInit {
       return;
     }
 
-    this.changerStatut(sd, statut, `Statut mis à jour : ${this.service.libelleStatut(statut)}.`);
+    this.changerStatut(sd, statut, this.langue.t('suivis.statutMisAJour', { statut: this.libelleStatut(statut) }));
   }
 
   /**
@@ -149,7 +157,7 @@ export class SuivisDemarches implements OnInit {
    */
   retirer(sd: StudentDemarche): void {
     if (this.enMiseAJour.has(sd.id)
-        || !confirm(`Retirer « ${sd.demarche.titre} » de vos démarches ? Votre progression sera perdue.`)) {
+        || !confirm(this.langue.t('suivis.retirer.confirmer', { titre: sd.demarche.titre }))) {
       return;
     }
 
@@ -161,11 +169,11 @@ export class SuivisDemarches implements OnInit {
       next: () => {
         this.enMiseAJour.delete(sd.id);
         this.demarches = this.demarches.filter((d) => d.id !== sd.id);
-        this.actionMessage = 'La démarche a été retirée de votre suivi.';
+        this.actionMessage = this.langue.t('suivis.retiree');
       },
       error: (error: HttpErrorResponse) => {
         this.enMiseAJour.delete(sd.id);
-        this.actionError = error.error?.message || 'Impossible de retirer cette démarche.';
+        this.actionError = error.error?.message || this.langue.t('suivis.erreur.retirer');
       }
     });
   }
@@ -175,7 +183,7 @@ export class SuivisDemarches implements OnInit {
     this.executer(
       sd,
       this.service.confirmerDocuments(sd.id, true),
-      'Documents envoyés : votre progression avance !'
+      this.langue.t('suivis.documentsOk')
     );
   }
 
@@ -194,7 +202,7 @@ export class SuivisDemarches implements OnInit {
       this.avisPour.avisDonne = true;
     }
     this.avisPour = null;
-    this.actionMessage = 'Merci ! Votre avis est maintenant visible sur la page d\'accueil.';
+    this.actionMessage = this.langue.t('demarches.avisMerci');
   }
 
   private changerStatut(sd: StudentDemarche, statut: DemarcheStatut, succes: string): void {
@@ -222,7 +230,7 @@ export class SuivisDemarches implements OnInit {
       },
       error: (error: HttpErrorResponse) => {
         this.enMiseAJour.delete(sd.id);
-        this.actionError = error.error?.message || 'La mise à jour a échoué. Veuillez réessayer.';
+        this.actionError = error.error?.message || this.langue.t('suivis.erreur.maj');
       }
     });
   }

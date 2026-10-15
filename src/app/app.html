@@ -7,14 +7,11 @@
 @if (idle.warningVisible) {
   <div class="idle-backdrop" role="alertdialog" aria-modal="true" aria-labelledby="idle-title">
     <div class="idle-dialog">
-      <h2 id="idle-title">Toujours là ?</h2>
-      <p>
-        Pour votre sécurité, vous allez être déconnecté dans
-        <strong>{{ idle.secondsLeft }} s</strong> faute d'activité.
-      </p>
+      <h2 id="idle-title">{{ 'inactif.titre' | t }}</h2>
+      <p>{{ 'inactif.texte' | t: { s: idle.secondsLeft } }}</p>
       <div class="idle-actions">
-        <button type="button" class="idle-btn primary" (click)="idle.stayConnected()">Rester connecté</button>
-        <button type="button" class="idle-btn" (click)="idle.logoutNow()">Se déconnecter</button>
+        <button type="button" class="idle-btn primary" (click)="idle.stayConnected()">{{ 'inactif.rester' | t }}</button>
+        <button type="button" class="idle-btn" (click)="idle.logoutNow()">{{ 'inactif.deconnecter' | t }}</button>
       </div>
     </div>
   </div>

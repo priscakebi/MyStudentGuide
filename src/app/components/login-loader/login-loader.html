@@ -21,13 +21,13 @@
 
     <h2>
       @if (prenom) {
-        Bienvenue {{ prenom }} !
+        {{ 'loader.bienvenuePrenom' | t: { prenom } }}
       } @else {
-        Bienvenue !
+        {{ 'loader.bienvenue' | t }}
       }
     </h2>
 
-    <p>Nous préparons votre espace étudiant…</p>
+    <p>{{ 'loader.preparation' | t }}</p>
 
     <div class="loader-progress" aria-hidden="true">
       <div class="loader-progress-fill"></div>
@@ -43,7 +43,7 @@
       @for (item of bandeDemarches; track $index) {
         <span class="chip">
           <span class="chip-icon">{{ item.icon }}</span>
-          {{ item.label }}
+          {{ item.label | t }}
         </span>
       }
     </div>
@@ -52,7 +52,7 @@
       @for (item of bandeVieEtudiante; track $index) {
         <span class="chip light">
           <span class="chip-icon">{{ item.icon }}</span>
-          {{ item.label }}
+          {{ item.label | t }}
         </span>
       }
     </div>

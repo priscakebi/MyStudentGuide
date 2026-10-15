@@ -9,6 +9,8 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { TPipe } from '../../i18n/t.pipe';
+import { Cle } from '../../i18n/textes';
 
 @Component({
 
@@ -18,7 +20,7 @@ import { AuthService } from '../../services/auth.service';
 
   standalone: true,
 
-  imports: [RouterLink],
+  imports: [RouterLink, TPipe],
 
   templateUrl: './footer.html',
 
@@ -32,11 +34,11 @@ export class Footer {
   readonly year = new Date().getFullYear();
 
   // Sites officiels de référence pour les démarches des étudiants.
-  readonly officialSites = [
-    { label: 'Service-Public.fr', url: 'https://www.service-public.fr' },
-    { label: 'ANEF – titres de séjour', url: 'https://administration-etrangers-en-france.interieur.gouv.fr' },
-    { label: 'Campus France', url: 'https://www.campusfrance.org/fr' },
-    { label: 'etudiant.gouv.fr', url: 'https://www.etudiant.gouv.fr' }
+  readonly officialSites: { label: Cle; url: string }[] = [
+    { label: 'footer.site.servicePublic', url: 'https://www.service-public.fr' },
+    { label: 'footer.site.anef', url: 'https://administration-etrangers-en-france.interieur.gouv.fr' },
+    { label: 'footer.site.campusFrance', url: 'https://www.campusfrance.org/fr' },
+    { label: 'footer.site.etudiant', url: 'https://www.etudiant.gouv.fr' }
   ];
 
   // Relus à chaque affichage : le footer reste à l'écran lors d'une déconnexion.
