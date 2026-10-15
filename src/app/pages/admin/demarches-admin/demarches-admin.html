@@ -896,6 +896,17 @@
                 🎯 Ciblage
               </button>
 
+              <!-- Étapes et liens officiels -->
+              <button
+                type="button"
+                class="btn-target btn-content"
+                [class.open]="contenuOuvert === demarche.id"
+                [attr.aria-expanded]="contenuOuvert === demarche.id"
+                (click)="contenuOuvert = contenuOuvert === demarche.id ? null : demarche.id"
+              >
+                📝 Contenu
+              </button>
+
 
               <!-- ------------------------------------------------ -->
               <!-- MODIFIER                                          -->
@@ -1007,6 +1018,19 @@
                 </div>
 
               </form>
+            }
+
+
+            <!-- ------------------------------------------------ -->
+            <!-- CONTENU : ÉTAPES ET LIENS OFFICIELS               -->
+            <!-- ------------------------------------------------ -->
+
+            @if (contenuOuvert === demarche.id) {
+              <app-demarche-contenu-editor
+                class="contenu-panel"
+                [demarcheId]="demarche.id"
+                [sourceId]="demarche.sourceId"
+              />
             }
 
           </article>

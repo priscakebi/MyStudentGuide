@@ -1416,6 +1416,22 @@
   }
 }
 
+.btn-content {
+  color: #1646a0;
+
+  &.open {
+    border-color: #1646a0;
+    background: #eaf1ff;
+  }
+}
+
+/* L'éditeur des étapes et liens passe lui aussi sous la ligne. */
+.contenu-panel {
+  display: block;
+  flex-basis: 100%;
+  margin-top: 4px;
+}
+
 .ciblage-panel {
   flex-basis: 100%;
 

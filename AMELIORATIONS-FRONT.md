@@ -200,3 +200,16 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
 - Les fiches du catalogue Service-Public arrivent avec un ciblage par défaut (ex. F2231 titre de séjour → hors UE ;
   F12006 APL → location privée, résidence étudiante, Crous ; F265 carte Vitale → première arrivée).
 - API : `PUT /api/admin/demarches/{id}/ciblage` (ADMIN) ; la publication renvoie aussi le nombre de suggestions envoyées.
+
+## 12. Étapes et liens officiels modifiables dans l'admin
+- Gestion des démarches → « 📝 Contenu » ouvre, sous la démarche, l'éditeur des **étapes** et des **liens officiels**
+  (composant `demarche-contenu-editor`).
+- Étapes : ajouter (à la fin), modifier titre et description, supprimer, monter / descendre (↑ ↓).
+  La numérotation reste continue (1, 2, 3…) après une suppression ou un déplacement.
+- Liens officiels : ajouter, modifier (nom, adresse `http(s)://…`, description), supprimer.
+- Erreurs de saisie affichées telles que l'API les renvoie (titre obligatoire, adresse invalide, longueurs maximales).
+- Démarche importée de Service-Public : un avertissement rappelle que « Appliquer la mise à jour » officielle
+  remplace les étapes et les liens.
+- API (ADMIN) : `GET /api/admin/demarches/{id}/contenu`, `POST|PUT|DELETE …/etapes[/{etapeId}]`,
+  `PUT …/etapes/ordre` (`{"ids":[…]}`, la liste complète des étapes), `POST|PUT|DELETE …/liens[/{lienId}]`.
+  Chaque appel renvoie le contenu complet à jour.

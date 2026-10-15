@@ -1,0 +1,142 @@
+<div class="editor">
+
+  @if (sourceId) {
+    <p class="warning">
+      Démarche importée de Service-Public ({{ sourceId }}) : « Appliquer la mise à jour »
+      officielle remplacerait ces étapes et ces liens.
+    </p>
+  }
+
+  @if (message) {
+    <p class="feedback success" role="status">{{ message }}</p>
+  }
+  @if (erreur) {
+    <p class="feedback error" role="alert">{{ erreur }}</p>
+  }
+
+  @if (chargement) {
+    <p class="muted">Chargement…</p>
+  } @else {
+
+    <div class="columns">
+
+      <!-- ================================================== -->
+      <!-- ÉTAPES                                             -->
+      <!-- ================================================== -->
+
+      <section>
+
+        <h4>Étapes <span class="count">{{ etapes.length }}</span></h4>
+
+        @if (etapes.length === 0) {
+          <p class="muted">Aucune étape : ajoutez la première ci-dessous.</p>
+        }
+
+        <ol class="items">
+          @for (etape of etapes; track etape.id; let i = $index, first = $first, last = $last) {
+            <li class="item">
+
+              @if (etapeEditee?.id === etape.id) {
+
+                <form class="edit-form" (ngSubmit)="modifierEtape()">
+                  <input name="titre" [(ngModel)]="etapeEditee!.titre" maxlength="150" required aria-label="Titre de l'étape">
+                  <textarea name="description" [(ngModel)]="etapeEditee!.description" rows="4" maxlength="5000" aria-label="Description de l'étape"></textarea>
+                  <div class="row-actions">
+                    <button type="submit" class="btn primary" [disabled]="enCours">Enregistrer</button>
+                    <button type="button" class="btn" (click)="etapeEditee = null">Annuler</button>
+                  </div>
+                </form>
+
+              } @else {
+
+                <span class="numero">{{ etape.numero }}</span>
+                <div class="item-text">
+                  <strong>{{ etape.titre }}</strong>
+                  @if (etape.description) {
+                    <p>{{ etape.description }}</p>
+                  }
+                </div>
+                <div class="icon-actions">
+                  <button type="button" class="icon" title="Monter" aria-label="Monter l'étape" [disabled]="first || enCours" (click)="deplacer(i, -1)">↑</button>
+                  <button type="button" class="icon" title="Descendre" aria-label="Descendre l'étape" [disabled]="last || enCours" (click)="deplacer(i, 1)">↓</button>
+                  <button type="button" class="icon" title="Modifier" aria-label="Modifier l'étape" (click)="editerEtape(etape)">✎</button>
+                  <button type="button" class="icon danger" title="Supprimer" aria-label="Supprimer l'étape" [disabled]="enCours" (click)="supprimerEtape(etape)">🗑</button>
+                </div>
+
+              }
+
+            </li>
+          }
+        </ol>
+
+        <form class="add-form" (ngSubmit)="ajouterEtape()">
+          <input name="nouveauTitre" [(ngModel)]="nouvelleEtape.titre" maxlength="150" placeholder="Titre de la nouvelle étape" aria-label="Titre de la nouvelle étape">
+          <textarea name="nouvelleDescription" [(ngModel)]="nouvelleEtape.description" rows="3" maxlength="5000" placeholder="Description (facultatif)" aria-label="Description de la nouvelle étape"></textarea>
+          <button type="submit" class="btn primary" [disabled]="enCours || !nouvelleEtape.titre.trim()">+ Ajouter l'étape</button>
+        </form>
+
+      </section>
+
+
+      <!-- ================================================== -->
+      <!-- LIENS OFFICIELS                                    -->
+      <!-- ================================================== -->
+
+      <section>
+
+        <h4>Liens officiels <span class="count">{{ liens.length }}</span></h4>
+
+        @if (liens.length === 0) {
+          <p class="muted">Aucun lien : ajoutez le site officiel de la démarche.</p>
+        }
+
+        <ul class="items">
+          @for (lien of liens; track lien.id) {
+            <li class="item">
+
+              @if (lienEdite?.id === lien.id) {
+
+                <form class="edit-form" (ngSubmit)="modifierLien()">
+                  <input name="nom" [(ngModel)]="lienEdite!.nom" maxlength="150" required aria-label="Nom du lien">
+                  <input name="url" type="url" [(ngModel)]="lienEdite!.url" maxlength="500" required aria-label="Adresse du lien">
+                  <input name="description" [(ngModel)]="lienEdite!.description" maxlength="1000" placeholder="Description (facultatif)" aria-label="Description du lien">
+                  <div class="row-actions">
+                    <button type="submit" class="btn primary" [disabled]="enCours">Enregistrer</button>
+                    <button type="button" class="btn" (click)="lienEdite = null">Annuler</button>
+                  </div>
+                </form>
+
+              } @else {
+
+                <span class="numero link">↗</span>
+                <div class="item-text">
+                  <strong>{{ lien.nom }}</strong>
+                  <a [href]="lien.url" target="_blank" rel="noopener">{{ lien.url }}</a>
+                  @if (lien.description) {
+                    <p>{{ lien.description }}</p>
+                  }
+                </div>
+                <div class="icon-actions">
+                  <button type="button" class="icon" title="Modifier" aria-label="Modifier le lien" (click)="editerLien(lien)">✎</button>
+                  <button type="button" class="icon danger" title="Supprimer" aria-label="Supprimer le lien" [disabled]="enCours" (click)="supprimerLien(lien)">🗑</button>
+                </div>
+
+              }
+
+            </li>
+          }
+        </ul>
+
+        <form class="add-form" (ngSubmit)="ajouterLien()">
+          <input name="nouveauNom" [(ngModel)]="nouveauLien.nom" maxlength="150" placeholder="Nom (ex. : Portail ANEF)" aria-label="Nom du nouveau lien">
+          <input name="nouvelleUrl" type="url" [(ngModel)]="nouveauLien.url" maxlength="500" placeholder="https://…" aria-label="Adresse du nouveau lien">
+          <input name="nouvelleDescriptionLien" [(ngModel)]="nouveauLien.description" maxlength="1000" placeholder="Description (facultatif)" aria-label="Description du nouveau lien">
+          <button type="submit" class="btn primary" [disabled]="enCours || !nouveauLien.nom.trim() || !nouveauLien.url.trim()">+ Ajouter le lien</button>
+        </form>
+
+      </section>
+
+    </div>
+  }
+
+</div>

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
+import { DemarcheContenuEditor } from '../../../components/demarche-contenu-editor/demarche-contenu-editor';
 
 
 // ============================================================
@@ -223,7 +224,8 @@ interface DemarcheForm {
    */
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    DemarcheContenuEditor
   ],
 
   /**
@@ -556,6 +558,9 @@ export class DemarchesAdmin implements OnInit {
   ciblageOuvert: number | null = null;
 
   ciblageForm: CiblageForm = { active: false, horsUE: null, premiereArrivee: null, visas: [], logements: [] };
+
+  /** Démarche dont l'éditeur des étapes et liens officiels est ouvert. */
+  contenuOuvert: number | null = null;
 
   /** Résumé lisible du ciblage, affiché sous le titre de la démarche. */
   resumeCiblage(d: Demarche): string | null {

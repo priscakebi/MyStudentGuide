@@ -1,0 +1,252 @@
+// ============================================================
+// ÉDITEUR DES ÉTAPES ET DES LIENS OFFICIELS
+// ============================================================
+
+.editor {
+  padding: 18px 20px;
+
+  border: 1px solid #dbe5f8;
+  border-radius: 12px;
+
+  background: #f8faff;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+h4 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin: 0 0 10px;
+
+  color: #172033;
+  font-size: 15px;
+}
+
+.count {
+  padding: 1px 8px;
+  border-radius: 50px;
+  background: #eaf1ff;
+  color: #1646a0;
+  font-size: 12px;
+}
+
+.warning {
+  margin: 0 0 12px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  background: #fff8e8;
+  color: #92400e;
+  font-size: 13px;
+}
+
+.feedback {
+  margin: 0 0 12px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+
+  &.success { background: #e9f8ee; color: #217a3c; }
+  &.error { background: #fdecec; color: #b42323; }
+}
+
+.muted {
+  margin: 0 0 10px;
+  color: #697386;
+  font-size: 13px;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  margin: 0 0 12px;
+  padding: 0;
+
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+
+  padding: 10px 12px;
+
+  border: 1px solid #e4e7ec;
+  border-radius: 10px;
+
+  background: white;
+}
+
+.numero {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+
+  width: 26px;
+  height: 26px;
+
+  border-radius: 8px;
+
+  background: #1646a0;
+  color: white;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  &.link {
+    background: #eaf1ff;
+    color: #1646a0;
+  }
+}
+
+.item-text {
+  flex: 1;
+  min-width: 0;
+
+  strong {
+    display: block;
+    color: #172033;
+    font-size: 14px;
+  }
+
+  a {
+    display: block;
+    overflow: hidden;
+    color: #1646a0;
+    font-size: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  p {
+    display: -webkit-box;
+    margin: 4px 0 0;
+    overflow: hidden;
+    color: #555;
+    font-size: 12.5px;
+    line-height: 1.5;
+    white-space: pre-line;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+  }
+}
+
+.icon-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+
+  border: 1px solid #e4e7ec;
+  border-radius: 8px;
+
+  background: white;
+  color: #3f4755;
+
+  font-size: 14px;
+
+  cursor: pointer;
+
+  &:hover:not(:disabled) { border-color: #1646a0; color: #1646a0; }
+  &:disabled { opacity: 0.35; cursor: default; }
+  &.danger:hover:not(:disabled) { border-color: #b42323; color: #b42323; }
+}
+
+.add-form,
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  input,
+  textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 9px 11px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 13.5px;
+  }
+
+  textarea { resize: vertical; }
+}
+
+.edit-form {
+  flex: 1;
+}
+
+.add-form {
+  padding-top: 10px;
+  border-top: 1px dashed #dbe5f8;
+
+  .btn { align-self: flex-start; }
+}
+
+.row-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  padding: 8px 14px;
+
+  border: 1px solid #ddd;
+  border-radius: 8px;
+
+  background: white;
+  color: #3f4755;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  &:disabled { opacity: 0.55; cursor: not-allowed; }
+
+  &.primary {
+    border-color: #1646a0;
+    background: #1646a0;
+    color: white;
+  }
+}
+
+@media (max-width: 900px) {
+  .columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Sur téléphone, les boutons passent sous le texte pour lui laisser la largeur. */
+@media (max-width: 560px) {
+  .editor {
+    padding: 14px 12px;
+  }
+
+  .item {
+    flex-wrap: wrap;
+  }
+
+  .item-text {
+    flex-basis: calc(100% - 36px);
+  }
+
+  .icon-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
