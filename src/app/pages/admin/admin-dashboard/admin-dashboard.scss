@@ -74,507 +74,317 @@ $transition: 0.2s ease;
 // ============================================================
 // SIDEBAR
 // ============================================================
+//
+// Fond bleu nuit : l'espace administrateur se distingue d'un
+// coup d'œil de l'espace étudiant (sidebar blanche).
+// Seul le menu défile ; le logo et la partie basse restent fixes.
+
+$side-bg: #111a2e;
+$side-hover: rgba(255, 255, 255, 0.06);
+$side-text: #b8c0d0;
+$side-muted: #7a859b;
+$side-line: rgba(255, 255, 255, 0.08);
 
 .sidebar {
-
   position: fixed;
-
   top: 0;
   left: 0;
-
-  display: flex;
-
-  flex-direction: column;
-
-  width: 270px;
-
-  height: 100vh;
-
-  padding: 25px 18px;
-
-  background: $white;
-
-  border-right: 1px solid $border;
-
-  box-sizing: border-box;
-
   z-index: 1000;
-
-  /*
-   * La sidebar elle-même ne défile pas.
-   *
-   * Cela permet de conserver fixes :
-   * - le logo ;
-   * - la partie basse ;
-   * - le profil administrateur ;
-   * - le bouton de déconnexion.
-   */
+  display: flex;
+  flex-direction: column;
+  width: 270px;
+  height: 100vh;
+  padding: 20px 14px 16px;
+  background: $side-bg;
+  color: $side-text;
   overflow: hidden;
 }
 
-
-
-// ============================================================
-// LOGO
-// ============================================================
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-shrink: 0;
+  padding: 0 6px 18px;
+  border-bottom: 1px solid $side-line;
+}
 
 .logo {
-
   display: flex;
-
   align-items: center;
+  gap: 12px;
+  min-width: 0;
+  color: $white;
+  text-decoration: none;
+}
 
-  gap: 5px;
-
-  padding: 5px 12px 28px;
-
-  font-size: 22px;
-
-  color: $dark;
-
-  border-bottom: 1px solid $border;
-
-  /*
-   * Empêche le logo de rétrécir
-   * lorsque la navigation devient longue.
-   */
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
   flex-shrink: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #1646a0, #0d2f70 70%, $red);
+  font-size: 19px;
+}
 
-  span {
-
-    font-weight: 400;
-  }
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 
   strong {
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+  }
 
-    color: $red;
-
+  span {
+    color: #ff8a8a;
+    font-size: 11px;
     font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 }
 
-
-
-// ============================================================
+// ------------------------------------------------------------
 // NAVIGATION
-// ============================================================
+// ------------------------------------------------------------
 
 .sidebar-nav {
-
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 6px;
-
-  margin-top: 30px;
-
-  /*
-   * La navigation prend tout l'espace disponible
-   * entre le logo et la partie basse.
-   */
   flex: 1;
-
-  /*
-   * Autorise le défilement vertical uniquement
-   * de la navigation.
-   */
-  overflow-y: auto;
-
-  /*
-   * Empêche une barre horizontale.
-   */
-  overflow-x: hidden;
-
-  /*
-   * Important dans un conteneur flex :
-   * permet à cette zone de réellement pouvoir
-   * se réduire lorsque l'écran est petit.
-   */
   min-height: 0;
-
-  /*
-   * Petit espace entre les éléments
-   * et la barre de défilement.
-   */
-  padding-right: 5px;
-
-  /*
-   * Firefox :
-   * affiche une scrollbar fine.
-   */
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 6px;
+  padding-right: 4px;
+  overflow-x: hidden;
+  overflow-y: auto;
   scrollbar-width: thin;
-
-  /*
-   * Firefox :
-   * couleur du curseur et de son arrière-plan.
-   */
-  scrollbar-color: #d1d5dd transparent;
+  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
 }
 
-
-
-// ============================================================
-// BARRE DE DÉFILEMENT - CHROME / EDGE / SAFARI
-// ============================================================
-
 .sidebar-nav::-webkit-scrollbar {
-
-  /*
-   * Largeur de la barre de défilement.
-   */
   width: 5px;
 }
 
-
-
-.sidebar-nav::-webkit-scrollbar-track {
-
-  /*
-   * Aucun arrière-plan visible.
-   */
-  background: transparent;
-}
-
-
-
 .sidebar-nav::-webkit-scrollbar-thumb {
-
-  /*
-   * Couleur du curseur.
-   */
-  background: #d1d5dd;
-
-  /*
-   * Curseur arrondi.
-   */
+  background: rgba(255, 255, 255, 0.18);
   border-radius: 10px;
 }
 
-
-
-.sidebar-nav::-webkit-scrollbar-thumb:hover {
-
-  /*
-   * Curseur légèrement plus foncé
-   * lorsqu'on le survole.
-   */
-  background: #b7bdc8;
+// Titre de groupe : Pilotage, Contenus, Étudiants
+.nav-section {
+  margin: 18px 12px 6px;
+  color: $side-muted;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
-
-
-// ============================================================
-// ÉLÉMENTS DE NAVIGATION
-// ============================================================
-
-.nav-item {
-
+.nav-item,
+.sidebar-action,
+.logout-button {
+  position: relative;
   display: flex;
-
   align-items: center;
-
-  gap: 13px;
-
-  min-height: 46px;
-
-  padding: 0 14px;
-
-  border-radius: 10px;
-
-  text-decoration: none;
-
-  color: $text-light;
-
-  font-size: 14px;
-
-  font-weight: 500;
-
-  transition:
-    background $transition,
-    color $transition,
-    transform $transition;
-
-  /*
-   * Empêche les liens de navigation
-   * de se comprimer.
-   */
+  gap: 12px;
   flex-shrink: 0;
+  width: 100%;
+  min-height: 42px;
+  padding: 0 12px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: $side-text;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background $transition, color $transition;
 
   &:hover {
-
-    background: #f5f6f8;
-
-    color: $dark;
-  }
-
-  /*
-   * Page actuellement sélectionnée.
-   */
-  &.active {
-
-    background: $red-light;
-
-    color: $red;
-
-    font-weight: 600;
+    background: $side-hover;
+    color: $white;
   }
 }
 
+// Page en cours : fond rouge discret et liseré rouge à gauche.
+.nav-item.active {
+  background: rgba(198, 40, 40, 0.18);
+  color: $white;
+  font-weight: 600;
 
+  .icon {
+    color: #ff8a8a;
+  }
 
-// ============================================================
-// ICÔNES DE NAVIGATION
-// ============================================================
+  &::before {
+    content: '';
+    position: absolute;
+    left: -14px;
+    top: 9px;
+    bottom: 9px;
+    width: 4px;
+    border-radius: 0 4px 4px 0;
+    background: $red;
+  }
+}
 
 .icon {
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  width: 22px;
-
+  width: 20px;
+  height: 20px;
   flex-shrink: 0;
-
-  font-size: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
+.nav-badge {
+  margin-left: auto;
+  min-width: 20px;
+  padding: 2px 7px;
+  border-radius: 50px;
+  background: #e63946;
+  color: $white;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+}
 
-
-// ============================================================
-// PARTIE BASSE DE LA SIDEBAR
-// ============================================================
+// ------------------------------------------------------------
+// PARTIE BASSE : carte du compte, site public, déconnexion
+// ------------------------------------------------------------
 
 .sidebar-bottom {
-
   display: flex;
-
   flex-direction: column;
-
-  gap: 8px;
-
-  /*
-   * Sépare la partie basse du menu.
-   */
-  margin-top: 15px;
-
-  /*
-   * Empêche cette zone de rétrécir.
-   */
+  gap: 10px;
   flex-shrink: 0;
-
-  /*
-   * Fond blanc pour garantir
-   * une séparation visuelle avec le menu.
-   */
-  background: $white;
-
-  padding-top: 5px;
+  margin-top: 12px;
+  padding-top: 14px;
+  border-top: 1px solid $side-line;
 }
-
-
-
-// ============================================================
-// LIENS DE LA PARTIE BASSE
-// ============================================================
-
-.sidebar-action {
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 13px;
-
-  min-height: 44px;
-
-  padding: 0 14px;
-
-  border-radius: 10px;
-
-  text-decoration: none;
-
-  color: $text-light;
-
-  font-size: 13px;
-
-  transition:
-    background $transition,
-    color $transition;
-
-  &:hover {
-
-    background: #f5f6f8;
-
-    color: $dark;
-  }
-
-  &.active {
-
-    background: $red-light;
-
-    color: $red;
-  }
-}
-
-
-
-// ============================================================
-// RETOUR À L'ACCUEIL
-// ============================================================
-
-.home-action {
-
-  margin-top: 5px;
-}
-
-
-
-// ============================================================
-// INFORMATIONS ADMINISTRATEUR
-// ============================================================
 
 .admin-sidebar-info {
-
   display: flex;
-
   align-items: center;
-
   gap: 12px;
-
-  margin-top: 18px;
-
-  padding: 15px;
-
-  background: #f8f9fc;
-
-  border: 1px solid $border;
-
+  padding: 10px;
+  border: 1px solid $side-line;
   border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  color: inherit;
+  text-decoration: none;
+  transition: background $transition, border-color $transition;
+
+  &:hover,
+  &.active {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.16);
+  }
 }
 
-
-
-// ============================================================
-// AVATAR
-// ============================================================
-
 .admin-avatar {
-
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
-  width: 42px;
-
-  height: 42px;
-
+  width: 40px;
+  height: 40px;
   flex-shrink: 0;
-
   border-radius: 50%;
-
   background: $red;
-
   color: $white;
-
   font-size: 15px;
-
   font-weight: 700;
 }
 
-
-
-// ============================================================
-// INFORMATIONS DE L'ADMINISTRATEUR
-// ============================================================
-
 .admin-sidebar-text {
-
   display: flex;
-
   flex-direction: column;
-
   min-width: 0;
 
-  strong {
-
+  strong,
+  span {
     overflow: hidden;
-
-    color: $dark;
-
-    font-size: 13px;
-
     text-overflow: ellipsis;
-
     white-space: nowrap;
+  }
+
+  strong {
+    color: $white;
+    font-size: 13px;
   }
 
   span {
-
-    margin-top: 3px;
-
-    overflow: hidden;
-
-    color: $text-light;
-
+    margin-top: 2px;
+    color: $side-muted;
     font-size: 11px;
-
-    text-overflow: ellipsis;
-
-    white-space: nowrap;
   }
 }
 
+.bottom-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
 
+  .sidebar-action,
+  .logout-button {
+    justify-content: center;
+    gap: 8px;
+    padding: 0 8px;
+    font-size: 13px;
+  }
+}
 
-// ============================================================
-// BOUTON DE DÉCONNEXION
-// ============================================================
+.logout-button:hover {
+  background: rgba(230, 57, 70, 0.16);
+  color: #ffb3b8;
+}
 
-.logout-button {
+// Barre mobile, voile et bouton ✕ : uniquement sur mobile.
+.mobile-header,
+.sidebar-backdrop,
+.sidebar-close {
+  display: none;
+}
 
-  display: flex;
-
+.icon-button {
+  position: relative;
+  display: inline-flex;
   align-items: center;
-
-  gap: 13px;
-
-  width: 100%;
-
-  min-height: 44px;
-
-  padding: 0 14px;
-
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
   border: none;
-
   border-radius: 10px;
-
   background: transparent;
-
-  color: $text-light;
-
-  font-family: inherit;
-
-  font-size: 13px;
-
-  text-align: left;
-
+  color: inherit;
   cursor: pointer;
 
-  transition:
-    background $transition,
-    color $transition;
+  svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
 
   &:hover {
-
-    background: #fdecec;
-
-    color: $red;
+    background: rgba(127, 127, 127, 0.14);
   }
 }
 
@@ -1314,25 +1124,8 @@ $transition: 0.2s ease;
 
 @media (max-width: 700px) {
 
-  /*
-   * La sidebar devient plus étroite.
-   */
-  .sidebar {
-
-    width: 230px;
-  }
 
 
-  /*
-   * Le contenu principal s'adapte
-   * à la largeur de la sidebar.
-   */
-  .main-content {
-
-    width: calc(100% - 230px);
-
-    margin-left: 230px;
-  }
 
 
   /*
@@ -1376,176 +1169,92 @@ $transition: 0.2s ease;
 
 
 
-// ============================================================
-// TRÈS PETITS ÉCRANS
-// ============================================================
-
-@media (max-width: 500px) {
-
-  /*
-   * La sidebar devient encore plus étroite
-   * afin de laisser suffisamment de place
-   * au contenu principal.
-   */
-  .sidebar {
-
-    width: 210px;
-
-    padding: 20px 12px;
-  }
-
-
-  .main-content {
-
-    width: calc(100% - 210px);
-
-    margin-left: 210px;
-  }
-
-
-  .logo {
-
-    padding-left: 8px;
-
-    padding-right: 8px;
-
-    font-size: 18px;
-  }
-
-
-  .nav-item,
-  .sidebar-action,
-  .logout-button {
-
-    padding-left: 10px;
-
-    padding-right: 10px;
-
-    font-size: 12px;
-  }
-
-
-  .admin-sidebar-info {
-
-    padding: 10px;
-  }
-
-
-  .admin-sidebar-text {
-
-    strong {
-
-      font-size: 11px;
-    }
-
-    span {
-
-      font-size: 9px;
-    }
-  }
-}
 
 
 // ============================================================
-// RESPONSIVE - SIDEBAR AU-DESSUS DU CONTENU (760px et moins)
+// RESPONSIVE - SIDEBAR EN TIROIR (760px et moins)
 // ============================================================
 //
-// Sur téléphone, la sidebar fixe (210-230px) écrasait le contenu.
-// Elle passe au-dessus de la page, sur toute la largeur, et la
-// navigation devient une ligne horizontale qui défile.
+// Une barre en haut affiche le titre de la page et le bouton ☰ ;
+// la sidebar s'ouvre par-dessus le contenu, avec un voile derrière.
 
 @media (max-width: 760px) {
 
-  .admin-container {
-
-    flex-direction: column;
+  .mobile-header {
+    position: sticky;
+    top: 0;
+    z-index: 900;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 58px;
+    padding: 0 12px;
+    background: $side-bg;
+    color: $white;
   }
 
-
-  .sidebar {
-
-    position: relative;
-
-    width: 100%;
-
-    height: auto;
-
-    padding: 15px;
-
-    border-right: none;
-
-    border-bottom: 1px solid $border;
-
-    z-index: 1;
-  }
-
-
-  .logo {
-
-    padding: 0 5px 12px;
-
-    font-size: 18px;
-  }
-
-
-  .sidebar-nav {
-
-    flex-direction: row;
-
-    gap: 6px;
-
-    margin-top: 12px;
-
-    padding-bottom: 6px;
-
-    overflow-x: auto;
-
-    overflow-y: hidden;
-
-    -webkit-overflow-scrolling: touch;
-  }
-
-
-  .nav-item {
-
-    flex-shrink: 0;
-
+  .mobile-title {
+    overflow: hidden;
+    font-size: 16px;
+    font-weight: 700;
+    text-overflow: ellipsis;
     white-space: nowrap;
   }
 
-
-  .sidebar-bottom {
-
-    flex-direction: row;
-
-    flex-wrap: wrap;
-
-    margin-top: 10px;
+  .burger-dot {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    width: 9px;
+    height: 9px;
+    border: 2px solid $side-bg;
+    border-radius: 50%;
+    background: #e63946;
   }
 
-
-  .sidebar-action,
-  .sidebar-bottom .logout-button {
-
-    flex: 1 1 140px;
-
-    width: auto;
+  .sidebar {
+    z-index: 2000;
+    width: min(300px, 86vw);
+    height: 100dvh;
+    box-shadow: 12px 0 32px rgba(0, 0, 0, 0.3);
+    transform: translateX(-105%);
+    visibility: hidden;
+    transition: transform 0.28s ease, visibility 0s linear 0.28s;
   }
 
-
-  .admin-sidebar-info {
-
-    display: none;
+  .sidebar.mobile-open {
+    transform: translateX(0);
+    visibility: visible;
+    transition: transform 0.28s ease;
   }
 
+  .sidebar-close {
+    display: inline-flex;
+    color: $white;
+  }
+
+  .sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1500;
+    display: block;
+    background: rgba(15, 23, 42, 0.5);
+  }
 
   .main-content {
-
     width: 100%;
-
     margin-left: 0;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+
+  .sidebar,
+  .sidebar.mobile-open {
+    transition: none;
+  }
+}
+
 
 
 
@@ -2088,14 +1797,3 @@ a.stat-card {
   }
 }
 
-.nav-badge {
-  margin-left: auto;
-  min-width: 20px;
-  padding: 2px 7px;
-  border-radius: 50px;
-  background: #e63946;
-  color: #ffffff;
-  font-size: 11px;
-  font-weight: 700;
-  text-align: center;
-}

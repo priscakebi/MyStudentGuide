@@ -1,5 +1,5 @@
 // Importe le décorateur Component et l'interface OnInit d'Angular.
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, inject } from '@angular/core';
 import { Subscription, filter } from 'rxjs';
 
 // Permet d'utiliser les fonctionnalités communes d'Angular
@@ -735,6 +735,15 @@ toggleMobileMenu(): void {
  */
 closeMobileMenu(): void {
   this.menuOpen = false;
+}
+
+
+/**
+ * La touche Échap referme le menu mobile, comme une fenêtre.
+ */
+@HostListener('document:keydown.escape')
+onEscape(): void {
+  this.closeMobileMenu();
 }
 
 

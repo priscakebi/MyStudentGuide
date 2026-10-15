@@ -6,289 +6,226 @@
 
 
   <!-- ========================================================= -->
+  <!-- BARRE MOBILE (760px et moins)                             -->
+  <!-- ========================================================= -->
+
+  <header class="mobile-header">
+
+    <button
+      type="button"
+      class="icon-button"
+      aria-controls="admin-sidebar"
+      [attr.aria-expanded]="menuOpen"
+      [attr.aria-label]="menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'"
+      (click)="toggleMobileMenu()"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16" />
+      </svg>
+
+      @if (stats?.signalementsOuverts) {
+        <span class="burger-dot"></span>
+      }
+    </button>
+
+    <span class="mobile-title">{{ pageTitle }}</span>
+
+  </header>
+
+
+  <!-- Voile derrière le tiroir mobile : un clic le referme -->
+  @if (menuOpen) {
+    <div class="sidebar-backdrop" (click)="closeMobileMenu()" aria-hidden="true"></div>
+  }
+
+
+  <!-- ========================================================= -->
   <!-- SIDEBAR ADMINISTRATEUR                                    -->
   <!-- ========================================================= -->
 
-  <aside class="sidebar">
+  <aside
+    id="admin-sidebar"
+    class="sidebar"
+    [class.mobile-open]="menuOpen"
+    aria-label="Menu d'administration"
+  >
 
+    <!-- Logo -->
+    <div class="sidebar-header">
 
-    <!-- ======================================================= -->
-    <!-- LOGO                                                    -->
-    <!-- ======================================================= -->
+      <a routerLink="/admin" class="logo">
+        <span class="brand-mark" aria-hidden="true">🎓</span>
+        <span class="logo-text">
+          <strong>MyStudentGuide</strong>
+          <span>Administration</span>
+        </span>
+      </a>
 
-    <div class="logo">
-
-      <span>
-        MyStudent
-      </span>
-
-      <strong>
-        Guide
-      </strong>
+      <button
+        type="button"
+        class="icon-button sidebar-close"
+        aria-label="Fermer le menu"
+        (click)="closeMobileMenu()"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18" />
+        </svg>
+      </button>
 
     </div>
 
 
-    <!-- ======================================================= -->
-    <!-- MENU DE NAVIGATION                                      -->
-    <!-- ======================================================= -->
-
     <!--
-      Cette zone est volontairement séparée de la partie basse.
-
-      La barre de défilement sera appliquée uniquement
-      à cette zone lorsque le nombre de rubriques devient
-      trop important pour la hauteur de l'écran.
+      Menu regroupé par usage. Seule cette zone défile lorsque
+      l'écran est trop bas ; le logo et la partie basse restent fixes.
     -->
     <nav class="sidebar-nav">
 
-
-      <!-- ===================================================== -->
-      <!-- DASHBOARD                                             -->
-      <!-- ===================================================== -->
+      <p class="nav-section">Pilotage</p>
 
       <a
         routerLink="/admin"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
+        ariaCurrentWhenActive="page"
         class="nav-item"
       >
-
-        <span class="icon">
-          🏠
-        </span>
-
-        <span>
-          Dashboard
-        </span>
-
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="4" y="4" width="7" height="7" rx="1.5" />
+          <rect x="13" y="4" width="7" height="4" rx="1.5" />
+          <rect x="13" y="10" width="7" height="10" rx="1.5" />
+          <rect x="4" y="13" width="7" height="7" rx="1.5" />
+        </svg>
+        <span>Tableau de bord</span>
       </a>
-
-
-      <!-- ===================================================== -->
-      <!-- CATÉGORIES                                            -->
-      <!-- ===================================================== -->
-
-      <a
-        routerLink="/admin/categories-admin"
-        routerLinkActive="active"
-        class="nav-item"
-      >
-
-        <span class="icon">
-          📁
-        </span>
-
-        <span>
-          Catégories
-        </span>
-
-      </a>
-
-
-      <!-- ===================================================== -->
-      <!-- DÉMARCHES                                             -->
-      <!-- ===================================================== -->
-
-      <a
-        routerLink="/admin/demarches-admin"
-        routerLinkActive="active"
-        class="nav-item"
-      >
-
-        <span class="icon">
-          📋
-        </span>
-
-        <span>
-          Démarches
-        </span>
-
-      </a>
-
-
-      <!-- ===================================================== -->
-      <!-- UTILISATEURS                                          -->
-      <!-- ===================================================== -->
-
-      <a
-        routerLink="/admin/users"
-        routerLinkActive="active"
-        class="nav-item"
-      >
-
-        <span class="icon">
-          👥
-        </span>
-
-        <span>
-          Utilisateurs
-        </span>
-
-      </a>
-
-
-      <!-- ===================================================== -->
-      <!-- NOTIFICATIONS                                         -->
-      <!-- ===================================================== -->
-
-      <a
-        routerLink="/admin/notifications"
-        routerLinkActive="active"
-        class="nav-item"
-      >
-
-        <span class="icon">
-          🔔
-        </span>
-
-        <span>
-          Notifications
-        </span>
-
-      </a>
-
-
-      <!-- ===================================================== -->
-      <!-- DOCUMENTS                                             -->
-      <!-- ===================================================== -->
-
-      <a
-        routerLink="/admin/documents"
-        routerLinkActive="active"
-        class="nav-item"
-      >
-
-        <span class="icon">
-          📄
-        </span>
-
-        <span>
-          Documents
-        </span>
-
-      </a>
-
-
-      <!-- ===================================================== -->
-      <!-- SIGNALEMENTS DES ÉTUDIANTS                            -->
-      <!-- ===================================================== -->
 
       <a
         routerLink="/admin/signalements"
         routerLinkActive="active"
+        ariaCurrentWhenActive="page"
         class="nav-item"
       >
-
-        <span class="icon">
-          ⚠️
-        </span>
-
-        <span>
-          Signalements
-        </span>
-
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M5 21V4M5 4h11l-2 4 2 4H5" />
+        </svg>
+        <span>Signalements</span>
         @if (stats?.signalementsOuverts) {
-          <span class="nav-badge">{{ stats!.signalementsOuverts }}</span>
+          <span class="nav-badge" [attr.aria-label]="stats!.signalementsOuverts + ' à traiter'">
+            {{ stats!.signalementsOuverts }}
+          </span>
         }
-
       </a>
 
+      <p class="nav-section">Contenus</p>
+
+      <a
+        routerLink="/admin/categories-admin"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+        class="nav-item"
+      >
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3.5 7a2 2 0 0 1 2-2h4l2 2h7a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2Z" />
+        </svg>
+        <span>Catégories</span>
+      </a>
+
+      <a
+        routerLink="/admin/demarches-admin"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+        class="nav-item"
+      >
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="5" y="4" width="14" height="17" rx="2" />
+          <path d="M9 4.5h6M9 10h6M9 14h6M9 18h3" />
+        </svg>
+        <span>Démarches</span>
+      </a>
+
+      <a
+        routerLink="/admin/documents"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+        class="nav-item"
+      >
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M7 3h7l5 5v12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" />
+          <path d="M14 3v5h5M9 13h6M9 17h6" />
+        </svg>
+        <span>Documents</span>
+      </a>
+
+      <p class="nav-section">Étudiants</p>
+
+      <a
+        routerLink="/admin/users"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+        class="nav-item"
+      >
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="9" cy="8.5" r="3.2" />
+          <path d="M3 19.5a6 6 0 0 1 12 0M16 5.5a3 3 0 0 1 0 6M18 14a5.5 5.5 0 0 1 3 5.5" />
+        </svg>
+        <span>Utilisateurs</span>
+      </a>
+
+      <a
+        routerLink="/admin/notifications"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+        class="nav-item"
+      >
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9Z" />
+          <path d="M10 20a2.2 2.2 0 0 0 4 0" />
+        </svg>
+        <span>Notifications</span>
+      </a>
 
     </nav>
 
 
-    <!-- ======================================================= -->
-    <!-- PARTIE BASSE DE LA SIDEBAR                              -->
-    <!-- ======================================================= -->
-
-    <!--
-      Cette partie reste fixe.
-
-      Elle ne défile donc pas avec le menu principal.
-    -->
+    <!-- Partie basse, fixe : compte, site public, déconnexion -->
     <div class="sidebar-bottom">
-
-
-      <!-- ===================================================== -->
-      <!-- MON COMPTE                                            -->
-      <!-- ===================================================== -->
 
       <a
         routerLink="/admin/account"
         routerLinkActive="active"
-        class="sidebar-action"
+        ariaCurrentWhenActive="page"
+        class="admin-sidebar-info"
+        title="Mon compte administrateur"
       >
 
-        <span class="icon">
-          👤
-        </span>
+        <span class="admin-avatar" aria-hidden="true">{{ adminInitial }}</span>
 
-        <span>
-          Mon compte
+        <span class="admin-sidebar-text">
+          <strong>{{ adminName }}</strong>
+          @if (adminEmail) {
+            <span>{{ adminEmail }}</span>
+          }
         </span>
 
       </a>
 
+      <div class="bottom-actions">
 
+        <a routerLink="/home" class="sidebar-action" title="Ouvrir le site vu par les étudiants">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" />
+          </svg>
+          <span>Voir le site</span>
+        </a>
 
-      <!-- ===================================================== -->
-      <!-- INFORMATIONS ADMINISTRATEUR                            -->
-      <!-- ===================================================== -->
-
-      <div class="admin-sidebar-info">
-
-
-        <!-- Avatar -->
-
-        <div class="admin-avatar">
-
-          A
-
-        </div>
-
-
-        <!-- Nom et email -->
-
-        <div class="admin-sidebar-text">
-
-          <strong>
-            {{ adminName }}
-          </strong>
-
-          @if (adminEmail) {
-
-            <span>
-              {{ adminEmail }}
-            </span>
-
-          }
-
-        </div>
+        <button type="button" class="logout-button" (click)="logout()">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M15 4h3a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-3M10 8l-4 4 4 4M6 12h10" />
+          </svg>
+          <span>Déconnexion</span>
+        </button>
 
       </div>
-
-
-      <!-- ===================================================== -->
-      <!-- BOUTON DE DÉCONNEXION                                  -->
-      <!-- ===================================================== -->
-
-      <button
-        type="button"
-        class="logout-button"
-        (click)="logout()"
-      >
-
-        <span class="icon">
-          🚪
-        </span>
-
-        <span>
-          Déconnexion
-        </span>
-
-      </button>
-
 
     </div>
 
@@ -327,8 +264,8 @@
 
       <div class="admin-profile">
 
-        <div class="admin-avatar">
-          A
+        <div class="admin-avatar" aria-hidden="true">
+          {{ adminInitial }}
         </div>
 
         <div class="admin-info">

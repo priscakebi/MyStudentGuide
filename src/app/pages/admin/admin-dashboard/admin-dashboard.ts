@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 /*
@@ -167,6 +167,34 @@ export class AdminDashboard implements OnInit {
    */
   adminEmail: string = '';
 
+  /**
+   * Lettre affichée dans l'avatar : initiale de l'e-mail,
+   * ou « A » tant qu'il n'est pas connu.
+   */
+  get adminInitial(): string {
+    return (this.adminEmail.charAt(0) || 'A').toUpperCase();
+  }
+
+  /**
+   * Tiroir de navigation sur mobile (760px et moins).
+   * Sur ordinateur, la sidebar reste toujours visible.
+   */
+  menuOpen = false;
+
+  toggleMobileMenu(): void {
+    this.menuOpen = !this.menuOpen;
+  }
+
+  closeMobileMenu(): void {
+    this.menuOpen = false;
+  }
+
+  /** La touche Échap referme le tiroir mobile. */
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    this.closeMobileMenu();
+  }
+
 
   // =========================================================
   // INFORMATIONS DE LA PAGE ACTUELLE
@@ -285,6 +313,9 @@ export class AdminDashboard implements OnInit {
 
         // Mise à jour du titre et de la description.
         this.updatePageInformation();
+
+        // Sur mobile, le tiroir se referme après chaque navigation.
+        this.closeMobileMenu();
 
       });
 
@@ -407,6 +438,11 @@ export class AdminDashboard implements OnInit {
     // PAGE SIGNALEMENTS
     // =======================================================
 
+    else if (url.includes('/account')) {
+      this.pageTitle = 'Mon compte';
+      this.pageDescription =
+        'Consultez vos informations et gérez votre mot de passe.';
+    }
     else if (url.includes('/signalements')) {
       this.pageTitle = 'Signalements des étudiants';
       this.pageDescription =

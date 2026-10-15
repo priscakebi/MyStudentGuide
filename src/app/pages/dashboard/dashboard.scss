@@ -76,546 +76,266 @@ $transition: 0.25s ease;
  * ==========================================================
  * SIDEBAR
  * ==========================================================
+ *
+ * Ordinateur : colonne fixe à gauche, qui reste visible au défilement.
+ * Mobile (768px et moins) : tiroir ouvert par le bouton ☰ de la
+ * barre du haut, avec un voile derrière (voir « Responsive »).
  */
 
 .sidebar {
-
-  /*
-   * Largeur fixe de la sidebar.
-   */
-  width: 280px;
-
-  min-height: 100vh;
-
-  /*
-   * Organisation verticale :
-   *
-   * Logo
-   * Utilisateur
-   * Menu
-   * Footer
-   */
-  display: flex;
-
-  flex-direction: column;
-
-  flex-shrink: 0;
-
-  background: $white;
-
-  border-right: 1px solid $border;
-
-  /*
-   * Elle reste visible lorsque
-   * l'utilisateur fait défiler le contenu.
-   */
   position: sticky;
-
   top: 0;
-
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: 272px;
   height: 100vh;
-
-  /*
-   * Permet de faire défiler la sidebar
-   * sur les petits écrans si nécessaire.
-   */
-  overflow-y: auto;
+  background: $white;
+  border-right: 1px solid $border;
 }
 
-
-/*
- * ==========================================================
- * EN-TÊTE DE LA SIDEBAR
- * ==========================================================
- */
+/* Logo commun à la sidebar et à la barre mobile */
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, $blue, $blue-dark);
+  color: $white;
+  font-size: 19px;
+  box-shadow: 0 6px 14px rgba(22, 70, 160, 0.2);
+}
 
 .sidebar-header {
-
-  padding: 24px 22px;
-
-  border-bottom: 1px solid $border;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 22px 20px 18px;
 }
-
-
-/*
- * Logo de la sidebar.
- */
 
 .sidebar-logo {
-
   display: flex;
-
   align-items: center;
-
   gap: 12px;
-
-  text-decoration: none;
-
+  min-width: 0;
   color: $text-dark;
+  text-decoration: none;
 }
-
-
-/*
- * Icône du logo.
- */
-
-.sidebar-logo-icon {
-
-  width: 44px;
-
-  height: 44px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  border-radius: 13px;
-
-  background: linear-gradient(
-    135deg,
-    $blue,
-    $blue-dark
-  );
-
-  color: $white;
-
-  font-size: 21px;
-
-  box-shadow: 0 6px 15px rgba(22, 70, 160, 0.20);
-}
-
-
-/*
- * Texte du logo.
- */
 
 .sidebar-logo-text {
-
   display: flex;
-
   flex-direction: column;
-
   gap: 2px;
+
+  strong {
+    color: $blue-dark;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+  }
+
+  span {
+    color: $text-light;
+    font-size: 12px;
+  }
 }
 
-
-.sidebar-logo-text strong {
-
-  color: $blue-dark;
-
-  font-size: 17px;
-
-  font-weight: 800;
-
-  letter-spacing: -0.3px;
+/* Bouton ✕ : uniquement dans le tiroir mobile */
+.sidebar-close {
+  display: none;
 }
 
-
-.sidebar-logo-text span {
-
-  color: $text-light;
-
-  font-size: 12px;
-}
-
-
-/*
- * ==========================================================
- * UTILISATEUR
- * ==========================================================
- */
+/* ---------- Carte utilisateur (lien vers le profil) ---------- */
 
 .sidebar-user {
-
   display: flex;
-
   align-items: center;
-
   gap: 12px;
-
-  margin: 20px 16px;
-
-  padding: 14px;
-
-  background: linear-gradient(
-    135deg,
-    $blue-light,
-    #f8faff
-  );
-
+  margin: 0 14px 8px;
+  padding: 12px;
   border: 1px solid #dce7ff;
-
   border-radius: $radius-md;
+  background: linear-gradient(135deg, $blue-light, #f8faff);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color $transition, box-shadow $transition;
+
+  &:hover {
+    border-color: #b9cdf5;
+    box-shadow: $shadow-sm;
+  }
 }
-
-
-/*
- * Avatar.
- */
 
 .sidebar-avatar {
-
-  width: 42px;
-
-  height: 42px;
-
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
+  width: 40px;
+  height: 40px;
   flex-shrink: 0;
-
   border-radius: 50%;
-
-  background: linear-gradient(
-    135deg,
-    $red,
-    $red-dark
-  );
-
+  background: linear-gradient(135deg, $red, $red-dark);
   color: $white;
-
   font-size: 16px;
-
   font-weight: 800;
-
-  box-shadow: 0 5px 12px rgba(230, 57, 70, 0.20);
 }
-
-
-/*
- * Informations utilisateur.
- */
 
 .sidebar-user-info {
-
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
   min-width: 0;
 
-  display: flex;
+  strong,
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 
-  flex-direction: column;
+  strong {
+    color: $text-dark;
+    font-size: 14px;
+    font-weight: 700;
+  }
 
-  gap: 3px;
+  span {
+    color: $text-light;
+    font-size: 12px;
+  }
 }
 
-
-.sidebar-user-info strong {
-
-  overflow: hidden;
-
-  text-overflow: ellipsis;
-
-  white-space: nowrap;
-
-  color: $text-dark;
-
-  font-size: 14px;
-
-  font-weight: 700;
-}
-
-
-.sidebar-user-info span {
-
-  overflow: hidden;
-
-  text-overflow: ellipsis;
-
-  white-space: nowrap;
-
-  color: $text-light;
-
-  font-size: 11px;
-}
-
-
-/*
- * ==========================================================
- * MENU
- * ==========================================================
- */
+/* ---------- Menu ---------- */
 
 .sidebar-menu {
-
   flex: 1;
-
+  min-height: 0;
   display: flex;
-
   flex-direction: column;
-
-  gap: 6px;
-
-  padding: 4px 14px 20px;
+  gap: 2px;
+  padding: 4px 14px 16px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5dd transparent;
 }
 
+/* Titre de groupe : Mon parcours, Explorer, Mon compte */
+.menu-section {
+  margin: 16px 12px 6px;
+  color: #98a2b3;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
 
-/*
- * Élément de menu.
- */
-
-.menu-item {
-
+.menu-item,
+.footer-link,
+.logout-button {
   position: relative;
-
   display: flex;
-
   align-items: center;
-
   gap: 12px;
-
-  min-height: 48px;
-
-  padding: 0 14px;
-
-  border-radius: 12px;
-
-  text-decoration: none;
-
+  width: 100%;
+  min-height: 44px;
+  padding: 0 12px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
   color: $text;
-
+  font-family: inherit;
   font-size: 14px;
-
   font-weight: 600;
-
-  transition:
-    background $transition,
-    color $transition,
-    transform $transition;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background $transition, color $transition;
 }
-
-
-/*
- * Icône du menu.
- */
 
 .menu-icon {
-
-  width: 24px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
+  width: 20px;
+  height: 20px;
   flex-shrink: 0;
-
-  font-size: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  color: $text-light;
+  transition: color $transition;
 }
-
-
-/*
- * Texte du menu.
- */
 
 .menu-label {
-
   flex: 1;
+  min-width: 0;
 }
 
+.menu-item:hover,
+.footer-link:hover {
+  background: #f2f5fb;
+  color: $blue-dark;
 
-/*
- * Effet au survol.
- */
-
-.menu-item:hover {
-
-  background: $red-light;
-
-  color: $red;
-
-  transform: translateX(3px);
+  .menu-icon {
+    color: $blue;
+  }
 }
 
-
-/*
- * Élément actif.
- */
-
+/* Page en cours : fond bleu clair et liseré à gauche */
 .menu-item.active {
+  background: $blue-light;
+  color: $blue-dark;
 
-  background: linear-gradient(
-    135deg,
-    $blue,
-    $blue-dark
-  );
+  .menu-icon {
+    color: $blue;
+  }
 
-  color: $white;
-
-  box-shadow:
-    0 7px 18px rgba(22, 70, 160, 0.18);
+  &::before {
+    content: '';
+    position: absolute;
+    left: -14px;
+    top: 10px;
+    bottom: 10px;
+    width: 4px;
+    border-radius: 0 4px 4px 0;
+    background: $blue;
+  }
 }
-
-
-/*
- * Petite barre rouge indiquant
- * la section actuellement sélectionnée.
- */
-
-.menu-item.active::before {
-
-  content: '';
-
-  position: absolute;
-
-  left: -14px;
-
-  top: 9px;
-
-  width: 4px;
-
-  height: 30px;
-
-  border-radius: 0 5px 5px 0;
-
-  background: $red;
-}
-
-
-/*
- * ==========================================================
- * BADGE NOTIFICATIONS
- * ==========================================================
- */
 
 .notification-badge {
-
-  min-width: 22px;
-
-  height: 22px;
-
-  display: flex;
-
+  display: inline-flex;
   align-items: center;
-
   justify-content: center;
-
+  min-width: 20px;
+  height: 20px;
   padding: 0 6px;
-
   border-radius: 20px;
-
   background: $red;
-
   color: $white;
-
   font-size: 11px;
-
   font-weight: 800;
-
-  box-shadow:
-    0 3px 8px rgba(230, 57, 70, 0.25);
 }
 
-
-/*
- * ==========================================================
- * FOOTER SIDEBAR
- * ==========================================================
- */
+/* ---------- Bas de la sidebar ---------- */
 
 .sidebar-footer {
-
-  padding: 16px 14px 20px;
-
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 14px 18px;
   border-top: 1px solid $border;
 }
 
-
-/*
- * Lien retour accueil.
- */
-
-.footer-link {
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 12px;
-
-  min-height: 45px;
-
-  padding: 0 14px;
-
-  border-radius: 11px;
-
-  color: $text;
-
-  text-decoration: none;
-
-  font-size: 14px;
-
-  font-weight: 600;
-
-  transition:
-    background $transition,
-    color $transition;
-}
-
-
-.footer-link:hover {
-
-  background: $blue-light;
-
-  color: $blue;
-}
-
-
-/*
- * ==========================================================
- * BOUTON DÉCONNEXION
- * ==========================================================
- */
-
-.logout-button {
-
-  width: 100%;
-
-  min-height: 45px;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 12px;
-
-  margin-top: 6px;
-
-  padding: 0 14px;
-
-  border: none;
-
-  border-radius: 11px;
-
-  background: transparent;
-
-  color: $text;
-
-  cursor: pointer;
-
-  font-family: inherit;
-
-  font-size: 14px;
-
-  font-weight: 600;
-
-  text-align: left;
-
-  transition:
-    background $transition,
-    color $transition;
-}
-
-
 .logout-button:hover {
-
   background: $red-light;
-
   color: $red;
+
+  .menu-icon {
+    color: $red;
+  }
 }
 
 
@@ -654,765 +374,187 @@ $transition: 0.25s ease;
 
 /*
  * ==========================================================
- * RESPONSIVE — TABLETTES
+ * RESPONSIVE
  * ==========================================================
  */
 
 @media (max-width: 1000px) {
 
   .sidebar {
-
-    width: 240px;
+    width: 244px;
   }
 
-
   .dashboard-main {
-
     padding: 30px;
   }
 }
 
-
-/*
- * ==========================================================
- * RESPONSIVE — PETITS ÉCRANS
- * ==========================================================
- */
-
-@media (max-width: 760px) {
-
-  .dashboard-container {
-
-    /*
-     * La sidebar passe au-dessus
-     * du contenu sur mobile.
-     */
-    flex-direction: column;
-  }
-
-
-  .sidebar {
-
-    width: 100%;
-
-    min-height: auto;
-
-    height: auto;
-
-    position: relative;
-
-    border-right: none;
-
-    border-bottom: 1px solid $border;
-
-    overflow: visible;
-  }
-
-
-  .sidebar-header {
-
-    padding: 16px 20px;
-  }
-
-
-  .sidebar-user {
-
-    margin: 12px 20px;
-  }
-
-
-  /*
-   * Le menu devient horizontal
-   * et peut défiler sur les petits écrans.
-   */
-  .sidebar-menu {
-
-    flex-direction: row;
-
-    overflow-x: auto;
-
-    padding: 5px 20px 14px;
-  }
-
-
-  .menu-item {
-
-    flex-shrink: 0;
-
-    min-width: max-content;
-
-    padding: 0 14px;
-  }
-
-
-  /*
-   * La barre active devient horizontale.
-   */
-  .menu-item.active::before {
-
-    left: 10px;
-
-    right: 10px;
-
-    bottom: -5px;
-
-    top: auto;
-
-    width: auto;
-
-    height: 3px;
-
-    border-radius: 5px;
-  }
-
-
-  .sidebar-footer {
-
-    display: flex;
-
-    gap: 8px;
-
-    padding: 10px 20px 15px;
-  }
-
-
-  .footer-link,
-  .logout-button {
-
-    flex: 1;
-
-    justify-content: center;
-
-  }
-
-
-  .dashboard-main {
-
-    min-height: auto;
-
-    padding: 25px 20px;
-  }
-}
-
-
-/*
- * ==========================================================
- * RESPONSIVE — TÉLÉPHONES
- * ==========================================================
- */
-
-@media (max-width: 480px) {
-
-  .sidebar-logo-text span {
-
-    display: none;
-  }
-
-
-  .sidebar-user {
-
-    padding: 11px;
-  }
-
-
-  .sidebar-user-info span {
-
-    display: none;
-  }
-
-
-  .sidebar-menu {
-
-    padding-left: 12px;
-
-    padding-right: 12px;
-  }
-
-
-  .menu-item {
-
-    min-height: 44px;
-
-    padding: 0 12px;
-  }
-
-
-  .menu-label {
-
-    font-size: 13px;
-  }
-
-
-  .dashboard-main {
-
-    padding: 20px 14px;
-  }
-
-
-  .sidebar-footer {
-
-    padding-left: 12px;
-
-    padding-right: 12px;
-  }
-
-
-  .footer-link,
-  .logout-button {
-
-    font-size: 13px;
-
-    padding: 0 10px;
-  }
-}
-
-/*
- * ==========================================================
- * PAGE "MON ESPACE"
- * ==========================================================
- *
- * Cette section correspond à la page principale
- * de l'espace personnel :
- *
- * /dashboard
- *
- * Elle contient le message de bienvenue.
- */
-
-/*
- * Conteneur de la page "Mon espace".
- *
- * Le contenu est centré horizontalement et verticalement
- * dans la zone principale du Dashboard.
- */
-.dashboard-welcome {
-
-  /*
-   * Largeur maximale de la carte.
-   *
-   * Cela évite que le texte s'étale sur toute
-   * la largeur de l'écran.
-   */
-  width: 100%;
-  max-width: 760px;
-
-  /*
-   * Centre automatiquement la carte horizontalement.
-   */
-  margin: 120px auto 0;
-
-  /*
-   * Espacement intérieur de la carte.
-   */
-  padding: 50px 55px;
-
-  /*
-   * Fond blanc pour faire ressortir la carte
-   * du fond général du Dashboard.
-   */
-  background: $white;
-
-  /*
-   * Bordure très légère.
-   */
-  border: 1px solid $border;
-
-  /*
-   * Coins arrondis.
-   */
-  border-radius: $radius-lg;
-
-  /*
-   * Ombre douce donnant un effet de carte.
-   */
-  box-shadow: $shadow-md;
-
-  /*
-   * Centre le contenu textuel.
-   */
-  text-align: center;
-
-  /*
-   * Empêche la carte de dépasser de son conteneur
-   * lorsque l'écran est plus petit.
-   */
-  box-sizing: border-box;
-
-  /*
-   * Animation légère lors de l'affichage.
-   */
-  animation: welcomeAppear 0.4s ease-out;
-}
-
-
-/*
- * ==========================================================
- * ICÔNE DE BIENVENUE
- * ==========================================================
- */
-
-.dashboard-welcome::before {
-
-  /*
-   * Petit symbole affiché au-dessus du titre.
-   */
-  content: '👋';
-
-  /*
-   * Permet de contrôler correctement
-   * la taille et les marges.
-   */
-  display: flex;
-
-  /*
-   * Centre l'icône.
-   */
-  align-items: center;
-  justify-content: center;
-
-  /*
-   * Taille du cercle.
-   */
-  width: 68px;
-  height: 68px;
-
-  /*
-   * Centre le cercle horizontalement.
-   */
-  margin: 0 auto 22px;
-
-  /*
-   * Fond bleu très clair.
-   */
-  background: $blue-light;
-
-  /*
-   * Cercle parfaitement rond.
-   */
-  border-radius: 50%;
-
-  /*
-   * Taille de l'emoji.
-   */
-  font-size: 30px;
-
-  /*
-   * Petite ombre autour du cercle.
-   */
-  box-shadow:
-    0 8px 20px rgba(22, 70, 160, 0.10);
-}
-
-
-/*
- * ==========================================================
- * TITRE
- * ==========================================================
- */
-
-.dashboard-welcome h1 {
-
-  /*
-   * Supprime la marge par défaut du navigateur.
-   */
-  margin: 0;
-
-  /*
-   * Taille du titre.
-   */
-  font-size: 30px;
-
-  /*
-   * Épaisseur du titre.
-   */
-  font-weight: 800;
-
-  /*
-   * Couleur principale.
-   */
-  color: $blue-dark;
-
-  /*
-   * Espacement entre les lettres.
-   */
-  letter-spacing: -0.6px;
-
-  /*
-   * Hauteur de ligne.
-   */
-  line-height: 1.3;
-}
-
-
-/*
- * ==========================================================
- * TEXTE DE PRÉSENTATION
- * ==========================================================
- */
-
-.dashboard-welcome p {
-
-  /*
-   * Largeur maximale du paragraphe.
-   *
-   * Le texte ne prend donc pas toute la largeur
-   * de la carte.
-   */
-  max-width: 590px;
-
-  /*
-   * Centre le paragraphe.
-   */
-  margin: 20px auto 0;
-
-  /*
-   * Taille du texte.
-   */
-  font-size: 16px;
-
-  /*
-   * Hauteur de ligne confortable.
-   */
-  line-height: 1.8;
-
-  /*
-   * Couleur secondaire.
-   */
-  color: $text;
-
-  /*
-   * Évite que le texte soit trop compact.
-   */
-  letter-spacing: 0.1px;
-}
-
-
-/*
- * ==========================================================
- * PETIT MESSAGE COMPLÉMENTAIRE
- * ==========================================================
- *
- * Cette classe peut être utilisée si tu souhaites
- * ajouter une petite phrase sous le texte principal.
- */
-
-.dashboard-welcome-subtitle {
-
-  margin-top: 24px;
-
-  padding-top: 20px;
-
-  border-top: 1px solid $border;
-
-  color: $text-light;
-
-  font-size: 13px;
-
-  line-height: 1.6;
-}
-
-
-/*
- * ==========================================================
- * ANIMATION D'APPARITION
- * ==========================================================
- */
-
-@keyframes welcomeAppear {
-
-  /*
-   * État initial.
-   */
-  from {
-
-    opacity: 0;
-
-    transform: translateY(12px);
-  }
-
-  /*
-   * État final.
-   */
-  to {
-
-    opacity: 1;
-
-    transform: translateY(0);
-  }
-}
-
-
-/*
- * ==========================================================
- * RESPONSIVE — TABLETTES
- * ==========================================================
- */
-
-@media (max-width: 760px) {
-
-  .dashboard-welcome {
-
-    /*
-     * Réduit l'espace autour de la carte
-     * sur les écrans plus petits.
-     */
-    margin-top: 60px;
-
-    padding: 40px 30px;
-  }
-
-
-  .dashboard-welcome h1 {
-
-    font-size: 26px;
-  }
-
-
-  .dashboard-welcome p {
-
-    font-size: 15px;
-
-    line-height: 1.7;
-  }
-}
-
-
-/*
- * ==========================================================
- * RESPONSIVE — TÉLÉPHONES
- * ==========================================================
- */
-
-@media (max-width: 480px) {
-
-  .dashboard-welcome {
-
-    /*
-     * Réduit encore l'espace supérieur
-     * sur les téléphones.
-     */
-    margin-top: 35px;
-
-    /*
-     * Réduit les marges internes.
-     */
-    padding: 32px 22px;
-
-    /*
-     * Coins légèrement moins arrondis
-     * sur petit écran.
-     */
-    border-radius: $radius-md;
-  }
-
-
-  .dashboard-welcome::before {
-
-    /*
-     * Réduit la taille de l'icône.
-     */
-    width: 58px;
-    height: 58px;
-
-    font-size: 26px;
-
-    margin-bottom: 18px;
-  }
-
-
-  .dashboard-welcome h1 {
-
-    font-size: 23px;
-
-    letter-spacing: -0.3px;
-  }
-
-
-  .dashboard-welcome p {
-
-    font-size: 14px;
-
-    line-height: 1.7;
-  }
-}
-
-// ============================================================
-// BARRE MOBILE
-// ============================================================
-
-// Par défaut, la barre mobile est cachée.
-// Elle sera affichée uniquement sur téléphone.
-.mobile-header {
+// Barre du haut et voile : cachés sur ordinateur.
+.mobile-header,
+.sidebar-backdrop {
   display: none;
 }
 
+// ------------------------------------------------------------
+// MOBILE ET TABLETTE : la sidebar devient un tiroir
+// ------------------------------------------------------------
 
-// ============================================================
-// RESPONSIVE MOBILE
-// ============================================================
-
-// À partir de cette largeur, on considère que l'écran
-// est suffisamment petit pour utiliser le menu burger.
 @media (max-width: 768px) {
 
-  // ----------------------------------------------------------
-  // BARRE DU HAUT
-  // ----------------------------------------------------------
+  .dashboard-container {
+    flex-direction: column;
+  }
 
   .mobile-header {
-    display: flex;
-    align-items: center;
-
-    height: 64px;
-    padding: 0 20px;
-
-    background: #ffffff;
-    border-bottom: 1px solid #e5e7eb;
-
     position: sticky;
     top: 0;
     z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 60px;
+    padding: 0 12px;
+    background: rgba(255, 255, 255, 0.96);
+    border-bottom: 1px solid $border;
+    backdrop-filter: blur(8px);
   }
 
-  
+  .burger-button,
+  .mobile-bell,
+  .sidebar-close {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: $text-dark;
+    cursor: pointer;
 
- 
-// ============================================================
-// MENU MOBILE
-// ============================================================
+    svg {
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.9;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
 
-@media (max-width: 768px) {
+    &:hover {
+      background: #f1f3f6;
+    }
+  }
 
-  // ----------------------------------------------------------
-  // SIDEBAR MOBILE
-  // ----------------------------------------------------------
+  .burger-dot {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    width: 9px;
+    height: 9px;
+    border: 2px solid $white;
+    border-radius: 50%;
+    background: $red;
+  }
 
+  .mobile-logo {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    color: $blue-dark;
+    text-decoration: none;
+
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      font-size: 16px;
+    }
+
+    strong {
+      font-size: 16px;
+      font-weight: 800;
+    }
+  }
+
+  .mobile-bell .notification-badge {
+    position: absolute;
+    top: 2px;
+    right: 0;
+    min-width: 18px;
+    height: 18px;
+    font-size: 10px;
+  }
+
+  // Tiroir : hors de l'écran tant qu'il est fermé.
   .sidebar {
     position: fixed;
-
     top: 0;
     left: 0;
-
-    width: 280px;
-    height: 100vh;
-
     z-index: 2000;
-
-    display: flex;
-    flex-direction: column;
-
-    background: #ffffff;
-
-    // Par défaut, la sidebar est placée hors de l'écran.
-    transform: translateX(-100%);
-
-    // Animation d'ouverture / fermeture.
-    transition: transform 0.3s ease;
-
-    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.12);
+    width: min(300px, 86vw);
+    height: 100vh;
+    height: 100dvh;
+    border-right: none;
+    box-shadow: 12px 0 32px rgba(15, 23, 42, 0.18);
+    transform: translateX(-105%);
+    visibility: hidden;
+    transition: transform 0.28s ease, visibility 0s linear 0.28s;
   }
-
-
-  // ----------------------------------------------------------
-  // SIDEBAR OUVERTE
-  // ----------------------------------------------------------
-
-  // Lorsque menuOpen = true, Angular ajoute :
-  //
-  // .sidebar.mobile-open
-  //
-  // La sidebar revient alors dans l'écran.
 
   .sidebar.mobile-open {
     transform: translateX(0);
+    visibility: visible;
+    transition: transform 0.28s ease;
   }
 
+  .sidebar-close {
+    display: inline-flex;
+  }
 
-  // ----------------------------------------------------------
-  // CONTENU PRINCIPAL
-  // ----------------------------------------------------------
+  .sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1500;
+    display: block;
+    background: rgba(15, 23, 42, 0.45);
+    animation: backdropIn 0.2s ease;
+  }
 
   .dashboard-main {
     width: 100%;
-    min-width: 0;
+    min-height: auto;
+    padding: 24px 18px;
   }
 }
 
-  // ----------------------------------------------------------
-  // BOUTON BURGER
-  // ----------------------------------------------------------
+@media (max-width: 420px) {
 
-  .burger-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 42px;
-    height: 42px;
-
-    margin-right: 14px;
-
-    border: none;
-    border-radius: 8px;
-
-    background: transparent;
-
-    font-size: 26px;
-    color: #172033;
-
-    cursor: pointer;
-  }
-
-
-  // Effet visuel lorsque l'utilisateur touche le bouton.
-  .burger-button:hover {
-    background: #f1f3f6;
-  }
-
-
-  // ----------------------------------------------------------
-  // LOGO MOBILE
-  // ----------------------------------------------------------
-
-  .mobile-logo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    text-decoration: none;
-
-    color: #172033;
-  }
-
-
-  .mobile-logo-icon {
-    font-size: 22px;
-  }
-
-
-  .mobile-logo strong {
-    font-size: 17px;
-  }
-
-
-  // ----------------------------------------------------------
-  // SIDEBAR
-  // ----------------------------------------------------------
-
-  // Sur téléphone, la sidebar classique est cachée.
-  .sidebar {
-    display: none;
-  }
-
-
-  // ----------------------------------------------------------
-  // CONTENU PRINCIPAL
-  // ----------------------------------------------------------
-
-  // Le contenu prend maintenant toute la largeur.
   .dashboard-main {
-    width: 100%;
-    min-width: 0;
+    padding: 20px 14px;
+  }
+}
+
+@keyframes backdropIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .sidebar,
+  .sidebar.mobile-open {
+    transition: none;
+  }
+
+  .sidebar-backdrop {
+    animation: none;
   }
 }
 

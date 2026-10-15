@@ -11,340 +11,231 @@
 
 
 
-<!-- ===================================================== -->
-<!-- BARRE MOBILE                                         -->
-<!-- ===================================================== -->
-
-<!--
-  Cette barre est affichée uniquement sur téléphone.
-
-  Elle contient :
-  - le bouton hamburger pour ouvrir le menu ;
-  - le logo MyStudentGuide.
--->
-<header class="mobile-header">
+  <!-- ===================================================== -->
+  <!-- BARRE MOBILE                                         -->
+  <!-- ===================================================== -->
 
   <!--
-    Bouton permettant d'ouvrir le menu mobile.
-    Pour l'instant, il prépare simplement l'interface.
+    Affichée uniquement sur téléphone et tablette (768px et moins) :
+    le bouton ☰ ouvre la sidebar en tiroir par-dessus la page.
   -->
-<!--
-  Bouton permettant d'ouvrir ou de fermer
-  le menu mobile.
--->
-<button
-  type="button"
-  class="burger-button"
-  [attr.aria-label]="menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'"
-  (click)="toggleMobileMenu()"
->
+  <header class="mobile-header">
 
-  <!--
-    Affiche :
-    - ✕ lorsque le menu est ouvert ;
-    - ☰ lorsque le menu est fermé.
-  -->
+    <button
+      type="button"
+      class="burger-button"
+      aria-controls="student-sidebar"
+      [attr.aria-expanded]="menuOpen"
+      [attr.aria-label]="menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'"
+      (click)="toggleMobileMenu()"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16" />
+      </svg>
+
+      <!-- Pastille : des notifications attendent dans le menu fermé -->
+      @if (unreadCount > 0) {
+        <span class="burger-dot"></span>
+      }
+    </button>
+
+    <a routerLink="/home" class="mobile-logo">
+      <span class="brand-mark" aria-hidden="true">🎓</span>
+      <strong>MyStudentGuide</strong>
+    </a>
+
+    <a
+      routerLink="/dashboard/notifications"
+      class="mobile-bell"
+      [attr.aria-label]="unreadCount > 0
+        ? 'Notifications : ' + unreadCount + ' non lue(s)'
+        : 'Notifications'"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9Z" />
+        <path d="M10 20a2.2 2.2 0 0 0 4 0" />
+      </svg>
+      @if (unreadCount > 0) {
+        <span class="notification-badge">{{ unreadCount }}</span>
+      }
+    </a>
+
+  </header>
+
+
+  <!-- Voile sombre derrière le tiroir mobile : un clic le referme -->
   @if (menuOpen) {
-    ✕
-  } @else {
-    ☰
+    <div class="sidebar-backdrop" (click)="closeMobileMenu()" aria-hidden="true"></div>
   }
 
-</button>
-
-
-  <!-- Logo affiché sur mobile -->
-  <a
-    routerLink="/home"
-    class="mobile-logo"
-  >
-
-    <span class="mobile-logo-icon">
-      🎓
-    </span>
-
-    <strong>
-      MyStudentGuide
-    </strong>
-
-  </a>
-
-</header>
 
   <!-- ===================================================== -->
   <!-- SIDEBAR                                               -->
   <!-- ===================================================== -->
 
-<aside
-  class="sidebar"
-  [class.mobile-open]="menuOpen"
->
+  <aside
+    id="student-sidebar"
+    class="sidebar"
+    [class.mobile-open]="menuOpen"
+    aria-label="Menu de l'espace étudiant"
+  >
 
-
-
-    <!-- =================================================== -->
-    <!-- EN-TÊTE DE LA SIDEBAR                              -->
-    <!-- =================================================== -->
-
+    <!-- En-tête : logo (retour à l'accueil) -->
     <div class="sidebar-header">
 
-      <!--
-        Logo de MyStudentGuide.
-        Il permet de retourner à l'accueil général.
-      -->
-      <a
-        routerLink="/home"
-        class="sidebar-logo"
-      >
-
-        <span class="sidebar-logo-icon">
-          🎓
+      <a routerLink="/home" class="sidebar-logo">
+        <span class="brand-mark" aria-hidden="true">🎓</span>
+        <span class="sidebar-logo-text">
+          <strong>MyStudentGuide</strong>
+          <span>Espace étudiant</span>
         </span>
-
-        <div class="sidebar-logo-text">
-
-          <strong>
-            MyStudentGuide
-          </strong>
-
-          <span>
-            Espace étudiant
-          </span>
-
-        </div>
-
       </a>
 
+      <!-- Fermeture du tiroir, visible seulement sur mobile -->
+      <button
+        type="button"
+        class="sidebar-close"
+        aria-label="Fermer le menu"
+        (click)="closeMobileMenu()"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18" />
+        </svg>
+      </button>
+
     </div>
 
 
-    <!-- =================================================== -->
-    <!-- INFORMATIONS UTILISATEUR                           -->
-    <!-- =================================================== -->
+    <!-- Carte de l'utilisateur connecté : mène au profil -->
+    <a routerLink="/dashboard/profile" class="sidebar-user" title="Voir mon profil">
 
-    <div class="sidebar-user">
-
-      <!--
-        Première lettre du prénom de l'utilisateur.
-      -->
-      <div class="sidebar-avatar">
+      <span class="sidebar-avatar" aria-hidden="true">
         {{ userName.charAt(0).toUpperCase() }}
-      </div>
+      </span>
 
-
-      <!-- Informations de l'utilisateur connecté. -->
-      <div class="sidebar-user-info">
-
-        <strong>
-          {{ userName }}
-        </strong>
-
-
-        <!--
-          L'email est affiché lorsqu'il est disponible.
-        -->
+      <span class="sidebar-user-info">
+        <strong>{{ userName }}</strong>
         @if (userEmail) {
-
-          <span>
-            {{ userEmail }}
-          </span>
-
+          <span>{{ userEmail }}</span>
         }
+      </span>
 
-      </div>
-
-    </div>
+    </a>
 
 
-    <!-- =================================================== -->
-    <!-- MENU DE L'ESPACE PERSONNEL                         -->
-    <!-- =================================================== -->
-
+    <!-- Menu, regroupé par usage -->
     <nav class="sidebar-menu">
 
+      <p class="menu-section">Mon parcours</p>
 
-      <!-- ------------------------------------------------- -->
-      <!-- MON ESPACE                                       -->
-      <!-- ------------------------------------------------- -->
-
-      <!--
-        "Mon espace" représente la page principale
-        de l'espace personnel.
-
-        Cette page correspond à :
-        /dashboard
-
-        C'est ici que le message de bienvenue
-        sera affiché.
-      -->
       <a
         routerLink="/dashboard"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
+        ariaCurrentWhenActive="page"
         class="menu-item"
       >
-
-        <span class="menu-icon">
-          🏠
-        </span>
-
-        <span class="menu-label">
-          Mon espace
-        </span>
-
+        <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 11.5 12 5l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5h-5v5H5a1 1 0 0 1-1-1Z" />
+        </svg>
+        <span class="menu-label">Mon espace</span>
       </a>
-
-
-      <!-- ------------------------------------------------- -->
-      <!-- MON PROFIL                                       -->
-      <!-- ------------------------------------------------- -->
-
-      <a
-        routerLink="/dashboard/profile"
-        routerLinkActive="active"
-        class="menu-item"
-      >
-
-        <span class="menu-icon">
-          👤
-        </span>
-
-        <span class="menu-label">
-          Mon profil
-        </span>
-
-      </a>
-
-
-      <!-- ------------------------------------------------- -->
-      <!-- MES DÉMARCHES                                    -->
-      <!-- ------------------------------------------------- -->
 
       <a
         routerLink="/dashboard/suivis"
         routerLinkActive="active"
+        ariaCurrentWhenActive="page"
         class="menu-item"
       >
-
-        <span class="menu-icon">
-          📋
-        </span>
-
-        <span class="menu-label">
-          Mes démarches
-        </span>
-
+        <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="5" y="4" width="14" height="17" rx="2" />
+          <path d="M9 4.5h6M9 10h6M9 14h6M9 18h3" />
+        </svg>
+        <span class="menu-label">Mes démarches</span>
       </a>
-
-
-      
-
-      <!-- ------------------------------------------------- -->
-      <!-- NOTIFICATIONS                                    -->
-      <!-- ------------------------------------------------- -->
 
       <a
         routerLink="/dashboard/notifications"
         routerLinkActive="active"
+        ariaCurrentWhenActive="page"
         class="menu-item"
       >
-
-        <span class="menu-icon">
-          🔔
-        </span>
-
-        <span class="menu-label">
-          Notifications
-        </span>
-
-
-        <!--
-          Le badge est affiché uniquement lorsqu'il
-          existe des notifications non lues.
-        -->
+        <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9Z" />
+          <path d="M10 20a2.2 2.2 0 0 0 4 0" />
+        </svg>
+        <span class="menu-label">Notifications</span>
         @if (unreadCount > 0) {
-
-          <span class="notification-badge">
+          <span class="notification-badge" [attr.aria-label]="unreadCount + ' non lue(s)'">
             {{ unreadCount }}
           </span>
-
         }
-
       </a>
 
+      <p class="menu-section">Explorer</p>
 
-      <!-- ------------------------------------------------- -->
-      <!-- MON COMPTE                                       -->
-      <!-- ------------------------------------------------- -->
+      <a routerLink="/demarches" class="menu-item">
+        <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="11" cy="11" r="6.5" />
+          <path d="m16 16 4 4" />
+        </svg>
+        <span class="menu-label">Toutes les démarches</span>
+      </a>
+
+      <a routerLink="/documents" class="menu-item">
+        <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M7 3h7l5 5v12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" />
+          <path d="M14 3v5h5M9 13h6M9 17h6" />
+        </svg>
+        <span class="menu-label">Documents requis</span>
+      </a>
+
+      <p class="menu-section">Mon compte</p>
+
+      <a
+        routerLink="/dashboard/profile"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+        class="menu-item"
+      >
+        <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="8.5" r="3.5" />
+          <path d="M5 20a7 7 0 0 1 14 0" />
+        </svg>
+        <span class="menu-label">Mon profil</span>
+      </a>
 
       <a
         routerLink="/dashboard/account"
         routerLinkActive="active"
+        ariaCurrentWhenActive="page"
         class="menu-item"
       >
-
-        <span class="menu-icon">
-          ⚙️
-        </span>
-
-        <span class="menu-label">
-          Mon compte
-        </span>
-
+        <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="3" />
+          <path d="M12 3v2.5M12 18.5V21M4.2 7.5l2.2 1.3M17.6 15.2l2.2 1.3M4.2 16.5l2.2-1.3M17.6 8.8l2.2-1.3" />
+        </svg>
+        <span class="menu-label">Paramètres du compte</span>
       </a>
 
     </nav>
 
 
-    <!-- =================================================== -->
-    <!-- BAS DE LA SIDEBAR                                  -->
-    <!-- =================================================== -->
-
+    <!-- Bas de la sidebar : retour au site et déconnexion -->
     <div class="sidebar-footer">
 
-
-      <!-- ------------------------------------------------- -->
-      <!-- RETOUR À L'ACCUEIL                               -->
-      <!-- ------------------------------------------------- -->
-
-      <!--
-        Retour vers la page d'accueil générale
-        de MyStudentGuide.
-      -->
-      <a
-        routerLink="/home"
-        class="footer-link"
-      >
-
-        <span class="menu-icon">
-          ←
-        </span>
-
-        <span>
-          Retour à l'accueil
-        </span>
-
+      <a routerLink="/home" class="footer-link">
+        <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M19 12H5M11 6l-6 6 6 6" />
+        </svg>
+        <span>Retour au site</span>
       </a>
 
-
-      <!-- ------------------------------------------------- -->
-      <!-- DÉCONNEXION                                      -->
-      <!-- ------------------------------------------------- -->
-
-      <button
-        type="button"
-        class="logout-button"
-        (click)="logout()"
-      >
-
-        <span class="menu-icon">
-          ↪
-        </span>
-
-        <span>
-          Déconnexion
-        </span>
-
+      <button type="button" class="logout-button" (click)="logout()">
+        <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M15 4h3a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-3M10 8l-4 4 4 4M6 12h10" />
+        </svg>
+        <span>Déconnexion</span>
       </button>
 
     </div>
