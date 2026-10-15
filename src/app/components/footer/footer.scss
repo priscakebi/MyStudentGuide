@@ -1,183 +1,218 @@
 // ============================================================
 // FOOTER - MyStudentGuide
 // ============================================================
-
-
-// ============================================================
-// VARIABLES
-// ============================================================
+//
+// Fond bleu nuit de la marque, trois colonnes sur ordinateur,
+// une seule colonne sur téléphone.
 
 $blue: #1646a0;
 $blue-dark: #0d2f70;
-
+$red: #e63946;
 $white: #ffffff;
-
-$text-light: #667085;
-
-$border: #e6eaf0;
-
-
-// ============================================================
-// FOOTER
-// ============================================================
+$bg: #0f1d3d;
+$text: #c3cbe0;
+$muted: #8f9ab5;
+$line: rgba(255, 255, 255, 0.1);
 
 .footer {
-
   position: relative;
+  margin-top: 40px;
+  background: $bg;
+  color: $text;
 
-  padding: 30px 40px;
-
-  background: $white;
-
-  border-top: 1px solid $border;
-
-
-  // Petite touche rouge au-dessus du footer.
+  // Liseré bleu / blanc / rouge en haut du footer.
   &::before {
-
-    content: "";
-
+    content: '';
     position: absolute;
-
-    top: -2px;
+    top: 0;
     left: 0;
-
-    width: 90px;
-    height: 2px;
-
-    background: $blue;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, $blue 0 33.3%, $white 33.3% 66.6%, $red 66.6%);
   }
 }
-
-
-// ============================================================
-// CONTENU
-// ============================================================
 
 .footer-content {
-
-  width: min(1380px, 100%);
-
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: 48px;
+  width: min(1200px, 100%);
   margin: 0 auto;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
-
-  gap: 30px;
+  padding: 52px 32px 36px;
 }
 
+// ------------------------------------------------------------
+// PRÉSENTATION
+// ------------------------------------------------------------
 
-// ============================================================
-// IDENTITÉ
-// ============================================================
-
-.footer-brand {
-
-  display: flex;
-
+.footer-logo-link {
+  display: inline-flex;
   align-items: center;
-
-  gap: 10px;
-}
-
-
-// ============================================================
-// LOGO FOOTER
-// ============================================================
-
-.footer-logo {
-
-  width: 38px;
-  height: 38px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  border-radius: 10px;
-
-  // Même principe que la navbar :
-  // bleu avec une petite touche rouge.
-  background:
-    linear-gradient(
-      135deg,
-      $blue,
-      $blue-dark 70%,
-      #c92535
-    );
-
+  gap: 12px;
   color: $white;
-}
+  text-decoration: none;
 
-
-// ============================================================
-// TEXTE FOOTER
-// ============================================================
-
-.footer-brand div:last-child {
-
-  display: flex;
-
-  flex-direction: column;
-}
-
-
-.footer-brand strong {
-
-  font-size: 12px;
-
-  color: $blue-dark;
-}
-
-
-.footer-brand span {
-
-  margin-top: 3px;
-
-  color: $text-light;
-
-  font-size: 9px;
-}
-
-
-// ============================================================
-// COPYRIGHT
-// ============================================================
-
-.footer-content > p {
-
-  margin: 0;
-
-  color: $text-light;
-
-  font-size: 10px;
-}
-
-
-// ============================================================
-// RESPONSIVE
-// ============================================================
-
-@media (max-width: 850px) {
-
-  .footer-content {
-
-    flex-direction: column;
-
-    align-items: flex-start;
+  strong {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
   }
 }
 
+.footer-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, $blue, $blue-dark 70%, #c92535);
+  font-size: 19px;
+}
+
+.footer-brand p {
+  max-width: 420px;
+  margin: 16px 0 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.footer-notice {
+  padding-left: 12px;
+  border-left: 3px solid rgba(255, 255, 255, 0.2);
+  color: $muted;
+  font-size: 13px !important;
+}
+
+// ------------------------------------------------------------
+// COLONNES DE LIENS
+// ------------------------------------------------------------
+
+.footer-column {
+
+  h2 {
+    margin: 4px 0 16px;
+    color: $white;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  a {
+    color: $text;
+    font-size: 14px;
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: $white;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+  }
+}
+
+.external {
+  margin-left: 2px;
+  color: $muted;
+  font-size: 12px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+// Focus clavier lisible sur fond sombre.
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.6);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+// ------------------------------------------------------------
+// BAS DE PAGE
+// ------------------------------------------------------------
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  padding: 18px 32px 24px;
+  border-top: 1px solid $line;
+
+  p {
+    margin: 0;
+    color: $muted;
+    font-size: 13px;
+  }
+}
+
+.back-to-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 1px solid $line;
+  border-radius: 999px;
+  background: transparent;
+  color: $text;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: $white;
+  }
+}
+
+// ------------------------------------------------------------
+// RESPONSIVE
+// ------------------------------------------------------------
+
+@media (max-width: 900px) {
+
+  .footer-content {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 36px;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+}
 
 @media (max-width: 560px) {
 
-  .footer {
+  .footer-content {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 30px;
+    padding: 44px 16px 28px;
+  }
 
-    padding: 25px 18px;
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px 16px 22px;
   }
 }

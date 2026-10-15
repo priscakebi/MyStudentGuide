@@ -3,46 +3,102 @@
   FOOTER - MyStudentGuide
   ============================================================
 
-  Pied de page commun à l'application.
+  Pied de page des pages publiques :
+  - présentation de l'application ;
+  - liens de navigation ;
+  - sites officiels de référence ;
+  - copyright et retour en haut de page.
 -->
 
 <footer class="footer">
 
   <div class="footer-content">
 
-
     <!-- ======================================================
-         IDENTITÉ DE L'APPLICATION
+         PRÉSENTATION
          ====================================================== -->
 
     <div class="footer-brand">
 
-      <div class="footer-logo">
-        🎓
-      </div>
+      <a routerLink="/home" class="footer-logo-link">
+        <span class="footer-logo" aria-hidden="true">🎓</span>
+        <strong>MyStudentGuide</strong>
+      </a>
 
-      <div>
+      <p>
+        Le guide des démarches administratives pour les étudiants
+        internationaux en France : étapes, documents et dates limites
+        au même endroit.
+      </p>
 
-        <strong>
-          MyStudentGuide
-        </strong>
-
-        <span>
-          Votre guide étudiant en France
-        </span>
-
-      </div>
+      <p class="footer-notice">
+        Informations données à titre indicatif : vérifiez toujours
+        auprès des sites officiels avant une démarche.
+      </p>
 
     </div>
 
 
     <!-- ======================================================
-         COPYRIGHT
+         NAVIGATION
          ====================================================== -->
 
-    <p>
-      © 2026 MyStudentGuide — Votre guide administratif étudiant
-    </p>
+    <nav class="footer-column" aria-labelledby="footer-nav-title">
+
+      <h2 id="footer-nav-title">Navigation</h2>
+
+      <ul>
+        <li><a routerLink="/home">Accueil</a></li>
+        <li><a routerLink="/demarches">Démarches</a></li>
+        <li><a routerLink="/documents">Documents requis</a></li>
+        @if (isLoggedIn) {
+          <li><a [routerLink]="isAdmin ? '/admin' : '/dashboard'">Mon espace</a></li>
+        } @else {
+          <li><a routerLink="/login">Se connecter</a></li>
+          <li><a routerLink="/register">Créer un compte</a></li>
+        }
+      </ul>
+
+    </nav>
+
+
+    <!-- ======================================================
+         SITES OFFICIELS
+         ====================================================== -->
+
+    <div class="footer-column">
+
+      <h2 id="footer-links-title">Sites officiels</h2>
+
+      <ul aria-labelledby="footer-links-title">
+        @for (site of officialSites; track site.url) {
+          <li>
+            <a [href]="site.url" target="_blank" rel="noopener noreferrer">
+              {{ site.label }}
+              <span class="external" aria-hidden="true">↗</span>
+              <span class="visually-hidden">(nouvel onglet)</span>
+            </a>
+          </li>
+        }
+      </ul>
+
+    </div>
+
+  </div>
+
+
+  <!-- ========================================================
+       BAS DE PAGE
+       ======================================================== -->
+
+  <div class="footer-bottom">
+
+    <p>© {{ year }} MyStudentGuide — Votre guide administratif étudiant</p>
+
+    <button type="button" class="back-to-top" (click)="scrollToTop()">
+      <span aria-hidden="true">↑</span>
+      Haut de page
+    </button>
 
   </div>
 
