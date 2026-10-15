@@ -563,6 +563,11 @@
                       Mise à jour officielle du {{ demarche.sourceDateDisponible | date: 'dd/MM/yyyy' }}
                     </span>
                   }
+                  @if (resumeCiblage(demarche); as resume) {
+                    <span class="badge badge-target" title="Suggérée automatiquement aux étudiants dont le profil correspond">
+                      🎯 Suggérée à : {{ resume }}
+                    </span>
+                  }
                 </div>
 
 
@@ -880,6 +885,17 @@
                 Aperçu
               </a>
 
+              <!-- Suggestion automatique d'après le profil des étudiants -->
+              <button
+                type="button"
+                class="btn-target"
+                [class.open]="ciblageOuvert === demarche.id"
+                [attr.aria-expanded]="ciblageOuvert === demarche.id"
+                (click)="ouvrirCiblage(demarche)"
+              >
+                🎯 Ciblage
+              </button>
+
 
               <!-- ------------------------------------------------ -->
               <!-- MODIFIER                                          -->
@@ -907,6 +923,91 @@
               </button>
 
             </div>
+
+
+            <!-- ------------------------------------------------ -->
+            <!-- CIBLAGE : À QUI SUGGÉRER CETTE DÉMARCHE           -->
+            <!-- ------------------------------------------------ -->
+
+            @if (ciblageOuvert === demarche.id) {
+              <form class="ciblage-panel" (ngSubmit)="enregistrerCiblage(demarche)">
+
+                <h4>Suggestion automatique</h4>
+                <p class="ciblage-help">
+                  Les étudiants dont le profil remplit <strong>tous</strong> les critères choisis
+                  reçoivent une notification de suggestion (une seule fois), dès que la démarche
+                  est publiée ou qu'ils enregistrent leur profil. Un critère laissé sur « Tous »
+                  ne filtre pas.
+                </p>
+
+                <label class="ciblage-switch">
+                  <input type="checkbox" name="active" [(ngModel)]="ciblageForm.active">
+                  Suggérer automatiquement cette démarche
+                </label>
+
+                @if (ciblageForm.active) {
+
+                  <div class="ciblage-grid">
+
+                    <label>
+                      Nationalité
+                      <select name="horsUE" [(ngModel)]="ciblageForm.horsUE">
+                        <option [ngValue]="null">Tous</option>
+                        <option [ngValue]="true">Hors UE / EEE / Suisse</option>
+                        <option [ngValue]="false">UE / EEE / Suisse</option>
+                      </select>
+                    </label>
+
+                    <label>
+                      Arrivée en France
+                      <select name="premiereArrivee" [(ngModel)]="ciblageForm.premiereArrivee">
+                        <option [ngValue]="null">Tous</option>
+                        <option [ngValue]="true">Première arrivée</option>
+                        <option [ngValue]="false">Déjà installés</option>
+                      </select>
+                    </label>
+
+                  </div>
+
+                  <fieldset>
+                    <legend>Situation (aucune cochée = toutes)</legend>
+                    @for (v of visas; track v.value) {
+                      <label class="ciblage-check">
+                        <input
+                          type="checkbox"
+                          [checked]="ciblageForm.visas.includes(v.value)"
+                          (change)="basculer(ciblageForm.visas, v.value)"
+                        >
+                        {{ v.label }}
+                      </label>
+                    }
+                  </fieldset>
+
+                  <fieldset>
+                    <legend>Logement (aucun coché = tous)</legend>
+                    @for (l of logements; track l.value) {
+                      <label class="ciblage-check">
+                        <input
+                          type="checkbox"
+                          [checked]="ciblageForm.logements.includes(l.value)"
+                          (change)="basculer(ciblageForm.logements, l.value)"
+                        >
+                        {{ l.label }}
+                      </label>
+                    }
+                  </fieldset>
+
+                }
+
+                <div class="ciblage-actions">
+                  <button type="submit" class="btn-primary" [disabled]="actionEnCours === demarche.id">
+                    Enregistrer
+                  </button>
+                  <button type="button" class="btn-secondary" (click)="ciblageOuvert = null">Annuler</button>
+                </div>
+
+              </form>
+            }
 
           </article>
 

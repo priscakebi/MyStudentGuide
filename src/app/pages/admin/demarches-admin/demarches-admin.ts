@@ -99,7 +99,41 @@ interface Demarche {
   /** Version plus récente de la fiche détectée par la vérification automatique. */
   sourceDateDisponible?: string | null;
   miseAJourDisponible?: boolean;
+
+  /** Ciblage des suggestions automatiques (voir SuggestionAutoService côté API). */
+  cibleActive?: boolean | null;
+  cibleHorsUE?: boolean | null;
+  ciblePremiereArrivee?: boolean | null;
+  cibleVisas?: string[];
+  cibleLogements?: string[];
 }
+
+/** Formulaire de ciblage (PUT /api/admin/demarches/{id}/ciblage). */
+interface CiblageForm {
+  active: boolean;
+  horsUE: boolean | null;
+  premiereArrivee: boolean | null;
+  visas: string[];
+  logements: string[];
+}
+
+/** Libellés des types de visa et de logement (enums VisaType / LogementType de l'API). */
+const VISAS: { value: string; label: string }[] = [
+  { value: 'VLS_TS_ETUDIANT', label: 'Visa long séjour étudiant (VLS-TS)' },
+  { value: 'TITRE_SEJOUR_ETUDIANT', label: 'Titre de séjour étudiant' },
+  { value: 'COURT_SEJOUR', label: 'Visa court séjour' },
+  { value: 'AUTRE', label: 'Autre' }
+];
+
+const LOGEMENTS: { value: string; label: string }[] = [
+  { value: 'SANS_LOGEMENT', label: 'Pas encore de logement' },
+  { value: 'CROUS', label: 'Logement Crous' },
+  { value: 'RESIDENCE_ETUDIANTE', label: 'Résidence étudiante' },
+  { value: 'LOCATION_PRIVEE', label: 'Location privée' },
+  { value: 'HEBERGEMENT_CHEZ_UN_PROCHE', label: 'Hébergé chez un proche' },
+  { value: 'HEBERGEMENT_FAMILLE', label: 'Hébergé en famille' },
+  { value: 'AUTRE', label: 'Autre' }
+];
 
 
 // ============================================================
@@ -487,16 +521,18 @@ export class DemarchesAdmin implements OnInit {
 
     this.actionEnCours = demarche.id;
 
-    this.http.patch<Demarche>(
+    this.http.patch<{ demarche: Demarche; suggestionsEnvoyees: number }>(
       `${this.spUrl}/demarches/${demarche.id}/publication`,
       {},
       { headers: this.getHeaders(), params: { statut } }
     ).subscribe({
-      next: () => {
+      next: (resultat) => {
         this.actionEnCours = null;
+        const n = resultat?.suggestionsEnvoyees ?? 0;
         this.showMessage(
           statut === 'PUBLIEE'
             ? `« ${demarche.titre} » est maintenant visible par les étudiants.`
+              + (n > 0 ? ` ${n} étudiant${n > 1 ? 's ont' : ' a'} reçu la suggestion.` : '')
             : `« ${demarche.titre} » est repassée en brouillon.`,
           'success'
         );
@@ -505,6 +541,97 @@ export class DemarchesAdmin implements OnInit {
       error: (error) => {
         this.actionEnCours = null;
         this.showMessage(error.error?.message || 'Action impossible.', 'error');
+      }
+    });
+  }
+
+  // ==========================================================
+  // SUGGESTION AUTOMATIQUE (CIBLAGE)
+  // ==========================================================
+
+  readonly visas = VISAS;
+  readonly logements = LOGEMENTS;
+
+  /** Démarche dont le formulaire de ciblage est ouvert. */
+  ciblageOuvert: number | null = null;
+
+  ciblageForm: CiblageForm = { active: false, horsUE: null, premiereArrivee: null, visas: [], logements: [] };
+
+  /** Résumé lisible du ciblage, affiché sous le titre de la démarche. */
+  resumeCiblage(d: Demarche): string | null {
+    if (!d.cibleActive) {
+      return null;
+    }
+
+    const criteres: string[] = [];
+    if (d.cibleHorsUE === true) criteres.push('hors UE');
+    if (d.cibleHorsUE === false) criteres.push('UE');
+    if (d.ciblePremiereArrivee === true) criteres.push('première arrivée');
+    if (d.ciblePremiereArrivee === false) criteres.push('déjà installés');
+    if (d.cibleVisas?.length) {
+      criteres.push(d.cibleVisas.map((v) => VISAS.find((x) => x.value === v)?.label ?? v).join(' ou '));
+    }
+    if (d.cibleLogements?.length) {
+      criteres.push(d.cibleLogements.map((l) => LOGEMENTS.find((x) => x.value === l)?.label ?? l).join(' ou '));
+    }
+
+    return criteres.length ? criteres.join(' · ') : 'tous les étudiants';
+  }
+
+  ouvrirCiblage(d: Demarche): void {
+    if (this.ciblageOuvert === d.id) {
+      this.ciblageOuvert = null;
+      return;
+    }
+
+    this.ciblageOuvert = d.id;
+    this.ciblageForm = {
+      active: !!d.cibleActive,
+      horsUE: d.cibleHorsUE ?? null,
+      premiereArrivee: d.ciblePremiereArrivee ?? null,
+      visas: [...(d.cibleVisas ?? [])],
+      logements: [...(d.cibleLogements ?? [])]
+    };
+  }
+
+  basculer(liste: string[], valeur: string): void {
+    const i = liste.indexOf(valeur);
+    if (i >= 0) {
+      liste.splice(i, 1);
+    } else {
+      liste.push(valeur);
+    }
+  }
+
+  /** Enregistre le ciblage ; si la démarche est publiée, les étudiants concernés reçoivent la suggestion. */
+  enregistrerCiblage(d: Demarche): void {
+    this.actionEnCours = d.id;
+
+    this.http.put<{ demarche: Demarche; suggestionsEnvoyees: number }>(
+      `${this.apiUrl}/admin/demarches/${d.id}/ciblage`,
+      this.ciblageForm,
+      { headers: this.getHeaders() }
+    ).subscribe({
+      next: (resultat) => {
+        this.actionEnCours = null;
+        this.ciblageOuvert = null;
+        const n = resultat?.suggestionsEnvoyees ?? 0;
+
+        this.showMessage(
+          !this.ciblageForm.active
+            ? `Suggestion automatique désactivée pour « ${d.titre} ».`
+            : d.statutPublication === 'BROUILLON'
+              ? 'Ciblage enregistré. Les étudiants concernés recevront la suggestion à la publication.'
+              : n === 0
+                ? 'Ciblage enregistré. Aucun nouvel étudiant concerné pour le moment.'
+                : `Ciblage enregistré : ${n} étudiant${n > 1 ? 's ont' : ' a'} reçu la suggestion.`,
+          'success'
+        );
+        this.loadDemarches();
+      },
+      error: (error) => {
+        this.actionEnCours = null;
+        this.showMessage(error.error?.message || 'Le ciblage n\'a pas pu être enregistré.', 'error');
       }
     });
   }

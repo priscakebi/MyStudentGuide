@@ -185,3 +185,18 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
 - Par compte et non par adresse IP : sur Render, toutes les requêtes passent par le même proxy.
 - Réglable sans toucher au code : `app.login.max-echecs`, `app.login.fenetre-minutes`, `app.login.blocage-minutes`.
 - Compteurs en mémoire : adapté à une seule instance de l'API ; un redémarrage les remet à zéro.
+
+## 11. Suggestions automatiques d'après le profil
+- Chaque démarche a un **ciblage** (Gestion des démarches → « 🎯 Ciblage ») : activé ou non, nationalité
+  (hors UE / UE / tous), arrivée en France (première arrivée / déjà installés / tous), situation (visa) et logement.
+  Un critère sur « Tous » ou sans case cochée ne filtre pas ; le badge « 🎯 Suggérée à : … » résume le ciblage.
+- L'étudiant dont le profil remplit **tous** les critères reçoit une notification de suggestion (Voir plus / Commencer)
+  qui dit pourquoi (« D'après votre profil (vous arrivez pour la première fois en France), … »).
+- Déclenché quand l'étudiant enregistre son profil, et quand l'admin publie une démarche ou enregistre son ciblage
+  (le message indique combien d'étudiants ont reçu la suggestion).
+- Jamais deux fois la même suggestion (table `suggestions_envoyees`), ni pour une démarche déjà commencée,
+  ni si l'admin l'a déjà suggérée. Une information manquante dans le profil = critère non rempli (pas de suggestion).
+- Nationalité saisie en texte libre : reconnaissance des adjectifs des pays UE / EEE / Suisse (« Italienne », « allemand »…).
+- Les fiches du catalogue Service-Public arrivent avec un ciblage par défaut (ex. F2231 titre de séjour → hors UE ;
+  F12006 APL → location privée, résidence étudiante, Crous ; F265 carte Vitale → première arrivée).
+- API : `PUT /api/admin/demarches/{id}/ciblage` (ADMIN) ; la publication renvoie aussi le nombre de suggestions envoyées.
