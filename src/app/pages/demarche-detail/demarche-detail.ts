@@ -58,6 +58,10 @@ interface DemarcheDetail {
   documentsRequis: DocumentRequis[];
   etapes: EtapeDemarche[];
   liensOfficiels: LienOfficiel[];
+
+  /** Fiche Service-Public d'origine (null si saisie à la main). */
+  sourceUrl?: string | null;
+  sourceDateMaj?: string | null;
 }
 
 /**

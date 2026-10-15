@@ -443,3 +443,17 @@
     width: 100%;
   }
 }
+
+/* En-tête de la liste : titre à gauche, bouton « catégories de base » à droite */
+.categories-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.categories-header .btn-secondary:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}

@@ -119,3 +119,40 @@ France). Les animations sont coupées si le système demande de réduire les ani
 
 **Langue** : la locale `fr` est enregistrée (`app.config.ts`), les dates s'affichent en français
 (« jeudi 15 octobre »).
+
+## 8. Import automatique des démarches depuis Service-Public
+Source : fiches pratiques de Service-Public.gouv.fr, publiées en open data par la DILA
+(data.gouv.fr, **Licence Ouverte** : citer la source et la date de mise à jour).
+Une fiche = `https://lecomarquage.service-public.gouv.fr/vdd/3.5/part/xml/F2231.xml`.
+
+**Parcours admin (Gestion des démarches → « Importer depuis Service-Public »)** :
+1. Choisir une fiche du catalogue (17 fiches utiles aux étudiants internationaux) ou saisir un identifiant (`F2231`).
+2. Aperçu : description, étapes, liens officiels. Choisir une catégorie → « Importer en brouillon ».
+3. La démarche est créée en **brouillon** (invisible des étudiants). Ajouter les documents requis, puis « Publier ».
+4. Chaque nuit (4 h 30), l'API compare les fiches importées à Service-Public. Si une fiche a changé :
+   badge « Mise à jour officielle », notification aux admins, bouton « Appliquer la mise à jour »
+   (remplace description, étapes et liens ; garde titre, catégorie, date limite et documents).
+   Bouton « Vérifier les mises à jour » pour lancer la vérification tout de suite.
+
+**Ce qui est importé** : titre, résumé + introduction (description), chaque section de la fiche
+(une étape), téléservices / sites officiels / « où s'adresser » (liens), + un lien vers la fiche.
+**Pas importé** : les pièces justificatives (format trop variable) → toujours gérées par l'admin.
+
+**Côté étudiant** : la page d'une démarche importée affiche
+« Source : Service-Public.gouv.fr (DILA) · mise à jour le … » (mention obligatoire).
+Les brouillons n'apparaissent ni dans la liste, ni en détail, et ne peuvent être ni commencés ni suggérés.
+
+**API (ADMIN)** : `/api/admin/service-public/catalogue`, `/fiches/{id}`, `/import`, `/verifier`,
+`/demarches/{id}/mise-a-jour`, `/demarches/{id}/publication?statut=PUBLIEE|BROUILLON`.
+Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publication`, `source_id`,
+`source_url`, `source_date_maj`, `source_date_disponible`. Les démarches existantes restent publiées.
+
+**Catégories** :
+- Au premier démarrage (aucune catégorie en base), l'API crée les 8 catégories de base : Séjour & visa,
+  Santé, Logement, Études, Banque & budget, Emploi, Transports, Vie quotidienne (les thèmes de l'accueil).
+  Si des catégories existent déjà, rien n'est créé (une catégorie supprimée ne réapparaît pas).
+- « Catégories » → bouton « Ajouter les catégories de base » : crée seulement celles qui manquent
+  (`POST /api/categories/defaut`, ADMIN).
+- À l'import, la catégorie est pré-sélectionnée : thème du catalogue, sinon thème officiel de la fiche
+  (« Social - Santé » → Santé, « Étranger - Europe » → Séjour & visa…). Une catégorie créée par l'admin
+  est aussi reconnue par mots-clés (« Titre de séjour » → Séjour & visa). L'admin peut la changer.

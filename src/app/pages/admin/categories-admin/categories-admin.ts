@@ -82,6 +82,40 @@ export class CategoriesAdmin implements OnInit {
   }
 
 
+  /** Vrai pendant l'ajout des catégories de base. */
+  ajoutBase = false;
+
+  /**
+   * Ajoute les catégories de base manquantes (les 8 thèmes de la
+   * page d'accueil). Les catégories existantes ne sont pas modifiées.
+   */
+  ajouterCategoriesDeBase(): void {
+
+    this.ajoutBase = true;
+
+    this.http.post<{ creees: number }>(
+      `${this.apiUrl}/defaut`,
+      {},
+      { headers: this.getHeaders() }
+    ).subscribe({
+      next: (resultat) => {
+        this.ajoutBase = false;
+        const n = resultat?.creees ?? 0;
+        this.message = n === 0
+          ? 'Toutes les catégories de base existent déjà.'
+          : `${n} catégorie${n > 1 ? 's ajoutées' : ' ajoutée'}.`;
+        this.messageType = 'success';
+        this.loadCategories();
+      },
+      error: () => {
+        this.ajoutBase = false;
+        this.message = 'Impossible d\'ajouter les catégories de base.';
+        this.messageType = 'error';
+      }
+    });
+  }
+
+
   // Récupère toutes les catégories depuis le backend.
   loadCategories(): void {
 

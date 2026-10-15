@@ -95,6 +95,22 @@ class="back-button"
     {{ demarche.description }}
   </p>
 
+  <!--
+    Mention obligatoire (Licence Ouverte) : source et date
+    de mise à jour de l'information officielle.
+  -->
+  @if (demarche.sourceUrl) {
+    <p class="source-mention">
+      <span aria-hidden="true">🏛️</span>
+      Source :
+      <a [href]="demarche.sourceUrl" target="_blank" rel="noopener">Service-Public.gouv.fr</a>
+      (Direction de l'information légale et administrative)
+      @if (demarche.sourceDateMaj) {
+        · mise à jour le {{ demarche.sourceDateMaj | date: 'd MMMM y' }}
+      }
+    </p>
+  }
+
   <!-- Informations complémentaires -->
   <div class="meta-grid">
 

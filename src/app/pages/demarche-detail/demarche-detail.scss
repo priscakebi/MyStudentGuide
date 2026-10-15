@@ -1059,3 +1059,31 @@ flex-direction: column;
 flex-direction: column;
 }
 }
+
+
+/* =========================================================
+SOURCE OFFICIELLE (fiches importées de Service-Public)
+========================================================= */
+
+/* Les textes importés gardent un paragraphe par ligne. */
+.detail-description,
+.step-content p {
+white-space: pre-line;
+}
+
+.source-mention {
+display: flex;
+align-items: center;
+flex-wrap: wrap;
+gap: 6px;
+
+margin: 14px 0 0;
+
+color: #6b7280;
+font-size: 13px;
+}
+
+.source-mention a {
+color: #1d4ed8;
+font-weight: 600;
+}

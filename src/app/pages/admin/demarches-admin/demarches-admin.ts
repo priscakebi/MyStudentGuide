@@ -88,6 +88,41 @@ interface Demarche {
    * Catégorie à laquelle appartient la démarche.
    */
   categorie?: Categorie | null;
+
+  /** BROUILLON : invisible des étudiants. null/absent = publiée. */
+  statutPublication?: 'BROUILLON' | 'PUBLIEE' | null;
+
+  /** Fiche Service-Public d'origine (ex. : F2231). */
+  sourceId?: string | null;
+  sourceDateMaj?: string | null;
+
+  /** Version plus récente de la fiche détectée par la vérification automatique. */
+  sourceDateDisponible?: string | null;
+  miseAJourDisponible?: boolean;
+}
+
+
+// ============================================================
+// SERVICE-PUBLIC
+// ============================================================
+
+/** Fiche proposée dans le catalogue d'import. */
+interface FicheCatalogue {
+  id: string;
+  titre: string;
+  theme: string;
+  dejaImportee: boolean;
+}
+
+/** Aperçu d'une fiche Service-Public avant import. */
+interface FicheServicePublic {
+  id: string;
+  titre: string;
+  description: string;
+  url: string;
+  dateMaj: string | null;
+  etapes: { titre: string; description: string }[];
+  liens: { nom: string; url: string; description: string }[];
 }
 
 
@@ -305,6 +340,200 @@ export class DemarchesAdmin implements OnInit {
     this.loadDemarches();
 
     this.loadCategories();
+
+    this.loadCatalogue();
+  }
+
+
+  // ==========================================================
+  // IMPORT DEPUIS SERVICE-PUBLIC
+  // ==========================================================
+
+  /** Fiches suggérées (étudiants internationaux). */
+  spCatalogue: FicheCatalogue[] = [];
+
+  /** Identifiant saisi à la main (ex. : F2231). */
+  spFicheId = '';
+
+  /** Fiche affichée en aperçu avant import. */
+  spApercu: FicheServicePublic | null = null;
+
+  /** Catégorie choisie pour l'import. */
+  spCategorieId: number | null = null;
+
+  /** Vrai si la catégorie a été pré-sélectionnée d'après le thème de la fiche. */
+  spCategorieSuggeree = false;
+
+  spChargement = false;
+  spImport = false;
+  spVerification = false;
+  spErreur = '';
+
+  /** Démarche dont une action (publier, mettre à jour) est en cours. */
+  actionEnCours: number | null = null;
+
+  private get spUrl(): string {
+    return `${this.apiUrl}/admin/service-public`;
+  }
+
+  loadCatalogue(): void {
+    this.http.get<FicheCatalogue[]>(`${this.spUrl}/catalogue`, { headers: this.getHeaders() })
+      .subscribe({
+        next: (catalogue) => this.spCatalogue = catalogue ?? [],
+        error: () => this.spCatalogue = []
+      });
+  }
+
+  /** Télécharge la fiche et affiche ce qui serait importé. */
+  previsualiser(ficheId: string): void {
+    const id = (ficheId ?? '').trim().toUpperCase();
+
+    if (!/^F\d{1,6}$/.test(id)) {
+      this.spErreur = 'Identifiant invalide : utilisez le format F2231.';
+      return;
+    }
+
+    this.spChargement = true;
+    this.spErreur = '';
+    this.spApercu = null;
+
+    this.http.get<{ fiche: FicheServicePublic; categorieSuggereeId: number | null }>(
+      `${this.spUrl}/fiches/${id}`, { headers: this.getHeaders() }
+    ).subscribe({
+        next: ({ fiche, categorieSuggereeId }) => {
+          this.spChargement = false;
+          this.spApercu = fiche;
+          this.spFicheId = fiche.id;
+
+          // Catégorie pré-sélectionnée d'après le thème de la fiche (modifiable).
+          this.spCategorieId = categorieSuggereeId;
+          this.spCategorieSuggeree = categorieSuggereeId !== null;
+        },
+        error: (error) => {
+          this.spChargement = false;
+          this.spErreur = error.error?.message || 'Impossible de récupérer cette fiche.';
+        }
+      });
+  }
+
+  fermerApercu(): void {
+    this.spApercu = null;
+    this.spErreur = '';
+  }
+
+  /** Crée la démarche en brouillon à partir de la fiche affichée. */
+  importerFiche(): void {
+    if (!this.spApercu || !this.spCategorieId || this.spImport) {
+      return;
+    }
+
+    this.spImport = true;
+    this.spErreur = '';
+
+    this.http.post<Demarche>(
+      `${this.spUrl}/import`,
+      { ficheId: this.spApercu.id, categorieId: this.spCategorieId },
+      { headers: this.getHeaders() }
+    ).subscribe({
+      next: (demarche) => {
+        this.spImport = false;
+        this.spApercu = null;
+        this.spFicheId = '';
+        this.showMessage(
+          `« ${demarche.titre} » a été importée en brouillon. Relisez-la, ajoutez les documents requis puis publiez-la.`,
+          'success'
+        );
+        this.loadDemarches();
+        this.loadCatalogue();
+      },
+      error: (error) => {
+        this.spImport = false;
+        this.spErreur = error.error?.message || 'L\'import a échoué.';
+      }
+    });
+  }
+
+  /** Lance tout de suite la vérification (elle tourne aussi chaque nuit). */
+  verifierMisesAJour(): void {
+    this.spVerification = true;
+
+    this.http.post<{ misesAJourDetectees: number }>(
+      `${this.spUrl}/verifier`, {}, { headers: this.getHeaders() }
+    ).subscribe({
+      next: (resultat) => {
+        this.spVerification = false;
+        const n = resultat?.misesAJourDetectees ?? 0;
+        this.showMessage(
+          n === 0
+            ? 'Toutes les démarches importées sont à jour.'
+            : `${n} démarche${n > 1 ? 's ont' : ' a'} une mise à jour officielle disponible.`,
+          'success'
+        );
+        this.loadDemarches();
+      },
+      error: (error) => {
+        this.spVerification = false;
+        this.showMessage(error.error?.message || 'La vérification a échoué.', 'error');
+      }
+    });
+  }
+
+  /** Publie ou repasse en brouillon. */
+  changerPublication(demarche: Demarche, statut: 'PUBLIEE' | 'BROUILLON'): void {
+    if (statut === 'BROUILLON'
+        && !confirm(`Dépublier « ${demarche.titre} » ? Elle ne sera plus visible des étudiants.`)) {
+      return;
+    }
+
+    this.actionEnCours = demarche.id;
+
+    this.http.patch<Demarche>(
+      `${this.spUrl}/demarches/${demarche.id}/publication`,
+      {},
+      { headers: this.getHeaders(), params: { statut } }
+    ).subscribe({
+      next: () => {
+        this.actionEnCours = null;
+        this.showMessage(
+          statut === 'PUBLIEE'
+            ? `« ${demarche.titre} » est maintenant visible par les étudiants.`
+            : `« ${demarche.titre} » est repassée en brouillon.`,
+          'success'
+        );
+        this.loadDemarches();
+      },
+      error: (error) => {
+        this.actionEnCours = null;
+        this.showMessage(error.error?.message || 'Action impossible.', 'error');
+      }
+    });
+  }
+
+  /** Remplace description, étapes et liens par la version officielle actuelle. */
+  appliquerMiseAJour(demarche: Demarche): void {
+    if (!confirm(
+      `Appliquer la mise à jour officielle à « ${demarche.titre} » ?\n\n`
+      + 'La description, les étapes et les liens officiels seront remplacés. '
+      + 'Le titre, la catégorie, la date limite et les documents requis sont conservés.'
+    )) {
+      return;
+    }
+
+    this.actionEnCours = demarche.id;
+
+    this.http.post<Demarche>(
+      `${this.spUrl}/demarches/${demarche.id}/mise-a-jour`, {}, { headers: this.getHeaders() }
+    ).subscribe({
+      next: () => {
+        this.actionEnCours = null;
+        this.showMessage(`« ${demarche.titre} » est à jour avec Service-Public.`, 'success');
+        this.loadDemarches();
+      },
+      error: (error) => {
+        this.actionEnCours = null;
+        this.showMessage(error.error?.message || 'La mise à jour a échoué.', 'error');
+      }
+    });
   }
 
 

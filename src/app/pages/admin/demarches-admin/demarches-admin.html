@@ -23,6 +23,176 @@
 
 
   <!-- ======================================================= -->
+  <!-- IMPORT DEPUIS SERVICE-PUBLIC                            -->
+  <!-- ======================================================= -->
+
+  <!--
+    Les fiches officielles de Service-Public (open data DILA,
+    Licence Ouverte) remplissent automatiquement la démarche :
+    description, étapes et liens officiels. Elle est créée en
+    brouillon : l'admin la relit puis la publie.
+  -->
+  <section class="sp-card">
+
+    <div class="sp-header">
+      <div>
+        <span class="sp-label">Gagner du temps</span>
+        <h2>Importer depuis Service-Public</h2>
+        <p>
+          Choisissez une fiche officielle : la description, les étapes et les
+          liens officiels sont remplis automatiquement. La démarche est créée
+          en <strong>brouillon</strong>, invisible des étudiants jusqu'à sa publication.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        class="btn-secondary"
+        [disabled]="spVerification"
+        (click)="verifierMisesAJour()"
+      >
+        {{ spVerification ? 'Vérification…' : '🔄 Vérifier les mises à jour' }}
+      </button>
+    </div>
+
+
+    <!-- Saisie libre d'un identifiant de fiche -->
+    <form class="sp-search" (ngSubmit)="previsualiser(spFicheId)">
+      <label for="sp-fiche-id">Identifiant de fiche</label>
+      <div class="sp-search-row">
+        <input
+          id="sp-fiche-id"
+          name="spFicheId"
+          [(ngModel)]="spFicheId"
+          placeholder="ex. : F2231"
+          maxlength="7"
+          autocomplete="off"
+        >
+        <button type="submit" class="btn-primary" [disabled]="spChargement || !spFicheId.trim()">
+          Aperçu
+        </button>
+      </div>
+      <small>
+        L'identifiant figure dans l'adresse de la fiche :
+        service-public.gouv.fr/particuliers/vosdroits/<strong>F2231</strong>
+      </small>
+    </form>
+
+
+    <!-- Fiches suggérées pour les étudiants internationaux -->
+    @if (spCatalogue.length > 0) {
+      <div class="sp-catalogue">
+        <h3>Fiches utiles aux étudiants internationaux</h3>
+        <div class="sp-chips">
+          @for (fiche of spCatalogue; track fiche.id) {
+            <button
+              type="button"
+              class="sp-chip"
+              [class.imported]="fiche.dejaImportee"
+              [disabled]="fiche.dejaImportee || spChargement"
+              [attr.title]="fiche.dejaImportee ? 'Déjà importée' : fiche.titre"
+              (click)="previsualiser(fiche.id)"
+            >
+              <span class="sp-chip-theme">{{ fiche.theme }}</span>
+              <span class="sp-chip-title">{{ fiche.titre }}</span>
+              @if (fiche.dejaImportee) {
+                <span class="sp-chip-done">✓ importée</span>
+              }
+            </button>
+          }
+        </div>
+      </div>
+    }
+
+
+    @if (spChargement) {
+      <p class="sp-info">Récupération de la fiche sur Service-Public…</p>
+    }
+
+    @if (spErreur) {
+      <p class="sp-error" role="alert">{{ spErreur }}</p>
+    }
+
+
+    <!-- Aperçu de la fiche avant import -->
+    @if (spApercu) {
+      <div class="sp-preview">
+
+        <div class="sp-preview-head">
+          <div>
+            <span class="sp-label">{{ spApercu.id }} · mise à jour le {{ spApercu.dateMaj | date: 'dd/MM/yyyy' }}</span>
+            <h3>{{ spApercu.titre }}</h3>
+          </div>
+          <a [href]="spApercu.url" target="_blank" rel="noopener" class="sp-link">Voir la fiche ↗</a>
+        </div>
+
+        <p class="sp-preview-desc">{{ spApercu.description }}</p>
+
+        <div class="sp-preview-cols">
+          <div>
+            <h4>{{ spApercu.etapes.length }} étape{{ spApercu.etapes.length > 1 ? 's' : '' }}</h4>
+            @if (spApercu.etapes.length === 0) {
+              <p class="sp-muted">Cette fiche n'a pas de sections : ajoutez les étapes à la main après l'import.</p>
+            }
+            <ol>
+              @for (etape of spApercu.etapes; track $index) {
+                <li>{{ etape.titre }}</li>
+              }
+            </ol>
+          </div>
+          <div>
+            <h4>{{ spApercu.liens.length + 1 }} lien{{ spApercu.liens.length ? 's' : '' }} officiel{{ spApercu.liens.length ? 's' : '' }}</h4>
+            <ul>
+              <li>Fiche officielle Service-Public</li>
+              @for (lien of spApercu.liens; track $index) {
+                <li>{{ lien.nom }}</li>
+              }
+            </ul>
+          </div>
+        </div>
+
+        <p class="sp-muted">
+          Les documents requis ne sont pas importés : ajoutez-les depuis
+          « Documents » après l'import.
+        </p>
+
+        <div class="sp-import-row">
+          <label for="sp-categorie">Catégorie</label>
+          <select
+            id="sp-categorie"
+            name="spCategorieId"
+            [(ngModel)]="spCategorieId"
+            (ngModelChange)="spCategorieSuggeree = false"
+          >
+            <option [ngValue]="null">Choisir une catégorie</option>
+            @for (categorie of categories; track categorie.id) {
+              <option [ngValue]="categorie.id">{{ categorie.nom }}</option>
+            }
+          </select>
+
+          @if (spCategorieSuggeree) {
+            <span class="sp-suggest">✨ Suggérée d'après le thème de la fiche</span>
+          }
+
+          <button
+            type="button"
+            class="btn-primary"
+            [disabled]="!spCategorieId || spImport"
+            (click)="importerFiche()"
+          >
+            {{ spImport ? 'Import…' : 'Importer en brouillon' }}
+          </button>
+
+          <button type="button" class="btn-secondary" (click)="fermerApercu()">Annuler</button>
+        </div>
+
+      </div>
+    }
+
+  </section>
+
+
+  <!-- ======================================================= -->
   <!-- FORMULAIRE DE GESTION                                   -->
   <!-- ======================================================= -->
 
@@ -373,6 +543,28 @@
                   {{ demarche.titre }}
                 </h3>
 
+                <!-- Statut de publication et source officielle -->
+                <div class="status-badges">
+                  @if (demarche.statutPublication === 'BROUILLON') {
+                    <span class="badge badge-draft">Brouillon · invisible des étudiants</span>
+                  } @else {
+                    <span class="badge badge-live">Publiée</span>
+                  }
+                  @if (demarche.sourceId) {
+                    <span class="badge badge-source" [attr.title]="'Importée de la fiche ' + demarche.sourceId">
+                      Service-Public {{ demarche.sourceId }}
+                      @if (demarche.sourceDateMaj) {
+                        · {{ demarche.sourceDateMaj | date: 'dd/MM/yyyy' }}
+                      }
+                    </span>
+                  }
+                  @if (demarche.miseAJourDisponible) {
+                    <span class="badge badge-update">
+                      Mise à jour officielle du {{ demarche.sourceDateDisponible | date: 'dd/MM/yyyy' }}
+                    </span>
+                  }
+                </div>
+
 
                 <!-- ============================================= -->
                 <!-- DESCRIPTION COURTE                             -->
@@ -643,6 +835,50 @@
             <!-- ================================================= -->
 
             <div class="demarche-actions">
+
+              <!-- ------------------------------------------------ -->
+              <!-- PUBLICATION / MISE À JOUR OFFICIELLE              -->
+              <!-- ------------------------------------------------ -->
+
+              @if (demarche.statutPublication === 'BROUILLON') {
+                <button
+                  type="button"
+                  class="btn-publish"
+                  [disabled]="actionEnCours === demarche.id"
+                  (click)="changerPublication(demarche, 'PUBLIEE')"
+                >
+                  Publier
+                </button>
+              } @else if (demarche.sourceId) {
+                <button
+                  type="button"
+                  class="btn-unpublish"
+                  [disabled]="actionEnCours === demarche.id"
+                  (click)="changerPublication(demarche, 'BROUILLON')"
+                >
+                  Dépublier
+                </button>
+              }
+
+              @if (demarche.miseAJourDisponible) {
+                <button
+                  type="button"
+                  class="btn-update"
+                  [disabled]="actionEnCours === demarche.id"
+                  (click)="appliquerMiseAJour(demarche)"
+                >
+                  Appliquer la mise à jour
+                </button>
+              }
+
+              <a
+                class="btn-preview"
+                [href]="'/demarches/' + demarche.id"
+                target="_blank"
+                rel="noopener"
+              >
+                Aperçu
+              </a>
 
 
               <!-- ------------------------------------------------ -->

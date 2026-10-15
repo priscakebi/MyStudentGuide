@@ -177,6 +177,22 @@
 
       </div>
 
+      <!--
+        Ajoute celles des 8 catégories de base qui manquent
+        (Séjour & visa, Santé, Logement, Études, Banque & budget,
+        Emploi, Transports, Vie quotidienne). Les existantes ne
+        sont pas modifiées.
+      -->
+      <button
+        type="button"
+        class="btn-secondary"
+        [disabled]="ajoutBase"
+        (click)="ajouterCategoriesDeBase()"
+        title="Séjour & visa, Santé, Logement, Études, Banque & budget, Emploi, Transports, Vie quotidienne"
+      >
+        {{ ajoutBase ? 'Ajout…' : '+ Ajouter les catégories de base' }}
+      </button>
+
     </div>
 
 
