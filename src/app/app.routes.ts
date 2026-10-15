@@ -140,6 +140,7 @@ export const routes: Routes = [
          * /home
          */
         path: 'home',
+        title: "Vos démarches d'étudiant en France",
 
         loadComponent: () =>
           import('./pages/home/home')
@@ -160,6 +161,7 @@ export const routes: Routes = [
          * des démarches administratives.
          */
         path: 'demarches',
+        title: 'Toutes les démarches',
 
         loadComponent: () =>
           import('./pages/demarches/demarches')
@@ -177,6 +179,7 @@ export const routes: Routes = [
          * /demarches/:id
          */
         path: 'demarches/:id',
+        title: 'Démarche',
 
         loadComponent: () =>
           import('./pages/demarche-detail/demarche-detail')
@@ -199,6 +202,7 @@ export const routes: Routes = [
          * Aucun document personnel n'est stocké.
          */
         path: 'documents',
+        title: 'Documents requis',
 
         loadComponent: () =>
           import('./pages/documents/documents')
@@ -219,6 +223,7 @@ export const routes: Routes = [
          * Un utilisateur connecté utilise /dashboard/notifications.
          */
         path: 'notifications',
+        title: 'Notifications',
 
         loadComponent: () =>
           import('./pages/notifications/notifications')
@@ -240,6 +245,7 @@ export const routes: Routes = [
      * Page de connexion.
      */
     path: 'login',
+    title: 'Connexion',
 
     component: Login
   },
@@ -253,6 +259,7 @@ export const routes: Routes = [
      * Page d'inscription.
      */
     path: 'register',
+    title: 'Inscription',
 
     component: Register
   },
@@ -269,6 +276,7 @@ export const routes: Routes = [
      * sinon l'administrateur serait redirigé en boucle.
      */
     path: 'admin-login',
+    title: 'Connexion administrateur',
 
     component: AdminLogin
   },
@@ -286,6 +294,7 @@ export const routes: Routes = [
      * "space" indique s'il s'agit de l'espace étudiant ou administrateur.
      */
     path: 'forgot-password',
+    title: 'Mot de passe oublié',
     data: { space: 'student' },
     loadComponent: () =>
       import('./pages/forgot-password/forgot-password')
@@ -294,6 +303,7 @@ export const routes: Routes = [
 
   {
     path: 'reset-password',
+    title: 'Nouveau mot de passe',
     data: { space: 'student' },
     loadComponent: () =>
       import('./pages/reset-password/reset-password')
@@ -308,6 +318,7 @@ export const routes: Routes = [
      * n'est justement pas connecté lorsqu'il a oublié son mot de passe.
      */
     path: 'admin-forgot-password',
+    title: 'Mot de passe oublié · Administration',
     data: { space: 'admin' },
     loadComponent: () =>
       import('./pages/forgot-password/forgot-password')
@@ -316,6 +327,7 @@ export const routes: Routes = [
 
   {
     path: 'admin-reset-password',
+    title: 'Nouveau mot de passe · Administration',
     data: { space: 'admin' },
     loadComponent: () =>
       import('./pages/reset-password/reset-password')
@@ -340,6 +352,7 @@ export const routes: Routes = [
      * pas accéder directement à son espace.
      */
     path: 'dashboard',
+    title: 'Mon espace',
 
     /*
      * Vérifie que l'utilisateur est connecté.
@@ -368,6 +381,7 @@ export const routes: Routes = [
          * /dashboard/profile
          */
         path: 'profile',
+        title: 'Mon profil',
 
         loadComponent: () =>
           import('./pages/profile/profile')
@@ -388,6 +402,7 @@ export const routes: Routes = [
          * ses démarches personnelles.
          */
         path: 'suivis',
+        title: 'Mes démarches',
 
         loadComponent: () =>
           import('./pages/suivis-demarches/suivis-demarches')
@@ -411,6 +426,7 @@ export const routes: Routes = [
          * /dashboard/suivis
          */
         path: 'demarches',
+        title: 'Mes démarches',
 
         loadComponent: () =>
           import('./pages/suivis-demarches/suivis-demarches')
@@ -428,6 +444,7 @@ export const routes: Routes = [
          * /dashboard/notifications
          */
         path: 'notifications',
+        title: 'Mes notifications',
 
         loadComponent: () =>
           import('./pages/notifications/notifications')
@@ -445,6 +462,7 @@ export const routes: Routes = [
          * /dashboard/account
          */
         path: 'account',
+        title: 'Mon compte',
 
         loadComponent: () =>
           import('./pages/account/account')
@@ -467,6 +485,7 @@ export const routes: Routes = [
    * Cette route est réservée aux administrateurs.
    */
   path: 'admin',
+  title: 'Administration',
 
   /*
    * adminGuard vérifie à la fois que l'utilisateur est connecté
@@ -515,6 +534,7 @@ export const routes: Routes = [
        * /admin/categories-admin
        */
       path: 'categories-admin',
+      title: 'Catégories · Administration',
 
       loadComponent: () =>
         import('./pages/admin/categories-admin/categories-admin')
@@ -532,6 +552,7 @@ export const routes: Routes = [
        * /admin/demarches-admin
        */
       path: 'demarches-admin',
+      title: 'Démarches · Administration',
 
       loadComponent: () =>
         import('./pages/admin/demarches-admin/demarches-admin')
@@ -549,6 +570,7 @@ export const routes: Routes = [
        * /admin/users
        */
       path: 'users',
+      title: 'Utilisateurs · Administration',
 
       loadComponent: () =>
         import('./pages/admin/users-admin/users-admin')
@@ -572,6 +594,7 @@ export const routes: Routes = [
        * n'est stocké.
        */
       path: 'documents',
+      title: 'Documents · Administration',
 
       loadComponent: () =>
         import('./pages/admin/documents-admin/documents-admin')
@@ -589,6 +612,7 @@ export const routes: Routes = [
        * /admin/notifications
        */
       path: 'notifications',
+      title: 'Notifications · Administration',
 
       loadComponent: () =>
         import('./pages/admin/notifications-admin/notifications-admin')
@@ -608,6 +632,7 @@ export const routes: Routes = [
        * Erreurs ou informations obsolètes signalées par les étudiants.
        */
       path: 'signalements',
+      title: 'Signalements · Administration',
 
       loadComponent: () =>
         import('./pages/admin/signalements-admin/signalements-admin')
@@ -629,6 +654,7 @@ export const routes: Routes = [
        * de gérer son mot de passe.
        */
       path: 'account',
+      title: 'Mon compte · Administration',
 
       loadComponent: () =>
         import('./pages/admin/admin-account/admin-account')

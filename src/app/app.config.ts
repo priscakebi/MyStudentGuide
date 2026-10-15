@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
-import { provideRouter } from '@angular/router';
+import { provideRouter, TitleStrategy } from '@angular/router';
 import {
   provideHttpClient,
   withFetch,
@@ -17,6 +17,7 @@ import { routes } from './app.routes';
 // Import de l'interceptor qui ajoute automatiquement
 // le token JWT aux requêtes HTTP.
 import { authInterceptor } from './interceptors/auth.interceptor';
+import { PageTitleStrategy } from './services/page-title.strategy';
 
 // Dates et nombres au format français (« jeudi 15 octobre », « 4,5 »).
 registerLocaleData(localeFr);
@@ -39,6 +40,10 @@ export const appConfig: ApplicationConfig = {
 
     // Configuration du système de routage Angular.
     provideRouter(routes),
+
+    // Titre de l'onglet : « Titre de la page · MyStudentGuide »
+    // (titres déclarés dans app.routes.ts).
+    { provide: TitleStrategy, useExisting: PageTitleStrategy },
 
     // Configuration de HttpClient.
     //

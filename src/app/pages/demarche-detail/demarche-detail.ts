@@ -11,6 +11,7 @@ import {
   StudentDemarcheService
 } from '../../services/student-demarche.service';
 import { nomFichierIcs, telechargerIcs } from '../../utils/calendrier';
+import { PageTitleStrategy } from '../../services/page-title.strategy';
 
 /**
  * Représente un document nécessaire pour effectuer une démarche.
@@ -112,6 +113,7 @@ export class DemarcheDetailComponent implements OnInit {
 
   private authService = inject(AuthService);
   private studentDemarcheService = inject(StudentDemarcheService);
+  private pageTitle = inject(PageTitleStrategy);
 
   /** Seul un étudiant connecté peut commencer la démarche. */
   peutCommencer = false;
@@ -405,6 +407,9 @@ export class DemarcheDetailComponent implements OnInit {
           this.demarche.etapes.sort(
             (a, b) => a.numero - b.numero
           );
+
+          // Onglet : « Carte Vitale · MyStudentGuide ».
+          this.pageTitle.definir(demarche.titre, demarche.description);
 
           /*
            * La requête est terminée.

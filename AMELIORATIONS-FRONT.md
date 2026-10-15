@@ -251,3 +251,13 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
 - Tout est généré dans le navigateur (`src/app/utils/calendrier.ts`) : aucun changement côté API.
 - Limite : c'est une copie ; si l'administrateur change ensuite la date limite, il faut réexporter.
   Certains agendas (Google Agenda en import) ignorent les rappels du fichier.
+
+## 16. Titre de chaque page dans l'onglet du navigateur
+- Chaque page a son propre titre d'onglet, suivi de « · MyStudentGuide » : « Toutes les démarches · MyStudentGuide »,
+  « Mon espace · MyStudentGuide », « Démarches · Administration · MyStudentGuide »…
+- Page d'une démarche : l'onglet prend le nom de la démarche, et la description lue par Google (balise `description`)
+  reprend le début de son texte. Les autres pages gardent la description générale de `index.html`.
+- Les titres sont déclarés dans `app.routes.ts` (propriété `title`) ; le suffixe est ajouté par
+  `src/app/services/page-title.strategy.ts`. Pour une nouvelle page, il suffit d'ajouter `title: '...'` à sa route.
+- Limite : l'application est rendue dans le navigateur. Google exécute le JavaScript et voit donc ces titres,
+  mais d'autres robots (aperçus de liens WhatsApp, Facebook…) ne voient que « MyStudentGuide ».
