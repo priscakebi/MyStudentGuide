@@ -1,7 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router, RouterLink } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { AuthService } from '../../services/auth.service';
 import { StudentDemarcheService } from '../../services/student-demarche.service';
 
 
@@ -39,7 +41,10 @@ interface Notification {
   /** Suivi de démarche concerné (rappel de J+10). */
   studentDemarcheId?: number | null;
 
-  /** Action attendue : CONFIRMER_DOCUMENTS. */
+  /** Démarche suggérée (action SUGGESTION_DEMARCHE). */
+  demarcheId?: number | null;
+
+  /** Action attendue : CONFIRMER_DOCUMENTS ou SUGGESTION_DEMARCHE. */
   action?: string | null;
 
   /** Vrai lorsque l'étudiant a déjà répondu. */
@@ -69,7 +74,8 @@ interface Notification {
   standalone: true,
 
   imports: [
-    CommonModule
+    CommonModule,
+    RouterLink
   ],
 
   templateUrl: './notifications.html',
@@ -80,6 +86,14 @@ interface Notification {
 export class Notifications implements OnInit {
 
   private studentDemarcheService = inject(StudentDemarcheService);
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
+  /**
+   * Visiteur non connecté (route publique /notifications) :
+   * on l'invite à se connecter au lieu d'appeler l'API.
+   */
+  estVisiteur = false;
 
   /** Notification pour laquelle une réponse est en cours d'envoi. */
   answeringId: number | null = null;
@@ -144,6 +158,12 @@ export class Notifications implements OnInit {
    * lorsque le composant est chargé.
    */
   ngOnInit(): void {
+
+    this.estVisiteur = !this.authService.isLoggedIn();
+
+    if (this.estVisiteur) {
+      return;
+    }
 
     this.loadNotifications();
 
@@ -610,6 +630,63 @@ export class Notifications implements OnInit {
    * - Oui : la progression de la démarche passe à 50 % ;
    * - Pas encore : la question sera reposée dans 10 jours.
    */
+  // ============================================================
+  // SUGGESTIONS DE DÉMARCHES
+  // ============================================================
+
+  /** Notification de suggestion : affiche « Voir plus » / « Commencer ». */
+  estSuggestion(notification: Notification): boolean {
+    return notification.action === 'SUGGESTION_DEMARCHE'
+      && !!notification.demarcheId;
+  }
+
+  /** Vrai tant que l'étudiant n'a pas commencé la démarche suggérée. */
+  suggestionOuverte(notification: Notification): boolean {
+    return !notification.actionTraitee;
+  }
+
+  /** « Voir plus » : ouvre le détail de la démarche suggérée. */
+  voirDemarche(notification: Notification): void {
+    if (notification.demarcheId) {
+      this.markAsRead(notification);
+      this.router.navigate(['/demarches', notification.demarcheId]);
+    }
+  }
+
+  /**
+   * « Commencer » : crée le suivi de la démarche suggérée.
+   * Elle apparaît ensuite dans « Mes démarches » du dashboard.
+   */
+  commencerSuggestion(notification: Notification): void {
+    if (!notification.demarcheId || this.answeringId !== null) {
+      return;
+    }
+
+    this.answeringId = notification.id ?? null;
+    this.answerMessage = '';
+    this.answerError = '';
+
+    this.studentDemarcheService
+      .commencer(notification.demarcheId)
+      .subscribe({
+        next: (suivi) => {
+          this.answeringId = null;
+          // Le backend clôt la suggestion : on reflète l'état sans recharger.
+          notification.actionTraitee = true;
+          notification.lu = true;
+          this.answerMessage =
+            `« ${suivi?.demarche?.titre ?? 'La démarche'} » a été ajoutée à vos démarches.`;
+          this.loadUnreadCount();
+        },
+        error: (error) => {
+          this.answeringId = null;
+          this.answerError =
+            error.error?.message || 'Impossible de commencer cette démarche.';
+        }
+      });
+  }
+
+
   repondreDocuments(notification: Notification, envoyes: boolean): void {
 
     if (!notification.studentDemarcheId || this.answeringId !== null) {

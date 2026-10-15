@@ -441,7 +441,7 @@
             </span>
 
             <h3>
-              Démarches attribuées
+              Démarches suivies
             </h3>
 
           </div>
@@ -557,12 +557,12 @@
             </div>
 
             <h4>
-              Aucune démarche attribuée
+              Aucune démarche suivie
             </h4>
 
             <p>
-              Cet étudiant n'a encore aucune démarche
-              administrative à effectuer.
+              Cet étudiant n'a encore commencé aucune démarche
+              administrative.
             </p>
 
           </div>
@@ -590,11 +590,11 @@
             <div>
 
               <span class="section-label">
-                Attribution
+                Suggestion
               </span>
 
               <h3>
-                Attribuer une démarche
+                Suggérer une démarche
               </h3>
 
             </div>
@@ -651,7 +651,7 @@
             <button
               type="button"
               class="assign-button"
-              (click)="assignDemarche(selectedDemarcheId)"
+              (click)="suggererDemarche(selectedDemarcheId)"
               [disabled]="
                 assigningDemarche ||
                 !selectedDemarcheId
@@ -661,13 +661,13 @@
               @if (assigningDemarche) {
 
                 <span>
-                  Attribution...
+                  Envoi...
                 </span>
 
               } @else {
 
                 <span>
-                  + Attribuer la démarche
+                  + Envoyer la suggestion
                 </span>
 
               }
@@ -693,8 +693,8 @@
               </span>
 
               <p>
-                Toutes les démarches disponibles sont
-                déjà attribuées à cet étudiant.
+                Toutes les démarches sont
+                déjà commencées par cet étudiant.
               </p>
 
             </div>

@@ -1,5 +1,7 @@
 <!-- ============================================================
      PAGE : MES DÉMARCHES
+     Toutes les démarches de l'application, visibles par tous.
+     Seul un étudiant connecté peut cliquer sur « Commencer ».
      ============================================================ -->
 
 <div class="demarches-page">
@@ -14,21 +16,18 @@
     <!-- Contenu textuel du hero -->
     <div class="hero-content">
 
-      <!-- Petit label -->
       <span class="hero-label">
-        MON ESPACE ADMINISTRATIF
+        DÉMARCHES ADMINISTRATIVES
       </span>
 
-      <!-- Titre principal -->
       <h1>
         Mes démarches
       </h1>
 
-      <!-- Description -->
       <p>
-        Retrouvez ici les démarches administratives
-        qui vous concernent et suivez leur progression
-        simplement.
+        Retrouvez toutes les démarches administratives de
+        l'étudiant international, consultez leurs étapes
+        et commencez celles qui vous concernent.
       </p>
 
     </div>
@@ -37,13 +36,10 @@
     <!-- Illustration décorative -->
     <div class="hero-visual">
 
-      <!-- Cercles décoratifs -->
       <div class="circle circle-one"></div>
 
       <div class="circle circle-two"></div>
 
-
-      <!-- Carte illustrative -->
       <div class="hero-card">
 
         <div class="hero-card-icon">
@@ -53,7 +49,7 @@
         <div class="hero-card-text">
 
           <strong>
-            Vos démarches
+            Toutes les démarches
           </strong>
 
           <span>
@@ -85,21 +81,98 @@
       <div>
 
         <span class="section-label">
-          VOTRE SUIVI
+          CATALOGUE
         </span>
 
         <h2>
-          Les démarches qui vous concernent
+          Toutes les démarches
         </h2>
 
         <p>
-          Consultez l'état de chaque démarche et
-          accédez aux informations nécessaires.
+          Cliquez sur « Voir plus » pour le détail d'une démarche,
+          ou sur « Commencer » pour l'ajouter à votre suivi.
         </p>
 
       </div>
 
     </div>
+
+
+    <!-- ========================================================
+         VISITEUR : INVITATION À SE CONNECTER
+         ======================================================== -->
+
+    @if (estVisiteur) {
+
+      <div class="login-hint">
+
+        <p>
+          Vous pouvez consulter toutes les démarches.
+          Pour en commencer une et suivre votre progression,
+          connectez-vous ou créez un compte étudiant.
+        </p>
+
+        <div class="login-hint-actions">
+
+          <a
+            routerLink="/login"
+            [queryParams]="{ returnUrl: '/demarches' }"
+            class="button button-primary"
+          >
+            Se connecter
+          </a>
+
+          <a
+            routerLink="/register"
+            class="button button-secondary"
+          >
+            Créer un compte
+          </a>
+
+        </div>
+
+      </div>
+
+    }
+
+
+    <!-- ========================================================
+         FILTRE PAR CATÉGORIE
+         ======================================================== -->
+
+    @if (!isLoading && categories.length > 1) {
+
+      <div
+        class="category-filters"
+        role="group"
+        aria-label="Filtrer par catégorie"
+      >
+
+        <button
+          type="button"
+          class="category-chip"
+          [class.active]="categorieFiltre === null"
+          (click)="choisirCategorie(null)"
+        >
+          Toutes
+        </button>
+
+        @for (categorie of categories; track categorie.id) {
+
+          <button
+            type="button"
+            class="category-chip"
+            [class.active]="categorieFiltre === categorie.id"
+            (click)="choisirCategorie(categorie.id)"
+          >
+            {{ categorie.nom }}
+          </button>
+
+        }
+
+      </div>
+
+    }
 
 
     <!-- ========================================================
@@ -110,15 +183,14 @@
 
       <div class="state-card loading-card">
 
-        <!-- Spinner -->
         <div class="spinner"></div>
 
         <h3>
-          Chargement de vos démarches...
+          Chargement des démarches...
         </h3>
 
         <p>
-          Nous récupérons vos démarches.
+          Nous récupérons la liste des démarches.
         </p>
 
       </div>
@@ -139,7 +211,7 @@
         </div>
 
         <h3>
-          Impossible de charger vos démarches
+          Impossible de charger les démarches
         </h3>
 
         <p>
@@ -149,7 +221,7 @@
         <button
           type="button"
           class="button button-primary"
-          (click)="loadStudentDemarches()"
+          (click)="loadDemarches()"
         >
           Réessayer
         </button>
@@ -166,7 +238,7 @@
     @if (
       !isLoading &&
       !errorMessage &&
-      studentDemarches.length === 0
+      demarches.length === 0
     ) {
 
       <div class="state-card empty-card">
@@ -180,18 +252,13 @@
         </h3>
 
         <p>
-          Vous n'avez actuellement aucune démarche
-          administrative à suivre.
+          Aucune démarche n'est disponible pour le moment.
         </p>
 
       </div>
 
     }
 
-
-    <!-- ========================================================
-         LISTE DES DÉMARCHES
-         ======================================================== -->
 
     <!-- Messages après « Commencer » / « Donner mon avis » -->
     @if (actionMessage) {
@@ -203,169 +270,140 @@
     }
 
 
+    <!-- ========================================================
+         LISTE DES DÉMARCHES
+         ======================================================== -->
+
     @if (
       !isLoading &&
       !errorMessage &&
-      studentDemarches.length > 0
+      demarches.length > 0
     ) {
 
       <div class="demarches-list">
 
-
-        <!-- ====================================================
-             CARTE D'UNE DÉMARCHE
-             ==================================================== -->
-
         @for (
-          studentDemarche of studentDemarches;
-          track studentDemarche.id
+          demarche of demarchesFiltrees;
+          track demarche.id
         ) {
+
+          @let suivi = suiviDe(demarche);
 
           <article class="demarche-card">
 
 
-            <!-- ------------------------------------------------
-                 NUMÉRO
-                 ------------------------------------------------ -->
-
+            <!-- Numéro -->
             <div class="demarche-number">
-
               {{ $index + 1 }}
-
             </div>
 
 
-            <!-- ------------------------------------------------
-                 CONTENU DE LA CARTE
-                 ------------------------------------------------ -->
-
+            <!-- Contenu de la carte -->
             <div class="demarche-info">
 
+              <div class="demarche-badges">
 
-              <!-- ----------------------------------------------
-                   STATUT
-                   ---------------------------------------------- -->
+                @if (demarche.categorie) {
+                  <span class="category-badge">
+                    {{ demarche.categorie.nom }}
+                  </span>
+                }
 
-              <span
-                class="status-badge"
-                [ngClass]="
-                  getStatusClass(studentDemarche.statut)
-                "
-              >
+                @if (suivi?.statut === 'EN_COURS') {
+                  <span class="status-badge status-en-cours">
+                    En cours
+                  </span>
+                }
 
-                {{ getStatusLabel(studentDemarche.statut) }}
+                @if (suivi?.statut === 'TERMINEE') {
+                  <span class="status-badge status-terminee">
+                    Terminée
+                  </span>
+                }
 
-              </span>
-
-
-              <!-- ----------------------------------------------
-                   TITRE
-                   ---------------------------------------------- -->
+              </div>
 
               <h3>
-                {{ studentDemarche.demarche.titre }}
+                {{ demarche.titre }}
               </h3>
 
-
-              <!-- ----------------------------------------------
-                   DESCRIPTION
-                   ---------------------------------------------- -->
-
               <p>
-                {{ studentDemarche.demarche.description }}
+                {{ demarche.description }}
               </p>
 
-
-              <!-- ----------------------------------------------
-                   IDENTIFIANT
-                   ---------------------------------------------- -->
-
-              <span class="demarche-reference">
-
-                Démarche #{{ studentDemarche.demarche.id }}
-
-              </span>
+              @if (demarche.dateLimite) {
+                <span class="demarche-reference">
+                  Date limite : {{ demarche.dateLimite | date: 'dd/MM/yyyy' }}
+                </span>
+              }
 
             </div>
 
 
-            <!-- ------------------------------------------------
-                 ACTIONS
-                 ------------------------------------------------ -->
-
+            <!-- Actions -->
             <div class="demarche-actions">
-
-
-              <!-- Bouton détails -->
 
               <button
                 type="button"
                 class="button button-secondary"
-                (click)="voirPlus(studentDemarche)"
+                (click)="voirPlus(demarche)"
               >
-
-                Voir les détails
-
-                <span class="button-arrow">
-                  →
-                </span>
-
+                Voir plus
+                <span class="button-arrow">→</span>
               </button>
 
 
-              <!-- ----------------------------------------------
-                   BOUTON COMMENCER
-                   ---------------------------------------------- -->
-
-              @if (
-                studentDemarche.statut === 'A_FAIRE' ||
-                studentDemarche.statut === 'EN_COURS'
-              ) {
+              @if (suivi?.statut === 'EN_COURS') {
 
                 <button
                   type="button"
                   class="button button-primary"
-                  [disabled]="updatingId === studentDemarche.id"
-                  (click)="commencerDemarche(studentDemarche)"
+                  (click)="continuer()"
                 >
-
-                  @if (
-                    studentDemarche.statut === 'A_FAIRE'
-                  ) {
-                    Commencer
-                  } @else {
-                    Continuer
-                  }
-
+                  Continuer
                 </button>
 
-              }
-
-
-              <!-- ----------------------------------------------
-                   DÉMARCHE TERMINÉE
-                   ---------------------------------------------- -->
-
-              @if (
-                studentDemarche.statut === 'TERMINEE'
-              ) {
+              } @else if (suivi?.statut === 'TERMINEE') {
 
                 <span class="completed-label">
                   ✓ Démarche terminée
                 </span>
 
-                @if (!studentDemarche.avisDonne) {
+                @if (!suivi!.avisDonne) {
                   <button
                     type="button"
                     class="button button-primary"
-                    (click)="ouvrirAvis(studentDemarche)"
+                    (click)="ouvrirAvis(suivi!)"
                   >
                     ★ Donner mon avis
                   </button>
                 }
 
-              }
+              } @else {
 
+                <!--
+                  Désactivé pour un visiteur ou un administrateur :
+                  seuls les étudiants connectés peuvent commencer.
+                -->
+                <button
+                  type="button"
+                  class="button button-primary"
+                  [disabled]="!peutCommencer || updatingId === demarche.id"
+                  [attr.title]="
+                    peutCommencer
+                      ? null
+                      : 'Connectez-vous avec un compte étudiant pour commencer'
+                  "
+                  (click)="commencer(demarche)"
+                >
+                  @if (updatingId === demarche.id) {
+                    Ajout...
+                  } @else {
+                    Commencer
+                  }
+                </button>
+
+              }
 
             </div>
 
@@ -379,13 +417,14 @@
 
 
     <!-- ========================================================
-         SECTION DE SUIVI
+         SECTION DE SUIVI (étudiant connecté)
          ======================================================== -->
 
     @if (
+      peutCommencer &&
       !isLoading &&
       !errorMessage &&
-      studentDemarches.length > 0
+      suivis.size > 0
     ) {
 
       <section class="tracking-section">
@@ -393,7 +432,6 @@
         <div class="tracking-icon">
           ✓
         </div>
-
 
         <div class="tracking-content">
 
@@ -408,25 +446,19 @@
             </h2>
 
             <p>
-              Retrouvez votre progression et les informations
-              importantes depuis votre espace personnel.
+              Retrouvez les démarches que vous avez commencées
+              et votre progression depuis votre espace personnel.
             </p>
 
           </div>
 
-
           <button
             type="button"
             class="button tracking-button"
-            (click)="suivreMesDemarches()"
+            (click)="continuer()"
           >
-
             Mon espace
-
-            <span class="button-arrow">
-              →
-            </span>
-
+            <span class="button-arrow">→</span>
           </button>
 
         </div>

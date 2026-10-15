@@ -876,6 +876,140 @@ $transition: 0.25s ease;
 
 
 // ============================================================
+// BOUTONS : LIENS ET ÉTAT DÉSACTIVÉ
+// ============================================================
+
+a.button {
+  text-decoration: none;
+}
+
+// « Commencer » est désactivé pour les visiteurs et les administrateurs.
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+
+// ============================================================
+// INVITATION À SE CONNECTER (visiteur)
+// ============================================================
+
+.login-hint {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+
+  margin-bottom: 24px;
+  padding: 18px 22px;
+
+  border: 1px solid #cbd9f5;
+  border-radius: 14px;
+
+  background: $blue-light;
+
+  p {
+    flex: 1 1 320px;
+    margin: 0;
+
+    color: $text;
+
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+}
+
+.login-hint-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+
+// ============================================================
+// FILTRE PAR CATÉGORIE
+// ============================================================
+
+.category-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+
+  margin-bottom: 24px;
+}
+
+.category-chip {
+  padding: 8px 14px;
+
+  border: 1px solid $border;
+  border-radius: 50px;
+
+  background: $white;
+
+  color: $text;
+
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background $transition,
+    border-color $transition,
+    color $transition;
+
+  &:hover {
+    border-color: #cbd9f5;
+    color: $blue;
+  }
+
+  &.active {
+    border-color: $blue;
+    background: $blue;
+    color: $white;
+  }
+}
+
+
+// ============================================================
+// BADGES DE LA CARTE (catégorie + statut de l'étudiant)
+// ============================================================
+
+.demarche-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+
+  .status-badge {
+    margin-bottom: 0;
+  }
+}
+
+.demarche-badges:not(:empty) {
+  margin-bottom: 14px;
+}
+
+.category-badge {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 6px 11px;
+
+  border-radius: 50px;
+
+  background: $purple-light;
+
+  color: $purple;
+
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+
+// ============================================================
 // TABLETTE
 // ============================================================
 

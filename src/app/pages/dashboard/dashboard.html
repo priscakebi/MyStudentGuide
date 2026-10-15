@@ -416,12 +416,25 @@
               <div class="progress-fill" [style.width.%]="progressionGlobale"></div>
             </div>
 
+            <!-- Seules les démarches commencées sont suivies : plus de « à faire ». -->
             <ul class="progress-stats">
-              <li><span class="dot todo"></span>{{ demarchesAFaire }} à faire</li>
               <li><span class="dot doing"></span>{{ demarchesEnCours }} en cours</li>
               <li><span class="dot done"></span>{{ demarchesTerminees }} terminée{{ demarchesTerminees > 1 ? 's' : '' }}</li>
             </ul>
 
+          </div>
+
+        } @else if (progressionChargee) {
+
+          <!-- Aucune démarche commencée : on oriente vers le catalogue. -->
+          <div class="progress-card">
+            <div class="progress-card-header">
+              <div>
+                <span class="progress-card-label">MA PROGRESSION</span>
+                <strong>Vous n'avez commencé aucune démarche</strong>
+              </div>
+              <a routerLink="/demarches" class="progress-card-link">Voir les démarches →</a>
+            </div>
           </div>
 
         }

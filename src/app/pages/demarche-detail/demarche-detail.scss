@@ -191,6 +191,70 @@ box-shadow:
 0 8px 18px rgba(29, 78, 216, 0.2);
 }
 
+/* Désactivé : visiteur ou administrateur (seuls les étudiants commencent). */
+.primary-button:disabled {
+opacity: 0.5;
+
+cursor: not-allowed;
+
+transform: none;
+
+box-shadow: none;
+}
+
+/* =========================================================
+COMMENCER LA DÉMARCHE
+========================================================= */
+
+.start-section {
+display: flex;
+align-items: center;
+flex-wrap: wrap;
+
+gap: 12px;
+
+margin-top: 24px;
+}
+
+.start-status {
+display: inline-flex;
+align-items: center;
+
+min-height: 46px;
+
+padding: 0 16px;
+
+border-radius: 10px;
+
+background: #e8f7ed;
+color: #16803c;
+
+font-size: 14px;
+font-weight: 700;
+}
+
+.start-login-link {
+color: #1d4ed8;
+
+font-size: 14px;
+font-weight: 600;
+}
+
+.start-message {
+flex-basis: 100%;
+
+margin: 0;
+padding: 10px 14px;
+
+border-radius: 10px;
+
+font-size: 14px;
+font-weight: 600;
+
+&.success { background: #eaf8f2; color: #16845b; }
+&.error { background: #fff0f1; color: #c92535; }
+}
+
 /* =========================================================
 EN-TÊTE DE LA DÉMARCHE
 ========================================================= */

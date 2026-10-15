@@ -873,10 +873,10 @@ export class UsersAdmin implements OnInit {
    * DEMARCHES DISPONIBLES POUR L'ETUDIANT
    * ============================================================
    *
-   * Retourne uniquement les démarches qui ne sont pas
-   * encore attribuées à l'étudiant sélectionné.
+   * Retourne uniquement les démarches que l'étudiant
+   * sélectionné n'a pas encore commencées.
    *
-   * Cela évite de proposer deux fois la même démarche.
+   * Inutile de suggérer une démarche déjà en cours ou terminée.
    */
   get availableDemarches(): Demarche[] {
 
@@ -891,12 +891,18 @@ export class UsersAdmin implements OnInit {
 
     /**
      * Création d'une liste contenant les IDs
-     * des démarches déjà attribuées.
+     * des démarches déjà commencées.
      */
     const assignedDemarcheIds =
-      this.studentDemarches.map(
-        studentDemarche => studentDemarche.demarche.id
-      );
+      this.studentDemarches
+        .filter(
+          studentDemarche =>
+            studentDemarche.statut === 'EN_COURS' ||
+            studentDemarche.statut === 'TERMINEE'
+        )
+        .map(
+          studentDemarche => studentDemarche.demarche.id
+        );
 
 
     /**
@@ -913,26 +919,22 @@ export class UsersAdmin implements OnInit {
 
   /**
    * ============================================================
-   * ATTRIBUER UNE DEMARCHE
+   * SUGGÉRER UNE DEMARCHE
    * ============================================================
+   *
+   * Les démarches ne sont plus attribuées : l'étudiant reçoit
+   * une notification de suggestion (boutons « Voir plus » et
+   * « Commencer »). Aucun suivi n'est créé tant qu'il n'a pas
+   * cliqué sur « Commencer ».
    *
    * Endpoint :
    *
-   * POST /api/student-demarches/assign
-   *
-   * Paramètres :
-   *
-   * studentProfileId
-   * demarcheId
-   *
-   * Exemple :
-   *
-   * POST /api/student-demarches/assign
+   * POST /api/student-demarches/suggest
    * ?studentProfileId=1&demarcheId=5
    *
    * @param demarcheId identifiant de la démarche
    */
-  assignDemarche(demarcheId: number | null): void {
+  suggererDemarche(demarcheId: number | null): void {
 
     /**
      * Vérification de l'étudiant sélectionné.
@@ -1012,9 +1014,9 @@ export class UsersAdmin implements OnInit {
      * Les deux paramètres sont envoyés
      * dans l'URL sous forme de query parameters.
      */
-    this.http.post<StudentDemarche>(
+    this.http.post(
 
-      `${this.apiUrl}/student-demarches/assign`,
+      `${this.apiUrl}/student-demarches/suggest`,
 
       {},
 
@@ -1026,15 +1028,15 @@ export class UsersAdmin implements OnInit {
     ).subscribe({
 
       /**
-       * Attribution réussie.
+       * Suggestion envoyée.
        */
-      next: (response) => {
+      next: () => {
 
         /**
          * Message de confirmation.
          */
         this.successMessage =
-          'La démarche a été attribuée avec succès.';
+          'La suggestion a été envoyée à l’étudiant.';
 
 
         /**
@@ -1044,27 +1046,15 @@ export class UsersAdmin implements OnInit {
 
 
         /**
-         * Fin de l'état d'attribution.
+         * Fin de l'état d'envoi.
          */
         this.assigningDemarche = false;
-
-
-        /**
-         * Recharge les démarches de l'étudiant.
-         *
-         * Cela permet notamment de faire disparaître
-         * immédiatement la démarche de la liste
-         * des démarches disponibles.
-         */
-        this.loadStudentDemarches(
-          this.selectedStudentProfileId!
-        );
 
       },
 
 
       /**
-       * Erreur lors de l'attribution.
+       * Erreur lors de l'envoi.
        */
       error: (error) => {
 
@@ -1072,16 +1062,18 @@ export class UsersAdmin implements OnInit {
          * Affichage de l'erreur dans la console.
          */
         console.error(
-          'Erreur lors de l’attribution de la démarche :',
+          'Erreur lors de la suggestion de la démarche :',
           error
         );
 
 
         /**
-         * Message affiché à l'administrateur.
+         * Message affiché à l'administrateur
+         * (ex. : « déjà commencée », « déjà suggérée »).
          */
         this.errorMessage =
-          'Impossible d’attribuer cette démarche. Elle est peut-être déjà attribuée à cet étudiant.';
+          error.error?.message ||
+          'Impossible d’envoyer cette suggestion.';
 
 
         /**

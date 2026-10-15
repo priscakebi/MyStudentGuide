@@ -147,6 +147,67 @@ class="back-button"
 
   </div>
 
+  <!-- -------------------------------------------------------
+       COMMENCER LA DÉMARCHE
+       Réservé aux étudiants connectés ; un visiteur est
+       invité à se connecter.
+       ------------------------------------------------------- -->
+  <div class="start-section">
+
+    @if (suivi?.statut === 'EN_COURS' || suivi?.statut === 'TERMINEE') {
+
+      <span class="start-status">
+        {{ suivi?.statut === 'TERMINEE' ? '✓ Démarche terminée' : '✓ Démarche commencée' }}
+      </span>
+
+      <button type="button" class="primary-button" (click)="ouvrirSuivi()">
+        Voir mon suivi
+      </button>
+
+    } @else if (peutCommencer) {
+
+      <button
+        type="button"
+        class="primary-button"
+        [disabled]="enCours"
+        (click)="commencer()"
+      >
+        {{ enCours ? 'Ajout...' : 'Commencer cette démarche' }}
+      </button>
+
+    } @else {
+
+      <button
+        type="button"
+        class="primary-button"
+        disabled
+        title="Connectez-vous avec un compte étudiant pour commencer"
+      >
+        Commencer cette démarche
+      </button>
+
+      @if (estVisiteur) {
+        <a
+          routerLink="/login"
+          [queryParams]="{ returnUrl: '/demarches/' + demarche.id }"
+          class="start-login-link"
+        >
+          Connectez-vous pour commencer
+        </a>
+      }
+
+    }
+
+    @if (messageAction) {
+      <p class="start-message success" role="status">{{ messageAction }}</p>
+    }
+
+    @if (erreurAction) {
+      <p class="start-message error" role="alert">{{ erreurAction }}</p>
+    }
+
+  </div>
+
 </section>
 
 

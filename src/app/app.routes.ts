@@ -57,6 +57,9 @@ import { adminGuard } from './guards/admin.guard';
  *    - /demarches
  *    - /demarches/:id
  *    - /documents
+ *    - /notifications (invite le visiteur à se connecter)
+ *
+ *    Ces pages sont accessibles à tous, inscrits ou non.
  *
  * 2. AUTHENTIFICATION
  *    - /login
@@ -158,9 +161,6 @@ export const routes: Routes = [
          */
         path: 'demarches',
 
-        // Réservé aux utilisateurs connectés : un visiteur anonyme n'a accès qu'à l'accueil.
-        canActivate: [authGuard],
-
         loadComponent: () =>
           import('./pages/demarches/demarches')
             .then(m => m.Demarches)
@@ -177,9 +177,6 @@ export const routes: Routes = [
          * /demarches/:id
          */
         path: 'demarches/:id',
-
-        // Réservé aux utilisateurs connectés : un visiteur anonyme n'a accès qu'à l'accueil.
-        canActivate: [authGuard],
 
         loadComponent: () =>
           import('./pages/demarche-detail/demarche-detail')
@@ -203,12 +200,29 @@ export const routes: Routes = [
          */
         path: 'documents',
 
-        // Réservé aux utilisateurs connectés : un visiteur anonyme n'a accès qu'à l'accueil.
-        canActivate: [authGuard],
-
         loadComponent: () =>
           import('./pages/documents/documents')
             .then(m => m.Documents)
+      },
+
+
+      // ====================================================================
+      // NOTIFICATIONS (lien de la navbar pour un visiteur)
+      // ====================================================================
+
+      {
+        /*
+         * URL :
+         * /notifications
+         *
+         * Accessible à tous : un visiteur y est invité à se connecter.
+         * Un utilisateur connecté utilise /dashboard/notifications.
+         */
+        path: 'notifications',
+
+        loadComponent: () =>
+          import('./pages/notifications/notifications')
+            .then(m => m.Notifications)
       }
     ]
   },

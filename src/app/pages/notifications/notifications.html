@@ -6,10 +6,55 @@
 
 
   <!-- ============================================================
+       VISITEUR NON CONNECTÉ
+       ============================================================ -->
+
+  @if (estVisiteur) {
+
+    <div class="empty-state visitor-state">
+
+      <div class="empty-icon">
+        🔔
+      </div>
+
+      <h2>
+        Vos notifications
+      </h2>
+
+      <p>
+        Connectez-vous pour recevoir vos rappels d'échéance
+        et des suggestions de démarches adaptées à votre profil.
+      </p>
+
+      <div class="visitor-actions">
+
+        <a
+          routerLink="/login"
+          [queryParams]="{ returnUrl: '/dashboard/notifications' }"
+          class="visitor-primary"
+        >
+          Se connecter
+        </a>
+
+        <a
+          routerLink="/register"
+          class="visitor-secondary"
+        >
+          Créer un compte
+        </a>
+
+      </div>
+
+    </div>
+
+  }
+
+
+  <!-- ============================================================
        VUE DÉTAIL D'UNE NOTIFICATION
        ============================================================ -->
 
-  @if (selectedNotification) {
+  @if (!estVisiteur && selectedNotification) {
 
     <div class="notification-detail">
 
@@ -108,6 +153,18 @@
           </div>
         }
 
+        <!-- Suggestion de démarche : Voir plus / Commencer -->
+        @if (estSuggestion(selectedNotification)) {
+          <div class="documents-answers">
+            <button type="button" class="answer-no" (click)="voirDemarche(selectedNotification)">Voir plus</button>
+            @if (suggestionOuverte(selectedNotification)) {
+              <button type="button" class="answer-yes" [disabled]="answeringId !== null" (click)="commencerSuggestion(selectedNotification)">Commencer</button>
+            } @else {
+              <span class="suggestion-done">✓ Démarche commencée</span>
+            }
+          </div>
+        }
+
         @if (answerMessage) {
           <p class="answer-feedback success" role="status">{{ answerMessage }}</p>
         }
@@ -163,7 +220,7 @@
        VUE LISTE DES NOTIFICATIONS
        ============================================================ -->
 
-  @if (!selectedNotification) {
+  @if (!estVisiteur && !selectedNotification) {
 
 
     <!-- ============================= -->
@@ -389,6 +446,18 @@
                 <div class="documents-answers" (click)="$event.stopPropagation()">
                   <button type="button" class="answer-yes" [disabled]="answeringId !== null" (click)="repondreDocuments(notification, true)">Oui, c'est fait</button>
                   <button type="button" class="answer-no" [disabled]="answeringId !== null" (click)="repondreDocuments(notification, false)">Pas encore</button>
+                </div>
+              }
+
+              <!-- Suggestion de démarche : Voir plus / Commencer -->
+              @if (estSuggestion(notification)) {
+                <div class="documents-answers" (click)="$event.stopPropagation()">
+                  <button type="button" class="answer-no" (click)="voirDemarche(notification)">Voir plus</button>
+                  @if (suggestionOuverte(notification)) {
+                    <button type="button" class="answer-yes" [disabled]="answeringId !== null" (click)="commencerSuggestion(notification)">Commencer</button>
+                  } @else {
+                    <span class="suggestion-done">✓ Démarche commencée</span>
+                  }
                 </div>
               }
 

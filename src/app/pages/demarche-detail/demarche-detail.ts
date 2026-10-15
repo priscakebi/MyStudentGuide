@@ -1,8 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit, inject } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../environments/environment';
+import { AuthService } from '../../services/auth.service';
+import {
+  StudentDemarche,
+  StudentDemarcheService
+} from '../../services/student-demarche.service';
 
 /**
  * Représente un document nécessaire pour effectuer une démarche.
@@ -68,7 +73,7 @@ interface DemarcheDetail {
 @Component({
   selector: 'app-demarche-detail',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './demarche-detail.html',
   styleUrl: './demarche-detail.scss'
 })
@@ -98,6 +103,24 @@ export class DemarcheDetailComponent implements OnInit {
    */
   erreur = '';
 
+  private authService = inject(AuthService);
+  private studentDemarcheService = inject(StudentDemarcheService);
+
+  /** Seul un étudiant connecté peut commencer la démarche. */
+  peutCommencer = false;
+
+  /** Visiteur non connecté : affiche le lien « Connectez-vous ». */
+  estVisiteur = true;
+
+  /** Suivi de cette démarche par l'étudiant connecté (s'il l'a commencée). */
+  suivi: StudentDemarche | null = null;
+
+  /** Requête « Commencer » en cours (évite le double clic). */
+  enCours = false;
+
+  messageAction = '';
+  erreurAction = '';
+
   /**
    * Constructeur du composant.
    *
@@ -121,7 +144,62 @@ export class DemarcheDetailComponent implements OnInit {
    * Elle lance le chargement de la démarche.
    */
   ngOnInit(): void {
+    const connecte = this.authService.isLoggedIn();
+    this.estVisiteur = !connecte;
+    this.peutCommencer = connecte && !this.authService.isAdmin();
+
     this.chargerDemarche();
+    this.chargerSuivi();
+  }
+
+  /**
+   * Pour un étudiant connecté : vérifie s'il a déjà commencé
+   * cette démarche (affiche alors « Voir mon suivi »).
+   */
+  private chargerSuivi(): void {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+
+    if (!this.peutCommencer || !id) {
+      return;
+    }
+
+    this.studentDemarcheService.getMesDemarches().subscribe({
+      next: (suivis) => {
+        this.suivi = suivis.find((sd) => sd.demarche.id === id) ?? null;
+      },
+      // Sans suivi, le bouton « Commencer » reste simplement affiché.
+      error: () => {}
+    });
+  }
+
+  /** « Commencer cette démarche » : crée le suivi de l'étudiant (EN_COURS). */
+  commencer(): void {
+    if (!this.demarche || !this.peutCommencer || this.enCours) {
+      return;
+    }
+
+    this.enCours = true;
+    this.messageAction = '';
+    this.erreurAction = '';
+
+    this.studentDemarcheService.commencer(this.demarche.id).subscribe({
+      next: (suivi) => {
+        this.enCours = false;
+        this.suivi = suivi;
+        this.messageAction =
+          'Démarche ajoutée à « Mes démarches ». Suivez votre progression depuis votre espace.';
+      },
+      error: (error: HttpErrorResponse) => {
+        this.enCours = false;
+        this.erreurAction =
+          error.error?.message || 'Impossible de commencer cette démarche.';
+      }
+    });
+  }
+
+  /** Ouvre le suivi détaillé dans le dashboard. */
+  ouvrirSuivi(): void {
+    this.router.navigate(['/dashboard/suivis']);
   }
 
   /**

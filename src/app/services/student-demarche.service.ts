@@ -1,11 +1,20 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map, switchMap, of } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 
 /** Statuts renvoyés par l'API (enum DemarcheStatus côté Spring). */
 export type DemarcheStatut = 'A_FAIRE' | 'EN_COURS' | 'TERMINEE' | 'NON_CONCERNEE';
+
+/** Démarche générale (visible par tous). */
+export interface Demarche {
+  id: number;
+  titre: string;
+  description?: string;
+  dateLimite?: string | null;
+  categorie?: { id: number; nom: string };
+}
 
 /** Suivi d'une démarche par l'étudiant (entité StudentDemarche). */
 export interface StudentDemarche {
@@ -51,21 +60,37 @@ export class StudentDemarcheService {
   private http = inject(HttpClient);
   private apiUrl = environment.apiUrl;
 
-  /**
-   * Démarches de l'étudiant connecté.
-   * Renvoie null si l'étudiant n'a pas encore de profil.
-   */
-  getMesDemarches(): Observable<StudentDemarche[] | null> {
+  /** Toutes les démarches de l'application (route publique). */
+  getToutesLesDemarches(): Observable<Demarche[]> {
     return this.http
-      .get<{ id?: number }>(`${this.apiUrl}/student-profiles/me`)
-      .pipe(
-        switchMap((profile) => profile?.id
-          ? this.http.get<StudentDemarche[]>(
-              `${this.apiUrl}/student-demarches/student/${profile.id}`
-            )
-          : of(null)
-        )
-      );
+      .get<Demarche[]>(`${this.apiUrl}/demarches`)
+      .pipe(map((demarches) => demarches ?? []));
+  }
+
+  /**
+   * Démarches COMMENCÉES par l'étudiant connecté (en cours ou terminées).
+   * Liste vide s'il n'a encore rien commencé.
+   */
+  getMesDemarches(): Observable<StudentDemarche[]> {
+    return this.http
+      .get<StudentDemarche[]>(`${this.apiUrl}/student-demarches/me`)
+      .pipe(map((demarches) => demarches ?? []));
+  }
+
+  /**
+   * Commence une démarche : crée le suivi de l'étudiant connecté,
+   * directement « en cours ». Réservé aux étudiants connectés.
+   */
+  commencer(demarcheId: number): Observable<StudentDemarche> {
+    return this.http.post<StudentDemarche>(
+      `${this.apiUrl}/student-demarches/start/${demarcheId}`,
+      {}
+    );
+  }
+
+  /** Retire une démarche de « Mes démarches » (supprime le suivi). */
+  retirer(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/student-demarches/${id}`);
   }
 
   /** Change le statut (Commencer → EN_COURS, Terminer → TERMINEE...). */

@@ -4,9 +4,10 @@
 //
 // Barre de navigation principale des pages publiques.
 //
-// - Aucun utilisateur connecté : logo, "Accueil" et "Se connecter" uniquement.
-// - Étudiant connecté          : + "Mes démarches", "Documents",
-//                                "Notifications", profil et déconnexion.
+// - Tout le monde (inscrit ou non) : "Accueil", "Mes démarches",
+//                                "Documents" et "Notifications".
+// - Aucun utilisateur connecté : + "Se connecter".
+// - Étudiant connecté          : + profil et déconnexion.
 // - Administrateur connecté    : même chose, mais le profil mène à /admin.
 //
 // L'état de connexion est relu à CHAQUE navigation : la navbar reste donc
@@ -55,6 +56,11 @@ export class Navbar implements OnInit, OnDestroy {
   /** Destination du clic sur l'avatar : /admin pour un admin, /dashboard sinon. */
   get profileRoute(): string {
     return this.isAdmin ? '/admin' : '/dashboard';
+  }
+
+  /** Lien « Notifications » : page d'invitation à se connecter pour un visiteur. */
+  get notificationsRoute(): string {
+    return this.isLoggedIn ? '/dashboard/notifications' : '/notifications';
   }
 
   private navigationSubscription?: Subscription;

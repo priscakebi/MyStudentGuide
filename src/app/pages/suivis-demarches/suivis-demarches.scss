@@ -562,6 +562,48 @@ $transition: 0.25s ease;
 
 
 /* ================================================================
+   BOUTON RETIRER (supprime le suivi)
+   ================================================================ */
+
+.footer-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.remove-button {
+  min-height: 37px;
+  padding: 8px 14px;
+  border: 1px solid $border;
+  border-radius: 8px;
+  background: $white;
+  color: $text-light;
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+
+  transition:
+    border-color $transition,
+    color $transition;
+
+  &:hover {
+    border-color: $red;
+    color: $red;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: wait;
+  }
+}
+
+a.reset-filter-button {
+  text-decoration: none;
+}
+
+
+/* ================================================================
    ÉTATS
    ================================================================ */
 
@@ -802,8 +844,14 @@ $transition: 0.25s ease;
     width: 100%;
   }
 
-  .view-button {
+  .view-button,
+  .footer-buttons,
+  .remove-button {
     width: 100%;
+  }
+
+  .footer-buttons {
+    flex-direction: column;
   }
 }
 

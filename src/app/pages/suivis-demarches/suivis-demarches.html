@@ -3,10 +3,14 @@
   PAGE SUIVI DES DÉMARCHES (/dashboard/suivis)
   ================================================================
 
+  Seules les démarches COMMENCÉES par l'étudiant apparaissent ici
+  (en cours ou terminées). On commence une démarche depuis
+  /demarches ou depuis une notification de suggestion.
+
   L'étudiant peut :
   - filtrer ses démarches par statut ;
-  - commencer une démarche, confirmer l'envoi des documents,
-    la terminer ou corriger son statut ;
+  - confirmer l'envoi des documents, terminer la démarche,
+    corriger son statut ou la retirer de son suivi ;
   - suivre la progression (25 % → 50 % → 100 %) ;
   - donner son avis une fois la démarche terminée.
 -->
@@ -64,11 +68,6 @@
         <button type="button" class="filter-button" [class.active]="filtre === 'TOUTES'" (click)="changerFiltre('TOUTES')">
           <span>Toutes</span>
           <span class="filter-count">{{ demarches.length }}</span>
-        </button>
-
-        <button type="button" class="filter-button" [class.active]="filtre === 'A_FAIRE'" (click)="changerFiltre('A_FAIRE')">
-          <span>À faire</span>
-          <span class="filter-count">{{ compterParStatut('A_FAIRE') }}</span>
         </button>
 
         <button type="button" class="filter-button" [class.active]="filtre === 'EN_COURS'" (click)="changerFiltre('EN_COURS')">
@@ -223,12 +222,6 @@
 
                 @switch (sd.statut) {
 
-                  @case ('A_FAIRE') {
-                    <button type="button" class="action-button primary" [disabled]="estEnMiseAJour(sd)" (click)="commencer(sd)">
-                      ▶ Commencer
-                    </button>
-                  }
-
                   @case ('EN_COURS') {
                     @if (!sd.documentsEnvoyes) {
                       <button type="button" class="action-button outline" [disabled]="estEnMiseAJour(sd)" (click)="confirmerDocuments(sd)">
@@ -271,10 +264,18 @@
                   </select>
                 </label>
 
-                <button type="button" class="view-button" (click)="consulterDemarche(sd)">
-                  <span>Consulter</span>
-                  <span class="arrow">→</span>
-                </button>
+                <div class="footer-buttons">
+
+                  <button type="button" class="remove-button" [disabled]="estEnMiseAJour(sd)" (click)="retirer(sd)">
+                    Retirer
+                  </button>
+
+                  <button type="button" class="view-button" (click)="consulterDemarche(sd)">
+                    <span>Consulter</span>
+                    <span class="arrow">→</span>
+                  </button>
+
+                </div>
 
               </div>
 
@@ -302,16 +303,19 @@
         <h2>Aucune démarche</h2>
 
         @switch (filtre) {
-          @case ('TOUTES') { <p>Vous n'avez actuellement aucune démarche à suivre.</p> }
-          @case ('A_FAIRE') { <p>Vous n'avez aucune démarche à faire pour le moment.</p> }
+          @case ('TOUTES') { <p>Vous n'avez encore commencé aucune démarche.</p> }
           @case ('EN_COURS') { <p>Vous n'avez aucune démarche en cours.</p> }
           @case ('TERMINEE') { <p>Vous n'avez encore terminé aucune démarche.</p> }
         }
 
         @if (filtre !== 'TOUTES') {
           <button type="button" class="reset-filter-button" (click)="changerFiltre('TOUTES')">
-            Voir toutes les démarches
+            Voir toutes mes démarches
           </button>
+        } @else {
+          <a routerLink="/demarches" class="reset-filter-button">
+            Parcourir les démarches
+          </a>
         }
 
       </section>

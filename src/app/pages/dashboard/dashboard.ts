@@ -77,17 +77,13 @@ export class Dashboard implements OnInit, OnDestroy {
   private studentDemarcheService = inject(StudentDemarcheService);
   private navigationSub?: Subscription;
 
-  /** Démarches de l'étudiant (pour la barre de progression). */
+  /** Démarches commencées par l'étudiant (pour la barre de progression). */
   mesDemarches: StudentDemarche[] = [];
 
   /** Progression globale en % (moyenne des démarches concernées). */
   progressionGlobale = 0;
 
   progressionChargee = false;
-
-  get demarchesAFaire(): number {
-    return this.mesDemarches.filter((d) => d.statut === 'A_FAIRE').length;
-  }
 
   get demarchesEnCours(): number {
     return this.mesDemarches.filter((d) => d.statut === 'EN_COURS').length;

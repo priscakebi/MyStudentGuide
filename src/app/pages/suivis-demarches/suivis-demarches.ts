@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { AvisForm } from '../../components/avis-form/avis-form';
 import {
@@ -10,16 +10,20 @@ import {
   StudentDemarcheService
 } from '../../services/student-demarche.service';
 
-type Filtre = 'TOUTES' | 'A_FAIRE' | 'EN_COURS' | 'TERMINEE';
+type Filtre = 'TOUTES' | 'EN_COURS' | 'TERMINEE';
 
 /**
  * Page « Mes démarches » de l'espace étudiant (/dashboard/suivis).
  *
+ * N'affiche QUE les démarches commencées (en cours ou terminées).
+ * Une démarche est commencée depuis /demarches ou depuis
+ * une notification de suggestion.
+ *
  * L'étudiant peut :
- * - commencer une démarche (→ EN COURS, progression 25 %) ;
  * - confirmer l'envoi de ses documents (→ 50 %) ;
  * - marquer la démarche comme terminée (→ 100 %) ;
- * - corriger le statut à tout moment ;
+ * - corriger le statut (en cours / terminée) ;
+ * - retirer la démarche de son suivi ;
  * - donner son avis une fois la démarche terminée
  *   (l'avis est ensuite visible sur la page d'accueil).
  *
@@ -29,7 +33,7 @@ type Filtre = 'TOUTES' | 'A_FAIRE' | 'EN_COURS' | 'TERMINEE';
 @Component({
   selector: 'app-suivis-demarches',
   standalone: true,
-  imports: [CommonModule, AvisForm],
+  imports: [CommonModule, RouterLink, AvisForm],
   templateUrl: './suivis-demarches.html',
   styleUrl: './suivis-demarches.scss'
 })
@@ -51,11 +55,10 @@ export class SuivisDemarches implements OnInit {
   /** Démarche pour laquelle la fenêtre d'avis est ouverte. */
   avisPour: StudentDemarche | null = null;
 
+  /** Pour quitter le suivi, on utilise « Retirer » (plus de retour à « À faire »). */
   readonly statutsModifiables: { value: DemarcheStatut; label: string }[] = [
-    { value: 'A_FAIRE', label: 'À faire' },
     { value: 'EN_COURS', label: 'En cours' },
-    { value: 'TERMINEE', label: 'Terminée' },
-    { value: 'NON_CONCERNEE', label: 'Non concernée' }
+    { value: 'TERMINEE', label: 'Terminée' }
   ];
 
   ngOnInit(): void {
@@ -69,21 +72,10 @@ export class SuivisDemarches implements OnInit {
     this.service.getMesDemarches().subscribe({
       next: (demarches) => {
         this.loading = false;
-
-        if (demarches === null) {
-          this.router.navigate(['/dashboard/profile']);
-          return;
-        }
-
         this.demarches = demarches;
       },
-      error: (error: HttpErrorResponse) => {
+      error: () => {
         this.loading = false;
-
-        if (error.status === 404) {
-          this.router.navigate(['/dashboard/profile']);
-          return;
-        }
 
         // 401 : géré par l'interceptor (déconnexion + /login).
         this.errorMessage = 'Impossible de récupérer vos démarches pour le moment.';
@@ -134,11 +126,6 @@ export class SuivisDemarches implements OnInit {
   // ACTIONS
   // ==========================================================
 
-  /** « Commencer » : la démarche passe EN COURS (25 %). */
-  commencer(sd: StudentDemarche): void {
-    this.changerStatut(sd, 'EN_COURS', 'Démarche commencée. Bon courage !');
-  }
-
   /** « Marquer comme terminée » : 100 %. */
   terminer(sd: StudentDemarche): void {
     this.changerStatut(sd, 'TERMINEE', 'Bravo, démarche terminée ! Vous pouvez maintenant donner votre avis.');
@@ -153,14 +140,34 @@ export class SuivisDemarches implements OnInit {
       return;
     }
 
-    if ((statut === 'A_FAIRE' || statut === 'NON_CONCERNEE')
-        && sd.statut !== 'A_FAIRE'
-        && !confirm('La progression de cette démarche sera remise à zéro. Continuer ?')) {
-      select.value = sd.statut;
+    this.changerStatut(sd, statut, `Statut mis à jour : ${this.service.libelleStatut(statut)}.`);
+  }
+
+  /**
+   * « Retirer » : supprime le suivi. La démarche reste disponible
+   * dans /demarches et peut être recommencée plus tard.
+   */
+  retirer(sd: StudentDemarche): void {
+    if (this.enMiseAJour.has(sd.id)
+        || !confirm(`Retirer « ${sd.demarche.titre} » de vos démarches ? Votre progression sera perdue.`)) {
       return;
     }
 
-    this.changerStatut(sd, statut, `Statut mis à jour : ${this.service.libelleStatut(statut)}.`);
+    this.actionMessage = '';
+    this.actionError = '';
+    this.enMiseAJour.add(sd.id);
+
+    this.service.retirer(sd.id).subscribe({
+      next: () => {
+        this.enMiseAJour.delete(sd.id);
+        this.demarches = this.demarches.filter((d) => d.id !== sd.id);
+        this.actionMessage = 'La démarche a été retirée de votre suivi.';
+      },
+      error: (error: HttpErrorResponse) => {
+        this.enMiseAJour.delete(sd.id);
+        this.actionError = error.error?.message || 'Impossible de retirer cette démarche.';
+      }
+    });
   }
 
   /** « J'ai envoyé mes documents » : 50 %. */

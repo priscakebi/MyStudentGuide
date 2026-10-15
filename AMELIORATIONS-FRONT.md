@@ -49,7 +49,29 @@ Le formulaire admin ne permet pas de **créer** un administrateur : il faut qu'u
   (avant : « Bonjour Étudiant 👋 » même sans connexion). Un étudiant connecté voit « Bonjour <prénom> »
   et « Continuer mon parcours ». Le bouton « Commencer » est protégé contre le double envoi.
 
-## À savoir
-Les routes `/demarches` et `/documents` restent accessibles en tapant l'URL, même sans connexion :
-seuls les liens de la navbar sont masqués. Pour les bloquer, ajouter `canActivate: [authGuard]`
-sur ces routes dans `app.routes.ts`.
+## 5. Démarches ouvertes à tous, suggestions au lieu d'attributions
+*(remplace le comportement de la navbar décrit au point 4)*
+
+- **Navbar** : « Mes démarches », « Documents » et « Notifications » sont visibles par tous.
+  `/demarches`, `/demarches/:id` et `/documents` n'ont plus d'`authGuard`. Un visiteur qui clique sur
+  « Notifications » arrive sur `/notifications`, qui l'invite à se connecter.
+- **Page « Mes démarches » (`/demarches`)** : affiche **toutes** les démarches (filtre par catégorie).
+  « Voir plus » ouvre le détail ; « Commencer » est désactivé pour un visiteur ou un admin.
+  Un étudiant connecté qui clique sur « Commencer » crée son suivi, directement « en cours ».
+  Le détail d'une démarche a aussi un bouton « Commencer cette démarche ».
+- **Plus d'attribution** : dans l'admin (Utilisateurs), « Attribuer » devient « Suggérer une démarche ».
+  L'étudiant reçoit une notification avec « Voir plus » / « Commencer ».
+- **Dashboard → Mes démarches (`/dashboard/suivis`)** : seulement les démarches commencées (en cours / terminées).
+  Le statut « À faire » disparaît ; un bouton « Retirer » supprime le suivi.
+
+**Backend (MyStudentGuide-Api)** :
+- `GET /api/student-demarches/me` (étudiant) : démarches commencées.
+- `POST /api/student-demarches/start/{demarcheId}` (étudiant) : commence une démarche (crée un profil vide si besoin).
+- `POST /api/student-demarches/suggest?studentProfileId=&demarcheId=` (admin) : remplace `/assign`, qui est supprimé.
+- `GET /api/documents-requis/demarche/{id}` est maintenant public.
+- `Notification` : nouvelle colonne `demarche_id` (ajoutée automatiquement, `ddl-auto=update`).
+- Les rappels automatiques ne concernent plus que les démarches EN_COURS.
+- Les anciens suivis « À faire » restent en base mais ne sont plus affichés côté étudiant.
+
+<!-- • npm test
+• npx ng test --watch=false -->

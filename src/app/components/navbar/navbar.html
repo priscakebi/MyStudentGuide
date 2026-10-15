@@ -6,9 +6,10 @@
   Navigation :
   - Logo / Accueil       → /home                       (toujours visible)
   - Se connecter         → /login                      (si personne n'est connecté)
-  - Mes démarches        → /demarches                  (connecté uniquement)
-  - Documents            → /documents                  (connecté uniquement)
-  - Notifications        → /dashboard/notifications    (connecté uniquement)
+  - Mes démarches        → /demarches                  (toujours visible)
+  - Documents            → /documents                  (toujours visible)
+  - Notifications        → /dashboard/notifications    (connecté)
+                           /notifications              (visiteur : invitation à se connecter)
   - Profil / Avatar      → /dashboard (ou /admin)      (connecté uniquement)
   - Déconnexion          → /home                       (connecté uniquement)
 
@@ -87,51 +88,48 @@
 
 
     <!-- ---------------------------------------------------------
-         LIENS RÉSERVÉS AUX UTILISATEURS CONNECTÉS
-
-         Sans connexion, seuls "Accueil" et "Se connecter" restent visibles.
+         LIENS VISIBLES PAR TOUS (inscrits ou non)
          --------------------------------------------------------- -->
-    @if (isLoggedIn) {
 
-      <!-- ---------------------------------------------------------
-           MES DÉMARCHES
-           --------------------------------------------------------- -->
+    <!-- ---------------------------------------------------------
+         MES DÉMARCHES
+         --------------------------------------------------------- -->
 
-      <a
-        routerLink="/demarches"
-        routerLinkActive="active"
-        class="nav-link"
-      >
-        Mes démarches
-      </a>
-
-
-      <!-- ---------------------------------------------------------
-           DOCUMENTS
-           --------------------------------------------------------- -->
-
-      <a
-        routerLink="/documents"
-        routerLinkActive="active"
-        class="nav-link"
-      >
-        Documents
-      </a>
+    <a
+      routerLink="/demarches"
+      routerLinkActive="active"
+      class="nav-link"
+    >
+      Mes démarches
+    </a>
 
 
-      <!-- ---------------------------------------------------------
-           NOTIFICATIONS
-           --------------------------------------------------------- -->
+    <!-- ---------------------------------------------------------
+         DOCUMENTS
+         --------------------------------------------------------- -->
 
-      <a
-        routerLink="/dashboard/notifications"
-        routerLinkActive="active"
-        class="nav-link"
-      >
-        Notifications
-      </a>
+    <a
+      routerLink="/documents"
+      routerLinkActive="active"
+      class="nav-link"
+    >
+      Documents
+    </a>
 
-    }
+
+    <!-- ---------------------------------------------------------
+         NOTIFICATIONS
+
+         Visiteur : /notifications l'invite à se connecter.
+         --------------------------------------------------------- -->
+
+    <a
+      [routerLink]="notificationsRoute"
+      routerLinkActive="active"
+      class="nav-link"
+    >
+      Notifications
+    </a>
 
 
     <!-- ---------------------------------------------------------
