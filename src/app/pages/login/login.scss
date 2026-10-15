@@ -515,3 +515,20 @@ input:focus {
     }
   }
 }
+
+
+// =====================================================
+// VALIDATION DE L'E-MAIL
+// =====================================================
+
+input.invalid {
+  border-color: #c90000;
+  background: #fff7f7;
+}
+
+.field-error {
+  margin: 6px 0 0;
+  color: #c90000;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}

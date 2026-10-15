@@ -1,6 +1,42 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* ================================================================
+   CHARTE GRAPHIQUE
+   ----------------------------------------------------------------
+   Couleurs de la marque (bleu France + rouge), disponibles partout
+   en variables CSS. La police Plus Jakarta Sans est chargée dans
+   index.html ; les polices système servent de secours.
+   ================================================================ */
+
+:root {
+  --msg-blue: #1646a0;
+  --msg-blue-dark: #0d2f70;
+  --msg-blue-light: #eaf1ff;
+  --msg-red: #e63946;
+  --msg-red-light: #fff0f1;
+  --msg-green: #16845b;
+  --msg-text-dark: #172033;
+  --msg-text: #344054;
+  --msg-text-light: #667085;
+  --msg-background: #f5f7fb;
+
+  --msg-font: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+}
+
+body {
+  font-family: var(--msg-font);
+  color: var(--msg-text);
+  background: var(--msg-background);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Focus clavier visible et cohérent avec la charte */
+:focus-visible {
+  outline: 3px solid rgba(22, 70, 160, 0.45);
+  outline-offset: 2px;
+}
+
+/* ================================================================
    BASE RESPONSIVE GLOBALE
    ----------------------------------------------------------------
    Règles communes à toute l'application pour éviter les débordements

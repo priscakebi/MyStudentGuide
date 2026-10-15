@@ -1,0 +1,62 @@
+<!--
+  Écran de chargement après connexion.
+  Les listes sont répétées deux fois : l'animation fait défiler
+  la moitié de la bande, ce qui donne une boucle sans saut.
+-->
+<div
+  class="loader-overlay"
+  role="status"
+  aria-live="polite"
+  [style.--loader-duration]="duration + 'ms'"
+>
+
+  <!-- Liseré bleu-blanc-rouge -->
+  <div class="flag-stripe" aria-hidden="true">
+    <span></span><span></span><span></span>
+  </div>
+
+  <div class="loader-center">
+
+    <div class="loader-badge" aria-hidden="true">🎓</div>
+
+    <h2>
+      @if (prenom) {
+        Bienvenue {{ prenom }} !
+      } @else {
+        Bienvenue !
+      }
+    </h2>
+
+    <p>Nous préparons votre espace étudiant…</p>
+
+    <div class="loader-progress" aria-hidden="true">
+      <div class="loader-progress-fill"></div>
+    </div>
+
+  </div>
+
+
+  <!-- Bandes d'icônes qui défilent -->
+  <div class="marquee" aria-hidden="true">
+
+    <div class="marquee-track">
+      @for (item of bandeDemarches; track $index) {
+        <span class="chip">
+          <span class="chip-icon">{{ item.icon }}</span>
+          {{ item.label }}
+        </span>
+      }
+    </div>
+
+    <div class="marquee-track reverse">
+      @for (item of bandeVieEtudiante; track $index) {
+        <span class="chip light">
+          <span class="chip-icon">{{ item.icon }}</span>
+          {{ item.label }}
+        </span>
+      }
+    </div>
+
+  </div>
+
+</div>

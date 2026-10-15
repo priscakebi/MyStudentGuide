@@ -531,55 +531,9 @@
             </small>
 
             <ul>
-
-              <li
-                [class.valid]="
-                  (passwordForm.get('newPassword')?.value?.length || 0) >= 8
-                "
-              >
-                Au moins 8 caractères
-              </li>
-
-              <li
-                [class.valid]="
-                  /[a-z]/.test(
-                    passwordForm.get('newPassword')?.value || ''
-                  )
-                "
-              >
-                Au moins une lettre minuscule
-              </li>
-
-              <li
-                [class.valid]="
-                  /[A-Z]/.test(
-                    passwordForm.get('newPassword')?.value || ''
-                  )
-                "
-              >
-                Au moins une lettre majuscule
-              </li>
-
-              <li
-                [class.valid]="
-                  /\d/.test(
-                    passwordForm.get('newPassword')?.value || ''
-                  )
-                "
-              >
-                Au moins un chiffre
-              </li>
-
-              <li
-                [class.valid]="
-                  /[@$!%*?&]/.test(
-                    passwordForm.get('newPassword')?.value || ''
-                  )
-                "
-              >
-                Au moins un caractère spécial
-              </li>
-
+              @for (check of newPasswordChecks; track check.label) {
+                <li [class.valid]="check.ok">{{ check.label }}</li>
+              }
             </ul>
 
           </div>

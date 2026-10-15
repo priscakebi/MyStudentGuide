@@ -1,0 +1,221 @@
+// ============================================================
+// ÉCRAN DE CHARGEMENT APRÈS CONNEXION
+// ============================================================
+
+$blue: #1646a0;
+$blue-dark: #0d2f70;
+$red: #e63946;
+$white: #ffffff;
+
+.loader-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+
+  padding: 24px 16px;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.10), transparent 40%),
+    radial-gradient(circle at 85% 80%, rgba(230, 57, 70, 0.25), transparent 45%),
+    linear-gradient(135deg, $blue-dark, $blue);
+
+  color: $white;
+
+  animation: fade-in 0.3s ease;
+}
+
+
+// ------------------------------------------------------------
+// Liseré bleu-blanc-rouge en haut de l'écran
+// ------------------------------------------------------------
+
+.flag-stripe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  height: 6px;
+
+  span { flex: 1; }
+  span:nth-child(1) { background: #0055a4; }
+  span:nth-child(2) { background: $white; }
+  span:nth-child(3) { background: #ef4135; }
+}
+
+
+// ------------------------------------------------------------
+// Message central
+// ------------------------------------------------------------
+
+.loader-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  max-width: 420px;
+
+  text-align: center;
+
+  h2 {
+    margin: 18px 0 6px;
+    font-size: 1.7rem;
+    font-weight: 800;
+  }
+
+  p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1rem;
+  }
+}
+
+.loader-badge {
+  display: grid;
+  place-items: center;
+
+  width: 88px;
+  height: 88px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.06);
+
+  font-size: 2.8rem;
+
+  animation: bounce 1.2s ease-in-out infinite;
+}
+
+.loader-progress {
+  width: 240px;
+  max-width: 100%;
+  height: 6px;
+
+  margin-top: 22px;
+
+  border-radius: 50px;
+
+  background: rgba(255, 255, 255, 0.2);
+
+  overflow: hidden;
+}
+
+.loader-progress-fill {
+  height: 100%;
+
+  border-radius: inherit;
+
+  background: linear-gradient(90deg, $white, #ffb4bb);
+
+  animation: fill var(--loader-duration, 2800ms) ease-in-out forwards;
+}
+
+
+// ------------------------------------------------------------
+// Bandes d'icônes
+// ------------------------------------------------------------
+
+.marquee {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  width: 100%;
+
+  // Fondu sur les bords
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+.marquee-track {
+  display: flex;
+  gap: 12px;
+
+  width: max-content;
+
+  animation: scroll 14s linear infinite;
+
+  &.reverse {
+    animation-direction: reverse;
+    animation-duration: 18s;
+  }
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 10px 16px;
+
+  border-radius: 50px;
+
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  font-size: 0.95rem;
+  font-weight: 600;
+  white-space: nowrap;
+
+  &.light {
+    background: $white;
+    color: $blue-dark;
+  }
+}
+
+.chip-icon {
+  font-size: 1.3rem;
+}
+
+
+// ------------------------------------------------------------
+// Animations
+// ------------------------------------------------------------
+
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes fill {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+// Respect du réglage « réduire les animations » du système.
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track,
+  .loader-badge {
+    animation: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .loader-center h2 {
+    font-size: 1.4rem;
+  }
+
+  .chip {
+    font-size: 0.85rem;
+    padding: 8px 13px;
+  }
+}

@@ -43,6 +43,62 @@ export class Home implements OnInit {
   /** Vrai pendant la vérification du profil (évite les doubles clics). */
   startingJourney = false;
 
+  /**
+   * Grands thèmes de démarches affichés en petites cartes.
+   * Chaque thème regroupe plusieurs démarches (ex. : « Santé »
+   * = Sécurité sociale, mutuelle, médecin traitant).
+   */
+  readonly themes: { icon: string; titre: string; couleur: string; demarches: string[] }[] = [
+    {
+      icon: '🛂',
+      titre: 'Séjour & visa',
+      couleur: 'blue',
+      demarches: ['Validation du VLS-TS', 'Titre de séjour', 'Renouvellement']
+    },
+    {
+      icon: '🩺',
+      titre: 'Santé',
+      couleur: 'red',
+      demarches: ['Sécurité sociale (Ameli)', 'Mutuelle', 'Médecin traitant']
+    },
+    {
+      icon: '🏠',
+      titre: 'Logement',
+      couleur: 'green',
+      demarches: ['Logement CROUS', 'Aide au logement (CAF)', 'Assurance habitation']
+    },
+    {
+      icon: '🎓',
+      titre: 'Études',
+      couleur: 'purple',
+      demarches: ['Inscription universitaire', 'CVEC', 'Bourses']
+    },
+    {
+      icon: '💶',
+      titre: 'Banque & budget',
+      couleur: 'orange',
+      demarches: ['Ouverture d\'un compte', 'RIB', 'Aides financières']
+    },
+    {
+      icon: '💼',
+      titre: 'Emploi',
+      couleur: 'blue',
+      demarches: ['Job étudiant', 'Droit au travail', 'Stage']
+    },
+    {
+      icon: '🚆',
+      titre: 'Transports',
+      couleur: 'green',
+      demarches: ['Abonnement étudiant', 'Carte Avantage Jeune', 'Vélo en libre-service']
+    },
+    {
+      icon: '📱',
+      titre: 'Vie quotidienne',
+      couleur: 'red',
+      demarches: ['Forfait mobile', 'Permis de conduire', 'Déclaration d\'impôts']
+    }
+  ];
+
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isLoggedIn();
 

@@ -81,14 +81,18 @@
               {{ startingJourney ? 'Chargement...' : 'Continuer mon parcours' }}
             </button>
 
-          } @else {
-
-            <a routerLink="/login" class="hero-button primary">
-              Se connecter
+            <a routerLink="/demarches" class="hero-button secondary">
+              Voir les démarches
             </a>
 
-            <a routerLink="/register" class="hero-button secondary">
+          } @else {
+
+            <a routerLink="/register" class="hero-button primary">
               Créer un compte
+            </a>
+
+            <a routerLink="/demarches" class="hero-button secondary">
+              Voir les démarches
             </a>
 
           }
@@ -96,48 +100,105 @@
         </div>
 
 
-        <!-- Petit indicateur visuel -->
-        <div class="hero-highlight">
-
-          <span class="highlight-dot"></span>
-
-          <span>
-            Votre parcours étudiant, simplifié
-          </span>
-
-        </div>
+        <!-- Points forts -->
+        <ul class="hero-trust">
+          <li><span aria-hidden="true">✓</span> Gratuit</li>
+          <li><span aria-hidden="true">✓</span> Liens officiels</li>
+          <li><span aria-hidden="true">✓</span> Suivi étape par étape</li>
+        </ul>
 
       </div>
 
 
-      <!-- Illustration décorative du header -->
-      <div class="hero-decoration">
+      <!-- Illustration : étudiants internationaux en France -->
+      <div class="hero-illustration">
 
-        <div class="decoration-circle circle-blue"></div>
+        <img
+          src="images/etudiants-france.svg"
+          alt="Trois étudiants internationaux devant la tour Eiffel"
+          width="480"
+          height="400"
+        >
 
-        <div class="decoration-circle circle-red"></div>
-
-
-        <!-- Carte décorative -->
-        <div class="guide-card">
-
-          <div class="guide-icon">
-            🎓
+        <div class="floating-badge badge-top">
+          <span class="badge-icon" aria-hidden="true">🛂</span>
+          <div>
+            <strong>Titre de séjour</strong>
+            <small>Étape suivante : préfecture</small>
           </div>
+        </div>
 
-          <div class="guide-card-content">
+        <div class="floating-badge badge-bottom">
+          <span class="badge-icon" aria-hidden="true">🗼</span>
+          <div>
+            <strong>Bienvenue en France</strong>
+            <small>Votre guide pas à pas</small>
+          </div>
+        </div>
 
-            <span>
-              MYSTUDENTGUIDE
+      </div>
+
+    </section>
+
+
+
+    <!-- ========================================================= -->
+    <!-- THÈMES DE DÉMARCHES                                       -->
+    <!-- ========================================================= -->
+
+    <!--
+      Petites cartes : chaque thème regroupe plusieurs démarches
+      (ex. : Santé = Sécurité sociale, mutuelle, médecin traitant).
+      Un clic mène à la liste complète des démarches.
+    -->
+    <section class="themes-section">
+
+      <div class="section-heading">
+
+        <span class="section-label">
+          SUR QUOI SOMMES-NOUS LÀ POUR VOUS ?
+        </span>
+
+        <h2>
+          Toutes vos démarches,
+          <span>par thème</span>
+        </h2>
+
+        <p>
+          Informez-vous et suivez vos démarches dans chaque domaine
+          de votre vie d'étudiant en France.
+        </p>
+
+      </div>
+
+
+      <div class="themes-grid">
+
+        @for (theme of themes; track theme.titre) {
+
+          <a
+            routerLink="/demarches"
+            class="theme-card"
+            [class]="'theme-' + theme.couleur"
+          >
+
+            <span class="theme-icon" aria-hidden="true">{{ theme.icon }}</span>
+
+            <h3>{{ theme.titre }}</h3>
+
+            <ul>
+              @for (demarche of theme.demarches; track demarche) {
+                <li>{{ demarche }}</li>
+              }
+            </ul>
+
+            <span class="theme-link">
+              Découvrir <span aria-hidden="true">→</span>
             </span>
 
-            <strong>
-              Votre parcours en France
-            </strong>
+          </a>
 
-          </div>
-
-        </div>
+        }
 
       </div>
 
@@ -200,8 +261,8 @@
 
           <p>
 
-            Retrouvez uniquement les démarches qui vous concernent
-            selon votre situation étudiante.
+            Consultez toutes les démarches et recevez des
+            suggestions adaptées à votre situation étudiante.
 
           </p>
 
@@ -436,8 +497,8 @@
 
             <p>
 
-              Retrouvez les démarches administratives qui
-              correspondent à votre situation.
+              Parcourez les démarches par thème : séjour,
+              santé, logement, banque, études…
 
             </p>
 
@@ -562,16 +623,15 @@
 
 
       <!-- Illustration de la section -->
-      <div class="about-decoration">
+      <div class="about-illustration">
 
-        <div class="about-shape blue-shape"></div>
-
-        <div class="about-shape red-shape"></div>
-
-
-        <div class="about-icon">
-          🎓
-        </div>
+        <img
+          src="images/etudiant-demarches.svg"
+          alt="Une étudiante suit ses démarches sur son ordinateur"
+          width="360"
+          height="300"
+          loading="lazy"
+        >
 
       </div>
 

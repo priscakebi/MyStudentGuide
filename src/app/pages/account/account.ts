@@ -23,6 +23,12 @@ import {
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { environment } from '../../../environments/environment';
+import {
+  PASSWORD_MESSAGE,
+  PasswordCheck,
+  isStrongPassword,
+  passwordChecks
+} from '../../utils/form-rules';
 
 
 // ============================================================
@@ -307,31 +313,16 @@ export class Account implements OnInit {
 
       // Nouveau mot de passe.
       //
-      // Règles :
-      // - minimum 8 caractères ;
-      // - au moins une minuscule ;
-      // - au moins une majuscule ;
-      // - au moins un chiffre ;
-      // - au moins un caractère spécial.
+      // Règles CNIL / ANSSI (utils/form-rules.ts, mêmes règles que l'API) :
+      // - 12 à 72 caractères ;
+      // - une minuscule, une majuscule, un chiffre
+      //   et un caractère spécial.
       newPassword: [
         '',
         [
           Validators.required,
-
-          // Minimum 8 caractères.
-          Validators.minLength(8),
-
-          // Au moins une lettre minuscule.
-          Validators.pattern(/(?=.*[a-z])/),
-
-          // Au moins une lettre majuscule.
-          Validators.pattern(/(?=.*[A-Z])/),
-
-          // Au moins un chiffre.
-          Validators.pattern(/(?=.*\d)/),
-
-          // Au moins un caractère spécial.
-          Validators.pattern(/(?=.*[@$!%*?&])/)
+          (control: { value: string | null }) =>
+            isStrongPassword(control.value || '') ? null : { weakPassword: true }
         ]
       ],
 
@@ -746,7 +737,7 @@ export class Account implements OnInit {
    *
    * Règles :
    *
-   * - minimum 8 caractères ;
+   * - 12 à 72 caractères (CNIL / ANSSI) ;
    * - une minuscule ;
    * - une majuscule ;
    * - un chiffre ;
@@ -760,37 +751,12 @@ export class Account implements OnInit {
       this.passwordForm.get('newPassword')?.value;
 
 
-    if (!password) {
-      return false;
-    }
+    return isStrongPassword(password || '');
+  }
 
-
-    // Vérifie les différentes règles de sécurité.
-    const hasMinimumLength =
-      password.length >= 8;
-
-    const hasLowercase =
-      /[a-z]/.test(password);
-
-    const hasUppercase =
-      /[A-Z]/.test(password);
-
-    const hasNumber =
-      /\d/.test(password);
-
-    const hasSpecialCharacter =
-      /[@$!%*?&]/.test(password);
-
-
-    // Le mot de passe est valide uniquement
-    // si toutes les règles sont respectées.
-    return (
-      hasMinimumLength &&
-      hasLowercase &&
-      hasUppercase &&
-      hasNumber &&
-      hasSpecialCharacter
-    );
+  /** Critères du nouveau mot de passe, pour la checklist du template. */
+  get newPasswordChecks(): PasswordCheck[] {
+    return passwordChecks(this.passwordForm.get('newPassword')?.value || '');
   }
 
 
@@ -831,7 +797,7 @@ export class Account implements OnInit {
     if (!this.isPasswordSecure()) {
 
       this.errorMessage =
-        'Le mot de passe doit contenir au minimum 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.';
+        PASSWORD_MESSAGE;
 
       return;
     }

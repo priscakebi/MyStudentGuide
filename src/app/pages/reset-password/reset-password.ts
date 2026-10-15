@@ -4,6 +4,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { AuthService } from '../../services/auth.service';
+import { PASSWORD_MAX, PASSWORD_MESSAGE, isStrongPassword, passwordChecks } from '../../utils/form-rules';
 
 /**
  * Page « Nouveau mot de passe » : ouverte depuis le lien reçu par e-mail
@@ -12,7 +13,7 @@ import { AuthService } from '../../services/auth.service';
  * Le jeton est lu dans l'URL puis envoyé à l'API avec le nouveau mot de passe.
  * Si le lien est absent, invalide ou expiré, un message invite à refaire
  * une demande. Les règles du mot de passe sont les mêmes que celles de
- * l'inscription (8 à 72 caractères).
+ * l'inscription (12 à 72 caractères, CNIL / ANSSI).
  */
 @Component({
   selector: 'app-reset-password',
@@ -44,6 +45,13 @@ export class ResetPassword {
   /** Vrai si l'erreur vient d'un lien invalide : on propose alors une nouvelle demande. */
   linkProblem = !this.token;
 
+  readonly passwordMax = PASSWORD_MAX;
+
+  /** Critères du mot de passe, affichés en direct sous le champ. */
+  get passwordChecks() {
+    return passwordChecks(this.password);
+  }
+
   togglePassword(): void {
     this.passwordVisible = !this.passwordVisible;
   }
@@ -57,8 +65,8 @@ export class ResetPassword {
       return;
     }
 
-    if (this.password.length < 8 || this.password.length > 72) {
-      this.errorMessage = 'Le mot de passe doit contenir entre 8 et 72 caractères.';
+    if (!isStrongPassword(this.password)) {
+      this.errorMessage = PASSWORD_MESSAGE;
       return;
     }
 

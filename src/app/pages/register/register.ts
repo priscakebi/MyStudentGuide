@@ -1,5 +1,5 @@
 // Permet de créer un composant Angular.
-import { Component, inject } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 
 // Permet de lire l'erreur renvoyée par l'API.
 import { HttpErrorResponse } from '@angular/common/http';
@@ -14,134 +14,184 @@ import { Router, RouterLink } from '@angular/router';
 // Service d'authentification (appelle POST /api/auth/register).
 import { AuthService } from '../../services/auth.service';
 
+// Écran de chargement affiché après la création du compte.
+import { LoginLoader, LOGIN_LOADER_DURATION } from '../../components/login-loader/login-loader';
 
+// Règles des champs (mêmes règles que l'API).
+import {
+  EMAIL_MAX,
+  EMAIL_MESSAGE,
+  NAME_MESSAGE,
+  PASSWORD_MAX,
+  PASSWORD_MESSAGE,
+  isStrongPassword,
+  isValidEmail,
+  isValidName,
+  passwordChecks
+} from '../../utils/form-rules';
+
+
+/**
+ * Page d'inscription.
+ *
+ * Chaque champ est contrôlé selon les recommandations CNIL / ANSSI
+ * (voir utils/form-rules.ts) :
+ * - prénom / nom : 2 à 50 lettres ;
+ * - e-mail : format nom@domaine.fr ;
+ * - mot de passe : 12 caractères minimum, majuscule, minuscule,
+ *   chiffre et caractère spécial (checklist en temps réel).
+ *
+ * Les erreurs s'affichent sous chaque champ dès qu'il a été quitté,
+ * ou pour tous les champs au clic sur « Créer mon compte ».
+ */
 @Component({
-  // Nom du composant.
   selector: 'app-register',
-
-  // Le composant est standalone.
   standalone: true,
-
-  // Modules utilisés dans le HTML.
   imports: [
     FormsModule,
-    RouterLink
+    RouterLink,
+    LoginLoader
   ],
-
-  // Fichier HTML associé.
   templateUrl: './register.html',
-
-  // Fichier SCSS associé.
   styleUrl: './register.scss'
 })
-export class Register {
+export class Register implements OnDestroy {
 
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  // Vrai pendant l'appel à l'API (désactive le bouton).
+  // Limites affichées dans le HTML (maxlength).
+  readonly emailMax = EMAIL_MAX;
+  readonly passwordMax = PASSWORD_MAX;
+  readonly nameMessage = NAME_MESSAGE;
+  readonly emailMessage = EMAIL_MESSAGE;
+
   loading = false;
 
-  // Prénom saisi par l'utilisateur.
   firstName = '';
-
-  // Nom saisi par l'utilisateur.
   lastName = '';
-
-  // Adresse e-mail saisie.
   email = '';
-
-  // Mot de passe saisi.
   password = '';
-
-  // Confirmation du mot de passe.
   confirmPassword = '';
 
-  // Permet d'afficher ou de masquer le mot de passe.
   passwordVisible = false;
-
-  // Permet d'afficher ou de masquer
-  // la confirmation du mot de passe.
   confirmPasswordVisible = false;
 
-  // Message d'erreur.
   errorMessage = '';
 
+  /** Champs déjà quittés : leurs erreurs sont affichées. */
+  touched = new Set<string>();
 
-  /**
-   * Affiche ou masque le mot de passe.
-   */
-  togglePassword(): void {
+  /** Vrai après un clic sur « Créer mon compte » : toutes les erreurs s'affichent. */
+  submitted = false;
 
-    // Inverse la valeur actuelle.
-    this.passwordVisible = !this.passwordVisible;
+  /** Écran de chargement après la création du compte. */
+  showLoader = false;
+  private redirectTimer?: ReturnType<typeof setTimeout>;
+
+
+  // ============================================================
+  // VALIDATION
+  // ============================================================
+
+  get passwordChecks() {
+    return passwordChecks(this.password);
+  }
+
+  get firstNameValid(): boolean {
+    return isValidName(this.firstName);
+  }
+
+  get lastNameValid(): boolean {
+    return isValidName(this.lastName);
+  }
+
+  get emailValid(): boolean {
+    return isValidEmail(this.email);
+  }
+
+  get passwordValid(): boolean {
+    return isStrongPassword(this.password);
+  }
+
+  get confirmValid(): boolean {
+    return !!this.confirmPassword && this.confirmPassword === this.password;
+  }
+
+  get formValid(): boolean {
+    return this.firstNameValid
+      && this.lastNameValid
+      && this.emailValid
+      && this.passwordValid
+      && this.confirmValid;
+  }
+
+  /** Marque un champ comme quitté (événement blur). */
+  touch(field: string): void {
+    this.touched.add(field);
+  }
+
+  /** Vrai si l'erreur du champ doit être affichée. */
+  showError(field: string, valid: boolean): boolean {
+    return !valid && (this.submitted || this.touched.has(field));
   }
 
 
-  /**
-   * Affiche ou masque la confirmation
-   * du mot de passe.
-   */
-  toggleConfirmPassword(): void {
+  // ============================================================
+  // AFFICHAGE DES MOTS DE PASSE
+  // ============================================================
 
-    // Inverse la valeur actuelle.
+  togglePassword(): void {
+    this.passwordVisible = !this.passwordVisible;
+  }
+
+  toggleConfirmPassword(): void {
     this.confirmPasswordVisible =
       !this.confirmPasswordVisible;
   }
 
 
-  /**
-   * Méthode appelée lors de l'inscription.
-   *
-   * 1. Vérifie le formulaire côté navigateur.
-   * 2. Envoie les données à POST /api/auth/register.
-   * 3. L'API renvoie un JWT : l'étudiant est connecté
-   *    et redirigé vers son tableau de bord.
-   */
+  // ============================================================
+  // INSCRIPTION
+  // ============================================================
+
   onRegister(): void {
 
     this.errorMessage = '';
+    this.submitted = true;
 
-    const prenom = this.firstName.trim();
-    const nom = this.lastName.trim();
-    const email = this.email.trim();
-
-    if (!prenom || !nom || !email || !this.password) {
-      this.errorMessage = 'Veuillez remplir tous les champs.';
-      return;
-    }
-
-    // Même règle que le backend (RegisterRequest).
-    if (this.password.length < 8 || this.password.length > 72) {
-      this.errorMessage =
-        'Le mot de passe doit contenir entre 8 et 72 caractères.';
-      return;
-    }
-
-    if (this.password !== this.confirmPassword) {
-      this.errorMessage = 'Les mots de passe ne correspondent pas.';
+    if (!this.formValid) {
+      this.errorMessage = !this.passwordValid
+        ? PASSWORD_MESSAGE
+        : 'Veuillez corriger les champs signalés.';
       return;
     }
 
     this.loading = true;
 
     this.authService.register({
-      prenom,
-      nom,
-      email,
+      prenom: this.firstName.trim(),
+      nom: this.lastName.trim(),
+      email: this.email.trim(),
       password: this.password
     }).subscribe({
 
       next: () => {
         this.loading = false;
-        this.router.navigate(['/dashboard']);
+
+        // Petit écran de chargement avant d'entrer dans l'espace étudiant.
+        this.showLoader = true;
+        this.redirectTimer = setTimeout(
+          () => this.router.navigate(['/dashboard']),
+          LOGIN_LOADER_DURATION
+        );
       },
 
       error: (error: HttpErrorResponse) => {
+
         this.loading = false;
 
-        // 400 : l'API renvoie un message lisible
-        // (ex : "Cette adresse email est déjà utilisée").
+        // 400 : e-mail déjà utilisé ou champ refusé par l'API.
         if (error.status === 400 && error.error?.message) {
           this.errorMessage = error.error.message;
         } else if (error.status === 0) {
@@ -153,5 +203,9 @@ export class Register {
         }
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    clearTimeout(this.redirectTimer);
   }
 }

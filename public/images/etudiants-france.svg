@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 400" role="img" aria-labelledby="t">
+  <title id="t">Trois étudiants internationaux devant la tour Eiffel</title>
+
+  <!-- Fond -->
+  <circle cx="250" cy="205" r="172" fill="#eaf1ff"/>
+  <circle cx="92" cy="300" r="7" fill="#e63946" opacity=".5"/>
+  <circle cx="430" cy="110" r="5" fill="#1646a0" opacity=".4"/>
+  <circle cx="70" cy="140" r="4" fill="#1646a0" opacity=".35"/>
+
+  <!-- Tour Eiffel -->
+  <g fill="#1646a0" opacity=".18">
+    <path d="M392 40 L386 110 L372 200 L350 300 L334 352 H360 L370 312 Q392 292 414 312 L424 352 H450 L434 300 L412 200 L398 110 Z"/>
+    <rect x="368" y="196" width="48" height="8" rx="2"/>
+    <rect x="378" y="110" width="28" height="6" rx="2"/>
+    <rect x="389" y="22" width="6" height="20" rx="2"/>
+  </g>
+
+  <!-- Drapeau -->
+  <rect x="96" y="70" width="3" height="78" rx="1.5" fill="#344054"/>
+  <rect x="99" y="72" width="14" height="28" fill="#0055a4"/>
+  <rect x="113" y="72" width="14" height="28" fill="#ffffff"/>
+  <rect x="127" y="72" width="14" height="28" fill="#ef4135"/>
+
+  <!-- Sol -->
+  <ellipse cx="248" cy="358" rx="196" ry="16" fill="#d5e1f7"/>
+
+  <!-- Étudiant 3 (droite, sac à dos) -->
+  <g>
+    <rect x="318" y="300" width="16" height="56" rx="6" fill="#172033"/>
+    <rect x="344" y="300" width="16" height="56" rx="6" fill="#172033"/>
+    <rect x="352" y="232" width="34" height="62" rx="12" fill="#f4a261"/>
+    <rect x="304" y="222" width="72" height="92" rx="30" fill="#16845b"/>
+    <path d="M318 232 L330 300 M362 232 L352 300" stroke="#0f6847" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="340" cy="190" r="25" fill="#c68642"/>
+    <circle cx="322" cy="174" r="11" fill="#2b1d14"/>
+    <circle cx="336" cy="166" r="12" fill="#2b1d14"/>
+    <circle cx="352" cy="168" r="11" fill="#2b1d14"/>
+    <circle cx="362" cy="180" r="9" fill="#2b1d14"/>
+    <circle cx="332" cy="194" r="2.4" fill="#172033"/>
+    <circle cx="348" cy="194" r="2.4" fill="#172033"/>
+    <path d="M333 204 Q340 210 347 204" stroke="#172033" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- Étudiant 1 (gauche, diplômé) -->
+  <g>
+    <rect x="148" y="300" width="16" height="56" rx="6" fill="#172033"/>
+    <rect x="174" y="300" width="16" height="56" rx="6" fill="#172033"/>
+    <rect x="132" y="214" width="76" height="106" rx="30" fill="#1646a0"/>
+    <path d="M170 214 L156 252 L170 246 L184 252 Z" fill="#ffffff"/>
+    <rect x="112" y="252" width="44" height="14" rx="7" fill="#ffffff" transform="rotate(-18 134 259)"/>
+    <rect x="128" y="250" width="6" height="14" fill="#e63946" transform="rotate(-18 134 259)"/>
+    <circle cx="170" cy="182" r="26" fill="#8d5524"/>
+    <path d="M144 180 Q146 152 170 152 Q194 152 196 180 Q184 166 170 166 Q156 166 144 180 Z" fill="#1d130d"/>
+    <polygon points="134,156 170,140 206,156 170,172" fill="#172033"/>
+    <rect x="156" y="158" width="28" height="10" rx="3" fill="#172033"/>
+    <path d="M200 158 L204 184" stroke="#e63946" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="204" cy="187" r="4" fill="#e63946"/>
+    <circle cx="162" cy="186" r="2.4" fill="#172033"/>
+    <circle cx="178" cy="186" r="2.4" fill="#172033"/>
+    <path d="M163 196 Q170 202 177 196" stroke="#172033" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- Étudiante 2 (centre, ordinateur) -->
+  <g>
+    <rect x="234" y="312" width="16" height="46" rx="6" fill="#344054"/>
+    <rect x="260" y="312" width="16" height="46" rx="6" fill="#344054"/>
+    <path d="M222 200 Q222 170 255 168 Q288 170 288 200 L292 262 Q255 272 218 262 Z" fill="#5a3825"/>
+    <rect x="212" y="236" width="86" height="92" rx="32" fill="#e63946"/>
+    <circle cx="255" cy="206" r="26" fill="#f1c27d"/>
+    <path d="M229 204 Q230 176 255 176 Q280 176 281 204 Q268 188 255 190 Q240 190 229 204 Z" fill="#5a3825"/>
+    <circle cx="247" cy="210" r="2.4" fill="#172033"/>
+    <circle cx="263" cy="210" r="2.4" fill="#172033"/>
+    <path d="M248 220 Q255 226 262 220" stroke="#172033" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+    <rect x="224" y="276" width="62" height="42" rx="5" fill="#172033"/>
+    <rect x="229" y="281" width="52" height="30" rx="3" fill="#eaf1ff"/>
+    <path d="M244 296 L252 304 L267 288" stroke="#16845b" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="216" y="316" width="78" height="6" rx="3" fill="#344054"/>
+  </g>
+
+</svg>

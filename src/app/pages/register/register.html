@@ -52,8 +52,17 @@
             [(ngModel)]="firstName"
             placeholder="Prénom"
             autocomplete="given-name"
+            maxlength="50"
             required
+            (blur)="touch('firstName')"
+            [class.invalid]="showError('firstName', firstNameValid)"
+            [attr.aria-invalid]="showError('firstName', firstNameValid)"
+            aria-describedby="firstName-error"
           >
+
+          @if (showError('firstName', firstNameValid)) {
+            <p id="firstName-error" class="field-error">{{ nameMessage }}</p>
+          }
 
         </div>
 
@@ -72,8 +81,17 @@
             [(ngModel)]="lastName"
             placeholder="Nom"
             autocomplete="family-name"
+            maxlength="50"
             required
+            (blur)="touch('lastName')"
+            [class.invalid]="showError('lastName', lastNameValid)"
+            [attr.aria-invalid]="showError('lastName', lastNameValid)"
+            aria-describedby="lastName-error"
           >
+
+          @if (showError('lastName', lastNameValid)) {
+            <p id="lastName-error" class="field-error">{{ nameMessage }}</p>
+          }
 
         </div>
 
@@ -95,10 +113,20 @@
           type="email"
           name="email"
           [(ngModel)]="email"
-          placeholder="Votre adresse e-mail"
+          placeholder="nom@domaine.fr"
           autocomplete="email"
+          inputmode="email"
+          [attr.maxlength]="emailMax"
           required
+          (blur)="touch('email')"
+          [class.invalid]="showError('email', emailValid)"
+          [attr.aria-invalid]="showError('email', emailValid)"
+          aria-describedby="email-error"
         >
+
+        @if (showError('email', emailValid)) {
+          <p id="email-error" class="field-error">{{ emailMessage }}</p>
+        }
 
       </div>
 
@@ -120,9 +148,14 @@
             [type]="passwordVisible ? 'text' : 'password'"
             name="password"
             [(ngModel)]="password"
-            placeholder="Nouveau mot de passe"
+            placeholder="12 caractères minimum"
             autocomplete="new-password"
+            [attr.maxlength]="passwordMax"
             required
+            (blur)="touch('password')"
+            [class.invalid]="showError('password', passwordValid)"
+            [attr.aria-invalid]="showError('password', passwordValid)"
+            aria-describedby="password-rules"
           >
 
           <!-- Icône œil -->
@@ -189,6 +222,16 @@
 
         </div>
 
+        <!-- Critères du mot de passe (CNIL / ANSSI), mis à jour en direct -->
+        <ul id="password-rules" class="password-rules">
+          @for (check of passwordChecks; track check.label) {
+            <li [class.ok]="check.ok">
+              <span aria-hidden="true">{{ check.ok ? '✓' : '○' }}</span>
+              {{ check.label }}
+            </li>
+          }
+        </ul>
+
       </div>
 
 
@@ -213,7 +256,12 @@
             [(ngModel)]="confirmPassword"
             placeholder="Confirmer votre mot de passe"
             autocomplete="new-password"
+            [attr.maxlength]="passwordMax"
             required
+            (blur)="touch('confirmPassword')"
+            [class.invalid]="showError('confirmPassword', confirmValid)"
+            [attr.aria-invalid]="showError('confirmPassword', confirmValid)"
+            aria-describedby="confirm-error"
           >
 
           <!-- Icône œil -->
@@ -278,6 +326,10 @@
 
         </div>
 
+        @if (showError('confirmPassword', confirmValid)) {
+          <p id="confirm-error" class="field-error">Les mots de passe ne correspondent pas.</p>
+        }
+
       </div>
 
 
@@ -287,7 +339,7 @@
 
       @if (errorMessage) {
 
-        <p class="error">
+        <p class="error" role="alert">
           {{ errorMessage }}
         </p>
 
@@ -328,3 +380,9 @@
   </div>
 
 </div>
+
+
+<!-- Écran de chargement après la création du compte -->
+@if (showLoader) {
+  <app-login-loader [prenom]="firstName.trim()"></app-login-loader>
+}

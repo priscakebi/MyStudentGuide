@@ -20,6 +20,12 @@ import {
 import { Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
+import {
+  PASSWORD_MESSAGE,
+  PasswordCheck,
+  isStrongPassword,
+  passwordChecks
+} from '../../../utils/form-rules';
 
 
 // ============================================================
@@ -267,11 +273,8 @@ export class AdminAccount implements OnInit {
         '',
         [
           Validators.required,
-          Validators.minLength(8),
-          Validators.pattern(/(?=.*[a-z])/),
-          Validators.pattern(/(?=.*[A-Z])/),
-          Validators.pattern(/(?=.*\d)/),
-          Validators.pattern(/(?=.*[@$!%*?&])/)
+          (control: { value: string | null }) =>
+            isStrongPassword(control.value || '') ? null : { weakPassword: true }
         ]
       ],
 
@@ -764,65 +767,12 @@ export class AdminAccount implements OnInit {
    * respecte toutes les règles de sécurité.
    */
   isPasswordSecure(): boolean {
+    return isStrongPassword(this.passwordForm.get('newPassword')?.value || '');
+  }
 
-    const password =
-      this.passwordForm.get('newPassword')?.value;
-
-
-    /**
-     * Aucun mot de passe saisi.
-     */
-    if (!password) {
-
-      return false;
-    }
-
-
-    /**
-     * Minimum 8 caractères.
-     */
-    const hasMinimumLength =
-      password.length >= 8;
-
-
-    /**
-     * Au moins une minuscule.
-     */
-    const hasLowercase =
-      /[a-z]/.test(password);
-
-
-    /**
-     * Au moins une majuscule.
-     */
-    const hasUppercase =
-      /[A-Z]/.test(password);
-
-
-    /**
-     * Au moins un chiffre.
-     */
-    const hasNumber =
-      /\d/.test(password);
-
-
-    /**
-     * Au moins un caractère spécial.
-     */
-    const hasSpecialCharacter =
-      /[@$!%*?&]/.test(password);
-
-
-    /**
-     * Toutes les conditions doivent être vraies.
-     */
-    return (
-      hasMinimumLength &&
-      hasLowercase &&
-      hasUppercase &&
-      hasNumber &&
-      hasSpecialCharacter
-    );
+  /** Critères du nouveau mot de passe, pour la checklist du template. */
+  get newPasswordChecks(): PasswordCheck[] {
+    return passwordChecks(this.passwordForm.get('newPassword')?.value || '');
   }
 
 
@@ -866,7 +816,7 @@ export class AdminAccount implements OnInit {
     if (!this.isPasswordSecure()) {
 
       this.errorMessage =
-        'Le mot de passe doit contenir au minimum 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.';
+        PASSWORD_MESSAGE;
 
       return;
     }

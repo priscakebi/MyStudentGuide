@@ -544,3 +544,55 @@ input:focus {
     font-size: 22px;
   }
 }
+
+// =====================================================
+// VALIDATION DES CHAMPS (CNIL / ANSSI)
+// =====================================================
+
+// Champ refusé : bordure rouge.
+input.invalid {
+  border-color: #c90000;
+  background: #fff7f7;
+}
+
+// Message sous le champ concerné.
+.field-error {
+  margin: 6px 0 0;
+  color: #c90000;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+// Checklist du mot de passe, mise à jour à chaque frappe.
+.password-rules {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px 12px;
+
+  margin: 10px 0 0;
+  padding: 0;
+
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    color: #8a8f98;
+    font-size: 0.78rem;
+
+    transition: color 0.2s ease;
+
+    &.ok {
+      color: #16845b;
+      font-weight: 600;
+    }
+  }
+}
+
+@media (max-width: 420px) {
+  .password-rules {
+    grid-template-columns: 1fr;
+  }
+}

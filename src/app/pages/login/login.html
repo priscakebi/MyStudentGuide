@@ -61,9 +61,20 @@
             type="email"
             name="email"
             [(ngModel)]="email"
-            placeholder="Votre adresse e-mail"
+            placeholder="nom@domaine.fr"
+            autocomplete="email"
+            inputmode="email"
+            [attr.maxlength]="emailMax"
             required
+            (blur)="emailTouched = true"
+            [class.invalid]="showEmailError"
+            [attr.aria-invalid]="showEmailError"
+            aria-describedby="email-error"
           >
+
+          @if (showEmailError) {
+            <p id="email-error" class="field-error">{{ emailMessage }}</p>
+          }
 
         </div>
 
@@ -98,6 +109,8 @@
               name="password"
               [(ngModel)]="password"
               placeholder="Votre mot de passe"
+              autocomplete="current-password"
+              [attr.maxlength]="passwordMax"
               required
             >
 
@@ -275,3 +288,9 @@
   </section>
 
 </div>
+
+
+<!-- Écran de chargement après connexion -->
+@if (showLoader) {
+  <app-login-loader></app-login-loader>
+}

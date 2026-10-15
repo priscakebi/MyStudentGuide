@@ -75,3 +75,25 @@ Le formulaire admin ne permet pas de **créer** un administrateur : il faut qu'u
 
 <!-- • npm test
 • npx ng test --watch=false -->
+## 6. Formulaires conformes, page d'accueil et écran de chargement
+**Règles des champs (CNIL / ANSSI)**, identiques côté front (`utils/form-rules.ts`) et API (`validation/FormRules.java`) :
+- Mot de passe : 12 à 72 caractères, avec une majuscule, une minuscule, un chiffre et un caractère spécial
+  (les lettres accentuées comptent). Checklist en direct sous le champ.
+  S'applique à l'inscription, à la réinitialisation et au changement de mot de passe (étudiant et admin),
+  **pas à la connexion** : les comptes créés avec l'ancienne règle (8 caractères) se connectent toujours.
+- E-mail : format `nom@domaine.ext`, 254 caractères maximum (inscription et connexion).
+- Prénom / nom : 2 à 50 lettres, espaces, tirets et apostrophes.
+- Connexion : le `returnUrl` accepte maintenant toute page interne (hors admin), par ex. `/demarches`.
+
+**Écran de chargement** (`components/login-loader`) : après connexion ou inscription d'un étudiant,
+2,8 s d'écran bleu avec liseré tricolore et deux bandes d'icônes qui défilent (démarches, vie étudiante,
+France). Les animations sont coupées si le système demande de réduire les animations.
+
+**Charte graphique et accueil** :
+- Police Plus Jakarta Sans pour toute l'appli (avant : police par défaut du navigateur), `lang="fr"`,
+  couleurs de la marque en variables CSS (`styles.scss`).
+- Hero avec illustration d'étudiants devant la tour Eiffel (`public/images/etudiants-france.svg`),
+  badges flottants et points forts.
+- Nouvelle section « Toutes vos démarches, par thème » : 8 cartes (Séjour & visa, Santé, Logement, Études,
+  Banque & budget, Emploi, Transports, Vie quotidienne), chacune listant des exemples de démarches.
+- Illustration dans la section « Notre objectif » (`public/images/etudiant-demarches.svg`).
