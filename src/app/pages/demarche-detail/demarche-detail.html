@@ -590,9 +590,20 @@ class="back-button"
         Prévenez-nous, l'équipe vérifiera la démarche.
       </p>
 
-      <button type="button" class="report-button" (click)="ouvrirSignalement()">
-        ⚠️ Signaler une erreur
-      </button>
+      <div class="report-actions">
+        <button type="button" class="report-button" (click)="ouvrirSignalement()">
+          ⚠️ Signaler une erreur
+        </button>
+
+        <!-- Question sur cette démarche : formulaire d'aide pré-rempli -->
+        <a
+          class="help-link"
+          routerLink="/dashboard/aide"
+          [queryParams]="{ demarche: demarche.id }"
+        >
+          Poser une question à l'équipe →
+        </a>
+      </div>
 
     }
 

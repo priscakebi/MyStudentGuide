@@ -51,6 +51,10 @@
         <li><a routerLink="/home">Accueil</a></li>
         <li><a routerLink="/demarches">Démarches</a></li>
         <li><a routerLink="/documents">Documents requis</a></li>
+        @if (!isAdmin) {
+          <!-- Un visiteur est invité à se connecter, puis ramené ici. -->
+          <li><a routerLink="/dashboard/aide">Besoin d'aide ?</a></li>
+        }
         @if (isLoggedIn) {
           <li><a [routerLink]="isAdmin ? '/admin' : '/dashboard'">Mon espace</a></li>
         } @else {

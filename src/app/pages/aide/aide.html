@@ -1,0 +1,233 @@
+<!-- ============================================================
+     BESOIN D'AIDE ?
+     ============================================================ -->
+
+<section class="aide-page">
+
+  <header class="page-header">
+    <h1>Besoin d'aide ?</h1>
+    <p>
+      Une étape n'est pas claire, un document vous pose problème ?
+      Écrivez à l'équipe MyStudentGuide : la réponse vous arrivera
+      en notification et s'affichera ci-dessous.
+    </p>
+  </header>
+
+
+  <div class="aide-layout">
+
+    <!-- ========================================================
+         FORMULAIRE
+         ======================================================== -->
+
+    <div class="card">
+
+      <h2>Nouvelle demande</h2>
+
+      @if (limiteAtteinte) {
+
+        <p class="notice warning" role="status">
+          Vous avez déjà 3 demandes en attente. Attendez une réponse
+          avant d'en envoyer une nouvelle.
+        </p>
+
+      } @else {
+
+        <form (ngSubmit)="envoyer()" novalidate>
+
+          <!-- Sujet -->
+          <div class="form-group">
+            <label for="sujet">Sujet <span class="required" aria-hidden="true">*</span></label>
+            <select
+              id="sujet"
+              name="sujet"
+              [(ngModel)]="sujet"
+              required
+              [class.invalid]="sujetManquant"
+              [attr.aria-invalid]="sujetManquant"
+              aria-describedby="sujet-error"
+            >
+              <option value="" disabled>Choisissez un sujet</option>
+              @for (s of sujets; track s.value) {
+                <option [value]="s.value">{{ s.label }}</option>
+              }
+            </select>
+            @if (sujetManquant) {
+              <p id="sujet-error" class="field-error">Choisissez le sujet de votre demande.</p>
+            }
+          </div>
+
+          <!-- Démarche concernée (facultative) -->
+          @if (demarcheUtile) {
+            <div class="form-group">
+              <label for="demarche">
+                Démarche concernée <span class="optional">Facultatif</span>
+              </label>
+              <select id="demarche" name="demarcheId" [(ngModel)]="demarcheId">
+                <option [ngValue]="null">Aucune en particulier</option>
+                @for (d of demarches; track d.id) {
+                  <option [ngValue]="d.id">{{ d.titre }}</option>
+                }
+              </select>
+            </div>
+          }
+
+          <!-- Message -->
+          <div class="form-group">
+            <label for="message">Votre message <span class="required" aria-hidden="true">*</span></label>
+            <textarea
+              id="message"
+              name="message"
+              rows="6"
+              [(ngModel)]="message"
+              [attr.maxlength]="messageMax"
+              required
+              placeholder="Expliquez votre difficulté : ce que vous avez essayé, à quelle étape vous êtes bloqué(e)…"
+              [class.invalid]="messageInvalide"
+              [attr.aria-invalid]="messageInvalide"
+              aria-describedby="message-help message-error"
+            ></textarea>
+            <div class="field-footer">
+              @if (messageInvalide) {
+                <p id="message-error" class="field-error">
+                  Votre message doit faire au moins {{ messageMin }} caractères.
+                </p>
+              }
+              <span class="field-counter" [class.near-limit]="message.length > messageMax * 0.9">
+                {{ message.length }} / {{ messageMax }}
+              </span>
+            </div>
+            <p id="message-help" class="notice privacy">
+              🔒 N'indiquez pas de données sensibles : numéro de passeport ou
+              de titre de séjour, coordonnées bancaires, mot de passe.
+            </p>
+          </div>
+
+          @if (erreur) {
+            <p class="notice error" role="alert">{{ erreur }}</p>
+          }
+
+          @if (succes) {
+            <p class="notice success" role="status">{{ succes }}</p>
+          }
+
+          <button type="submit" class="btn-primary" [disabled]="envoiEnCours">
+            {{ envoiEnCours ? 'Envoi…' : 'Envoyer ma demande' }}
+          </button>
+
+        </form>
+
+      }
+
+    </div>
+
+
+    <!-- ========================================================
+         AVANT D'ÉCRIRE
+         ======================================================== -->
+
+    <aside class="card tips" aria-labelledby="tips-title">
+
+      <h2 id="tips-title">Avant d'écrire</h2>
+
+      <ul>
+        <li>
+          <a routerLink="/demarches">Parcourez les démarches</a> :
+          chaque fiche détaille les étapes et les liens officiels.
+        </li>
+        <li>
+          <a routerLink="/documents">Consultez les documents requis</a>
+          pour chaque démarche.
+        </li>
+        <li>
+          Une information est fausse ou dépassée ? Utilisez
+          « Signaler une erreur » sur la page de la démarche.
+        </li>
+      </ul>
+
+      <p class="tips-note">
+        L'équipe répond en général sous quelques jours ouvrés.
+        Vos demandes sont conservées 12 mois après leur traitement,
+        et supprimées avec votre compte.
+      </p>
+
+    </aside>
+
+  </div>
+
+
+  <!-- ==========================================================
+       MES DEMANDES
+       ========================================================== -->
+
+  <section class="history" aria-labelledby="history-title">
+
+    <h2 id="history-title">Mes demandes</h2>
+
+    @if (erreurListe) {
+      <p class="notice error" role="alert">{{ erreurListe }}</p>
+    }
+
+    @if (chargement) {
+
+      <p class="muted">Chargement de vos demandes…</p>
+
+    } @else if (demandes.length === 0) {
+
+      <p class="empty">Vous n'avez encore envoyé aucune demande.</p>
+
+    } @else {
+
+      <ul class="demandes">
+        @for (d of demandes; track d.id) {
+          <li class="demande" [class]="'statut-' + d.statut">
+
+            <div class="demande-top">
+              <span class="badge sujet">{{ d.sujetLibelle }}</span>
+              <span class="badge" [class]="'badge-' + d.statut">{{ libelleStatut(d.statut) }}</span>
+              <time [attr.datetime]="d.dateCreation">{{ d.dateCreation | date: 'd MMM y à HH:mm' }}</time>
+            </div>
+
+            @if (d.demarcheTitre) {
+              <p class="demarche">
+                Démarche :
+                @if (d.demarcheId) {
+                  <a [routerLink]="['/demarches', d.demarcheId]">{{ d.demarcheTitre }}</a>
+                } @else {
+                  {{ d.demarcheTitre }}
+                }
+              </p>
+            }
+
+            <p class="texte">{{ d.message }}</p>
+
+            @if (d.reponse) {
+              <div class="reponse">
+                <strong>
+                  Réponse de l'équipe
+                  @if (d.dateReponse) {
+                    <span>· {{ d.dateReponse | date: 'd MMM y' }}</span>
+                  }
+                </strong>
+                <p>{{ d.reponse }}</p>
+              </div>
+            }
+
+            <button
+              type="button"
+              class="btn-delete"
+              [disabled]="suppressionEnCours === d.id"
+              (click)="supprimer(d)"
+            >
+              Supprimer
+            </button>
+
+          </li>
+        }
+      </ul>
+
+    }
+
+  </section>
+
+</section>

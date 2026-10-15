@@ -47,6 +47,7 @@ export interface AdminStats {
   inscriptionsParSemaine: { debutSemaine: string; inscriptions: number }[];
   activiteRecente: { titre: string; message: string; date: string; lu: boolean }[];
   signalementsOuverts: number;
+  demandesAideOuvertes: number;
 }
 
 
@@ -438,6 +439,11 @@ export class AdminDashboard implements OnInit {
     // PAGE SIGNALEMENTS
     // =======================================================
 
+    else if (url.includes('/aide')) {
+      this.pageTitle = "Demandes d'aide";
+      this.pageDescription =
+        'Répondez aux questions envoyées par les étudiants.';
+    }
     else if (url.includes('/account')) {
       this.pageTitle = 'Mon compte';
       this.pageDescription =

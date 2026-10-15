@@ -1,0 +1,352 @@
+// ============================================================
+// BESOIN D'AIDE ?
+// ============================================================
+
+$blue: #1646a0;
+$blue-dark: #0d2f70;
+$blue-light: #eaf1ff;
+$red: #c62828;
+$text-dark: #172033;
+$text: #344054;
+$text-light: #667085;
+$border: #e6eaf0;
+$white: #ffffff;
+
+.aide-page {
+  max-width: 1100px;
+}
+
+.page-header {
+  margin-bottom: 24px;
+
+  h1 {
+    margin: 0 0 8px;
+    color: $text-dark;
+    font-size: 26px;
+    letter-spacing: -0.3px;
+  }
+
+  p {
+    max-width: 680px;
+    margin: 0;
+    color: $text-light;
+    line-height: 1.6;
+  }
+}
+
+.aide-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.card {
+  padding: 24px;
+  border: 1px solid $border;
+  border-radius: 16px;
+  background: $white;
+  box-shadow: 0 4px 16px rgba(20, 44, 90, 0.05);
+
+  h2 {
+    margin: 0 0 18px;
+    color: $text-dark;
+    font-size: 18px;
+  }
+}
+
+// ------------------------------------------------------------
+// FORMULAIRE
+// ------------------------------------------------------------
+
+.form-group {
+  margin-bottom: 18px;
+
+  label {
+    display: block;
+    margin-bottom: 7px;
+    color: $text-dark;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  select,
+  textarea {
+    width: 100%;
+    padding: 11px 13px;
+    border: 1px solid #d0d5dd;
+    border-radius: 10px;
+    background: $white;
+    color: $text-dark;
+    font-size: 14px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      border-color: #98a2b3;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--msg-focus);
+      box-shadow: var(--msg-focus-ring);
+    }
+
+    &.invalid {
+      border-color: $red;
+      background: #fff7f7;
+    }
+  }
+
+  textarea {
+    min-height: 140px;
+  }
+}
+
+.required {
+  color: $red;
+}
+
+.optional {
+  margin-left: 6px;
+  color: $text-light;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.field-footer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+
+  .field-counter {
+    margin-left: auto;
+  }
+}
+
+.field-error {
+  margin: 6px 0 0;
+  color: $red;
+  font-size: 13px;
+}
+
+.notice {
+  margin: 0 0 16px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  line-height: 1.5;
+
+  &.privacy {
+    margin: 10px 0 0;
+    background: #f8f9fc;
+    color: $text;
+  }
+
+  &.success { background: #e9f8ee; color: #217a3c; }
+  &.error { background: #fdecec; color: #b42323; }
+  &.warning { background: #fff8e8; color: #92400e; }
+}
+
+.btn-primary {
+  min-height: 46px;
+  padding: 0 22px;
+  border: none;
+  border-radius: 10px;
+  background: $blue;
+  color: $white;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background: $blue-dark;
+  }
+
+  &:disabled {
+    opacity: 0.65;
+  }
+}
+
+// ------------------------------------------------------------
+// AVANT D'ÉCRIRE
+// ------------------------------------------------------------
+
+.tips {
+  background: linear-gradient(160deg, $blue-light, $white 60%);
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0;
+    padding-left: 18px;
+    color: $text;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  a {
+    color: $blue;
+    font-weight: 600;
+  }
+}
+
+.tips-note {
+  margin: 18px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid $border;
+  color: $text-light;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+// ------------------------------------------------------------
+// MES DEMANDES
+// ------------------------------------------------------------
+
+.history {
+  margin-top: 32px;
+
+  h2 {
+    margin: 0 0 14px;
+    color: $text-dark;
+    font-size: 18px;
+  }
+}
+
+.muted,
+.empty {
+  color: $text-light;
+}
+
+.empty {
+  padding: 24px;
+  border: 1px dashed #d0d5dd;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.demandes {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.demande {
+  position: relative;
+  padding: 18px 20px;
+  border: 1px solid $border;
+  border-left: 4px solid #e8a33d;
+  border-radius: 12px;
+  background: $white;
+
+  &.statut-REPONDUE { border-left-color: #217a3c; }
+  &.statut-FERMEE { border-left-color: #cfd5df; }
+}
+
+.demande-top {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-right: 90px;
+
+  time {
+    color: #9299a8;
+    font-size: 12px;
+  }
+}
+
+.badge {
+  padding: 4px 9px;
+  border-radius: 50px;
+  font-size: 11.5px;
+  font-weight: 700;
+
+  &.sujet { background: $blue-light; color: $blue; }
+  &.badge-OUVERTE { background: #fff3cd; color: #856404; }
+  &.badge-REPONDUE { background: #e9f8ee; color: #217a3c; }
+  &.badge-FERMEE { background: #f1f3f6; color: $text-light; }
+}
+
+.demarche {
+  margin: 10px 0 0;
+  color: $text-light;
+  font-size: 13px;
+
+  a { color: $blue; }
+}
+
+.texte {
+  margin: 10px 0 0;
+  color: $text;
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.reponse {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #f0f7f2;
+
+  strong {
+    color: #217a3c;
+    font-size: 13px;
+
+    span {
+      color: $text-light;
+      font-weight: 500;
+    }
+  }
+
+  p {
+    margin: 6px 0 0;
+    color: $text;
+    font-size: 14px;
+    line-height: 1.6;
+    white-space: pre-line;
+  }
+}
+
+.btn-delete {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  padding: 6px 10px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: $text-light;
+  font-family: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    border-color: #f3c7c7;
+    color: $red;
+  }
+}
+
+@media (max-width: 900px) {
+  .aide-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 18px 16px;
+  }
+
+  .btn-primary {
+    width: 100%;
+  }
+}

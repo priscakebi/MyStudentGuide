@@ -467,6 +467,27 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./pages/account/account')
             .then(m => m.Account)
+      },
+
+
+      // ====================================================================
+      // BESOIN D'AIDE ?
+      // ====================================================================
+
+      {
+        /*
+         * URL :
+         * /dashboard/aide
+         *
+         * L'étudiant écrit à l'administration et retrouve ses réponses.
+         * Accepte ?demarche=<id> pour présélectionner une démarche.
+         */
+        path: 'aide',
+        title: "Besoin d'aide ?",
+
+        loadComponent: () =>
+          import('./pages/aide/aide')
+            .then(m => m.Aide)
       }
     ]
   },
@@ -637,6 +658,26 @@ export const routes: Routes = [
       loadComponent: () =>
         import('./pages/admin/signalements-admin/signalements-admin')
           .then(m => m.SignalementsAdmin)
+    },
+
+
+    // ====================================================================
+    // DEMANDES D'AIDE DES ÉTUDIANTS
+    // ====================================================================
+
+    {
+      /*
+       * URL :
+       * /admin/aide
+       *
+       * Questions envoyées depuis « Besoin d'aide ? » ; l'admin y répond.
+       */
+      path: 'aide',
+      title: "Demandes d'aide · Administration",
+
+      loadComponent: () =>
+        import('./pages/admin/aide-admin/aide-admin')
+          .then(m => m.AideAdmin)
     },
 
 

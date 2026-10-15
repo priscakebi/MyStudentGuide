@@ -1,0 +1,176 @@
+<!-- ============================================================
+     DEMANDES D'AIDE DES ÉTUDIANTS
+     ============================================================ -->
+
+<section class="content">
+
+  <div class="intro">
+    <p>
+      Les étudiants vous écrivent depuis la page « Besoin d'aide ? » de leur
+      espace. Votre réponse leur est envoyée en <strong>notification</strong>
+      et reste visible dans leur historique.
+    </p>
+  </div>
+
+
+  <!-- Filtres -->
+  <div class="filters" role="group" aria-label="Filtrer les demandes">
+    @for (f of filtres; track f.label) {
+      <button
+        type="button"
+        class="filter"
+        [class.active]="filtre === f.value"
+        [attr.aria-pressed]="filtre === f.value"
+        (click)="choisirFiltre(f.value)"
+      >
+        {{ f.label }}
+      </button>
+    }
+  </div>
+
+
+  @if (message) {
+    <p class="message success" role="status">{{ message }}</p>
+  }
+
+  @if (erreur) {
+    <p class="message error" role="alert">{{ erreur }}</p>
+  }
+
+
+  @if (loading) {
+
+    <p class="state">Chargement des demandes…</p>
+
+  } @else if (demandes.length === 0) {
+
+    <div class="empty">
+      <span aria-hidden="true">✅</span>
+      <p>
+        @if (filtre === 'OUVERTE') {
+          Aucune demande en attente. Tout le monde a sa réponse !
+        } @else {
+          Aucune demande.
+        }
+      </p>
+    </div>
+
+  } @else {
+
+    <ul class="list">
+      @for (d of demandes; track d.id) {
+        <li class="item" [class]="'statut-' + d.statut">
+
+          <div class="item-top">
+            <span class="badge sujet">{{ d.sujetLibelle }}</span>
+            <span class="badge" [class]="'badge-' + d.statut">{{ libelleStatut(d.statut) }}</span>
+            <time [attr.datetime]="d.dateCreation">{{ d.dateCreation | date: 'd MMM y à HH:mm' }}</time>
+          </div>
+
+          <p class="author">
+            <strong>{{ d.auteur || 'Un étudiant' }}</strong>
+            @if (d.demarcheTitre) {
+              à propos de
+              @if (d.demarcheId) {
+                <a [routerLink]="['/demarches', d.demarcheId]" target="_blank">{{ d.demarcheTitre }} ↗</a>
+              } @else {
+                {{ d.demarcheTitre }}
+              }
+            }
+          </p>
+
+          <blockquote>{{ d.message }}</blockquote>
+
+          @if (d.reponse && reponseOuverte !== d.id) {
+            <div class="reponse">
+              <strong>
+                Votre réponse
+                @if (d.dateReponse) {
+                  <span>· {{ d.dateReponse | date: 'd MMM y à HH:mm' }}</span>
+                }
+              </strong>
+              <p>{{ d.reponse }}</p>
+            </div>
+          }
+
+
+          <!-- Formulaire de réponse -->
+          @if (reponseOuverte === d.id) {
+
+            <form class="reply-form" (ngSubmit)="repondre(d)" novalidate>
+
+              <label [for]="'reponse-' + d.id">Réponse à {{ d.auteur || 'l\'étudiant' }}</label>
+
+              <textarea
+                [id]="'reponse-' + d.id"
+                [name]="'reponse-' + d.id"
+                rows="5"
+                [attr.maxlength]="reponseMax"
+                [(ngModel)]="brouillons[d.id]"
+                placeholder="Votre réponse sera envoyée à l'étudiant en notification."
+                required
+              ></textarea>
+
+              <span class="field-counter" [class.near-limit]="brouillon(d).length > reponseMax * 0.9">
+                {{ brouillon(d).length }} / {{ reponseMax }}
+              </span>
+
+              <div class="reply-actions">
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  [disabled]="enCours === d.id || !brouillon(d).trim()"
+                >
+                  {{ enCours === d.id ? 'Envoi…' : 'Envoyer la réponse' }}
+                </button>
+                <button type="button" class="btn btn-light" (click)="fermerReponse()">
+                  Annuler
+                </button>
+              </div>
+
+            </form>
+
+          } @else {
+
+            <div class="item-actions">
+
+              <button
+                type="button"
+                class="btn btn-primary"
+                [disabled]="enCours === d.id"
+                (click)="ouvrirReponse(d)"
+              >
+                {{ d.reponse ? 'Modifier la réponse' : 'Répondre' }}
+              </button>
+
+              @if (d.statut === 'FERMEE') {
+                <button
+                  type="button"
+                  class="btn btn-light"
+                  [disabled]="enCours === d.id"
+                  (click)="changerStatut(d, 'OUVERTE')"
+                >
+                  Rouvrir
+                </button>
+              } @else if (d.statut === 'OUVERTE') {
+                <button
+                  type="button"
+                  class="btn btn-reject"
+                  [disabled]="enCours === d.id"
+                  (click)="changerStatut(d, 'FERMEE')"
+                >
+                  Fermer sans suite
+                </button>
+              }
+
+            </div>
+
+          }
+
+        </li>
+      }
+    </ul>
+
+  }
+
+</section>

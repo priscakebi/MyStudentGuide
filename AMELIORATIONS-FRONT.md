@@ -261,3 +261,29 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
   `src/app/services/page-title.strategy.ts`. Pour une nouvelle page, il suffit d'ajouter `title: '...'` à sa route.
 - Limite : l'application est rendue dans le navigateur. Google exécute le JavaScript et voit donc ces titres,
   mais d'autres robots (aperçus de liens WhatsApp, Facebook…) ne voient que « MyStudentGuide ».
+
+## 17. Sidebars, formulaires et pied de page
+- **Sidebar étudiante** : menu regroupé (Mon parcours, Explorer, Mon compte). Sur téléphone, le bouton ☰
+  ne faisait rien (la sidebar restait cachée) : elle s'ouvre maintenant en tiroir, fermé par ✕, Échap,
+  un clic à côté ou un changement de page.
+- **Sidebar administrateur** : fond bleu nuit pour la distinguer de l'espace étudiant, menu regroupé,
+  lien « Voir le site », tiroir sur téléphone au lieu d'une bande à faire défiler.
+- **Formulaires** : contour bleu au focus partout (le rouge est réservé aux erreurs) ; les formulaires admin
+  appliquent les limites de l'API (nom de catégorie 100 caractères, titre de démarche 150…) avec un compteur.
+- **Pied de page** : navigation, sites officiels (Service-Public, ANEF, Campus France, etudiant.gouv.fr),
+  mention « informations indicatives », bouton « Haut de page ».
+
+## 18. Besoin d'aide ? (contact de l'administration)
+- **Étudiant** : page `/dashboard/aide` (menu « Besoin d'aide ? », lien du pied de page, et
+  « Poser une question à l'équipe » sur la page d'une démarche, qui présélectionne la démarche).
+  Sujet, démarche facultative, message de 10 à 2000 caractères ; l'historique affiche les réponses
+  et permet de supprimer une demande. Au plus 3 demandes en attente à la fois.
+- **Administrateur** : page `/admin/aide` (« Demandes d'aide », avec compteur dans la sidebar) pour répondre,
+  fermer sans suite ou rouvrir. La réponse arrive à l'étudiant en notification.
+- **Données personnelles** : l'étudiant est averti de ne pas écrire de données sensibles ; les demandes
+  traitées sont effacées après 12 mois (tâche nocturne) et toutes ses demandes sont supprimées avec son compte.
+
+**Backend (MyStudentGuide-Api)** :
+- `POST /api/aide`, `GET /api/aide/me`, `DELETE /api/aide/{id}` (étudiant).
+- `GET /api/admin/aide?statut=`, `PUT /api/admin/aide/{id}/reponse`, `PATCH /api/admin/aide/{id}?statut=` (admin).
+- Nouvelle table `demandes_aide` (créée automatiquement, `ddl-auto=update`) ; `demandesAideOuvertes` ajouté à `/api/admin/stats`.
