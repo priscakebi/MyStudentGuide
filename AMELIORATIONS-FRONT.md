@@ -405,3 +405,18 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
   pas de comptage des visites ni de mesure des performances. Vérifié avec un faux serveur Sentry.
 - Politique de confidentialité : Sentry ajouté aux prestataires, ligne « Rapports d'erreur techniques »
   et durée de conservation (`CONSERVATION_RAPPORTS_ERREUR` dans `legal-info.ts`, à vérifier dans Sentry).
+
+## 28. Accessibilité
+- Audit automatique **axe-core** (règles WCAG 2.x A et AA) de 30 pages (visiteur, étudiant, admin), sur
+  ordinateur et sur téléphone, en français et en anglais : de 223 éléments en défaut à **0**.
+- **Contrastes** : rouge de la marque assombri (`#e63946` → `#d0222f`, texte blanc à 5,3:1), gris clairs
+  remplacés par `#667085` (ou `#5b6474` sur fond teinté), vert « terminée » `#11704d`, barre latérale admin
+  plus claire sur fond sombre. Seule la propriété `color` a été modifiée pour les gris.
+- **Structure** : un seul `<main id="contenu">` par page (dans le layout public, l'espace étudiant et
+  l'administration) ; les pages n'ont plus leur propre `<main>`. Niveaux de titres sans saut (h1 → h2).
+- **Lien « Aller au contenu »** (FR / EN), visible au premier Tab : place le focus sur la zone principale
+  (`utils/aller-au-contenu.ts` ; un simple `href="#contenu"` renverrait à l'accueil à cause de `<base href="/">`).
+- Tableaux défilants de la politique de confidentialité accessibles au clavier ; contour de focus sur les
+  barres du graphique admin ; « Réduire les animations » du système respecté partout.
+- Pour relancer l'audit : servir le site, puis exécuter axe-core sur chaque page (extension navigateur
+  « axe DevTools » ou Lighthouse → Accessibilité).

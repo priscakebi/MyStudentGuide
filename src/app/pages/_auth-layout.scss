@@ -13,7 +13,7 @@
 
 $blue: #1646a0;
 $blue-dark: #0d2f70;
-$red: #e63946;
+$red: #d0222f;
 $text: #172033;
 $text-soft: #344054;
 $muted: #667085;
@@ -253,7 +253,7 @@ $success: #067647;
 .auth-eyebrow {
   display: inline-block;
   margin: 0 0 8px;
-  color: $red;
+  color: var(--msg-red);
   font-size: 0.74rem;
   font-weight: 800;
   letter-spacing: 0.12em;
@@ -336,7 +336,7 @@ input {
   transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
 
   &::placeholder {
-    color: #98a2b3;
+    color: #667085;
   }
 
   &:hover {
@@ -593,7 +593,7 @@ input {
   text-align: center;
 
   a {
-    color: #98a2b3;
+    color: #667085;
     text-decoration: none;
 
     &:hover {

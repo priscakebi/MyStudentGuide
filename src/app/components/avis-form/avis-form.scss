@@ -1,6 +1,6 @@
 $blue: #1646a0;
-$red: #e63946;
-$red-dark: #c92535;
+$red: #d0222f;
+$red-dark: #b51d29;
 $text-dark: #172033;
 $text: #344054;
 $text-light: #667085;
@@ -48,7 +48,7 @@ $star: #f5a524;
   font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.08em;
-  color: $red;
+  color: var(--msg-red);
 }
 
 h2 {

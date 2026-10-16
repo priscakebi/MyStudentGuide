@@ -6,8 +6,8 @@
 $blue: #1646a0;
 $blue-light: #eaf1ff;
 
-$red: #e63946;
-$red-dark: #c92535;
+$red: #d0222f;
+$red-dark: #b51d29;
 $red-light: #fff0f1;
 
 $white: #ffffff;
@@ -20,7 +20,7 @@ $text-light: #667085;
 
 $border: #e7e9ee;
 
-$success: #16845b;
+$success: #11704d; // contraste ≥ 4,5:1 sur $success-light
 $success-light: #eaf8f2;
 
 $shadow-sm: 0 3px 12px rgba(20, 30, 50, 0.05);
@@ -91,7 +91,7 @@ $transition: 0.25s ease;
 .page-header .section-label {
   display: inline-block;
   margin-bottom: 10px;
-  color: $red;
+  color: var(--msg-red);
   font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.12em;
@@ -179,7 +179,7 @@ $transition: 0.25s ease;
 
 .filter-button:hover {
   background: $red-light;
-  color: $red;
+  color: var(--msg-red);
 }
 
 .filter-button.active {
@@ -223,7 +223,7 @@ $transition: 0.25s ease;
 .list-header .section-label {
   display: inline-block;
   margin-bottom: 6px;
-  color: $red;
+  color: var(--msg-red);
   font-size: 0.7rem;
   font-weight: 800;
   letter-spacing: 0.12em;
@@ -337,7 +337,7 @@ $transition: 0.25s ease;
 .category {
   display: block;
   margin-bottom: 4px;
-  color: $red;
+  color: var(--msg-red);
   font-size: 0.64rem;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -399,7 +399,7 @@ $transition: 0.25s ease;
 
 .status-progress {
   background: $red-light;
-  color: $red;
+  color: var(--msg-red);
 }
 
 .card-status-bar.status-progress {
@@ -581,7 +581,7 @@ $transition: 0.25s ease;
 
   &:hover {
     border-color: $red;
-    color: $red;
+    color: var(--msg-red);
   }
 
   &:disabled {
@@ -628,7 +628,7 @@ a.reset-filter-button {
 
 .error-icon {
   background: $red-light;
-  color: $red;
+  color: var(--msg-red);
 }
 
 .empty-icon {
@@ -953,12 +953,12 @@ a.reset-filter-button {
     padding: 5px 6px;
     border-radius: 8px;
     background: #f1f3f6;
-    color: $text-light;
+    color: #5b6474; // contraste ≥ 4,5:1 sur le fond gris
     font-size: 0.7rem;
     font-weight: 700;
     text-align: center;
 
-    &.done { background: $success-light; color: $success; }
+    &.done { background: $success-light; color: #11704d; }
     &.done::before { content: "✓ "; }
   }
 }

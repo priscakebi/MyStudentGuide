@@ -7,6 +7,8 @@
   - la sidebar de l'espace personnel ;
   - la zone principale contenant la page active.
 -->
+<a class="skip-link" href="#contenu" (click)="allerAuContenu($event)">{{ 'nav.allerAuContenu' | t }}</a>
+
 <div class="dashboard-container">
 
 
@@ -263,7 +265,7 @@
   <!-- CONTENU PRINCIPAL                                    -->
   <!-- ===================================================== -->
 
-  <main class="dashboard-main">
+  <main class="dashboard-main" id="contenu" tabindex="-1">
 
 
     <!-- =================================================== -->

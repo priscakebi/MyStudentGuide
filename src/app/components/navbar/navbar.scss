@@ -5,8 +5,8 @@
 $blue: #1646a0;
 $blue-dark: #0d2f70;
 
-$red: #e63946;
-$red-dark: #c92535;
+$red: #d0222f;
+$red-dark: #b51d29;
 
 $white: #ffffff;
 
@@ -323,7 +323,7 @@ $transition: 0.25s ease;
 
   background: $white;
 
-  color: $red;
+  color: var(--msg-red);
 
   cursor: pointer;
 
@@ -552,7 +552,7 @@ $transition: 0.25s ease;
 
     background: $white;
 
-    color: $red;
+    color: var(--msg-red);
 
     cursor: pointer;
   }

@@ -36,7 +36,7 @@
   --msg-blue: #1646a0;
   --msg-blue-dark: #0d2f70;
   --msg-blue-light: #eaf1ff;
-  --msg-red: #e63946;
+  --msg-red: #d0222f;
   --msg-red-light: #fff0f1;
   --msg-green: #16845b;
   --msg-text-dark: #172033;
@@ -222,4 +222,46 @@ textarea {
   color: var(--msg-text-light);
   font-size: 12px;
   line-height: 1.5;
+}
+
+/* Lien « Aller au contenu » : invisible, il apparaît au premier Tab. */
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 10000;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: var(--msg-blue);
+  color: white;
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(-150%);
+  transition: transform 0.15s ease;
+
+  &:focus {
+    transform: none;
+    outline: 3px solid #ffffff;
+    outline-offset: 2px;
+  }
+}
+
+/* La zone principale reçoit le focus (lien d'évitement) sans contour. */
+#contenu:focus {
+  outline: none;
+}
+
+/*
+ * « Réduire les animations » activé dans le système (vertiges, troubles
+ * de l'attention) : animations et transitions quasi instantanées partout.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -103,7 +103,7 @@ $white: #ffffff;
 }
 
 .required {
-  color: $red;
+  color: var(--msg-red);
 }
 
 .optional {
@@ -126,7 +126,7 @@ $white: #ffffff;
 
 .field-error {
   margin: 6px 0 0;
-  color: $red;
+  color: var(--msg-red);
   font-size: 13px;
 }
 
@@ -258,7 +258,7 @@ $white: #ffffff;
   padding-right: 90px;
 
   time {
-    color: #9299a8;
+    color: #667085;
     font-size: 12px;
   }
 }
@@ -331,7 +331,7 @@ $white: #ffffff;
 
   &:hover:not(:disabled) {
     border-color: #f3c7c7;
-    color: $red;
+    color: var(--msg-red);
   }
 }
 

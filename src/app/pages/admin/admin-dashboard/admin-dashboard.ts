@@ -29,6 +29,7 @@ import {
 import { filter } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
+import { allerAuContenu } from '../../../utils/aller-au-contenu';
 
 
 /** Réponse de GET /api/admin/stats (AdminStatsResponse côté API). */
@@ -87,6 +88,8 @@ export interface AdminStats {
   styleUrl: './admin-dashboard.scss'
 })
 export class AdminDashboard implements OnInit {
+
+  protected readonly allerAuContenu = allerAuContenu;
 
   private authService = inject(AuthService);
 

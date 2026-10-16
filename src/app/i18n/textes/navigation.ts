@@ -3,6 +3,7 @@ import { Traductions } from './type';
 /** Barre de navigation (navbar) et pied de page. */
 export const NAVIGATION = {
   'nav.menu': { fr: 'Menu', en: 'Menu' },
+  'nav.allerAuContenu': { fr: 'Aller au contenu', en: 'Skip to content' },
   'nav.accueil': { fr: 'Accueil', en: 'Home' },
   'nav.demarches': { fr: 'Mes démarches', en: 'Procedures' },
   'nav.documents': { fr: 'Documents', en: 'Documents' },

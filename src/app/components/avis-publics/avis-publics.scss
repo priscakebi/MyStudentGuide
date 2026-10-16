@@ -1,5 +1,5 @@
 $blue: #1646a0;
-$red: #e63946;
+$red: #d0222f;
 $text-dark: #172033;
 $text: #344054;
 $text-light: #667085;
@@ -28,7 +28,7 @@ $star: #f5a524;
     color: $text-dark;
 
     span {
-      color: $red;
+      color: var(--msg-red);
     }
   }
 
@@ -47,7 +47,7 @@ $star: #f5a524;
   font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.12em;
-  color: $red;
+  color: var(--msg-red);
 }
 
 .avis-grid {

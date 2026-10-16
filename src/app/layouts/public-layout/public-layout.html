@@ -6,8 +6,9 @@
   Ce layout contient les éléments communs aux pages
   publiques de l'application :
 
+  - lien « Aller au contenu » (navigation au clavier)
   - Navbar
-  - contenu de la page
+  - contenu de la page, dans l'unique <main> de la page
   - Footer
 
   IMPORTANT :
@@ -15,17 +16,13 @@
   Il possède son propre layout avec sa sidebar.
 -->
 
+<a class="skip-link" href="#contenu" (click)="allerAuContenu($event)">{{ 'nav.allerAuContenu' | t }}</a>
+
 
 <!-- ======================================================== -->
 <!-- NAVBAR                                                   -->
 <!-- ======================================================== -->
 
-<!--
-  Navbar globale de l'application.
-
-  Elle sera affichée une seule fois pour les pages
-  qui utilisent le PublicLayout.
--->
 <app-navbar></app-navbar>
 
 
@@ -36,20 +33,14 @@
 
 <!--
   Angular affiche ici la page correspondant
-  à la route publique actuelle.
+  à la route publique actuelle (/home, /demarches, /documents…).
 
-  Exemples :
-
-  /home
-      → Home
-
-  /demarches
-      → Demarches
-
-  /documents
-      → Documents
+  Les pages n'ont donc pas leur propre <main> : une seule zone
+  principale par page pour les lecteurs d'écran.
 -->
-<router-outlet></router-outlet>
+<main id="contenu" tabindex="-1">
+  <router-outlet></router-outlet>
+</main>
 
 
 
@@ -57,10 +48,4 @@
 <!-- FOOTER                                                   -->
 <!-- ======================================================== -->
 
-<!--
-  Footer global de l'application.
-
-  Il est affiché sous le contenu de toutes les pages
-  utilisant le PublicLayout.
--->
 <app-footer></app-footer>

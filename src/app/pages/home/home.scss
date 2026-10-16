@@ -6,8 +6,8 @@ $blue: #1646a0;
 $blue-dark: #0d2f70;
 $blue-light: #eaf1ff;
 
-$red: #e63946;
-$red-dark: #c92535;
+$red: #d0222f;
+$red-dark: #b51d29;
 $red-light: #fff0f1;
 
 $white: #ffffff;
@@ -265,7 +265,7 @@ $transition: 0.25s ease;
 
   margin-bottom: 12px;
 
-  color: $red;
+  color: var(--msg-red);
 
   font-size: 0.75rem;
 
@@ -637,7 +637,7 @@ $transition: 0.25s ease;
 
   letter-spacing: 0.12em;
 
-  color: $red;
+  color: var(--msg-red);
 }
 
 
@@ -695,7 +695,7 @@ $transition: 0.25s ease;
 
   background: $red-light;
 
-  color: $red;
+  color: var(--msg-red);
 
   font-size: 0.84rem;
 
@@ -802,7 +802,7 @@ $transition: 0.25s ease;
 
   flex-shrink: 0;
 
-  color: $red;
+  color: var(--msg-red);
 
   font-size: 1.5rem;
 

@@ -25,6 +25,8 @@ import { Navbar } from '../../components/navbar/navbar';
  * Importe le footer global de MyStudentGuide.
  */
 import { Footer } from '../../components/footer/footer';
+import { TPipe } from '../../i18n/t.pipe';
+import { allerAuContenu } from '../../utils/aller-au-contenu';
 
 
 /**
@@ -67,7 +69,8 @@ import { Footer } from '../../components/footer/footer';
   imports: [
     RouterOutlet,
     Navbar,
-    Footer
+    Footer,
+    TPipe
   ],
 
   /*
@@ -76,4 +79,5 @@ import { Footer } from '../../components/footer/footer';
   templateUrl: './public-layout.html'
 })
 export class PublicLayout {
+  protected readonly allerAuContenu = allerAuContenu;
 }

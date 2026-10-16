@@ -82,7 +82,7 @@ $transition: 0.2s ease;
 $side-bg: #111a2e;
 $side-hover: rgba(255, 255, 255, 0.06);
 $side-text: #b8c0d0;
-$side-muted: #7a859b;
+$side-muted: #98a2b3;
 $side-line: rgba(255, 255, 255, 0.08);
 
 .sidebar {
@@ -255,7 +255,7 @@ $side-line: rgba(255, 255, 255, 0.08);
   min-width: 20px;
   padding: 2px 7px;
   border-radius: 50px;
-  background: #e63946;
+  background: #d0222f;
   color: $white;
   font-size: 11px;
   font-weight: 700;
@@ -793,7 +793,7 @@ $side-line: rgba(255, 255, 255, 0.08);
 
   margin-top: 5px;
 
-  color: #9299a8;
+  color: #667085;
 
   font-size: 11px;
 }
@@ -916,7 +916,7 @@ $side-line: rgba(255, 255, 255, 0.08);
 
   background: $red-light;
 
-  color: $red;
+  color: var(--msg-red);
 
   font-size: 22px;
 }
@@ -958,7 +958,7 @@ $side-line: rgba(255, 255, 255, 0.08);
 
 .quick-link {
 
-  color: $red;
+  color: var(--msg-red);
 
   font-size: 12px;
 
@@ -1106,7 +1106,7 @@ $side-line: rgba(255, 255, 255, 0.08);
     height: 9px;
     border: 2px solid $side-bg;
     border-radius: 50%;
-    background: #e63946;
+    background: #d0222f;
   }
 
   .sidebar {
@@ -1490,7 +1490,13 @@ a.stat-card {
 
   li {
     position: relative;
-    outline: none;
+    border-radius: 6px;
+
+    // Ligne prise au clavier : contour visible en plus de l'infobulle.
+    &:focus-visible {
+      outline: 2px solid var(--msg-focus);
+      outline-offset: 3px;
+    }
   }
 
   .chart-tooltip {
@@ -1581,7 +1587,7 @@ a.stat-card {
   }
 
   time {
-    color: #9299a8;
+    color: #667085;
     font-size: 11.5px;
   }
 }

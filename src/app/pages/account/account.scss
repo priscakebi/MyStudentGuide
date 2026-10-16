@@ -6,8 +6,8 @@ $blue: #1646a0;
 $blue-dark: #0d2f70;
 $blue-light: #eaf1ff;
 
-$red: #e63946;
-$red-dark: #c92535;
+$red: #d0222f;
+$red-dark: #b51d29;
 $red-light: #fff0f1;
 
 $white: #ffffff;
@@ -81,7 +81,7 @@ $transition: 0.25s ease;
 
   margin-bottom: 5px;
 
-  color: $red;
+  color: var(--msg-red);
 
   font-size: 12px;
   font-weight: 700;
@@ -322,7 +322,7 @@ $transition: 0.25s ease;
 
 .form-group input::placeholder,
 .form-group textarea::placeholder {
-  color: #98a2b3;
+  color: #667085;
 }
 
 
