@@ -412,9 +412,9 @@
                       <div class="active-top">
                         <div>
                           @if (sd.demarche.categorie) {
-                            <span class="active-category">{{ sd.demarche.categorie.nom }}</span>
+                            <span class="active-category">{{ sd.demarche.categorie | tc: 'nom' }}</span>
                           }
-                          <strong>{{ sd.demarche.titre }}</strong>
+                          <strong>{{ sd.demarche | tc: 'titre' }}</strong>
                         </div>
                         <span class="active-pct">{{ progression(sd) }}%</span>
                       </div>
@@ -422,7 +422,7 @@
                       <div
                         class="active-track"
                         role="progressbar"
-                        [attr.aria-label]="'espace.progressionDe' | t: { titre: sd.demarche.titre }"
+                        [attr.aria-label]="'espace.progressionDe' | t: { titre: (sd.demarche | tc: 'titre') }"
                         [attr.aria-valuenow]="progression(sd)"
                         aria-valuemin="0"
                         aria-valuemax="100"
@@ -496,7 +496,7 @@
                         <span>{{ e.date | dateL: 'MMM' }}</span>
                       </div>
                       <div>
-                        <strong>{{ e.sd.demarche.titre }}</strong>
+                        <strong>{{ e.sd.demarche | tc: 'titre' }}</strong>
                         <span class="deadline-left">
                           @if (e.jours === 0) {
                             {{ 'espace.echeances.aujourdhui' | t }}

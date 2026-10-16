@@ -15,7 +15,8 @@ const CLE_STOCKAGE = 'langue';
  * - première visite : langue du navigateur (anglais si elle n'est pas le français) ;
  * - ensuite : choix mémorisé (bouton FR / EN).
  *
- * Le contenu des démarches (Service-Public, administration) n'est pas traduit.
+ * Le contenu des démarches est traduit par l'admin, champ par champ
+ * (`titreEn`, `descriptionEn`…) : voir `contenu()`.
  */
 @Injectable({ providedIn: 'root' })
 export class LangueService {
@@ -62,6 +63,29 @@ export class LangueService {
    */
   messageApi(message: string | null | undefined, cle: Cle): string {
     return (this.langue() === 'fr' && message) || this.t(cle);
+  }
+
+  /**
+   * Texte d'un contenu saisi par l'admin (démarche, étape, document, lien, catégorie) :
+   * en anglais, sa version anglaise (`titreEn` pour `titre`) si elle existe, sinon le français.
+   */
+  contenu(objet: object | null | undefined, champ: string): string {
+    if (!objet) {
+      return '';
+    }
+    const valeurs = objet as Record<string, unknown>;
+    const anglais = this.langue() === 'en' ? valeurs[`${champ}En`] : null;
+    const texte = typeof anglais === 'string' && anglais.trim() ? anglais : valeurs[champ];
+    return typeof texte === 'string' ? texte : '';
+  }
+
+  /** Vrai si l'interface est en anglais et que ce contenu n'a pas de version anglaise. */
+  contenuNonTraduit(objet: object | null | undefined, champ = 'titre'): boolean {
+    if (!objet || this.langue() !== 'en') {
+      return false;
+    }
+    const anglais = (objet as Record<string, unknown>)[`${champ}En`];
+    return !(typeof anglais === 'string' && anglais.trim());
   }
 
   /** Locale Angular à utiliser pour les dates. */

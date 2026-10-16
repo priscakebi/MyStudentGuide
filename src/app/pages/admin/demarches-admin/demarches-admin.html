@@ -583,6 +583,11 @@
                       📅 Date limite : {{ regle }}
                     </span>
                   }
+                  @if (demarche.titreEn) {
+                    <span class="badge badge-target" title="Version anglaise affichée aux étudiants qui utilisent le site en anglais">
+                      🌐 Traduite en anglais
+                    </span>
+                  }
                 </div>
 
 
@@ -933,6 +938,17 @@
                 📝 Contenu
               </button>
 
+              <!-- Version anglaise du contenu -->
+              <button
+                type="button"
+                class="btn-target"
+                [class.open]="traductionOuverte === demarche.id"
+                [attr.aria-expanded]="traductionOuverte === demarche.id"
+                (click)="traductionOuverte = traductionOuverte === demarche.id ? null : demarche.id"
+              >
+                🌐 Anglais
+              </button>
+
 
               <!-- ------------------------------------------------ -->
               <!-- MODIFIER                                          -->
@@ -1124,6 +1140,20 @@
                 class="contenu-panel"
                 [demarcheId]="demarche.id"
                 [sourceId]="demarche.sourceId"
+              />
+            }
+
+
+            <!-- ------------------------------------------------ -->
+            <!-- VERSION ANGLAISE                                  -->
+            <!-- ------------------------------------------------ -->
+
+            @if (traductionOuverte === demarche.id) {
+              <app-demarche-traduction-editor
+                class="contenu-panel"
+                [demarcheId]="demarche.id"
+                (enregistree)="loadDemarches()"
+                (fermer)="traductionOuverte = null"
               />
             }
 

@@ -197,7 +197,7 @@
             [class.active]="categorieFiltre === categorie.id"
             (click)="choisirCategorie(categorie.id)"
           >
-            {{ categorie.nom }}
+            {{ categorie | tc: 'nom' }}
           </button>
 
         }
@@ -382,7 +382,7 @@
 
                 @if (demarche.categorie) {
                   <span class="category-badge">
-                    {{ demarche.categorie.nom }}
+                    {{ demarche.categorie | tc: 'nom' }}
                   </span>
                 }
 
@@ -401,11 +401,11 @@
               </div>
 
               <h3>
-                {{ demarche.titre }}
+                {{ demarche | tc: 'titre' }}
               </h3>
 
               <p>
-                {{ demarche.description }}
+                {{ demarche | tc: 'description' }}
               </p>
 
               <!-- Démarche suivie : date limite personnelle de l'étudiant si elle existe -->
@@ -554,7 +554,7 @@
 @if (avisPour) {
   <app-avis-form
     [studentDemarcheId]="avisPour.id"
-    [demarcheTitre]="avisPour.demarche.titre"
+    [demarcheTitre]="avisPour.demarche | tc: 'titre'"
     (saved)="onAvisEnregistre()"
     (closed)="fermerAvis()"
   ></app-avis-form>

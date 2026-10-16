@@ -112,6 +112,49 @@
 
 
       <!-- =================================================== -->
+      <!-- VERSION ANGLAISE (facultative)                       -->
+      <!-- =================================================== -->
+
+      <div class="form-group">
+
+        <label for="nomEn">
+          Nom en anglais <span class="optional">facultatif</span>
+        </label>
+
+        <input
+          id="nomEn"
+          type="text"
+          name="nomEn"
+          maxlength="100"
+          [(ngModel)]="categorieForm.nomEn"
+          placeholder="Ex : Residence permit"
+        />
+
+      </div>
+
+      <div class="form-group">
+
+        <label for="descriptionEn">
+          Description en anglais <span class="optional">facultatif</span>
+        </label>
+
+        <textarea
+          id="descriptionEn"
+          name="descriptionEn"
+          maxlength="500"
+          [(ngModel)]="categorieForm.descriptionEn"
+          placeholder="Shown to students who use the English version"
+          rows="3"
+        ></textarea>
+
+        <span class="field-hint">
+          Affichés aux étudiants qui utilisent le site en anglais. Vides : le français est affiché.
+        </span>
+
+      </div>
+
+
+      <!-- =================================================== -->
       <!-- BOUTONS                                              -->
       <!-- =================================================== -->
 

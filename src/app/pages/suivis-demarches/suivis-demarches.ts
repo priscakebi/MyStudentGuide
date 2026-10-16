@@ -5,7 +5,7 @@ import { Router, RouterLink } from '@angular/router';
 
 import { AvisForm } from '../../components/avis-form/avis-form';
 import { LangueService } from '../../i18n/langue.service';
-import { TPipe } from '../../i18n/t.pipe';
+import { TPipe, TcPipe } from '../../i18n/t.pipe';
 import {
   DemarcheStatut,
   StudentDemarche,
@@ -35,7 +35,7 @@ type Filtre = 'TOUTES' | 'EN_COURS' | 'TERMINEE';
 @Component({
   selector: 'app-suivis-demarches',
   standalone: true,
-  imports: [CommonModule, RouterLink, AvisForm, TPipe],
+  imports: [CommonModule, RouterLink, AvisForm, TPipe, TcPipe],
   templateUrl: './suivis-demarches.html',
   styleUrl: './suivis-demarches.scss'
 })
@@ -157,7 +157,7 @@ export class SuivisDemarches implements OnInit {
    */
   retirer(sd: StudentDemarche): void {
     if (this.enMiseAJour.has(sd.id)
-        || !confirm(this.langue.t('suivis.retirer.confirmer', { titre: sd.demarche.titre }))) {
+        || !confirm(this.langue.t('suivis.retirer.confirmer', { titre: this.langue.contenu(sd.demarche, 'titre') }))) {
       return;
     }
 

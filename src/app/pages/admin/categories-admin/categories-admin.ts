@@ -20,6 +20,11 @@ interface Categorie {
   id?: number;
   nom: string;
   description: string;
+  // Version anglaise affichée aux étudiants qui utilisent l'interface en anglais.
+  nomEn?: string | null;
+  descriptionEn?: string | null;
+  // Renvoyée telle quelle : l'API remplace toute la catégorie.
+  icone?: string | null;
 }
 
 
@@ -211,7 +216,10 @@ export class CategoriesAdmin implements OnInit {
     this.categorieForm = {
       id: categorie.id,
       nom: categorie.nom,
-      description: categorie.description
+      description: categorie.description,
+      nomEn: categorie.nomEn ?? '',
+      descriptionEn: categorie.descriptionEn ?? '',
+      icone: categorie.icone ?? null
     };
 
     // Remonte vers le formulaire.

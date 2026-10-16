@@ -16,7 +16,7 @@ export const DEMARCHE_DETAIL = {
   'detail.erreur.identifiant': { fr: 'Identifiant de la démarche introuvable.', en: 'Procedure ID not found.' },
   'detail.contenuFrancais': {
     fr: '',
-    en: 'This procedure comes from official French sources: its content is shown in French.'
+    en: 'This procedure has not been translated into English yet: its content is shown in French.'
   },
   'detail.source': { fr: 'Source :', en: 'Source:' },
   'detail.source.dila': {

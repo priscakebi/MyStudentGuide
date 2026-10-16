@@ -83,21 +83,21 @@ class="back-button"
     *ngIf="demarche.categorie"
     class="category-badge"
   >
-    {{ demarche.categorie }}
+    {{ demarche | tc: 'categorie' }}
   </div>
 
   <!-- Titre -->
   <h1>
-    {{ demarche.titre }}
+    {{ demarche | tc: 'titre' }}
   </h1>
 
   <!-- Description générale -->
   <p class="detail-description">
-    {{ demarche.description }}
+    {{ demarche | tc: 'description' }}
   </p>
 
-  <!-- Interface en anglais : le contenu officiel reste en français. -->
-  @if (langue.langue() === 'en') {
+  <!-- Interface en anglais : contenu affiché en français tant que l'admin ne l'a pas traduit. -->
+  @if (langue.contenuNonTraduit(demarche)) {
     <p class="content-language-note" lang="en">ℹ️ {{ 'detail.contenuFrancais' | t }}</p>
   }
 
@@ -299,11 +299,11 @@ class="back-button"
       <div class="step-content">
 
         <h3>
-          {{ etape.titre }}
+          {{ etape | tc: 'titre' }}
         </h3>
 
         <p>
-          {{ etape.description }}
+          {{ etape | tc: 'description' }}
         </p>
 
       </div>
@@ -417,9 +417,9 @@ class="back-button"
           >
 
           <div class="document-content">
-            <h3>{{ document.nom }}</h3>
+            <h3>{{ document | tc: 'nom' }}</h3>
             @if (document.description) {
-              <p>{{ document.description }}</p>
+              <p>{{ document | tc: 'description' }}</p>
             }
             @if (document.type) {
               <span class="document-type">{{ libelleType(document.type) }}</span>
@@ -441,12 +441,12 @@ class="back-button"
           <div class="document-content">
 
             <h3>
-              {{ document.nom }}
+              {{ document | tc: 'nom' }}
             </h3>
 
             @if (document.description) {
               <p>
-                {{ document.description }}
+                {{ document | tc: 'description' }}
               </p>
             }
 
@@ -536,11 +536,11 @@ class="back-button"
       <div class="official-content">
 
         <h3>
-          {{ lien.nom }}
+          {{ lien | tc: 'nom' }}
         </h3>
 
         <p>
-          {{ lien.description }}
+          {{ lien | tc: 'description' }}
         </p>
 
         <!--

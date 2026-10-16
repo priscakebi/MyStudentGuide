@@ -18,6 +18,19 @@ export class TPipe implements PipeTransform {
 }
 
 /**
+ * Contenu saisi par l'admin dans la langue de l'interface :
+ * {{ demarche | tc: 'titre' }} affiche `titreEn` en anglais s'il existe, sinon `titre`.
+ */
+@Pipe({ name: 'tc', pure: false })
+export class TcPipe implements PipeTransform {
+  private readonly langue = inject(LangueService);
+
+  transform(objet: object | null | undefined, champ: string): string {
+    return this.langue.contenu(objet, champ);
+  }
+}
+
+/**
  * Date dans la langue de l'interface : {{ d | dateL: 'd MMMM y' }}
  * (« 15 octobre 2026 » / « 15 October 2026 »).
  */

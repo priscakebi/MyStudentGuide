@@ -165,9 +165,9 @@
 
                   <div>
                     @if (sd.demarche.categorie) {
-                      <span class="category">{{ sd.demarche.categorie.nom }}</span>
+                      <span class="category">{{ sd.demarche.categorie | tc: 'nom' }}</span>
                     }
-                    <h3>{{ sd.demarche.titre }}</h3>
+                    <h3>{{ sd.demarche | tc: 'titre' }}</h3>
                   </div>
 
                 </div>
@@ -181,7 +181,7 @@
 
 
               @if (sd.demarche.description) {
-                <p class="demarche-description">{{ sd.demarche.description }}</p>
+                <p class="demarche-description">{{ sd.demarche | tc: 'description' }}</p>
               }
 
 
@@ -329,7 +329,7 @@
 @if (avisPour) {
   <app-avis-form
     [studentDemarcheId]="avisPour.id"
-    [demarcheTitre]="avisPour.demarche.titre"
+    [demarcheTitre]="avisPour.demarche | tc: 'titre'"
     (saved)="onAvisEnregistre()"
     (closed)="fermerAvis()"
   ></app-avis-form>

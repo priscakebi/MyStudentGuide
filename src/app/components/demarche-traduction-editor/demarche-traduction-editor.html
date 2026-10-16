@@ -1,0 +1,117 @@
+<form class="editor" (ngSubmit)="enregistrer()">
+
+  <div class="editor-header">
+    <h4>🌐 Version anglaise</h4>
+    @if (traduction) {
+      <span class="count" [class.complete]="textesTraduits === totalTextes">
+        {{ textesTraduits }} / {{ totalTextes }} textes traduits
+      </span>
+    }
+  </div>
+
+  <p class="muted">
+    Affichée aux étudiants qui utilisent le site en anglais. Un champ vide : le texte français est affiché.
+    Pensez à mettre la traduction à jour quand vous modifiez le texte français.
+  </p>
+
+  @if (chargement) {
+    <p class="muted">Chargement…</p>
+  }
+
+  @if (erreur) {
+    <p class="feedback error" role="alert">{{ erreur }}</p>
+  }
+
+  @if (traduction; as t) {
+
+    <fieldset>
+      <legend>Démarche</legend>
+      <ng-container
+        [ngTemplateOutlet]="champs"
+        [ngTemplateOutletContext]="{ $implicit: t.demarche, cle: 'demarche', libelle: 'Titre', long: true }"
+      />
+    </fieldset>
+
+    @if (t.etapes.length) {
+      <fieldset>
+        <legend>Étapes</legend>
+        @for (e of t.etapes; track e.id; let i = $index) {
+          <ng-container
+            [ngTemplateOutlet]="champs"
+            [ngTemplateOutletContext]="{ $implicit: e, cle: 'etape-' + e.id, libelle: 'Étape ' + (i + 1) }"
+          />
+        }
+      </fieldset>
+    }
+
+    @if (t.documents.length) {
+      <fieldset>
+        <legend>Documents requis</legend>
+        @for (e of t.documents; track e.id) {
+          <ng-container
+            [ngTemplateOutlet]="champs"
+            [ngTemplateOutletContext]="{ $implicit: e, cle: 'document-' + e.id, libelle: 'Document' }"
+          />
+        }
+      </fieldset>
+    }
+
+    @if (t.liens.length) {
+      <fieldset>
+        <legend>Liens officiels</legend>
+        @for (e of t.liens; track e.id) {
+          <ng-container
+            [ngTemplateOutlet]="champs"
+            [ngTemplateOutletContext]="{ $implicit: e, cle: 'lien-' + e.id, libelle: 'Lien' }"
+          />
+        }
+      </fieldset>
+    }
+
+    @if (message) {
+      <p class="feedback success" role="status">{{ message }}</p>
+    }
+
+    <div class="row-actions">
+      <button type="submit" class="btn primary" [disabled]="enCours">
+        {{ enCours ? 'Enregistrement…' : 'Enregistrer la version anglaise' }}
+      </button>
+      <button type="button" class="btn" (click)="fermer.emit()">Fermer</button>
+    </div>
+  }
+
+</form>
+
+<!-- Un élément : texte français en regard des champs anglais. -->
+<ng-template #champs let-e let-cle="cle" let-libelle="libelle" let-long="long">
+  <div class="element">
+    <div class="fr" lang="fr">
+      <span class="label">{{ libelle }} (FR)</span>
+      <strong>{{ e.titreFr }}</strong>
+      @if (e.descriptionFr) {
+        <p>{{ e.descriptionFr }}</p>
+      }
+    </div>
+    <div class="en" lang="en">
+      <label [for]="cle + '-titre'">{{ libelle }} (EN)</label>
+      <input
+        [id]="cle + '-titre'"
+        type="text"
+        [name]="cle + '-titre'"
+        maxlength="150"
+        [(ngModel)]="e.titre"
+        [placeholder]="e.titreFr"
+      />
+      @if (e.descriptionFr) {
+        <textarea
+          [name]="cle + '-description'"
+          [attr.aria-label]="'Description de « ' + e.titreFr + ' » en anglais'"
+          [rows]="long ? 5 : 3"
+          maxlength="10000"
+          [(ngModel)]="e.description"
+          placeholder="Description in English"
+        ></textarea>
+      }
+    </div>
+  </div>
+</ng-template>

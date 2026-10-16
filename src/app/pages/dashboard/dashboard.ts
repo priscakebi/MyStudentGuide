@@ -30,7 +30,7 @@ import {
 } from '../../services/student-demarche.service';
 import { telechargerIcs } from '../../utils/calendrier';
 import { LangueService } from '../../i18n/langue.service';
-import { DateLPipe, TPipe } from '../../i18n/t.pipe';
+import { DateLPipe, TPipe, TcPipe } from '../../i18n/t.pipe';
 import { LangueSwitch } from '../../components/langue-switch/langue-switch';
 
 
@@ -79,6 +79,7 @@ interface SuggestionNotification {
     RouterOutlet,
     PrefectureCard,
     TPipe,
+    TcPipe,
     DateLPipe,
     LangueSwitch
   ],
@@ -178,7 +179,7 @@ export class Dashboard implements OnInit, OnDestroy {
   ajouterEcheancesAgenda(): void {
     telechargerIcs('mes-dates-limites.ics', this.echeancesAVenir().map(({ sd, date }) => ({
       id: sd.demarche.id,
-      titre: sd.demarche.titre,
+      titre: this.langue.contenu(sd.demarche, 'titre'),
       dateLimite: date,
       url: `${window.location.origin}/demarches/${sd.demarche.id}`
     })), this.langue.langue());

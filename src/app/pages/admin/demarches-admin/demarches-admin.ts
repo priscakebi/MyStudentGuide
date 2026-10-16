@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { DemarcheContenuEditor } from '../../../components/demarche-contenu-editor/demarche-contenu-editor';
+import { DemarcheTraductionEditor } from '../../../components/demarche-traduction-editor/demarche-traduction-editor';
 
 
 // ============================================================
@@ -84,6 +85,9 @@ interface Demarche {
    * n'est définie.
    */
   dateLimite?: string | null;
+
+  /** Titre anglais (null tant que la démarche n'est pas traduite). */
+  titreEn?: string | null;
 
   /**
    * Catégorie à laquelle appartient la démarche.
@@ -241,7 +245,8 @@ interface DemarcheForm {
   imports: [
     CommonModule,
     FormsModule,
-    DemarcheContenuEditor
+    DemarcheContenuEditor,
+    DemarcheTraductionEditor
   ],
 
   /**
@@ -578,6 +583,9 @@ export class DemarchesAdmin implements OnInit {
   /** Démarche dont l'éditeur des étapes et liens officiels est ouvert. */
   contenuOuvert: number | null = null;
 
+  /** Démarche dont la version anglaise est en cours d'édition. */
+  traductionOuverte: number | null = null;
+
   /** Résumé lisible du ciblage, affiché sous le titre de la démarche. */
   resumeCiblage(d: Demarche): string | null {
     if (!d.cibleActive) {
@@ -745,7 +753,8 @@ export class DemarchesAdmin implements OnInit {
     if (!confirm(
       `Appliquer la mise à jour officielle à « ${demarche.titre} » ?\n\n`
       + 'La description, les étapes et les liens officiels seront remplacés. '
-      + 'Le titre, la catégorie, la date limite et les documents requis sont conservés.'
+      + 'Le titre, la catégorie, la date limite et les documents requis sont conservés. '
+      + 'La version anglaise des étapes et des liens sera à refaire, celle de la description à vérifier.'
     )) {
       return;
     }

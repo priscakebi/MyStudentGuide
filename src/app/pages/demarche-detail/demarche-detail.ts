@@ -14,7 +14,7 @@ import {
 import { nomFichierIcs, telechargerIcs } from '../../utils/calendrier';
 import { PageTitleStrategy } from '../../services/page-title.strategy';
 import { LangueService } from '../../i18n/langue.service';
-import { DateLPipe, TPipe } from '../../i18n/t.pipe';
+import { DateLPipe, TPipe, TcPipe } from '../../i18n/t.pipe';
 import { Cle } from '../../i18n/textes';
 
 /**
@@ -27,6 +27,8 @@ interface DocumentRequis {
   id: number;
   nom: string;
   description: string;
+  nomEn?: string | null;
+  descriptionEn?: string | null;
   type: string;
 }
 
@@ -38,6 +40,8 @@ interface EtapeDemarche {
   numero: number;
   titre: string;
   description: string;
+  titreEn?: string | null;
+  descriptionEn?: string | null;
 }
 
 /**
@@ -48,6 +52,8 @@ interface LienOfficiel {
   nom: string;
   url: string;
   description: string;
+  nomEn?: string | null;
+  descriptionEn?: string | null;
 }
 
 /**
@@ -60,6 +66,10 @@ interface DemarcheDetail {
   id: number;
   titre: string;
   description: string;
+  /** Versions anglaises saisies par l'admin (null si non traduites). */
+  titreEn?: string | null;
+  descriptionEn?: string | null;
+  categorieEn?: string | null;
   dateCreation: string;
   dateLimite: string | null;
   categorie: string | null;
@@ -92,7 +102,7 @@ interface DemarcheDetail {
 @Component({
   selector: 'app-demarche-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule, PrefectureCard, TPipe, DateLPipe],
+  imports: [CommonModule, RouterLink, FormsModule, PrefectureCard, TPipe, TcPipe, DateLPipe],
   templateUrl: './demarche-detail.html',
   styleUrl: './demarche-detail.scss'
 })
@@ -411,7 +421,7 @@ export class DemarcheDetailComponent implements OnInit {
           );
 
           // Onglet : « Carte Vitale · MyStudentGuide ».
-          this.pageTitle.definir(demarche.titre, demarche.description);
+          this.pageTitle.definir(this.langue.contenu(demarche, 'titre'), this.langue.contenu(demarche, 'description'));
 
           /*
            * La requête est terminée.
@@ -511,7 +521,7 @@ export class DemarcheDetailComponent implements OnInit {
 
     telechargerIcs(nomFichierIcs(this.demarche.titre), [{
       id: this.demarche.id,
-      titre: this.demarche.titre,
+      titre: this.langue.contenu(this.demarche, 'titre'),
       dateLimite,
       url: `${window.location.origin}/demarches/${this.demarche.id}`
     }], this.langue.langue());

@@ -24,7 +24,7 @@ import { AvisForm } from '../../components/avis-form/avis-form';
 import { AuthService } from '../../services/auth.service';
 import { rechercherDemarches } from '../../utils/recherche';
 import { LangueService } from '../../i18n/langue.service';
-import { DateLPipe, TPipe } from '../../i18n/t.pipe';
+import { DateLPipe, TPipe, TcPipe } from '../../i18n/t.pipe';
 import {
   Demarche,
   StudentDemarche,
@@ -41,6 +41,7 @@ import {
     RouterLink,
     AvisForm,
     TPipe,
+    TcPipe,
     DateLPipe
   ],
   templateUrl: './demarches.html',
@@ -234,7 +235,7 @@ export class Demarches implements OnInit {
       next: (suivi) => {
         this.updatingId = null;
         this.suivis.set(demarche.id, { ...suivi, demarche: suivi?.demarche ?? demarche });
-        this.actionMessage = this.langue.t('demarches.ajoutee', { titre: demarche.titre });
+        this.actionMessage = this.langue.t('demarches.ajoutee', { titre: this.langue.contenu(demarche, 'titre') });
       },
       error: (error: HttpErrorResponse) => {
         this.updatingId = null;

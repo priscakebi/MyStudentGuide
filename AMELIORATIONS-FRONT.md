@@ -374,3 +374,20 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
   si la date manque, un lien invite à compléter le profil ou à commencer la démarche. Tableau de bord, agenda (.ics)
   et liste des démarches utilisent `dateLimiteDe(suivi)` (`student-demarche.service.ts`).
 - À faire côté administration : renseigner la règle sur les démarches concernées (VLS-TS, renouvellement…).
+
+## 26. Contenu des démarches en anglais
+- **Administration → Démarches → « 🌐 Anglais »** : chaque texte français (titre, description, étapes,
+  documents requis, liens officiels) est affiché en regard de son champ anglais, avec un compteur
+  « 10 / 22 textes traduits ». Un badge « 🌐 Traduite en anglais » apparaît dans la liste.
+  `GET / PUT /api/admin/demarches/{id}/traduction` ; un champ vide efface la traduction.
+- **Catégories** : nom et description en anglais dans le formulaire. Les 8 catégories de base reçoivent
+  leur traduction automatiquement au démarrage de l'API (sans remplacer celle saisie par l'admin).
+  Le formulaire renvoie aussi l'icône, qui était effacée à chaque modification.
+- **Étudiant (interface en anglais)** : pipe `tc` (`{{ demarche | tc: 'titre' }}` → `titreEn` s'il existe,
+  sinon `titre`) sur la liste, la fiche, le tableau de bord, les suivis et la page Documents.
+  La note « contenu en français » ne s'affiche plus que pour les démarches non traduites.
+  La recherche trouve aussi les mots anglais (« residence permit »).
+- La mise à jour officielle Service-Public remplace les étapes et les liens : leur version anglaise est
+  à refaire (le message de confirmation le rappelle). Le lien « Fiche officielle Service-Public » est
+  traduit automatiquement.
+- Correction : la page Documents affichait des titres de démarche vides (champ `nom` au lieu de `titre`).

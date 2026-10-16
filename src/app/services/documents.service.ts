@@ -13,6 +13,8 @@ export interface DocumentRequis {
   id: number;
   nom: string;
   description: string | null;
+  nomEn?: string | null;
+  descriptionEn?: string | null;
   type: string;
   demarcheId: number;
 }

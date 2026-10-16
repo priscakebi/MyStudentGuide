@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { forkJoin, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { LangueService } from '../../i18n/langue.service';
-import { TPipe } from '../../i18n/t.pipe';
+import { TPipe, TcPipe } from '../../i18n/t.pipe';
 
 /**
  * Représente un document requis récupéré depuis le backend.
@@ -17,6 +17,8 @@ interface DocumentRequis {
   id: number;
   nom: string;
   description: string | null;
+  nomEn?: string | null;
+  descriptionEn?: string | null;
   type: string;
   demarcheId: number;
 }
@@ -26,8 +28,10 @@ interface DocumentRequis {
  */
 interface Demarche {
   id: number;
-  nom: string;
+  titre: string;
   description?: string;
+  titreEn?: string | null;
+  descriptionEn?: string | null;
 }
 
 /**
@@ -43,8 +47,7 @@ interface Demarche {
  */
 interface DocumentsParDemarche {
   demarcheId: number;
-  nomDemarche: string;
-  descriptionDemarche?: string;
+  demarche: Demarche;
   documents: DocumentRequis[];
 }
 
@@ -66,7 +69,8 @@ interface DocumentsParDemarche {
   standalone: true,
   imports: [
     CommonModule,
-    TPipe
+    TPipe,
+    TcPipe
   ],
   templateUrl: './documents.html',
   styleUrl: './documents.scss'
@@ -215,10 +219,7 @@ export class Documents implements OnInit {
 
                 demarcheId: demarche.id,
 
-                nomDemarche: demarche.nom,
-
-                descriptionDemarche:
-                  demarche.description,
+                demarche,
 
                 documents:
                   documentsParDemarche[index]

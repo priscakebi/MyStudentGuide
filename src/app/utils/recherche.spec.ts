@@ -47,4 +47,15 @@ describe('recherche des démarches', () => {
     expect(titres('vitlae')).toEqual(['Carte Vitale']);
     expect(titres('zzz')).toEqual([]);
   });
+
+  it('trouve aussi dans la version anglaise du contenu', () => {
+    const traduites = [
+      { titre: 'Titre de séjour étudiant', titreEn: 'Student residence permit', categorie: { nom: 'Séjour & visa', nomEn: 'Residence & visa' } },
+      { titre: 'Carte Vitale', description: 'Assurance maladie.', descriptionEn: 'Health insurance card.', categorie: { nom: 'Santé', nomEn: 'Health' } }
+    ];
+    const enAnglais = (q: string) => rechercherDemarches(traduites, q).map((d) => d.titre);
+
+    expect(enAnglais('How to get my residence permit')).toEqual(['Titre de séjour étudiant']);
+    expect(enAnglais('health insurance')).toEqual(['Carte Vitale']);
+  });
 });

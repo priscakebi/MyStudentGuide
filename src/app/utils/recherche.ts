@@ -17,13 +17,17 @@
 export interface DemarcheCherchable {
   titre: string;
   description?: string | null;
-  categorie?: { nom: string } | null;
+  titreEn?: string | null;
+  descriptionEn?: string | null;
+  categorie?: { nom: string; nomEn?: string | null } | null;
 }
 
 const MOTS_IGNORES = new Set([
   'a', 'au', 'aux', 'avec', 'ce', 'comment', 'd', 'de', 'des', 'du', 'en', 'est', 'et', 'je',
   'l', 'la', 'le', 'les', 'ma', 'mes', 'mon', 'ou', 'par', 'pour', 'quel', 'quelle', 'qu',
-  'que', 'sur', 'un', 'une', 'votre', 'vos'
+  'que', 'sur', 'un', 'une', 'votre', 'vos',
+  // Anglais
+  'an', 'and', 'do', 'for', 'get', 'how', 'i', 'in', 'is', 'my', 'of', 'the', 'to', 'what', 'your'
 ]);
 
 /** Mot cherché → autres façons de l'écrire dans les fiches officielles. */
@@ -126,9 +130,10 @@ export function rechercherDemarches<T extends DemarcheCherchable>(demarches: T[]
 
   demarches.forEach((demarche, rang) => {
     const champs = [
-      { texte: normaliser(demarche.titre), poids: 3 },
-      { texte: normaliser(demarche.categorie?.nom), poids: 2 },
-      { texte: normaliser(demarche.description), poids: 1 }
+      // Texte français et version anglaise : la recherche marche dans les deux langues.
+      { texte: normaliser(`${demarche.titre} ${demarche.titreEn ?? ''}`), poids: 3 },
+      { texte: normaliser(`${demarche.categorie?.nom ?? ''} ${demarche.categorie?.nomEn ?? ''}`), poids: 2 },
+      { texte: normaliser(`${demarche.description ?? ''} ${demarche.descriptionEn ?? ''}`), poids: 1 }
     ].map((c) => ({ ...c, mots: c.texte.split(' ') }));
 
     let score = 0;
