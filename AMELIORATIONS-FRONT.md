@@ -431,3 +431,13 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
   Les 5 feuilles de style au-dessus de 12 Ko ne contiennent ni classe inutilisée ni règle en double
   (les « doublons » sont des adaptations mobile / tablette) ; les réécrire ferait gagner moins de 1 Ko
   compressé par page, chargé seulement sur cette page.
+
+## 30. Mise à jour de sécurité d'Angular
+- Angular **21.2.18 → 21.2.25** (outils de build 21.2.19 → 21.2.24) : corrige 5 failles signalées par
+  `npm audit` (dont un contournement de l'assainissement HTML et une faille XSS). `npm audit --omit=dev` :
+  **0 vulnérabilité** dans le code livré aux étudiants.
+- `package-lock.json` régénéré avec `npm install --before=2026-10-02` (npm 11.20) : toutes les versions
+  retenues ont au moins deux semaines. npm 11.2 plantait sur ce changement (« edgesOut ») ;
+  utiliser `npx npm@11.20.0 install` si besoin.
+- Restent 3 alertes dans les outils de build uniquement (piscina, SDK MCP du CLI, http-cache-semantics),
+  déjà présentes avant : elles disparaîtront avec une prochaine version du CLI Angular.
