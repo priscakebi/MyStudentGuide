@@ -16,7 +16,7 @@
 export const VERSION_CONDITIONS = '2026-10';
 
 /** Date de mise à jour affichée en haut des pages. */
-export const DATE_MISE_A_JOUR = '15 octobre 2026';
+export const DATE_MISE_A_JOUR = '16 octobre 2026';
 
 export const EDITEUR = {
   /** Personne ou structure qui publie le site (nom et prénom pour une personne physique). */
@@ -57,8 +57,22 @@ export const HEBERGEURS = [
     nom: 'Brevo (Sendinblue SAS)',
     adresse: '106 boulevard Haussmann, 75008 Paris, France',
     site: 'https://www.brevo.com'
+  },
+  {
+    // Seulement si SENTRY_DSN (API) ou sentryDsn (site) est renseigné.
+    // Choisir la région « EU » à la création de l'organisation Sentry.
+    role: 'Suivi des erreurs techniques (rapports d’erreur, sans nom ni adresse e-mail)',
+    nom: 'Functional Software, Inc. (Sentry)',
+    adresse: '45 Fremont Street, 8th Floor, San Francisco, CA 94105, États-Unis ; données hébergées dans l’Union européenne (Francfort)',
+    site: 'https://sentry.io'
   }
 ];
+
+/**
+ * Durée de conservation des rapports d'erreur chez Sentry
+ * (à vérifier dans Sentry : Settings → Subscription / Data retention).
+ */
+export const CONSERVATION_RAPPORTS_ERREUR = '30 jours (offre gratuite de Sentry), puis suppression automatique';
 
 /**
  * Render (hébergeur) est une société américaine. Si les serveurs sont dans la

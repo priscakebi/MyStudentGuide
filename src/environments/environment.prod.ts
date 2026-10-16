@@ -18,5 +18,9 @@ export const environment = {
 
   // Prévoit une tentative de renouvellement du JWT toutes les 10 minutes
   // lorsque l'utilisateur est actif, selon l'implémentation du service.
-  tokenRefreshMinutes: 10
+  tokenRefreshMinutes: 10,
+
+  // Suivi des erreurs (Sentry) : coller ici le DSN du projet (Settings → Client Keys).
+  // Cette clé est publique par nature. Vide : aucun envoi.
+  sentryDsn: ''
 };

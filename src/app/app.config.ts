@@ -1,5 +1,6 @@
 import {
   ApplicationConfig,
+  ErrorHandler,
   LOCALE_ID,
   provideZoneChangeDetection
 } from '@angular/core';
@@ -17,7 +18,9 @@ import { routes } from './app.routes';
 // Import de l'interceptor qui ajoute automatiquement
 // le token JWT aux requêtes HTTP.
 import { authInterceptor } from './interceptors/auth.interceptor';
+import { erreursServeurInterceptor } from './interceptors/erreurs-serveur.interceptor';
 import { PageTitleStrategy } from './services/page-title.strategy';
+import { SuiviErreursHandler } from './services/suivi-erreurs';
 
 // Dates et nombres au format français (« jeudi 15 octobre », « 4,5 »).
 registerLocaleData(localeFr);
@@ -45,6 +48,9 @@ export const appConfig: ApplicationConfig = {
     // (titres déclarés dans app.routes.ts).
     { provide: TitleStrategy, useExisting: PageTitleStrategy },
 
+    // Erreurs non prévues : console + suivi des erreurs (Sentry, si configuré).
+    { provide: ErrorHandler, useClass: SuiviErreursHandler },
+
     // Configuration de HttpClient.
     //
     // withFetch() permet d'utiliser l'API Fetch du navigateur.
@@ -53,7 +59,7 @@ export const appConfig: ApplicationConfig = {
     // d'utiliser notre interceptor pour les requêtes HTTP.
     provideHttpClient(
       withFetch(),
-      withInterceptors([authInterceptor])
+      withInterceptors([authInterceptor, erreursServeurInterceptor])
     )
   ]
 };

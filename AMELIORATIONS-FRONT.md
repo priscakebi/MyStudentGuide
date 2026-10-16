@@ -391,3 +391,17 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
   à refaire (le message de confirmation le rappelle). Le lien « Fiche officielle Service-Public » est
   traduit automatiquement.
 - Correction : la page Documents affichait des titres de démarche vides (champ `nom` au lieu de `titre`).
+
+## 27. Suivi des erreurs (Sentry)
+- **Inactif tant qu'aucun DSN n'est renseigné** : `sentryDsn` dans `src/environments/environment.prod.ts`
+  (site) et la variable `SENTRY_DSN` sur Render (API). Créer l'organisation Sentry en région **EU**.
+- **Site** (`services/suivi-erreurs.ts`) : erreurs Angular (`ErrorHandler`), erreurs JavaScript globales,
+  promesses rejetées, et API injoignable (502 / 503 / 504, `erreurs-serveur.interceptor.ts`).
+  Sentry est téléchargé seulement quand le suivi est actif (fichier séparé de 27 Ko compressés).
+- **API** : `sentry-spring-boot-4-starter` + `sentry-logback` (8.59.0) ; chaque `log.error` (dont les
+  erreurs 500) devient une alerte, les `log.warn` servent de contexte.
+- **Aucune donnée personnelle** : ni utilisateur, ni adresse IP, ni cookies / en-têtes, adresses sans
+  paramètres (jeton de réinitialisation), adresses e-mail masquées, messages de la console ignorés,
+  pas de comptage des visites ni de mesure des performances. Vérifié avec un faux serveur Sentry.
+- Politique de confidentialité : Sentry ajouté aux prestataires, ligne « Rapports d'erreur techniques »
+  et durée de conservation (`CONSERVATION_RAPPORTS_ERREUR` dans `legal-info.ts`, à vérifier dans Sentry).

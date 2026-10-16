@@ -14,5 +14,8 @@ export const environment = {
   idleWarningSeconds: 60,
   // Le JWT est renouvelé au plus toutes les X minutes tant que l'utilisateur est actif
   // (doit rester inférieur à la durée de vie du JWT côté API : 30 min par défaut).
-  tokenRefreshMinutes: 10
+  tokenRefreshMinutes: 10,
+
+  // Suivi des erreurs (Sentry) : vide en développement.
+  sentryDsn: ''
 };

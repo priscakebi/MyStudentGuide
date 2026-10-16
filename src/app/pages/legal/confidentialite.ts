@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LangueService } from '../../i18n/langue.service';
 import {
+  CONSERVATION_RAPPORTS_ERREUR,
   DATE_MISE_A_JOUR,
   EDITEUR,
   GARANTIES_TRANSFERT,
@@ -30,6 +31,7 @@ export class Confidentialite {
   protected readonly hebergeurs = HEBERGEURS;
   protected readonly garantiesTransfert = GARANTIES_TRANSFERT;
   protected readonly dateMiseAJour = DATE_MISE_A_JOUR;
+  protected readonly conservationRapportsErreur = CONSERVATION_RAPPORTS_ERREUR;
   protected readonly version = VERSION_CONDITIONS;
   protected readonly aCompleter = aCompleter;
 }
