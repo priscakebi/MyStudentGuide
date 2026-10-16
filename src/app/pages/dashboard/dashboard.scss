@@ -815,10 +815,11 @@ $border-soft: #e6eaf0;
 
   font-size: 1.3rem;
 
-  &.doing { background: $blue-light; }
-  &.done { background: $green-light; }
-  &.notif { background: $red-light; }
-  &.profil { background: $orange-light; }
+  // Icône au trait (app-icone) : teinte de la pastille.
+  &.doing { background: $blue-light; color: $blue; }
+  &.done { background: $green-light; color: #11704d; }
+  &.notif { background: $red-light; color: var(--msg-red); }
+  &.profil { background: $orange-light; color: #b45309; }
 }
 
 
@@ -1174,7 +1175,10 @@ $border-soft: #e6eaf0;
     background: $white;
   }
 
-  > span { font-size: 1.5rem; }
+  > span {
+    color: $blue;
+    font-size: 1.5rem;
+  }
 
   strong {
     display: block;

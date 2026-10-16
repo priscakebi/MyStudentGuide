@@ -56,7 +56,7 @@
     <div class="sidebar-header">
 
       <a routerLink="/admin" class="logo">
-        <span class="brand-mark" aria-hidden="true">🎓</span>
+        <span class="brand-mark" aria-hidden="true"><app-icone nom="diplome" /></span>
         <span class="logo-text">
           <strong>MyStudentGuide</strong>
           <span>Administration</span>
@@ -134,6 +134,18 @@
             {{ stats!.demandesAideOuvertes }}
           </span>
         }
+      </a>
+
+      <a
+        routerLink="/admin/avis"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+        class="nav-item"
+      >
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m12 3.5 2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8Z" />
+        </svg>
+        <span>Avis</span>
       </a>
 
       <p class="nav-section">Contenus</p>
@@ -348,7 +360,7 @@
             (click)="refreshStatistics()"
             [disabled]="loading"
           >
-            <span class="refresh-icon" [class.spinning]="loading">🔄</span>
+            <span class="refresh-icon" [class.spinning]="loading"><app-icone nom="actualiser" /></span>
             <span>{{ loading ? 'Actualisation...' : 'Actualiser' }}</span>
           </button>
 
@@ -362,7 +374,7 @@
         <section class="statistics-grid" aria-label="Chiffres clés">
 
           <a routerLink="/admin/users" class="stat-card">
-            <div class="stat-icon users-icon">👥</div>
+            <div class="stat-icon users-icon"><app-icone nom="utilisateurs" /></div>
             <div class="stat-content">
               <span class="stat-label">Étudiants inscrits</span>
               <strong class="stat-value">{{ stats?.etudiants ?? '—' }}</strong>
@@ -377,7 +389,7 @@
           </a>
 
           <article class="stat-card">
-            <div class="stat-icon progress-icon">⏳</div>
+            <div class="stat-icon progress-icon"><app-icone nom="sablier" /></div>
             <div class="stat-content">
               <span class="stat-label">Démarches en cours</span>
               <strong class="stat-value">{{ stats?.suivisEnCours ?? '—' }}</strong>
@@ -386,7 +398,7 @@
           </article>
 
           <article class="stat-card">
-            <div class="stat-icon done-icon">✅</div>
+            <div class="stat-icon done-icon"><app-icone nom="valide" /></div>
             <div class="stat-content">
               <span class="stat-label">Démarches terminées</span>
               <strong class="stat-value">{{ stats?.suivisTermines ?? '—' }}</strong>
@@ -395,7 +407,7 @@
           </article>
 
           <article class="stat-card">
-            <div class="stat-icon avis-icon">⭐</div>
+            <div class="stat-icon avis-icon"><app-icone nom="etoile" /></div>
             <div class="stat-content">
               <span class="stat-label">Satisfaction</span>
               <strong class="stat-value">
@@ -564,10 +576,16 @@
 
               <ul class="activity-list">
                 @for (activite of stats!.activiteRecente; track $index) {
-                  <li [class.unread]="!activite.lu">
+                  @let lien = lienActivite(activite.titre);
+                  <li [class.unread]="!activite.lu" [class.cliquable]="lien">
                     <span class="activity-dot" aria-hidden="true"></span>
                     <div>
-                      <strong>{{ activite.titre }}</strong>
+                      @if (lien) {
+                        <!-- Lien étiré : tout l'élément ouvre la page concernée. -->
+                        <a class="activity-link" [routerLink]="lien.chemin"><strong>{{ activite.titre }}</strong></a>
+                      } @else {
+                        <strong>{{ activite.titre }}</strong>
+                      }
                       <p>{{ activite.message }}</p>
                       <time>{{ activite.date | date: 'dd/MM à HH:mm' }}</time>
                     </div>
@@ -590,7 +608,7 @@
 
         @if (stats?.signalementsOuverts) {
           <section class="todo-banner warning">
-            <span class="todo-icon" aria-hidden="true">⚠️</span>
+            <span class="todo-icon" aria-hidden="true"><app-icone nom="alerte" /></span>
             <p>
               <strong>{{ stats!.signalementsOuverts }} signalement{{ stats!.signalementsOuverts > 1 ? 's' : '' }}</strong>
               d'étudiant{{ stats!.signalementsOuverts > 1 ? 's' : '' }} à traiter : une information
@@ -602,7 +620,7 @@
 
         @if (stats?.etudiantsSansDemarche) {
           <section class="todo-banner">
-            <span class="todo-icon" aria-hidden="true">💡</span>
+            <span class="todo-icon" aria-hidden="true"><app-icone nom="ampoule" /></span>
             <p>
               <strong>{{ stats!.etudiantsSansDemarche }} étudiant{{ stats!.etudiantsSansDemarche > 1 ? 's' : '' }}</strong>
               n'{{ stats!.etudiantsSansDemarche > 1 ? 'ont' : 'a' }} encore commencé aucune démarche.
@@ -629,7 +647,7 @@
           <div class="quick-grid">
 
             <a routerLink="/admin/demarches-admin" class="quick-card">
-              <div class="quick-icon">📋</div>
+              <div class="quick-icon"><app-icone nom="liste" /></div>
               <div class="quick-content">
                 <h3>Démarches</h3>
                 <p>{{ stats?.demarches ?? '—' }} démarche{{ (stats?.demarches ?? 0) > 1 ? 's' : '' }} publiée{{ (stats?.demarches ?? 0) > 1 ? 's' : '' }}</p>
@@ -638,7 +656,7 @@
             </a>
 
             <a routerLink="/admin/categories-admin" class="quick-card">
-              <div class="quick-icon">📁</div>
+              <div class="quick-icon"><app-icone nom="dossier" /></div>
               <div class="quick-content">
                 <h3>Catégories</h3>
                 <p>{{ stats?.categories ?? '—' }} catégorie{{ (stats?.categories ?? 0) > 1 ? 's' : '' }}</p>
@@ -647,7 +665,7 @@
             </a>
 
             <a routerLink="/admin/users" class="quick-card">
-              <div class="quick-icon">👥</div>
+              <div class="quick-icon"><app-icone nom="utilisateurs" /></div>
               <div class="quick-content">
                 <h3>Utilisateurs</h3>
                 <p>Profils, suivis et suggestions</p>
@@ -656,7 +674,7 @@
             </a>
 
             <a routerLink="/admin/documents" class="quick-card">
-              <div class="quick-icon">📄</div>
+              <div class="quick-icon"><app-icone nom="document" /></div>
               <div class="quick-content">
                 <h3>Documents requis</h3>
                 <p>Pièces demandées par démarche</p>

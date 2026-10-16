@@ -30,6 +30,7 @@ import {
   isStrongPassword,
   passwordChecks
 } from '../../utils/form-rules';
+import { Icone } from '../../components/icone/icone';
 
 
 // ============================================================
@@ -100,6 +101,7 @@ interface UserAccount {
 
   // Modules nécessaires au fonctionnement du template.
   imports: [
+    Icone,
     CommonModule,
     ReactiveFormsModule,
     RouterLink,

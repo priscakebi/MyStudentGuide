@@ -525,3 +525,52 @@
   }
 
 }
+
+/* =========================================================
+   NOTIFICATION CLIQUABLE : ouvre la page concernée
+   ========================================================= */
+
+.notification-card {
+  position: relative;
+}
+
+.notification-card.cliquable {
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 6px 18px rgba(22, 70, 160, 0.14);
+    transform: translateY(-1px);
+  }
+}
+
+.open-link {
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: #eaf1ff;
+  color: #1646a0;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+
+  // Lien étiré : toute la carte mène à la page.
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+  }
+
+  &:hover {
+    background: #dbe7ff;
+  }
+}
+
+// Les autres boutons restent cliquables au-dessus du lien étiré.
+.notification-actions button {
+  position: relative;
+  z-index: 1;
+}
+
+// Icônes au trait (app-icone) : teinte de leur pastille.
+.notification-icon { color: var(--msg-red); }

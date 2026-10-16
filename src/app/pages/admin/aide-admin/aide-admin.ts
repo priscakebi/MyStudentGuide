@@ -14,13 +14,14 @@ import { HttpClient } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { DemandeAide, StatutDemandeAide } from '../../aide/aide';
+import { Icone } from '../../../components/icone/icone';
 
 const REPONSE_MAX = 2000;
 
 @Component({
   selector: 'app-aide-admin',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [Icone, CommonModule, FormsModule, RouterLink],
   templateUrl: './aide-admin.html',
   styleUrl: './aide-admin.scss'
 })

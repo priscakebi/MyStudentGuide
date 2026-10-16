@@ -11,6 +11,7 @@ import {
   StudentDemarche,
   StudentDemarcheService
 } from '../../services/student-demarche.service';
+import { Icone } from '../../components/icone/icone';
 
 type Filtre = 'TOUTES' | 'EN_COURS' | 'TERMINEE';
 
@@ -35,7 +36,7 @@ type Filtre = 'TOUTES' | 'EN_COURS' | 'TERMINEE';
 @Component({
   selector: 'app-suivis-demarches',
   standalone: true,
-  imports: [CommonModule, RouterLink, AvisForm, TPipe, TcPipe],
+  imports: [Icone, CommonModule, RouterLink, AvisForm, TPipe, TcPipe],
   templateUrl: './suivis-demarches.html',
   styleUrl: './suivis-demarches.scss'
 })

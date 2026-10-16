@@ -13,6 +13,7 @@ import {
   VERSION_CONDITIONS,
   aCompleter
 } from './legal-info';
+import { Icone } from '../../components/icone/icone';
 
 /**
  * Politique de confidentialité (/confidentialite).
@@ -24,7 +25,7 @@ import {
 @Component({
   selector: 'app-confidentialite',
   standalone: true,
-  imports: [RouterLink, DateLPipe],
+  imports: [Icone, RouterLink, DateLPipe],
   templateUrl: './confidentialite.html',
   styleUrl: './legal.scss'
 })

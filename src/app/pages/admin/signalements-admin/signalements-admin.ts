@@ -17,6 +17,7 @@ import { HttpClient } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
 
 import { environment } from '../../../../environments/environment';
+import { Icone } from '../../../components/icone/icone';
 
 type Statut = 'OUVERT' | 'TRAITE' | 'REJETE';
 
@@ -36,7 +37,7 @@ interface Signalement {
 @Component({
   selector: 'app-signalements-admin',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [Icone, CommonModule, RouterLink],
   templateUrl: './signalements-admin.html',
   styleUrl: './signalements-admin.scss'
 })

@@ -16,6 +16,7 @@ import { PageTitleStrategy } from '../../services/page-title.strategy';
 import { LangueService } from '../../i18n/langue.service';
 import { DateLPipe, TPipe, TcPipe } from '../../i18n/t.pipe';
 import { Cle } from '../../i18n/textes';
+import { Icone } from '../../components/icone/icone';
 
 /**
  * Représente un document nécessaire pour effectuer une démarche.
@@ -102,7 +103,7 @@ interface DemarcheDetail {
 @Component({
   selector: 'app-demarche-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule, PrefectureCard, TPipe, TcPipe, DateLPipe],
+  imports: [Icone, CommonModule, RouterLink, FormsModule, PrefectureCard, TPipe, TcPipe, DateLPipe],
   templateUrl: './demarche-detail.html',
   styleUrl: './demarche-detail.scss'
 })

@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { LangueService } from '../../i18n/langue.service';
 import { DateLPipe } from '../../i18n/t.pipe';
 import { DATE_MISE_A_JOUR, EDITEUR, VERSION_CONDITIONS, aCompleter } from './legal-info';
+import { Icone } from '../../components/icone/icone';
 
 /**
  * Conditions d'utilisation (/conditions-utilisation), acceptées à l'inscription.
@@ -10,7 +11,7 @@ import { DATE_MISE_A_JOUR, EDITEUR, VERSION_CONDITIONS, aCompleter } from './leg
 @Component({
   selector: 'app-conditions-utilisation',
   standalone: true,
-  imports: [RouterLink, DateLPipe],
+  imports: [Icone, RouterLink, DateLPipe],
   templateUrl: './conditions-utilisation.html',
   styleUrl: './legal.scss'
 })

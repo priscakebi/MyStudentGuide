@@ -1,0 +1,107 @@
+<!-- ============================================================
+     AVIS DES ÉTUDIANTS
+     ============================================================ -->
+
+<section class="content">
+
+  <div class="intro">
+    <p>
+      Les avis <strong>publiés</strong> apparaissent sur la page d'accueil avec le prénom et l'initiale
+      du nom de l'étudiant. Masquez un avis inapproprié (il pourra être republié) ou supprimez-le
+      définitivement.
+    </p>
+  </div>
+
+
+  <!-- Filtres -->
+  <div class="filters" role="group" aria-label="Filtrer les avis">
+    @for (f of filtres; track f.value) {
+      <button
+        type="button"
+        class="filter"
+        [class.active]="filtre === f.value"
+        (click)="filtre = f.value; message = ''"
+      >
+        {{ f.label }}
+      </button>
+    }
+  </div>
+
+
+  @if (message) {
+    <p class="message success" role="status">{{ message }}</p>
+  }
+
+  @if (erreur) {
+    <p class="message error" role="alert">{{ erreur }}</p>
+  }
+
+
+  @if (loading) {
+
+    <p class="state">Chargement des avis…</p>
+
+  } @else if (avisFiltres.length === 0) {
+
+    <div class="empty">
+      <span aria-hidden="true"><app-icone nom="etoile" /></span>
+      <p>Aucun avis{{ filtre === 'MASQUES' ? ' masqué' : filtre === 'VISIBLES' ? ' publié' : '' }}.</p>
+    </div>
+
+  } @else {
+
+    <ul class="list">
+      @for (a of avisFiltres; track a.id) {
+        <li class="item" [class.done]="!a.visible">
+
+          <div class="item-main">
+
+            <div class="item-top">
+              <span class="note" role="img" [attr.aria-label]="'Note : ' + a.note + ' sur 5'">
+                @for (e of etoiles; track e) {
+                  <span aria-hidden="true" [class.vide]="e > a.note">★</span>
+                }
+              </span>
+              <span class="badge" [class]="a.visible ? 'statut-TRAITE' : 'statut-REJETE'">
+                {{ a.visible ? 'Publié' : 'Masqué' }}
+              </span>
+              <time>{{ a.dateCreation | date: 'd MMM y à HH:mm' }}</time>
+            </div>
+
+            <h2>{{ a.demarcheTitre }}</h2>
+
+            <blockquote>« {{ a.commentaire }} »</blockquote>
+
+            <p class="author">Par {{ a.auteur }}</p>
+
+          </div>
+
+          <div class="item-actions">
+
+            <button
+              type="button"
+              class="btn btn-light"
+              [disabled]="enCours === a.id"
+              (click)="changerVisibilite(a)"
+            >
+              {{ a.visible ? 'Masquer' : 'Republier' }}
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-reject"
+              [disabled]="enCours === a.id"
+              (click)="supprimer(a)"
+            >
+              Supprimer
+            </button>
+
+          </div>
+
+        </li>
+      }
+    </ul>
+
+  }
+
+</section>

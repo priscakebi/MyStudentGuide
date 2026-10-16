@@ -42,7 +42,7 @@
     </button>
 
     <a routerLink="/home" class="mobile-logo">
-      <span class="brand-mark" aria-hidden="true">🎓</span>
+      <span class="brand-mark" aria-hidden="true"><app-icone nom="diplome" /></span>
       <strong>MyStudentGuide</strong>
     </a>
 
@@ -86,7 +86,7 @@
     <div class="sidebar-header">
 
       <a routerLink="/home" class="sidebar-logo">
-        <span class="brand-mark" aria-hidden="true">🎓</span>
+        <span class="brand-mark" aria-hidden="true"><app-icone nom="diplome" /></span>
         <span class="sidebar-logo-text">
           <strong>MyStudentGuide</strong>
           <span>{{ 'espace.sousTitre' | t }}</span>
@@ -330,7 +330,7 @@
         <section class="kpi-grid" [attr.aria-label]="'espace.kpi.label' | t">
 
           <a routerLink="/dashboard/suivis" class="kpi-card">
-            <span class="kpi-icon doing" aria-hidden="true">⏳</span>
+            <span class="kpi-icon doing" aria-hidden="true"><app-icone nom="sablier" /></span>
             <div>
               <strong>{{ demarchesEnCours }}</strong>
               <span>{{ (demarchesEnCours > 1 ? 'espace.kpi.enCours.n' : 'espace.kpi.enCours.1') | t }}</span>
@@ -338,7 +338,7 @@
           </a>
 
           <a routerLink="/dashboard/suivis" class="kpi-card">
-            <span class="kpi-icon done" aria-hidden="true">✅</span>
+            <span class="kpi-icon done" aria-hidden="true"><app-icone nom="valide" /></span>
             <div>
               <strong>{{ demarchesTerminees }}</strong>
               <span>{{ (demarchesTerminees > 1 ? 'espace.kpi.terminees.n' : 'espace.kpi.terminees.1') | t }}</span>
@@ -346,7 +346,7 @@
           </a>
 
           <a routerLink="/dashboard/notifications" class="kpi-card">
-            <span class="kpi-icon notif" aria-hidden="true">🔔</span>
+            <span class="kpi-icon notif" aria-hidden="true"><app-icone nom="cloche" /></span>
             <div>
               <strong>{{ unreadCount }}</strong>
               <span>{{ (unreadCount > 1 ? 'espace.kpi.notifs.n' : 'espace.kpi.notifs.1') | t }}</span>
@@ -354,7 +354,7 @@
           </a>
 
           <a routerLink="/dashboard/profile" class="kpi-card">
-            <span class="kpi-icon profil" aria-hidden="true">👤</span>
+            <span class="kpi-icon profil" aria-hidden="true"><app-icone nom="utilisateur" /></span>
             <div>
               <strong class="kpi-text">
                 @if (profilComplet === null) {
@@ -399,7 +399,7 @@
             } @else if (demarchesActives.length === 0) {
 
               <div class="home-empty-state">
-                <span aria-hidden="true">🧭</span>
+                <span aria-hidden="true"><app-icone nom="boussole" /></span>
                 <p>{{ 'espace.aucune' | t }}</p>
                 <a routerLink="/demarches" class="hero-btn primary small">{{ 'espace.choisir' | t }}</a>
               </div>
@@ -482,7 +482,7 @@
                     (click)="ajouterEcheancesAgenda()"
                     [title]="'detail.agenda.aide' | t"
                   >
-                    <span aria-hidden="true">📅</span> {{ 'detail.agenda' | t }}
+                    <span aria-hidden="true"><app-icone nom="calendrier" /></span> {{ 'detail.agenda' | t }}
                   </button>
                 }
               </header>
@@ -563,7 +563,7 @@
         <section class="shortcut-grid" [attr.aria-label]="'espace.raccourcis' | t">
 
           <a routerLink="/demarches" class="shortcut">
-            <span aria-hidden="true">📋</span>
+            <span aria-hidden="true"><app-icone nom="liste" /></span>
             <div>
               <strong>{{ 'espace.menu.toutesDemarches' | t }}</strong>
               <small>{{ 'espace.raccourci.demarches.texte' | t }}</small>
@@ -571,7 +571,7 @@
           </a>
 
           <a routerLink="/documents" class="shortcut">
-            <span aria-hidden="true">📄</span>
+            <span aria-hidden="true"><app-icone nom="document" /></span>
             <div>
               <strong>{{ 'espace.menu.documents' | t }}</strong>
               <small>{{ 'espace.raccourci.documents.texte' | t }}</small>
@@ -579,7 +579,7 @@
           </a>
 
           <a routerLink="/dashboard/account" class="shortcut">
-            <span aria-hidden="true">⚙️</span>
+            <span aria-hidden="true"><app-icone nom="engrenage" /></span>
             <div>
               <strong>{{ 'espace.section.compte' | t }}</strong>
               <small>{{ 'espace.raccourci.compte.texte' | t }}</small>

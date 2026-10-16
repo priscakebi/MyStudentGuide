@@ -892,3 +892,10 @@ $transition: 0.25s ease;
   text-decoration: underline;
   cursor: pointer;
 }
+
+// Icônes au trait (app-icone) : teinte de leur pastille.
+.header-icon,
+.card-icon.blue { color: var(--msg-blue); }
+
+.card-icon.red,
+.card-icon.danger { color: var(--msg-red); }

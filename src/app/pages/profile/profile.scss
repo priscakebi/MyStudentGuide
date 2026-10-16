@@ -1457,3 +1457,7 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
   }
 
 }
+
+// Icônes au trait (app-icone) : teinte de leur pastille.
+.information-icon { color: var(--msg-blue); }
+.empty-icon { color: var(--msg-red); }

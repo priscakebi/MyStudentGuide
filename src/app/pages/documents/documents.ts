@@ -5,6 +5,7 @@ import { forkJoin, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { LangueService } from '../../i18n/langue.service';
 import { TPipe, TcPipe } from '../../i18n/t.pipe';
+import { Icone } from '../../components/icone/icone';
 
 /**
  * Représente un document requis récupéré depuis le backend.
@@ -68,6 +69,7 @@ interface DocumentsParDemarche {
   selector: 'app-documents',
   standalone: true,
   imports: [
+    Icone,
     CommonModule,
     TPipe,
     TcPipe

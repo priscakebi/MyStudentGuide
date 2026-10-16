@@ -15,6 +15,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { environment } from '../../../environments/environment';
+import { Icone } from '../icone/icone';
 
 /** Un texte à traduire : la démarche, une étape, un document ou un lien. */
 export interface ElementTraduction {
@@ -35,7 +36,7 @@ export interface Traduction {
 @Component({
   selector: 'app-demarche-traduction-editor',
   standalone: true,
-  imports: [FormsModule, NgTemplateOutlet],
+  imports: [Icone, FormsModule, NgTemplateOutlet],
   templateUrl: './demarche-traduction-editor.html',
   styleUrl: './demarche-traduction-editor.scss'
 })

@@ -678,6 +678,20 @@ export const routes: Routes = [
 
 
     // ====================================================================
+    // AVIS DES ÉTUDIANTS (modération)
+    // ====================================================================
+
+    {
+      path: 'avis',
+      title: 'Avis · Administration',
+
+      loadComponent: () =>
+        import('./pages/admin/avis-admin/avis-admin')
+          .then(m => m.AvisAdmin)
+    },
+
+
+    // ====================================================================
     // DEMANDES D'AIDE DES ÉTUDIANTS
     // ====================================================================
 

@@ -6,6 +6,7 @@ import { environment } from '../../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { DemarcheContenuEditor } from '../../../components/demarche-contenu-editor/demarche-contenu-editor';
 import { DemarcheTraductionEditor } from '../../../components/demarche-traduction-editor/demarche-traduction-editor';
+import { Icone } from '../../../components/icone/icone';
 
 
 // ============================================================
@@ -243,6 +244,7 @@ interface DemarcheForm {
    * - formulaires template-driven.
    */
   imports: [
+    Icone,
     CommonModule,
     FormsModule,
     DemarcheContenuEditor,

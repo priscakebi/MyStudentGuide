@@ -772,3 +772,14 @@ $transition: 0.25s ease;
     font-size: 14px;
   }
 }
+
+// Icônes au trait (app-icone) : teinte de leur pastille.
+.header-icon,
+.demarche-icon,
+.document-icon { color: var(--msg-blue); }
+
+.empty-icon { color: #98a2b3; }
+
+.error-icon { color: var(--msg-red); }
+
+.information-icon { color: var(--msg-blue); }

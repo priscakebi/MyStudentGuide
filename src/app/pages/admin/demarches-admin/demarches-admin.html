@@ -51,7 +51,11 @@
         [disabled]="spVerification"
         (click)="verifierMisesAJour()"
       >
-        {{ spVerification ? 'Vérification…' : '🔄 Vérifier les mises à jour' }}
+        @if (spVerification) {
+          Vérification…
+        } @else {
+          <app-icone nom="actualiser" /> Vérifier les mises à jour
+        }
       </button>
     </div>
 
@@ -171,7 +175,7 @@
           </select>
 
           @if (spCategorieSuggeree) {
-            <span class="sp-suggest">✨ Suggérée d'après le thème de la fiche</span>
+            <span class="sp-suggest"><app-icone nom="etincelles" /> Suggérée d'après le thème de la fiche</span>
           }
 
           <button
@@ -575,17 +579,17 @@
                   }
                   @if (resumeCiblage(demarche); as resume) {
                     <span class="badge badge-target" title="Suggérée automatiquement aux étudiants dont le profil correspond">
-                      🎯 Suggérée à : {{ resume }}
+                      <app-icone nom="cible" /> Suggérée à : {{ resume }}
                     </span>
                   }
                   @if (resumeEcheance(demarche); as regle) {
                     <span class="badge badge-target" title="Date limite calculée pour chaque étudiant depuis son profil">
-                      📅 Date limite : {{ regle }}
+                      <app-icone nom="calendrier" /> Date limite : {{ regle }}
                     </span>
                   }
                   @if (demarche.titreEn) {
                     <span class="badge badge-target" title="Version anglaise affichée aux étudiants qui utilisent le site en anglais">
-                      🌐 Traduite en anglais
+                      <app-icone nom="globe" /> Traduite en anglais
                     </span>
                   }
                 </div>
@@ -913,7 +917,7 @@
                 [attr.aria-expanded]="ciblageOuvert === demarche.id"
                 (click)="ouvrirCiblage(demarche)"
               >
-                🎯 Ciblage
+                <app-icone nom="cible" /> Ciblage
               </button>
 
               <!-- Date limite personnalisée (depuis le profil de l'étudiant) -->
@@ -924,7 +928,7 @@
                 [attr.aria-expanded]="echeanceOuvert === demarche.id"
                 (click)="ouvrirEcheance(demarche)"
               >
-                📅 Échéance
+                <app-icone nom="calendrier" /> Échéance
               </button>
 
               <!-- Étapes et liens officiels -->
@@ -935,7 +939,7 @@
                 [attr.aria-expanded]="contenuOuvert === demarche.id"
                 (click)="contenuOuvert = contenuOuvert === demarche.id ? null : demarche.id"
               >
-                📝 Contenu
+                <app-icone nom="crayon" /> Contenu
               </button>
 
               <!-- Version anglaise du contenu -->
@@ -946,7 +950,7 @@
                 [attr.aria-expanded]="traductionOuverte === demarche.id"
                 (click)="traductionOuverte = traductionOuverte === demarche.id ? null : demarche.id"
               >
-                🌐 Anglais
+                <app-icone nom="globe" /> Anglais
               </button>
 
 

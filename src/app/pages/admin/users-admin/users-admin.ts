@@ -8,6 +8,7 @@ import {
 } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
+import { Icone } from '../../../components/icone/icone';
 
 
 /**
@@ -194,6 +195,7 @@ interface StudentDemarche {
    * Modules Angular nécessaires au HTML.
    */
   imports: [
+    Icone,
     CommonModule,
     FormsModule
   ],

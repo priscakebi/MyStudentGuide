@@ -19,6 +19,7 @@ import { RouterLink } from '@angular/router';
 
 import { environment } from '../../../environments/environment';
 import { TPipe } from '../../i18n/t.pipe';
+import { Icone } from '../icone/icone';
 
 export interface PrefectureInfo {
   nom: string;
@@ -38,7 +39,7 @@ export interface PrefectureInfo {
 @Component({
   selector: 'app-prefecture-card',
   standalone: true,
-  imports: [RouterLink, TPipe],
+  imports: [Icone, RouterLink, TPipe],
   templateUrl: './prefecture-card.html',
   styleUrl: './prefecture-card.scss'
 })

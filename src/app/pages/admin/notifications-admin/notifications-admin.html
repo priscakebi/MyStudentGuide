@@ -99,7 +99,7 @@
     <div class="empty-state">
 
       <div class="empty-icon">
-        🔔
+        <app-icone nom="cloche" />
       </div>
 
       <h2>
@@ -128,16 +128,19 @@
       <!-- Parcours de toutes les notifications -->
       @for (notification of notifications; track notification.id) {
 
+        @let lien = lienDe(notification);
+
         <div
           class="notification-card"
           [class.unread]="!notification.lu"
+          [class.cliquable]="lien"
         >
 
 
           <!-- Icône de notification -->
           <div class="notification-icon">
 
-            🔔
+            <app-icone nom="cloche" />
 
           </div>
 
@@ -187,6 +190,18 @@
             <div class="notification-actions">
 
 
+              <!-- Page concernée : toute la carte est cliquable (lien étiré). -->
+              @if (lien) {
+                <a
+                  class="open-link"
+                  [routerLink]="lien.chemin"
+                  (click)="markAsRead(notification)"
+                >
+                  {{ lien.libelle }} →
+                </a>
+              }
+
+
               <!-- Marquer comme lue -->
               @if (!notification.lu) {
 
@@ -210,7 +225,7 @@
                 (click)="deleteNotification(notification)"
               >
 
-                🗑 Supprimer
+                <app-icone nom="corbeille" /> Supprimer
 
               </button>
 

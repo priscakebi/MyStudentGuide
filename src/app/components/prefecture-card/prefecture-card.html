@@ -1,7 +1,7 @@
 <section class="prefecture-card" aria-labelledby="prefecture-titre">
 
   <header>
-    <span class="prefecture-icon" aria-hidden="true">🏛️</span>
+    <span class="prefecture-icon" aria-hidden="true"><app-icone nom="batiment" /></span>
     <h2 id="prefecture-titre">{{ titre || ('prefecture.titre' | t) }}</h2>
   </header>
 
@@ -14,17 +14,17 @@
     <strong class="prefecture-nom">{{ prefecture.nom }}</strong>
 
     @if (prefecture.adresse) {
-      <p class="ligne">📍 {{ prefecture.adresse }}</p>
+      <p class="ligne"><app-icone nom="epingle" /> {{ prefecture.adresse }}</p>
     }
 
     @if (prefecture.telephone) {
-      <p class="ligne">📞 <a [href]="lienTelephone">{{ prefecture.telephone }}</a></p>
+      <p class="ligne"><app-icone nom="telephone" /> <a [href]="lienTelephone">{{ prefecture.telephone }}</a></p>
     }
 
     @if (prefecture.horaires.length) {
       <ul class="horaires">
         @for (h of prefecture.horaires; track $index) {
-          <li>🕘 {{ h }}</li>
+          <li><app-icone nom="horloge" /> {{ h }}</li>
         }
       </ul>
     }

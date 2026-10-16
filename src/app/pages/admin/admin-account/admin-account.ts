@@ -26,6 +26,7 @@ import {
   isStrongPassword,
   passwordChecks
 } from '../../../utils/form-rules';
+import { Icone } from '../../../components/icone/icone';
 
 
 // ============================================================
@@ -71,6 +72,7 @@ interface UserAccount {
    * Modules utilisés par cette page.
    */
   imports: [
+    Icone,
     CommonModule,
     ReactiveFormsModule
   ],

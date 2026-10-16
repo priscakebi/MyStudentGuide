@@ -22,6 +22,7 @@ import { environment } from '../../../environments/environment';
 import { LangueService } from '../../i18n/langue.service';
 import { DateLPipe, TPipe } from '../../i18n/t.pipe';
 import { Cle } from '../../i18n/textes';
+import { Icone } from '../../components/icone/icone';
 
 
 /**
@@ -73,6 +74,7 @@ interface StudentProfile {
   standalone: true,
 
   imports: [
+    Icone,
     CommonModule,
     FormsModule,
     TPipe,

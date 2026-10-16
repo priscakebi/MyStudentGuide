@@ -451,3 +451,19 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
   une vraie date (`2026-10-16`), affichée dans la langue de l'interface.
 - Politique de confidentialité (FR et EN) : le profil mentionne désormais la date d'arrivée et la date de fin
   du titre de séjour, utilisées pour calculer les dates limites personnelles (oubli de la section 25).
+
+## 32. Icônes, notifications admin cliquables, page « Avis » et correctif « Commencer »
+- **Icônes** : composant `app-icone` (`components/icone/icone.ts`, SVG au trait, même style que les menus,
+  taille et couleur héritées du texte). Il remplace ~90 emojis utilisés comme icônes dans l'espace étudiant,
+  l'administration, la barre de navigation et les encadrés « info ». Rendu identique sur tous les appareils.
+  Chaque icône prend la teinte de sa pastille (bleu, vert, rouge, ambre).
+- **Notifications admin cliquables** : `utils/lien-notification-admin.ts` déduit la page à ouvrir du titre de la
+  notification (signalement → Signalements, demande d'aide → Demandes d'aide, inscription / profil / démarche →
+  Utilisateurs, mise à jour officielle → Démarches, avis → Avis). Toute la carte (page Notifications) et chaque
+  ligne de l'« Activité récente » du tableau de bord ouvrent la page ; la notification est marquée lue.
+- **Page « Avis »** (`/admin/avis`, menu Pilotage) : liste des avis, filtre publiés / masqués, masquer ou
+  republier, supprimer (API déjà existante : `GET /api/avis`, `PATCH /{id}/visible`, `DELETE /{id}`).
+- **Correctif API (erreur « Une erreur interne est survenue » en cliquant sur « Commencer »)** : un étudiant sans
+  profil recevait une erreur 500, car d'anciennes contraintes NOT NULL (`student_profiles.nationalite`,
+  `type_visa`, `date_arrivee_france`) refusaient le profil vide créé automatiquement. `CorrectionsSchema`
+  (API, au démarrage) rend ces colonnes facultatives si besoin.

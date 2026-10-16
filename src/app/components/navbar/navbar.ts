@@ -27,11 +27,13 @@ import { Subscription, filter } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { TPipe } from '../../i18n/t.pipe';
 import { LangueSwitch } from '../langue-switch/langue-switch';
+import { Icone } from '../icone/icone';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [
+    Icone,
     RouterLink,
     RouterLinkActive,
     TPipe,

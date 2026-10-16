@@ -1,7 +1,7 @@
 <form class="editor" (ngSubmit)="enregistrer()">
 
   <div class="editor-header">
-    <h4>🌐 Version anglaise</h4>
+    <h4><app-icone nom="globe" /> Version anglaise</h4>
     @if (traduction) {
       <span class="count" [class.complete]="textesTraduits === totalTextes">
         {{ textesTraduits }} / {{ totalTextes }} textes traduits

@@ -98,7 +98,7 @@ class="back-button"
 
   <!-- Interface en anglais : contenu affiché en français tant que l'admin ne l'a pas traduit. -->
   @if (langue.contenuNonTraduit(demarche)) {
-    <p class="content-language-note" lang="en">ℹ️ {{ 'detail.contenuFrancais' | t }}</p>
+    <p class="content-language-note" lang="en"><app-icone nom="info" /> {{ 'detail.contenuFrancais' | t }}</p>
   }
 
   <!--
@@ -107,7 +107,7 @@ class="back-button"
   -->
   @if (demarche.sourceUrl) {
     <p class="source-mention">
-      <span aria-hidden="true">🏛️</span>
+      <span aria-hidden="true"><app-icone nom="batiment" /></span>
       {{ 'detail.source' | t }}
       <a [href]="demarche.sourceUrl" target="_blank" rel="noopener">Service-Public.gouv.fr</a>
       {{ 'detail.source.dila' | t }}
@@ -164,7 +164,7 @@ class="back-button"
           (click)="ajouterAgenda()"
           [title]="'detail.agenda.aide' | t"
         >
-          <span aria-hidden="true">📅</span>
+          <span aria-hidden="true"><app-icone nom="calendrier" /></span>
           {{ 'detail.agenda' | t }}
         </button>
       }
@@ -434,7 +434,7 @@ class="back-button"
 
           <!-- Icône document -->
           <div class="document-icon">
-            📄
+            <app-icone nom="document" />
           </div>
 
           <!-- Informations du document -->

@@ -1556,6 +1556,7 @@ a.stat-card {
   list-style: none;
 
   li {
+    position: relative;
     display: flex;
     gap: 12px;
 
@@ -1564,11 +1565,27 @@ a.stat-card {
     border-bottom: 1px solid $track;
 
     &:last-child { border-bottom: none; }
+
+    // Ligne cliquable : ouvre la page concernée (lien étiré).
+    &.cliquable:hover strong {
+      color: var(--msg-blue);
+      text-decoration: underline;
+    }
   }
 
   strong {
     color: $dark;
     font-size: 13.5px;
+  }
+
+  .activity-link {
+    text-decoration: none;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+    }
   }
 
   p {
@@ -1700,3 +1717,10 @@ a.stat-card {
   }
 }
 
+// Icônes au trait (app-icone) : teinte de leur pastille.
+.progress-icon { color: $data; }
+.done-icon { color: #11704d; }
+.avis-icon { color: #b45309; }
+
+.todo-banner .todo-icon { color: var(--msg-blue); }
+.todo-banner.warning .todo-icon { color: #b45309; }

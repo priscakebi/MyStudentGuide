@@ -14,7 +14,7 @@
     <div class="empty-state visitor-state">
 
       <div class="empty-icon">
-        🔔
+        <app-icone nom="cloche" />
       </div>
 
       <h2>
@@ -83,7 +83,7 @@
         <!-- Icône -->
         <div class="notification-detail-icon">
 
-          🔔
+          <app-icone nom="cloche" />
 
         </div>
 
@@ -241,7 +241,7 @@
         </p>
 
         @if (langue.langue() === 'en') {
-          <p class="content-language-note" lang="en">ℹ️ {{ 'notif.contenuFrancais' | t }}</p>
+          <p class="content-language-note" lang="en"><app-icone nom="info" /> {{ 'notif.contenuFrancais' | t }}</p>
         }
 
       </div>
@@ -334,7 +334,7 @@
       <div class="empty-state">
 
         <div class="empty-icon">
-          🔔
+          <app-icone nom="cloche" />
         </div>
 
         <h2>
@@ -387,7 +387,7 @@
 
             <div class="notification-icon">
 
-              🔔
+              <app-icone nom="cloche" />
 
             </div>
 

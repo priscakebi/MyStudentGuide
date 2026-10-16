@@ -103,7 +103,7 @@
 
   &.done {
     border-left-color: #cfd5df;
-    opacity: 0.85;
+    background: #fcfcfd;
   }
 
   h2 {
@@ -149,7 +149,7 @@
   &.motif { background: #fff3cd; color: #856404; }
   &.statut-OUVERT { background: #fdecec; color: #b42323; }
   &.statut-TRAITE { background: #e9f8ee; color: #217a3c; }
-  &.statut-REJETE { background: #f1f3f6; color: #697386; }
+  &.statut-REJETE { background: #f1f3f6; color: #5b6474; }
 }
 
 .muted {

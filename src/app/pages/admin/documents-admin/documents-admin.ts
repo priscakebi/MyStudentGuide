@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 // Permet d'effectuer les appels HTTP vers le backend.
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
+import { Icone } from '../../../components/icone/icone';
 
 
 // ============================================================
@@ -127,6 +128,7 @@ interface DocumentRequisRequest {
 
   // Modules nécessaires au fonctionnement du HTML.
   imports: [
+    Icone,
     CommonModule,
     FormsModule
   ],

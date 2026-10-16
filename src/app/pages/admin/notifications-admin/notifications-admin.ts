@@ -1,11 +1,14 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 import { AuthService } from '../../../services/auth.service';
+import { LienNotification, lienNotificationAdmin } from '../../../utils/lien-notification-admin';
 import {
   NotificationService,
   Notification
 } from '../../../services/notifiaction.service';
+import { Icone } from '../../../components/icone/icone';
 
 /**
  * Composant permettant d'afficher et de gérer
@@ -21,7 +24,9 @@ import {
    * - les fonctionnalités Angular utilisées dans le template.
    */
   imports: [
-    CommonModule
+    Icone,
+    CommonModule,
+    RouterLink
   ],
 
   /**
@@ -35,6 +40,11 @@ import {
   styleUrl: './notifications-admin.scss'
 })
 export class NotificationsAdmin implements OnInit {
+
+  /** Page de l'administration ouverte au clic sur la notification. */
+  lienDe(notification: Notification): LienNotification | null {
+    return lienNotificationAdmin(notification.titre);
+  }
 
   /**
    * Liste des notifications récupérées depuis le backend.

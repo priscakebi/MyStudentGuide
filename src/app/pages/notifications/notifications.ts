@@ -7,6 +7,7 @@ import { AuthService } from '../../services/auth.service';
 import { StudentDemarcheService } from '../../services/student-demarche.service';
 import { LangueService } from '../../i18n/langue.service';
 import { DateLPipe, TPipe } from '../../i18n/t.pipe';
+import { Icone } from '../../components/icone/icone';
 
 
 /**
@@ -76,6 +77,7 @@ interface Notification {
   standalone: true,
 
   imports: [
+    Icone,
     CommonModule,
     RouterLink,
     TPipe,

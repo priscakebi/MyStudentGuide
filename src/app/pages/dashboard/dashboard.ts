@@ -33,6 +33,7 @@ import { allerAuContenu } from '../../utils/aller-au-contenu';
 import { LangueService } from '../../i18n/langue.service';
 import { DateLPipe, TPipe, TcPipe } from '../../i18n/t.pipe';
 import { LangueSwitch } from '../../components/langue-switch/langue-switch';
+import { Icone } from '../../components/icone/icone';
 
 
 /** Notification de suggestion de démarche (envoyée par un administrateur). */
@@ -74,6 +75,7 @@ interface SuggestionNotification {
 
   // Modules et directives utilisés dans le HTML.
   imports: [
+    Icone,
     CommonModule,
     RouterLink,
     RouterLinkActive,

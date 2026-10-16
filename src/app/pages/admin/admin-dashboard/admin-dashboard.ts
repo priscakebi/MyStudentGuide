@@ -30,6 +30,8 @@ import { filter } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { allerAuContenu } from '../../../utils/aller-au-contenu';
+import { LienNotification, lienNotificationAdmin } from '../../../utils/lien-notification-admin';
+import { Icone } from '../../../components/icone/icone';
 
 
 /** Réponse de GET /api/admin/stats (AdminStatsResponse côté API). */
@@ -71,6 +73,8 @@ export interface AdminStats {
 
   imports: [
 
+    Icone,
+
     CommonModule,
 
     RouterLink,
@@ -90,6 +94,11 @@ export interface AdminStats {
 export class AdminDashboard implements OnInit {
 
   protected readonly allerAuContenu = allerAuContenu;
+
+  /** Page ouverte au clic sur une ligne de l'activité récente. */
+  lienActivite(titre: string): LienNotification | null {
+    return lienNotificationAdmin(titre);
+  }
 
   private authService = inject(AuthService);
 
@@ -456,6 +465,11 @@ export class AdminDashboard implements OnInit {
       this.pageTitle = 'Signalements des étudiants';
       this.pageDescription =
         'Informations erronées ou obsolètes signalées par les étudiants.';
+    }
+    else if (url.includes('/admin/avis')) {
+      this.pageTitle = 'Avis des étudiants';
+      this.pageDescription =
+        'Avis publiés sur la page d\'accueil : masquez ou supprimez ceux qui ne respectent pas les règles.';
     }
 
 
