@@ -20,7 +20,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { LangueService } from '../../i18n/langue.service';
-import { TPipe } from '../../i18n/t.pipe';
+import { DateLPipe, TPipe } from '../../i18n/t.pipe';
 import { Cle } from '../../i18n/textes';
 
 
@@ -52,6 +52,14 @@ interface StudentProfile {
 
   telephone: string;
 
+  /**
+   * Dates facultatives (« AAAA-MM-JJ ») servant à calculer les dates
+   * limites personnelles : ex. valider le VLS-TS 90 jours après l'arrivée.
+   */
+  dateArrivee?: string | null;
+
+  dateFinTitreSejour?: string | null;
+
   profileCompleted?: boolean;
 }
 
@@ -67,7 +75,8 @@ interface StudentProfile {
   imports: [
     CommonModule,
     FormsModule,
-    TPipe
+    TPipe,
+    DateLPipe
   ],
 
   templateUrl: './profile.html',
@@ -352,7 +361,11 @@ export class Profile implements OnInit {
 
       adresse: '',
 
-      telephone: ''
+      telephone: '',
+
+      dateArrivee: null,
+
+      dateFinTitreSejour: null
     };
   }
 
@@ -414,6 +427,21 @@ export class Profile implements OnInit {
    * LIBELLÉS DU PROFIL
    * ==========================================================
    */
+
+  /** Aujourd'hui (« AAAA-MM-JJ »), limite de la date d'arrivée. */
+  readonly aujourdhui = new Date().toLocaleDateString('sv-SE');
+
+  /**
+   * Profil envoyé à l'API : un champ date vidé devient null
+   * (l'API attend une date ou rien, pas une chaîne vide).
+   */
+  donneesAEnvoyer(): StudentProfile {
+    return {
+      ...this.profileForm,
+      dateArrivee: this.profileForm.dateArrivee || null,
+      dateFinTitreSejour: this.profileForm.dateFinTitreSejour || null
+    };
+  }
 
   /**
    * Retourne le libellé français du type de visa.
@@ -691,7 +719,7 @@ export class Profile implements OnInit {
     this.http
       .post<StudentProfile>(
         `${this.apiUrl}/student-profiles`,
-        this.profileForm,
+        this.donneesAEnvoyer(),
         {
           headers: this.getHeaders()
         }
@@ -787,7 +815,7 @@ export class Profile implements OnInit {
     this.http
       .put<StudentProfile>(
         `${this.apiUrl}/student-profiles/me`,
-        this.profileForm,
+        this.donneesAEnvoyer(),
         {
           headers: this.getHeaders()
         }

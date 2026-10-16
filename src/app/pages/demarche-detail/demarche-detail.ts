@@ -8,7 +8,8 @@ import { PrefectureCard } from '../../components/prefecture-card/prefecture-card
 import { AuthService } from '../../services/auth.service';
 import {
   StudentDemarche,
-  StudentDemarcheService
+  StudentDemarcheService,
+  dateLimiteDe
 } from '../../services/student-demarche.service';
 import { nomFichierIcs, telechargerIcs } from '../../utils/calendrier';
 import { PageTitleStrategy } from '../../services/page-title.strategy';
@@ -69,6 +70,13 @@ interface DemarcheDetail {
   /** Fiche Service-Public d'origine (null si saisie à la main). */
   sourceUrl?: string | null;
   sourceDateMaj?: string | null;
+
+  /**
+   * Règle de date limite personnalisée : date du profil de référence
+   * et nombre de jours (négatif = avant). Ex. : ARRIVEE_EN_FRANCE, 90.
+   */
+  echeanceReference?: 'ARRIVEE_EN_FRANCE' | 'FIN_TITRE_SEJOUR' | null;
+  echeanceDecalageJours?: number | null;
 }
 
 /**
@@ -450,22 +458,61 @@ export class DemarcheDetailComponent implements OnInit {
     this.router.navigate(['/demarches']);
   }
 
+  // ==========================================================
+  // DATE LIMITE (générale ou personnelle)
+  // ==========================================================
+
+  /**
+   * Date limite affichée : celle de l'étudiant qui suit la démarche
+   * (calculée par l'API depuis son profil) si elle existe, sinon la date générale.
+   */
+  get dateLimiteAffichee(): string | null {
+    return this.suivi ? dateLimiteDe(this.suivi) : (this.demarche?.dateLimite ?? null);
+  }
+
+  /** Vrai si la date affichée est calculée à partir du profil de l'étudiant. */
+  get dateEstPersonnelle(): boolean {
+    return !!this.demarche?.echeanceReference
+      && !!this.suivi?.dateLimitePersonnelle
+      && this.suivi.dateLimitePersonnelle !== this.demarche.dateLimite;
+  }
+
+  /** Règle lisible, ex. « 90 jours après votre arrivée en France » (null sans règle). */
+  get regleEcheance(): string | null {
+    const reference = this.demarche?.echeanceReference;
+    const jours = this.demarche?.echeanceDecalageJours;
+    if (!reference || jours === null || jours === undefined) {
+      return null;
+    }
+    const sens = jours >= 0 ? 'apres' : 'avant';
+    return this.langue.t(`detail.regle.${reference}.${sens}`, { n: Math.abs(jours) });
+  }
+
+  /**
+   * Étudiant connecté, démarche à date personnalisée, mais date pas encore
+   * calculable (démarche pas commencée ou date manquante dans le profil).
+   */
+  get dateACompleter(): boolean {
+    return this.peutCommencer && !!this.regleEcheance && !this.dateEstPersonnelle;
+  }
+
   /** Vrai si la date limite est aujourd'hui ou plus tard (inutile d'exporter une date passée). */
   get dateLimiteAVenir(): boolean {
-    const date = this.demarche?.dateLimite?.slice(0, 10);
+    const date = this.dateLimiteAffichee?.slice(0, 10);
     return !!date && date >= new Date().toLocaleDateString('sv-SE'); // « AAAA-MM-JJ » local
   }
 
   /** Télécharge la date limite au format agenda (.ics), avec rappels. */
   ajouterAgenda(): void {
-    if (!this.demarche?.dateLimite) {
+    const dateLimite = this.dateLimiteAffichee;
+    if (!this.demarche || !dateLimite) {
       return;
     }
 
     telechargerIcs(nomFichierIcs(this.demarche.titre), [{
       id: this.demarche.id,
       titre: this.demarche.titre,
-      dateLimite: this.demarche.dateLimite,
+      dateLimite,
       url: `${window.location.origin}/demarches/${this.demarche.id}`
     }], this.langue.langue());
   }

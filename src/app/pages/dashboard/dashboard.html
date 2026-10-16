@@ -492,8 +492,8 @@
                   @for (e of prochainesEcheances; track e.sd.id) {
                     <li [class.urgent]="e.jours <= 7">
                       <div class="deadline-date">
-                        <strong>{{ e.sd.demarche.dateLimite | dateL: 'dd' }}</strong>
-                        <span>{{ e.sd.demarche.dateLimite | dateL: 'MMM' }}</span>
+                        <strong>{{ e.date | dateL: 'dd' }}</strong>
+                        <span>{{ e.date | dateL: 'MMM' }}</span>
                       </div>
                       <div>
                         <strong>{{ e.sd.demarche.titre }}</strong>

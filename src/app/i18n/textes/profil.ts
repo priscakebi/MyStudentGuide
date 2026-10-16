@@ -74,6 +74,12 @@ export const PROFIL = {
   'profil.visa.NON_RENSEIGNE': { fr: 'Non renseigné', en: 'Not specified' },
   'profil.arrivee': { fr: 'Première arrivée en France', en: 'First arrival in France' },
   'profil.arrivee.oui': { fr: "Oui, c'est ma première arrivée", en: "Yes, it's my first arrival" },
+  'profil.dateArrivee': { fr: "Date d'arrivée en France", en: 'Date of arrival in France' },
+  'profil.dateFinTitre': { fr: 'Fin de validité de votre visa ou titre de séjour', en: 'Expiry date of your visa or residence permit' },
+  'profil.dates.aide': {
+    fr: 'Ces dates permettent de calculer vos propres dates limites (ex. : valider votre VLS-TS dans les 3 mois après votre arrivée) et de vous les rappeler.',
+    en: 'These dates are used to work out your own deadlines (e.g. validating your VLS-TS within 3 months of arrival) and to remind you of them.'
+  },
   'profil.arrivee.texte': {
     fr: 'Cette information peut être utilisée pour adapter certaines démarches.',
     en: 'This information may be used to tailor some procedures.'

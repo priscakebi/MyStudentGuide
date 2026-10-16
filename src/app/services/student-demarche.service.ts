@@ -30,6 +30,12 @@ export interface StudentDemarche {
   documentsPrets?: number[];
   /** Calculée par l'API : 0, 25, 50 ou 100. */
   progression?: number;
+  /**
+   * Date limite pour CET étudiant, calculée par l'API depuis son profil
+   * (ex. 90 jours après son arrivée) ; null = date limite générale.
+   * Utiliser dateLimiteDe(sd) plutôt que ce champ directement.
+   */
+  dateLimitePersonnelle?: string | null;
   demarche: {
     id: number;
     titre: string;
@@ -37,6 +43,11 @@ export interface StudentDemarche {
     dateLimite?: string | null;
     categorie?: { id: number; nom: string };
   };
+}
+
+/** Date limite d'un suivi : la date personnelle de l'étudiant, sinon celle de la démarche. */
+export function dateLimiteDe(sd: StudentDemarche): string | null {
+  return sd.dateLimitePersonnelle || sd.demarche?.dateLimite || null;
 }
 
 /** Avis public affiché sur la page d'accueil. */

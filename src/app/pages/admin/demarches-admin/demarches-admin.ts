@@ -107,6 +107,22 @@ interface Demarche {
   ciblePremiereArrivee?: boolean | null;
   cibleVisas?: string[];
   cibleLogements?: string[];
+
+  /**
+   * Date limite personnalisée : date du profil de l'étudiant et nombre de
+   * jours (négatif = avant). Ex. : ARRIVEE_EN_FRANCE, 90 (validation du VLS-TS).
+   */
+  echeanceReference?: 'ARRIVEE_EN_FRANCE' | 'FIN_TITRE_SEJOUR' | null;
+  echeanceDecalageJours?: number | null;
+}
+
+/**
+ * Formulaire de date limite personnalisée (PUT /api/admin/demarches/{id}/echeance).
+ * regle : '' = aucune ; « APRES_ARRIVEE » ; « AVANT_FIN_TITRE ».
+ */
+interface EcheanceForm {
+  regle: '' | 'APRES_ARRIVEE' | 'AVANT_FIN_TITRE';
+  jours: number | null;
 }
 
 /** Formulaire de ciblage (PUT /api/admin/demarches/{id}/ciblage). */
@@ -639,6 +655,89 @@ export class DemarchesAdmin implements OnInit {
         this.showMessage(error.error?.message || 'Le ciblage n\'a pas pu être enregistré.', 'error');
       }
     });
+  }
+
+  // ==========================================================
+  // DATE LIMITE PERSONNALISÉE (calculée depuis le profil de l'étudiant)
+  // ==========================================================
+
+  /** Démarche dont le formulaire d'échéance est ouvert. */
+  echeanceOuvert: number | null = null;
+
+  echeanceForm: EcheanceForm = { regle: '', jours: null };
+
+  /** Résumé de la règle, affiché sous le titre (« 90 j après l'arrivée »). */
+  resumeEcheance(d: Demarche): string | null {
+    if (!d.echeanceReference || d.echeanceDecalageJours == null) {
+      return null;
+    }
+    const n = Math.abs(d.echeanceDecalageJours);
+    const sens = d.echeanceDecalageJours >= 0 ? 'après' : 'avant';
+    const reference = d.echeanceReference === 'ARRIVEE_EN_FRANCE'
+      ? 'l\'arrivée en France'
+      : 'la fin du visa / titre de séjour';
+    return `${n} j ${sens} ${reference}`;
+  }
+
+  ouvrirEcheance(d: Demarche): void {
+    if (this.echeanceOuvert === d.id) {
+      this.echeanceOuvert = null;
+      return;
+    }
+
+    this.echeanceOuvert = d.id;
+    this.echeanceForm = {
+      regle: d.echeanceReference === 'ARRIVEE_EN_FRANCE'
+        ? 'APRES_ARRIVEE'
+        : d.echeanceReference === 'FIN_TITRE_SEJOUR' ? 'AVANT_FIN_TITRE' : '',
+      jours: d.echeanceDecalageJours != null ? Math.abs(d.echeanceDecalageJours) : null
+    };
+  }
+
+  /** Raccourcis : règles courantes des démarches étudiantes. */
+  appliquerModeleEcheance(regle: EcheanceForm['regle'], jours: number): void {
+    this.echeanceForm = { regle, jours };
+  }
+
+  get echeanceFormValide(): boolean {
+    const jours = this.echeanceForm.jours;
+    return this.echeanceForm.regle === ''
+      || (jours !== null && Number.isInteger(jours) && jours >= 1 && jours <= 3650);
+  }
+
+  enregistrerEcheance(d: Demarche): void {
+    if (!this.echeanceFormValide) {
+      return;
+    }
+
+    const { regle, jours } = this.echeanceForm;
+    const corps = regle === ''
+      ? { reference: null, decalageJours: null }
+      : {
+          reference: regle === 'APRES_ARRIVEE' ? 'ARRIVEE_EN_FRANCE' : 'FIN_TITRE_SEJOUR',
+          decalageJours: regle === 'APRES_ARRIVEE' ? jours : -(jours ?? 0)
+        };
+
+    this.actionEnCours = d.id;
+
+    this.http.put(`${this.apiUrl}/admin/demarches/${d.id}/echeance`, corps, { headers: this.getHeaders() })
+      .subscribe({
+        next: () => {
+          this.actionEnCours = null;
+          this.echeanceOuvert = null;
+          this.showMessage(
+            regle === ''
+              ? `« ${d.titre} » : la date limite générale s'applique à nouveau.`
+              : `« ${d.titre} » : chaque étudiant aura sa propre date limite, calculée depuis son profil.`,
+            'success'
+          );
+          this.loadDemarches();
+        },
+        error: (error) => {
+          this.actionEnCours = null;
+          this.showMessage(error.error?.message || 'La règle d\'échéance n\'a pas pu être enregistrée.', 'error');
+        }
+      });
   }
 
   /** Remplace description, étapes et liens par la version officielle actuelle. */

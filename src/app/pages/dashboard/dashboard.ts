@@ -25,7 +25,8 @@ import { environment } from '../../../environments/environment';
 import { PrefectureCard } from '../../components/prefecture-card/prefecture-card';
 import {
   StudentDemarche,
-  StudentDemarcheService
+  StudentDemarcheService,
+  dateLimiteDe
 } from '../../services/student-demarche.service';
 import { telechargerIcs } from '../../utils/calendrier';
 import { LangueService } from '../../i18n/langue.service';
@@ -166,7 +167,7 @@ export class Dashboard implements OnInit, OnDestroy {
   }
 
   /** Les 3 dates limites à venir les plus proches. */
-  get prochainesEcheances(): { sd: StudentDemarche; jours: number }[] {
+  get prochainesEcheances(): { sd: StudentDemarche; date: string; jours: number }[] {
     return this.echeancesAVenir().slice(0, 3);
   }
 
@@ -175,29 +176,30 @@ export class Dashboard implements OnInit, OnDestroy {
    * avec un rappel une semaine avant et la veille.
    */
   ajouterEcheancesAgenda(): void {
-    telechargerIcs('mes-dates-limites.ics', this.echeancesAVenir().map(({ sd }) => ({
+    telechargerIcs('mes-dates-limites.ics', this.echeancesAVenir().map(({ sd, date }) => ({
       id: sd.demarche.id,
       titre: sd.demarche.titre,
-      dateLimite: sd.demarche.dateLimite!,
+      dateLimite: date,
       url: `${window.location.origin}/demarches/${sd.demarche.id}`
     })), this.langue.langue());
   }
 
   /**
-   * Démarches en cours qui ont une date limite à venir,
-   * de la plus proche à la plus lointaine.
+   * Démarches en cours qui ont une date limite à venir, de la plus proche
+   * à la plus lointaine. La date est celle de l'étudiant (calculée depuis
+   * son profil) quand la démarche en a une, sinon la date générale.
    */
-  private echeancesAVenir(): { sd: StudentDemarche; jours: number }[] {
+  private echeancesAVenir(): { sd: StudentDemarche; date: string; jours: number }[] {
     const aujourdhui = new Date();
     aujourdhui.setHours(0, 0, 0, 0);
 
     return this.mesDemarches
-      .filter((d) => d.statut === 'EN_COURS' && d.demarche.dateLimite)
-      .map((sd) => ({
-        sd,
-        jours: Math.round(
-          (new Date(sd.demarche.dateLimite!).getTime() - aujourdhui.getTime()) / 86_400_000
-        )
+      .filter((sd) => sd.statut === 'EN_COURS')
+      .map((sd) => ({ sd, date: dateLimiteDe(sd) }))
+      .filter((e): e is { sd: StudentDemarche; date: string } => !!e.date)
+      .map((e) => ({
+        ...e,
+        jours: Math.round((new Date(e.date).getTime() - aujourdhui.getTime()) / 86_400_000)
       }))
       .filter((e) => e.jours >= 0)
       .sort((a, b) => a.jours - b.jours);

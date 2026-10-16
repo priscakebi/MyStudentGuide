@@ -556,6 +556,51 @@
 
             </div>
 
+
+            <!-- ==================================================
+                 DATES (facultatives) : dates limites personnalisées
+                 ================================================== -->
+
+            <div class="form-group">
+
+              <label for="dateArrivee">
+                {{ 'profil.dateArrivee' | t }}
+                <span class="optional">{{ 'aide.facultatif' | t }}</span>
+              </label>
+
+              <input
+                id="dateArrivee"
+                name="dateArrivee"
+                type="date"
+                [(ngModel)]="profileForm.dateArrivee"
+                [max]="aujourdhui"
+                aria-describedby="dates-aide"
+              />
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="dateFinTitreSejour">
+                {{ 'profil.dateFinTitre' | t }}
+                <span class="optional">{{ 'aide.facultatif' | t }}</span>
+              </label>
+
+              <input
+                id="dateFinTitreSejour"
+                name="dateFinTitreSejour"
+                type="date"
+                [(ngModel)]="profileForm.dateFinTitreSejour"
+                aria-describedby="dates-aide"
+              />
+
+            </div>
+
+            <p id="dates-aide" class="dates-aide full-width">
+              📅 {{ 'profil.dates.aide' | t }}
+            </p>
+
           </div>
 
         </div>
@@ -968,6 +1013,32 @@
 
                 {{ (profile.premiereArrivee ? 'commun.oui' : 'commun.non') | t }}
 
+              </strong>
+
+            </div>
+
+
+            <div class="information-item">
+
+              <span class="information-label">
+                {{ 'profil.dateArrivee' | t }}
+              </span>
+
+              <strong>
+                {{ profile.dateArrivee ? (profile.dateArrivee | dateL: 'd MMMM y') : ('profil.nonRenseignee' | t) }}
+              </strong>
+
+            </div>
+
+
+            <div class="information-item">
+
+              <span class="information-label">
+                {{ 'profil.dateFinTitre' | t }}
+              </span>
+
+              <strong>
+                {{ profile.dateFinTitreSejour ? (profile.dateFinTitreSejour | dateL: 'd MMMM y') : ('profil.nonRenseignee' | t) }}
               </strong>
 
             </div>

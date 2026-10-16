@@ -414,6 +414,22 @@ border-color: #fecaca;
 color: #dc2626;
 }
 
+/* Date limite personnalisée : règle de calcul et invitation à compléter le profil. */
+.deadline-rule {
+color: #7f1d1d;
+font-size: 12px;
+line-height: 1.4;
+}
+
+.deadline-hint {
+color: #b91c1c;
+font-size: 12px;
+font-weight: 600;
+line-height: 1.4;
+text-decoration: underline;
+text-underline-offset: 2px;
+}
+
 /* Export de la date limite vers l'agenda (.ics). */
 .agenda-button {
 display: inline-flex;

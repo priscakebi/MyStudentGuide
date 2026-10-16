@@ -578,6 +578,11 @@
                       🎯 Suggérée à : {{ resume }}
                     </span>
                   }
+                  @if (resumeEcheance(demarche); as regle) {
+                    <span class="badge badge-target" title="Date limite calculée pour chaque étudiant depuis son profil">
+                      📅 Date limite : {{ regle }}
+                    </span>
+                  }
                 </div>
 
 
@@ -906,6 +911,17 @@
                 🎯 Ciblage
               </button>
 
+              <!-- Date limite personnalisée (depuis le profil de l'étudiant) -->
+              <button
+                type="button"
+                class="btn-target"
+                [class.open]="echeanceOuvert === demarche.id"
+                [attr.aria-expanded]="echeanceOuvert === demarche.id"
+                (click)="ouvrirEcheance(demarche)"
+              >
+                📅 Échéance
+              </button>
+
               <!-- Étapes et liens officiels -->
               <button
                 type="button"
@@ -1025,6 +1041,74 @@
                     Enregistrer
                   </button>
                   <button type="button" class="btn-secondary" (click)="ciblageOuvert = null">Annuler</button>
+                </div>
+
+              </form>
+            }
+
+
+            <!-- ------------------------------------------------ -->
+            <!-- DATE LIMITE PERSONNALISÉE                          -->
+            <!-- ------------------------------------------------ -->
+
+            @if (echeanceOuvert === demarche.id) {
+              <form class="ciblage-panel" (ngSubmit)="enregistrerEcheance(demarche)">
+
+                <h4>Date limite personnalisée</h4>
+                <p class="ciblage-help">
+                  La date limite de chaque étudiant est calculée à partir d'une date de son profil
+                  (date d'arrivée en France ou fin de son visa / titre de séjour). Elle remplace la
+                  date limite générale dans son espace, son agenda et ses rappels. Sans cette date
+                  dans son profil, la date limite générale s'applique.
+                </p>
+
+                <div class="echeance-modeles">
+                  <span>Modèles :</span>
+                  <button type="button" class="btn-secondary" (click)="appliquerModeleEcheance('APRES_ARRIVEE', 90)">
+                    VLS-TS : 90 j après l'arrivée
+                  </button>
+                  <button type="button" class="btn-secondary" (click)="appliquerModeleEcheance('AVANT_FIN_TITRE', 60)">
+                    Renouvellement : 60 j avant la fin du titre
+                  </button>
+                </div>
+
+                <div class="ciblage-grid">
+
+                  <label>
+                    Règle
+                    <select name="regle" [(ngModel)]="echeanceForm.regle">
+                      <option value="">Aucune (date limite générale)</option>
+                      <option value="APRES_ARRIVEE">Après l'arrivée en France</option>
+                      <option value="AVANT_FIN_TITRE">Avant la fin du visa / titre de séjour</option>
+                    </select>
+                  </label>
+
+                  @if (echeanceForm.regle) {
+                    <label>
+                      Nombre de jours
+                      <input
+                        type="number"
+                        name="jours"
+                        min="1"
+                        max="3650"
+                        step="1"
+                        [(ngModel)]="echeanceForm.jours"
+                        required
+                      >
+                    </label>
+                  }
+
+                </div>
+
+                <div class="ciblage-actions">
+                  <button
+                    type="submit"
+                    class="btn-primary"
+                    [disabled]="!echeanceFormValide || actionEnCours === demarche.id"
+                  >
+                    Enregistrer
+                  </button>
+                  <button type="button" class="btn-secondary" (click)="echeanceOuvert = null">Annuler</button>
                 </div>
 
               </form>

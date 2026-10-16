@@ -28,7 +28,8 @@ import { DateLPipe, TPipe } from '../../i18n/t.pipe';
 import {
   Demarche,
   StudentDemarche,
-  StudentDemarcheService
+  StudentDemarcheService,
+  dateLimiteDe
 } from '../../services/student-demarche.service';
 
 
@@ -199,6 +200,9 @@ export class Demarches implements OnInit {
   // ============================================================
   // ÉTAT D'UNE DÉMARCHE POUR L'ÉTUDIANT
   // ============================================================
+
+  /** Date limite d'un suivi : personnelle (profil de l'étudiant) ou générale. */
+  protected readonly dateLimiteDe = dateLimiteDe;
 
   suiviDe(demarche: Demarche): StudentDemarche | undefined {
     return this.suivis.get(demarche.id);

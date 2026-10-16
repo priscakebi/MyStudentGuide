@@ -133,16 +133,29 @@ class="back-button"
 
     <!-- Date limite -->
     <div
-      *ngIf="demarche.dateLimite"
+      *ngIf="dateLimiteAffichee || regleEcheance"
       class="meta-item deadline"
     >
       <span class="meta-label">
-        {{ 'detail.dateLimite' | t }}
+        {{ (dateEstPersonnelle ? 'detail.dateLimite.personnelle' : 'detail.dateLimite') | t }}
       </span>
 
-      <span class="meta-value">
-        {{ demarche.dateLimite | date:'dd/MM/yyyy' }}
-      </span>
+      @if (dateLimiteAffichee) {
+        <span class="meta-value">
+          {{ dateLimiteAffichee | date:'dd/MM/yyyy' }}
+        </span>
+      }
+
+      <!-- Date personnalisée : règle de calcul et invitation à compléter le profil -->
+      @if (regleEcheance) {
+        <span class="deadline-rule">{{ regleEcheance }}</span>
+      }
+
+      @if (dateACompleter) {
+        <a class="deadline-hint" routerLink="/dashboard/profile">
+          {{ (suivi ? 'detail.dateLimite.completerProfil' : 'detail.dateLimite.commencer') | t }}
+        </a>
+      }
 
       @if (dateLimiteAVenir) {
         <button

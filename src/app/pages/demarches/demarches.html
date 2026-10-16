@@ -408,9 +408,11 @@
                 {{ demarche.description }}
               </p>
 
-              @if (demarche.dateLimite) {
+              <!-- Démarche suivie : date limite personnelle de l'étudiant si elle existe -->
+              @let dateLimite = suivi ? dateLimiteDe(suivi) : demarche.dateLimite;
+              @if (dateLimite) {
                 <span class="demarche-reference">
-                  {{ 'demarches.dateLimite' | t: { date: demarche.dateLimite | dateL } }}
+                  {{ 'demarches.dateLimite' | t: { date: dateLimite | dateL } }}
                 </span>
               }
 

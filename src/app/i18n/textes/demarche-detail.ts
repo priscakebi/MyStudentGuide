@@ -26,6 +26,25 @@ export const DEMARCHE_DETAIL = {
   'detail.source.maj': { fr: '· mise à jour le {date}', en: '· updated on {date}' },
   'detail.dateCreation': { fr: 'Date de création', en: 'Created on' },
   'detail.dateLimite': { fr: 'Date limite', en: 'Deadline' },
+  'detail.dateLimite.personnelle': { fr: 'Votre date limite', en: 'Your deadline' },
+  'detail.dateLimite.completerProfil': {
+    fr: 'Indiquez vos dates dans votre profil pour connaître votre date limite →',
+    en: 'Add your dates to your profile to see your deadline →'
+  },
+  'detail.dateLimite.commencer': {
+    fr: 'Commencez la démarche et indiquez vos dates dans votre profil pour connaître votre date limite →',
+    en: 'Start the procedure and add your dates to your profile to see your deadline →'
+  },
+  'detail.regle.ARRIVEE_EN_FRANCE.apres': { fr: '{n} jours après votre arrivée en France', en: '{n} days after your arrival in France' },
+  'detail.regle.ARRIVEE_EN_FRANCE.avant': { fr: '{n} jours avant votre arrivée en France', en: '{n} days before your arrival in France' },
+  'detail.regle.FIN_TITRE_SEJOUR.avant': {
+    fr: '{n} jours avant la fin de votre visa ou titre de séjour',
+    en: '{n} days before your visa or residence permit expires'
+  },
+  'detail.regle.FIN_TITRE_SEJOUR.apres': {
+    fr: '{n} jours après la fin de votre visa ou titre de séjour',
+    en: '{n} days after your visa or residence permit expires'
+  },
   'detail.agenda': { fr: 'Ajouter à mon agenda', en: 'Add to my calendar' },
   'detail.agenda.aide': {
     fr: 'Télécharge un fichier .ics avec un rappel une semaine avant et la veille',

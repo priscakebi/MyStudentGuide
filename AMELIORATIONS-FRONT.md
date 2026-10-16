@@ -360,3 +360,17 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
 - **Rappels d'échéance par e-mail** : en plus de la notification, un e-mail part 7 jours puis 3 jours avant la
   date limite d'une démarche en cours, avec le lien vers la démarche (une seule fois par rappel).
 - La politique de confidentialité mentionne ces deux points.
+
+## 25. Dates limites personnalisées
+- **Profil** (« Situation administrative ») : deux dates facultatives, *date d'arrivée en France* et
+  *fin de validité du visa / titre de séjour*, envoyées à l'API et incluses dans l'export des données.
+- **Administration** (bouton « 📅 Échéance » d'une démarche) : règle « N jours après l'arrivée en France » ou
+  « N jours avant la fin du titre de séjour », avec deux modèles (VLS-TS : 90 j après l'arrivée ;
+  renouvellement : 60 j avant la fin du titre). `PUT /api/admin/demarches/{id}/echeance` ; une règle vide l'efface.
+- **Calcul (API)** : `EcheancePersonnelle.calculer(demarche, profil)`. Chaque suivi expose
+  `dateLimitePersonnelle` ; sans règle ou sans la date du profil, la date limite générale s'applique.
+  Les rappels (notification + e-mail) utilisent cette date personnelle.
+- **Étudiant** : la fiche affiche « Votre date limite » et la règle (« 90 jours après votre arrivée en France ») ;
+  si la date manque, un lien invite à compléter le profil ou à commencer la démarche. Tableau de bord, agenda (.ics)
+  et liste des démarches utilisent `dateLimiteDe(suivi)` (`student-demarche.service.ts`).
+- À faire côté administration : renseigner la règle sur les démarches concernées (VLS-TS, renouvellement…).
