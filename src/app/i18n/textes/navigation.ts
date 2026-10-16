@@ -24,5 +24,6 @@ export const NAVIGATION = {
   'footer.site.campusFrance': { fr: 'Campus France', en: 'Campus France' },
   'footer.site.etudiant': { fr: 'etudiant.gouv.fr', en: 'etudiant.gouv.fr' },
   'footer.slogan': { fr: 'Votre guide administratif étudiant', en: 'Your student paperwork guide' },
-  'footer.hautDePage': { fr: 'Haut de page', en: 'Back to top' }
+  'footer.hautDePage': { fr: 'Haut de page', en: 'Back to top' },
+  'footer.legal': { fr: 'Informations légales', en: 'Legal information' }
 } satisfies Traductions;

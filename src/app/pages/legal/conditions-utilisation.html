@@ -1,0 +1,117 @@
+<article class="legal-page" lang="fr">
+
+  <header class="legal-header">
+    <span class="eyebrow">Règles du service</span>
+    <h1>Conditions d'utilisation</h1>
+    <p class="maj">Version {{ version }} — mise à jour le {{ dateMiseAJour }}</p>
+  </header>
+
+  @if (langue.langue() === 'en') {
+    <p class="langue-note" lang="en">
+      ℹ️ This page is only available in French, which is the legally binding version.
+      In short: the service is free, the information is for guidance only (always check official
+      websites), keep your password secret, and post respectful messages without sensitive data.
+    </p>
+  }
+
+  <section>
+    <h2>1. Objet</h2>
+    <p>
+      MyStudentGuide aide les étudiants internationaux à comprendre et à suivre leurs démarches
+      administratives en France : étapes, documents à préparer, liens officiels, rappels d'échéance.
+      Les présentes conditions encadrent l'utilisation du site. Créer un compte implique de les accepter,
+      ainsi que la <a routerLink="/confidentialite">politique de confidentialité</a>.
+    </p>
+  </section>
+
+  <section>
+    <h2>2. Accès au service</h2>
+    <ul>
+      <li>Le service est <strong>gratuit</strong>.</li>
+      <li>Les fiches des démarches sont consultables sans compte ; le suivi personnalisé nécessite un compte.</li>
+      <li>Il faut avoir au moins 15 ans pour créer un compte, ou l'accord d'un titulaire de l'autorité parentale.</li>
+      <li>
+        Le site peut être momentanément indisponible (maintenance, incident) ; l'éditeur s'efforce
+        d'en limiter la durée mais ne garantit pas un fonctionnement sans interruption.
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>3. Votre compte</h2>
+    <ul>
+      <li>Vous vous engagez à fournir des informations exactes et à les tenir à jour.</li>
+      <li>Votre mot de passe est personnel : ne le communiquez à personne. Prévenez-nous en cas d'utilisation frauduleuse.</li>
+      <li>Vous pouvez supprimer votre compte à tout moment depuis « Mon compte » : la suppression est immédiate et définitive.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4. Nature des informations</h2>
+    <p class="encadre">
+      MyStudentGuide <strong>n'est pas un service officiel de l'administration</strong> et ne remplace ni la
+      préfecture, ni l'OFII, ni la CAF, ni aucun autre organisme. Les informations, issues principalement de
+      Service-Public.gouv.fr, sont données <strong>à titre indicatif</strong> et peuvent évoluer.
+      Vérifiez toujours auprès des sites officiels avant d'effectuer une démarche ou de respecter une date limite.
+    </p>
+    <p>
+      Les dates limites et rappels affichés sont une aide ; ils ne remplacent pas les délais fixés par
+      l'administration, qui restent sous votre responsabilité.
+    </p>
+  </section>
+
+  <section>
+    <h2>5. Responsabilité</h2>
+    <p>
+      L'éditeur apporte le plus grand soin à l'exactitude des informations, mais ne peut être tenu
+      responsable d'une erreur, d'une omission, d'un changement de réglementation ou d'une décision de
+      l'administration. Les liens vers des sites externes sont fournis pour vous aider ; leur contenu
+      relève de leurs éditeurs respectifs.
+    </p>
+  </section>
+
+  <section>
+    <h2>6. Vos contributions</h2>
+    <p>Avis, signalements et demandes d'aide doivent rester respectueux et liés au service. Il est interdit :</p>
+    <ul>
+      <li>de publier des propos injurieux, discriminatoires, illicites ou publicitaires ;</li>
+      <li>de publier les données personnelles d'une autre personne ;</li>
+      <li>
+        d'envoyer des données sensibles : numéro de passeport ou de titre de séjour, coordonnées
+        bancaires, informations de santé, mot de passe.
+      </li>
+    </ul>
+    <p>
+      L'équipe peut masquer un avis ou supprimer un message qui ne respecte pas ces règles, et
+      suspendre un compte en cas d'abus. En publiant un avis, vous acceptez qu'il soit affiché
+      sur la page d'accueil avec votre prénom et l'initiale de votre nom.
+    </p>
+  </section>
+
+  <section>
+    <h2>7. Propriété intellectuelle</h2>
+    <p>
+      Les contenus issus de Service-Public.gouv.fr sont réutilisés sous Licence Ouverte 2.0.
+      Les autres éléments du site (textes propres, interface, illustrations) appartiennent à l'éditeur
+      et ne peuvent pas être reproduits sans autorisation.
+    </p>
+  </section>
+
+  <section>
+    <h2>8. Modification des conditions</h2>
+    <p>
+      Ces conditions peuvent évoluer. En cas de changement important, vous en serez informé dans
+      l'application. La version acceptée à l'inscription est enregistrée avec votre compte.
+    </p>
+  </section>
+
+  <section>
+    <h2>9. Droit applicable et contact</h2>
+    <p>
+      Les présentes conditions sont soumises au droit français. Pour toute question :
+      <span [class.a-completer]="aCompleter(editeur.email)">{{ editeur.email }}</span>.
+      Voir aussi les <a routerLink="/mentions-legales">mentions légales</a>.
+    </p>
+  </section>
+
+</article>

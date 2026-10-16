@@ -48,10 +48,23 @@ export const COMPTE = {
   'compte.mdp.oublie.texte': { fr: 'Recevez un lien de réinitialisation par e-mail.', en: 'Get a reset link by email.' },
   'compte.mdp.modifier': { fr: 'Modifier le mot de passe', en: 'Change password' },
 
+  'compte.donnees.titre': { fr: 'Mes données personnelles', en: 'My personal data' },
+  'compte.donnees.texte': {
+    fr: 'Téléchargez une copie de toutes les informations que MyStudentGuide conserve sur vous (fichier JSON).',
+    en: 'Download a copy of all the information MyStudentGuide keeps about you (JSON file).'
+  },
+  'compte.donnees.politique': { fr: 'Politique de confidentialité', en: 'Privacy policy' },
+  'compte.donnees.telecharger': { fr: 'Télécharger mes données', en: 'Download my data' },
+  'compte.donnees.preparation': { fr: 'Préparation…', en: 'Preparing…' },
+  'compte.donnees.erreur': {
+    fr: 'Le téléchargement de vos données a échoué. Réessayez dans un instant.',
+    en: 'Downloading your data failed. Please try again in a moment.'
+  },
+
   'compte.suppr.titre': { fr: 'Supprimer mon compte', en: 'Delete my account' },
   'compte.suppr.texte': {
-    fr: "La suppression de votre compte est une action importante. Votre demande sera transmise à l'administration.",
-    en: 'Deleting your account is an important step. Your request will be sent to the administration.'
+    fr: "La suppression est immédiate et définitive : votre compte et toutes vos données sont effacés. L'équipe en est informée.",
+    en: 'Deletion is immediate and permanent: your account and all your data are erased. The team is notified.'
   },
   'compte.suppr.attention': { fr: 'Attention', en: 'Warning' },
   'compte.suppr.avertissement': {

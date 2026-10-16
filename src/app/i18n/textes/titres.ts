@@ -16,5 +16,8 @@ export const TITRES = {
   'titre.mesDemarches': { fr: 'Mes démarches', en: 'My procedures' },
   'titre.mesNotifications': { fr: 'Mes notifications', en: 'My notifications' },
   'titre.monCompte': { fr: 'Mon compte', en: 'My account' },
-  'titre.aide': { fr: "Besoin d'aide ?", en: 'Need help?' }
+  'titre.aide': { fr: "Besoin d'aide ?", en: 'Need help?' },
+  'titre.mentionsLegales': { fr: 'Mentions légales', en: 'Legal notice' },
+  'titre.confidentialite': { fr: 'Politique de confidentialité', en: 'Privacy policy' },
+  'titre.conditions': { fr: "Conditions d'utilisation", en: 'Terms of use' }
 } satisfies Traductions;

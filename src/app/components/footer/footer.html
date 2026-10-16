@@ -92,6 +92,13 @@
 
     <p>© {{ year }} MyStudentGuide — {{ 'footer.slogan' | t }}</p>
 
+    <!-- Pages légales (RGPD) -->
+    <nav class="footer-legal" [attr.aria-label]="'footer.legal' | t">
+      <a routerLink="/mentions-legales">{{ 'titre.mentionsLegales' | t }}</a>
+      <a routerLink="/confidentialite">{{ 'titre.confidentialite' | t }}</a>
+      <a routerLink="/conditions-utilisation">{{ 'titre.conditions' | t }}</a>
+    </nav>
+
     <button type="button" class="back-to-top" (click)="scrollToTop()">
       <span aria-hidden="true">↑</span>
       {{ 'footer.hautDePage' | t }}

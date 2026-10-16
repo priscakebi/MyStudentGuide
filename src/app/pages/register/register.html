@@ -267,6 +267,31 @@
         </div>
 
 
+        <!-- Consentement (RGPD) : obligatoire pour créer un compte -->
+        <div class="form-group">
+          <label class="consent" [class.invalid]="submitted && !accepteConditions">
+            <input
+              type="checkbox"
+              name="accepteConditions"
+              [(ngModel)]="accepteConditions"
+              required
+              [attr.aria-invalid]="submitted && !accepteConditions"
+              aria-describedby="consent-error"
+            >
+            <span>
+              {{ 'register.conditions.debut' | t }}
+              <a routerLink="/conditions-utilisation" target="_blank">{{ 'register.conditions.cgu' | t }}</a>
+              {{ 'register.conditions.et' | t }}
+              <a routerLink="/confidentialite" target="_blank">{{ 'register.conditions.confidentialite' | t }}</a>.
+            </span>
+          </label>
+
+          @if (submitted && !accepteConditions) {
+            <p id="consent-error" class="field-error">{{ 'register.conditions.obligatoire' | t }}</p>
+          }
+        </div>
+
+
         <!-- Message d'erreur -->
         @if (errorMessage) {
           <p class="error" role="alert">{{ errorMessage }}</p>

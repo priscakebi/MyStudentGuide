@@ -228,6 +228,35 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./pages/notifications/notifications')
             .then(m => m.Notifications)
+      },
+
+
+      // ====================================================================
+      // PAGES LÉGALES (RGPD) — accessibles à tous, liées depuis le pied de page
+      // ====================================================================
+
+      {
+        path: 'mentions-legales',
+        title: 'titre.mentionsLegales',
+        loadComponent: () =>
+          import('./pages/legal/mentions-legales')
+            .then(m => m.MentionsLegales)
+      },
+
+      {
+        path: 'confidentialite',
+        title: 'titre.confidentialite',
+        loadComponent: () =>
+          import('./pages/legal/confidentialite')
+            .then(m => m.Confidentialite)
+      },
+
+      {
+        path: 'conditions-utilisation',
+        title: 'titre.conditions',
+        loadComponent: () =>
+          import('./pages/legal/conditions-utilisation')
+            .then(m => m.ConditionsUtilisation)
       }
     ]
   },

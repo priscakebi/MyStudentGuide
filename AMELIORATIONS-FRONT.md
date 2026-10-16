@@ -332,3 +332,21 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
 - Administrateur : même structure, panneau bleu nuit et bouclier, textes en français.
 - « Mot de passe oublié » et « Nouveau mot de passe » (étudiant et administrateur) suivent la même mise en page,
   avec un message de confirmation vert et le contrôle du mot de passe en direct.
+
+## 23. Conformité RGPD et pages légales
+- Trois pages accessibles à tous et liées en bas du pied de page : **Mentions légales** (`/mentions-legales`),
+  **Politique de confidentialité** (`/confidentialite`) et **Conditions d'utilisation** (`/conditions-utilisation`).
+  Texte en français (version qui fait foi) ; en anglais, un encadré l'indique avec un court résumé.
+- **À compléter avant la mise en ligne** : `src/app/pages/legal/legal-info.ts` (éditeur, adresse, contact,
+  directeur de publication, hébergeur de la base de données, région Render / garanties du transfert hors UE).
+  Tant qu'elles ne sont pas renseignées, ces informations s'affichent surlignées en orange sur les pages.
+- **Consentement à l'inscription** : case obligatoire « J'ai lu et j'accepte les conditions d'utilisation et la
+  politique de confidentialité ». L'API refuse l'inscription sans elle et enregistre la version acceptée et la date
+  (`User.conditionsVersion`, `User.conditionsAccepteesLe`). Version : `VERSION_CONDITIONS` (front) =
+  `ConditionsUtilisation.VERSION` (API), à changer des deux côtés si les textes changent.
+- **Télécharger mes données** (« Mon compte ») : `GET /api/account/export` renvoie toutes les données de l'étudiant en
+  JSON (compte, profil, suivis, notifications, avis, signalements, demandes d'aide), sans le mot de passe.
+- **Police hébergée par le site** (`/fonts`, paquet `@fontsource-variable/plus-jakarta-sans`) : plus aucune requête
+  vers Google Fonts, donc aucune adresse IP transmise à Google.
+- La déconnexion efface aussi le prénom et le nom du navigateur ; les demandes d'aide sont purgées 12 mois après
+  leur traitement (et non plus après leur envoi) ; « Mon compte » indique que la suppression est immédiate et définitive.

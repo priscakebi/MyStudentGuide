@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideRouter } from '@angular/router';
 
 import { Account } from './account';
 
@@ -9,6 +12,8 @@ describe('Account', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Account],
+      // Routeur : lien vers la politique de confidentialité (« Mes données personnelles »).
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Account);

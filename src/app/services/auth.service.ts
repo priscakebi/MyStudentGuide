@@ -16,6 +16,8 @@ export interface RegisterRequest {
   nom: string;
   email: string;
   password: string;
+  /** Conditions d'utilisation et politique de confidentialité acceptées (obligatoire, RGPD). */
+  accepteConditions: boolean;
 }
 
 /** Réponse de l'API après connexion ou inscription. */
@@ -111,6 +113,13 @@ export class AuthService {
     localStorage.removeItem('userId');
     localStorage.removeItem('email');
     localStorage.removeItem('role');
+
+    // Données d'affichage : rien de personnel ne reste dans le navigateur
+    // après la déconnexion (ordinateur partagé, politique de confidentialité).
+    // Seule la langue choisie est conservée.
+    localStorage.removeItem('prenom');
+    localStorage.removeItem('nom');
+    localStorage.removeItem('userName');
   }
 
   getToken(): string | null {

@@ -449,6 +449,45 @@ input {
 }
 
 
+// Case de consentement (inscription).
+.consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid #e6eaf0;
+  border-radius: 12px;
+  background: #f9fafb;
+  color: $text-soft;
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1.5;
+  cursor: pointer;
+
+  input {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    margin: 1px 0 0;
+    padding: 0;
+    accent-color: $blue;
+  }
+
+  a {
+    color: $blue;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  &.invalid {
+    border-color: $error;
+    background: #fffbfa;
+  }
+}
+
+
 // ------------------------------------------------------------
 // LIENS, MESSAGES ET BOUTON
 // ------------------------------------------------------------

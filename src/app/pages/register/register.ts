@@ -78,6 +78,9 @@ export class Register implements OnDestroy {
   passwordVisible = false;
   confirmPasswordVisible = false;
 
+  /** Case « J'accepte les conditions d'utilisation et la politique de confidentialité » (obligatoire). */
+  accepteConditions = false;
+
   errorMessage = '';
 
   /** Champs déjà quittés : leurs erreurs sont affichées. */
@@ -124,7 +127,8 @@ export class Register implements OnDestroy {
       && this.lastNameValid
       && this.emailValid
       && this.passwordValid
-      && this.confirmValid;
+      && this.confirmValid
+      && this.accepteConditions;
   }
 
   /** Marque un champ comme quitté (événement blur). */
@@ -162,7 +166,13 @@ export class Register implements OnDestroy {
     this.submitted = true;
 
     if (!this.formValid) {
-      this.errorMessage = this.langue.t(!this.passwordValid ? 'form.motDePasse.message' : 'form.corriger');
+      this.errorMessage = this.langue.t(
+        !this.passwordValid
+          ? 'form.motDePasse.message'
+          : !this.accepteConditions
+            ? 'register.conditions.obligatoire'
+            : 'form.corriger'
+      );
       return;
     }
 
@@ -172,7 +182,8 @@ export class Register implements OnDestroy {
       prenom: this.firstName.trim(),
       nom: this.lastName.trim(),
       email: this.email.trim(),
-      password: this.password
+      password: this.password,
+      accepteConditions: this.accepteConditions
     }).subscribe({
 
       next: () => {

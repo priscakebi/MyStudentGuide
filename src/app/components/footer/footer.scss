@@ -166,6 +166,24 @@ button:focus-visible {
   }
 }
 
+// Liens vers les pages légales.
+.footer-legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+
+  a {
+    color: $muted;
+    font-size: 13px;
+    text-decoration: none;
+
+    &:hover {
+      color: $text;
+      text-decoration: underline;
+    }
+  }
+}
+
 .back-to-top {
   display: inline-flex;
   align-items: center;

@@ -83,6 +83,14 @@ export const AUTH = {
   'register.nom': { fr: 'Nom', en: 'Last name' },
   'register.motDePasse.placeholder': { fr: '12 caractères minimum', en: 'At least 12 characters' },
   'register.confirmer.placeholder': { fr: 'Confirmer votre mot de passe', en: 'Confirm your password' },
+  'register.conditions.debut': { fr: "J'ai lu et j'accepte les", en: 'I have read and accept the' },
+  'register.conditions.cgu': { fr: "conditions d'utilisation", en: 'terms of use' },
+  'register.conditions.et': { fr: 'et la', en: 'and the' },
+  'register.conditions.confidentialite': { fr: 'politique de confidentialité', en: 'privacy policy' },
+  'register.conditions.obligatoire': {
+    fr: "Vous devez accepter les conditions d'utilisation et la politique de confidentialité pour créer un compte.",
+    en: 'You must accept the terms of use and the privacy policy to create an account.'
+  },
   'register.creation': { fr: 'Création en cours...', en: 'Creating your account...' },
   'register.creer': { fr: 'Créer mon compte', en: 'Create my account' },
   'register.dejaCompte': { fr: 'Vous avez déjà un compte ?', en: 'Already have an account?' },

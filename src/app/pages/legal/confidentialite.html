@@ -1,0 +1,214 @@
+<article class="legal-page" lang="fr">
+
+  <header class="legal-header">
+    <span class="eyebrow">Vos données</span>
+    <h1>Politique de confidentialité</h1>
+    <p class="maj">Version {{ version }} — mise à jour le {{ dateMiseAJour }}</p>
+  </header>
+
+  @if (langue.langue() === 'en') {
+    <p class="langue-note" lang="en">
+      ℹ️ This page is only available in French, which is the legally binding version.
+      In short: we only collect what is needed to guide you, never sell or share your data
+      for advertising, and you can download or delete all your data at any time from “My account”.
+    </p>
+  }
+
+  <div class="resume">
+    <h2>En bref</h2>
+    <ul>
+      <li>Nous collectons uniquement ce qui sert à vous guider dans vos démarches.</li>
+      <li>Aucune publicité, aucune revente de données, aucun outil de mesure d'audience.</li>
+      <li>Aucun document personnel (passeport, titre de séjour…) n'est envoyé ni stocké sur le site.</li>
+      <li>Depuis « Mon compte », vous pouvez télécharger toutes vos données ou supprimer votre compte à tout moment.</li>
+    </ul>
+  </div>
+
+  <section>
+    <h2>1. Responsable du traitement</h2>
+    <p>
+      Le responsable du traitement est
+      <span [class.a-completer]="aCompleter(editeur.nom)">{{ editeur.nom }}</span>,
+      éditeur du site (voir les <a routerLink="/mentions-legales">mentions légales</a>).
+      Contact pour toute question sur vos données :
+      <span [class.a-completer]="aCompleter(editeur.email)">{{ editeur.email }}</span>.
+    </p>
+  </section>
+
+  <section>
+    <h2>2. Données collectées et raisons</h2>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Données</th>
+            <th>Pourquoi</th>
+            <th>Base légale</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Compte</strong> : prénom, nom, adresse e-mail, mot de passe (chiffré, jamais lisible)</td>
+            <td>Créer et sécuriser votre compte, vous envoyer les e-mails du service (inscription, mot de passe oublié)</td>
+            <td>Exécution du service que vous demandez (conditions d'utilisation)</td>
+          </tr>
+          <tr>
+            <td><strong>Profil</strong> (facultatif) : nationalité, téléphone, niveau d'études, établissement, ville d'études, type de visa ou de séjour, première arrivée en France, type de logement, adresse</td>
+            <td>Vous suggérer les démarches adaptées à votre situation et trouver votre préfecture</td>
+            <td>Exécution du service ; vous pouvez utiliser le site sans compléter votre profil</td>
+          </tr>
+          <tr>
+            <td><strong>Suivi des démarches</strong> : démarches commencées, statut, documents cochés comme prêts, dates</td>
+            <td>Afficher votre progression et vous envoyer des rappels d'échéance dans l'application</td>
+            <td>Exécution du service</td>
+          </tr>
+          <tr>
+            <td><strong>Vos messages</strong> : avis, signalements d'erreur, demandes d'aide</td>
+            <td>Publier votre avis, corriger les fiches, répondre à vos questions</td>
+            <td>Exécution du service</td>
+          </tr>
+          <tr>
+            <td><strong>Notifications</strong> reçues dans l'application</td>
+            <td>Rappels, suggestions de démarches, réponses de l'équipe</td>
+            <td>Exécution du service</td>
+          </tr>
+          <tr>
+            <td><strong>Tentatives de connexion échouées</strong> (adresse e-mail et nombre d'échecs)</td>
+            <td>Bloquer temporairement un compte après plusieurs mots de passe erronés</td>
+            <td>Intérêt légitime : la sécurité des comptes</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      <strong>Ne nous envoyez pas de données sensibles</strong> dans vos messages : numéro de passeport
+      ou de titre de séjour, coordonnées bancaires, informations de santé, mot de passe.
+    </p>
+    <p>
+      Votre avis est publié sur la page d'accueil avec votre prénom et l'initiale de votre nom uniquement.
+    </p>
+  </section>
+
+  <section>
+    <h2>3. Qui peut voir vos données ?</h2>
+    <ul>
+      <li>
+        <strong>L'équipe d'administration de MyStudentGuide</strong>, pour vous aider : elle peut consulter
+        les comptes, les profils, les suivis de démarches et les messages envoyés.
+      </li>
+      <li>
+        <strong>Nos prestataires techniques</strong>, uniquement pour faire fonctionner le service, sans
+        pouvoir utiliser vos données pour leur propre compte :
+        <ul>
+          @for (h of hebergeurs; track h.role) {
+            <li>
+              {{ h.role }} : <span [class.a-completer]="aCompleter(h.nom)">{{ h.nom }}</span>
+              (<span [class.a-completer]="aCompleter(h.adresse)">{{ h.adresse }}</span>)
+            </li>
+          }
+        </ul>
+      </li>
+    </ul>
+    <p>
+      Transfert hors de l'Union européenne :
+      <span [class.a-completer]="aCompleter(garantiesTransfert)">{{ garantiesTransfert }}</span>.
+    </p>
+    <p>Vos données ne sont jamais vendues, louées ni utilisées à des fins publicitaires.</p>
+  </section>
+
+  <section>
+    <h2>4. Durée de conservation</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Données</th>
+            <th>Durée</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Compte, profil, suivis, notifications, avis et signalements</td>
+            <td>Tant que votre compte existe. Ils sont <strong>supprimés immédiatement et définitivement</strong> quand vous supprimez votre compte.</td>
+          </tr>
+          <tr>
+            <td>Demandes d'aide</td>
+            <td>12 mois après leur traitement par l'équipe (suppression automatique), ou avant si vous les supprimez ou supprimez votre compte.</td>
+          </tr>
+          <tr>
+            <td>Lien de réinitialisation du mot de passe</td>
+            <td>Valable 30 minutes, puis effacé automatiquement.</td>
+          </tr>
+          <tr>
+            <td>Tentatives de connexion échouées</td>
+            <td>Quelques minutes (15 minutes au plus), jamais enregistrées en base de données.</td>
+          </tr>
+          <tr>
+            <td>Avis de suppression de compte transmis à l'équipe (nom, e-mail, motif)</td>
+            <td>Conservé dans l'espace d'administration le temps de traiter la demande.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>5. Vos droits</h2>
+    <p>Conformément au RGPD, vous disposez des droits suivants, directement depuis votre espace :</p>
+    <ul>
+      <li><strong>Accès et portabilité</strong> : « Mon compte » → « Télécharger mes données » (fichier JSON réutilisable).</li>
+      <li><strong>Rectification</strong> : « Mon profil » et « Mon compte » permettent de modifier vos informations.</li>
+      <li><strong>Effacement</strong> : « Mon compte » → « Supprimer mon compte » (suppression immédiate et définitive).</li>
+    </ul>
+    <p>
+      Vous pouvez aussi demander la limitation du traitement ou vous y opposer en écrivant à
+      <span [class.a-completer]="aCompleter(editeur.email)">{{ editeur.email }}</span>.
+      Nous répondons dans un délai d'un mois. Si vous estimez que vos droits ne sont pas respectés,
+      vous pouvez adresser une réclamation à la
+      <a href="https://www.cnil.fr/fr/plaintes" target="_blank" rel="noopener noreferrer">CNIL</a>.
+    </p>
+  </section>
+
+  <section>
+    <h2>6. Cookies et stockage dans le navigateur</h2>
+    <p>
+      Le site n'utilise <strong>ni cookie publicitaire, ni outil de mesure d'audience, ni réseau social intégré</strong>.
+      La police d'écriture est hébergée par le site lui-même.
+    </p>
+    <p>
+      Il enregistre seulement dans votre navigateur (stockage local) ce qui est strictement nécessaire :
+      votre jeton de connexion, votre prénom pour l'affichage, l'heure de votre dernière activité
+      (déconnexion automatique après inactivité) et la langue choisie. Ces éléments sont dispensés de
+      consentement et sont effacés à la déconnexion (sauf la langue).
+    </p>
+  </section>
+
+  <section>
+    <h2>7. Sécurité</h2>
+    <ul>
+      <li>Connexion chiffrée (HTTPS) et mots de passe chiffrés de manière irréversible.</li>
+      <li>Mots de passe robustes exigés (recommandations de la CNIL et de l'ANSSI).</li>
+      <li>Blocage temporaire après plusieurs tentatives de connexion échouées.</li>
+      <li>Déconnexion automatique après une période d'inactivité.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>8. Âge minimum</h2>
+    <p>
+      Le service s'adresse aux étudiants. Il faut avoir au moins 15 ans pour créer un compte ;
+      en dessous, l'accord d'un titulaire de l'autorité parentale est nécessaire.
+    </p>
+  </section>
+
+  <section>
+    <h2>9. Modifications</h2>
+    <p>
+      Cette politique peut évoluer. En cas de changement important, vous en serez informé dans l'application.
+      La version que vous avez acceptée à l'inscription est enregistrée avec votre compte.
+    </p>
+  </section>
+
+</article>

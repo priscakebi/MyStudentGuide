@@ -20,7 +20,7 @@ import {
 } from '@angular/common/http';
 
 // Permet de naviguer vers les différentes pages de l'application.
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { environment } from '../../../environments/environment';
 import { LangueService } from '../../i18n/langue.service';
@@ -102,6 +102,7 @@ interface UserAccount {
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    RouterLink,
     TPipe
   ],
 
@@ -250,6 +251,46 @@ export class Account implements OnInit {
 
   private authService = inject(AuthService);
   private langue = inject(LangueService);
+
+
+  // ============================================================
+  // MES DONNÉES PERSONNELLES (RGPD : droit d'accès et de portabilité)
+  // ============================================================
+
+  exportEnCours = false;
+  exportErreur = '';
+
+  /**
+   * Télécharge toutes les données du compte (GET /api/account/export)
+   * dans un fichier JSON. Le jeton est ajouté par l'interceptor.
+   */
+  telechargerMesDonnees(): void {
+    if (this.exportEnCours) {
+      return;
+    }
+
+    this.exportEnCours = true;
+    this.exportErreur = '';
+
+    this.http.get(`${this.apiUrl}/account/export`, { responseType: 'blob' }).subscribe({
+      next: (fichier) => {
+        this.exportEnCours = false;
+
+        const url = URL.createObjectURL(fichier);
+        const lien = document.createElement('a');
+        lien.href = url;
+        lien.download = 'mes-donnees-mystudentguide.json';
+        document.body.appendChild(lien);
+        lien.click();
+        lien.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+      },
+      error: () => {
+        this.exportEnCours = false;
+        this.exportErreur = this.langue.t('compte.donnees.erreur');
+      }
+    });
+  }
 
   constructor(
     private fb: FormBuilder,

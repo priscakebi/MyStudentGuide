@@ -595,6 +595,51 @@
 
 
     <!-- ==========================================================
+         MES DONNÉES PERSONNELLES (RGPD : accès et portabilité)
+         ========================================================== -->
+
+    <section class="account-card">
+
+      <div class="card-header">
+
+        <div class="card-icon blue">
+          🗂️
+        </div>
+
+        <div>
+          <h2>{{ 'compte.donnees.titre' | t }}</h2>
+
+          <p>
+            {{ 'compte.donnees.texte' | t }}
+            <a routerLink="/confidentialite">{{ 'compte.donnees.politique' | t }}</a>
+          </p>
+        </div>
+
+      </div>
+
+      @if (exportErreur) {
+        <div class="message error-message">
+          <span class="message-icon">!</span>
+          <span>{{ exportErreur }}</span>
+        </div>
+      }
+
+      <div class="form-actions">
+        <button
+          type="button"
+          class="submit-button"
+          [disabled]="exportEnCours"
+          (click)="telechargerMesDonnees()"
+        >
+          {{ (exportEnCours ? 'compte.donnees.preparation' : 'compte.donnees.telecharger') | t }}
+        </button>
+      </div>
+
+    </section>
+
+
+
+    <!-- ==========================================================
          SUPPRESSION DU COMPTE
          ========================================================== -->
 
