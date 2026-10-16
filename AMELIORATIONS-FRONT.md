@@ -420,3 +420,14 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
   barres du graphique admin ; « Réduire les animations » du système respecté partout.
 - Pour relancer l'audit : servir le site, puis exécuter axe-core sur chaque page (extension navigateur
   « axe DevTools » ou Lighthouse → Accessibilité).
+
+## 29. Poids du chargement initial
+- Connexion, inscription et connexion administrateur passent en **chargement à la demande**
+  (`loadComponent`), comme toutes les autres pages : un visiteur qui arrive sur l'accueil ne
+  télécharge plus ces formulaires ni `@angular/forms`.
+  Chargement initial : **535 → 418 Ko** (136 → 116 Ko compressés, −15 %).
+- Budgets (`angular.json`) : nouveau budget `initial` (alerte à 450 Ko, erreur à 550 Ko) pour éviter
+  qu'une page soit de nouveau importée directement ; styles d'un composant : alerte à 16 Ko.
+  Les 5 feuilles de style au-dessus de 12 Ko ne contiennent ni classe inutilisée ni règle en double
+  (les « doublons » sont des adaptations mobile / tablette) ; les réécrire ferait gagner moins de 1 Ko
+  compressé par page, chargé seulement sur cette page.

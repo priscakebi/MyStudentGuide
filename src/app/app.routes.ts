@@ -8,29 +8,10 @@ import { Routes } from '@angular/router';
 
 
 /*
- * Importe le composant Login.
- *
- * La page de connexion reste indépendante
- * du PublicLayout.
+ * Les pages Login, Register et AdminLogin (indépendantes du PublicLayout)
+ * sont chargées à la demande comme les autres : un visiteur qui arrive
+ * sur l'accueil ne télécharge ni ces formulaires ni @angular/forms.
  */
-import { Login } from './pages/login/login';
-
-
-/*
- * Importe le composant Register.
- *
- * La page d'inscription reste indépendante
- * du PublicLayout.
- */
-import { Register } from './pages/register/register';
-
-/*
- * Importe le composant AdminLogin.
- *
- * Formulaire de connexion réservé aux administrateurs.
- * Indépendant du PublicLayout, comme Login et Register.
- */
-import { AdminLogin } from './pages/admin-login/admin-login';
 
 
 /*
@@ -276,7 +257,9 @@ export const routes: Routes = [
     path: 'login',
     title: 'titre.connexion',
 
-    component: Login
+    loadComponent: () =>
+      import('./pages/login/login')
+        .then(m => m.Login)
   },
 
 
@@ -290,7 +273,9 @@ export const routes: Routes = [
     path: 'register',
     title: 'titre.inscription',
 
-    component: Register
+    loadComponent: () =>
+      import('./pages/register/register')
+        .then(m => m.Register)
   },
 
 
@@ -307,7 +292,9 @@ export const routes: Routes = [
     path: 'admin-login',
     title: 'Connexion administrateur',
 
-    component: AdminLogin
+    loadComponent: () =>
+      import('./pages/admin-login/admin-login')
+        .then(m => m.AdminLogin)
   },
 
 
