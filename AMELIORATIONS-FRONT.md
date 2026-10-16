@@ -350,3 +350,13 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
   vers Google Fonts, donc aucune adresse IP transmise à Google.
 - La déconnexion efface aussi le prénom et le nom du navigateur ; les demandes d'aide sont purgées 12 mois après
   leur traitement (et non plus après leur envoi) ; « Mon compte » indique que la suppression est immédiate et définitive.
+
+## 24. Comptes inactifs et rappels par e-mail (API)
+- **Comptes inactifs** : un compte étudiant sans connexion depuis 3 ans est prévenu par e-mail, puis supprimé
+  30 jours plus tard avec toutes ses données s'il ne s'est pas reconnecté (`InactiviteService`, chaque nuit).
+  Les administrateurs ne sont jamais concernés. Réglages : `app.comptes.inactivite-mois` (36),
+  `app.comptes.preavis-jours` (30). La dernière connexion est enregistrée à chaque connexion réussie ;
+  pour les comptes plus anciens, la date de création sert de référence.
+- **Rappels d'échéance par e-mail** : en plus de la notification, un e-mail part 7 jours puis 3 jours avant la
+  date limite d'une démarche en cours, avec le lien vers la démarche (une seule fois par rappel).
+- La politique de confidentialité mentionne ces deux points.
