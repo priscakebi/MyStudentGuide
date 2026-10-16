@@ -1,18 +1,249 @@
+@if (langue.langue() === 'en') {
+
+<!-- ======================================================== -->
+<!-- ENGLISH VERSION (translation: the French version prevails) -->
+<!-- ======================================================== -->
+
+<article class="legal-page" lang="en">
+
+  <header class="legal-header">
+    <span class="eyebrow">Your data</span>
+    <h1>Privacy policy</h1>
+    <p class="maj">Version {{ version }} — updated on {{ dateMiseAJour | dateL: 'd MMMM y' }}</p>
+  </header>
+
+  <p class="langue-note">
+    ℹ️ This English translation is provided for convenience. In case of any discrepancy,
+    the French version prevails.
+    <button type="button" class="lien-langue" lang="fr" (click)="langue.changer('fr')">Lire en français</button>
+  </p>
+
+  <div class="resume">
+    <h2>In short</h2>
+    <ul>
+      <li>We only collect what helps guide you through your procedures.</li>
+      <li>No advertising, no sale of data, no audience measurement tools.</li>
+      <li>No personal documents (passport, residence permit…) are uploaded or stored on the website.</li>
+      <li>From “My account”, you can download all your data or delete your account at any time.</li>
+    </ul>
+  </div>
+
+  <section>
+    <h2>1. Data controller</h2>
+    <p>
+      The data controller is
+      <span [class.a-completer]="aCompleter(editeur.nom)">{{ editeur.nom }}</span>,
+      publisher of the website (see the <a routerLink="/mentions-legales">legal notice</a>).
+      Contact for any question about your data:
+      <span [class.a-completer]="aCompleter(editeur.email)">{{ editeur.email }}</span>.
+    </p>
+  </section>
+
+  <section>
+    <h2>2. Data collected and why</h2>
+
+    <div class="table-wrap" tabindex="0" role="region" aria-label="Data collected and why">
+      <table>
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Why</th>
+            <th>Legal basis</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Account</strong>: first name, last name, email address, password (encrypted, never readable), date of last login</td>
+            <td>Create and secure your account, send you the service emails (sign-up, forgotten password, deadline reminders, warning before an inactive account is deleted)</td>
+            <td>Performance of the service you request (terms of use)</td>
+          </tr>
+          <tr>
+            <td><strong>Profile</strong> (optional): nationality, phone number, level of study, institution, city of study, type of visa or residence permit, first arrival in France, type of housing, address, date of arrival in France, end date of your visa or residence permit</td>
+            <td>Suggest the procedures that match your situation, find your prefecture and calculate your personal deadlines</td>
+            <td>Performance of the service; you can use the website without completing your profile</td>
+          </tr>
+          <tr>
+            <td><strong>Procedure tracking</strong>: procedures started, status, documents ticked as ready, dates</td>
+            <td>Show your progress and remind you of deadlines, in the application and by email (7 and 3 days before)</td>
+            <td>Performance of the service</td>
+          </tr>
+          <tr>
+            <td><strong>Your messages</strong>: reviews, error reports, help requests</td>
+            <td>Publish your review, correct the guides, answer your questions</td>
+            <td>Performance of the service</td>
+          </tr>
+          <tr>
+            <td><strong>Notifications</strong> received in the application</td>
+            <td>Reminders, suggested procedures, replies from the team</td>
+            <td>Performance of the service</td>
+          </tr>
+          <tr>
+            <td><strong>Failed login attempts</strong> (email address and number of failures)</td>
+            <td>Temporarily lock an account after several wrong passwords</td>
+            <td>Legitimate interest: account security</td>
+          </tr>
+          <tr>
+            <td><strong>Technical error reports</strong>: error message, page concerned (without its parameters), browser and operating system. No name, email address, IP address or profile content</td>
+            <td>Be alerted when the website has a problem, so we can fix it quickly</td>
+            <td>Legitimate interest: proper operation of the service</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      <strong>Do not send us sensitive data</strong> in your messages: passport or residence permit
+      number, bank details, health information, password.
+    </p>
+    <p>
+      Your review is published on the home page with only your first name and the initial of your last name.
+    </p>
+  </section>
+
+  <section>
+    <h2>3. Who can see your data?</h2>
+    <ul>
+      <li>
+        <strong>The MyStudentGuide administration team</strong>, to help you: it can view
+        accounts, profiles, procedure tracking and the messages sent.
+      </li>
+      <li>
+        <strong>Our technical service providers</strong>, only to run the service, without being
+        able to use your data for their own purposes:
+        <ul>
+          @for (h of hebergeurs; track h.role) {
+            <li>
+              {{ h.roleEn }}: <span [class.a-completer]="aCompleter(h.nom)">{{ h.nom }}</span>
+              (<span [class.a-completer]="aCompleter(h.adresseEn)">{{ h.adresseEn }}</span>)
+            </li>
+          }
+        </ul>
+      </li>
+    </ul>
+    <p>
+      Transfers outside the European Union:
+      <span [class.a-completer]="aCompleter(garantiesTransfertEn)">{{ garantiesTransfertEn }}</span>.
+    </p>
+    <p>Your data is never sold, rented or used for advertising.</p>
+  </section>
+
+  <section>
+    <h2>4. Retention period</h2>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="Retention periods">
+      <table>
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Period</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Account, profile, tracking, notifications, reviews and error reports</td>
+            <td>
+              As long as your account exists. They are <strong>deleted immediately and permanently</strong> when you delete your account.
+              An account <strong>inactive for 3 years</strong> (no login) is deleted automatically:
+              you are warned by email 30 days before, and simply logging in keeps it.
+            </td>
+          </tr>
+          <tr>
+            <td>Help requests</td>
+            <td>12 months after the team has handled them (automatic deletion), or earlier if you delete them or delete your account.</td>
+          </tr>
+          <tr>
+            <td>Password reset link</td>
+            <td>Valid for 30 minutes, then automatically erased.</td>
+          </tr>
+          <tr>
+            <td>Failed login attempts</td>
+            <td>A few minutes (15 minutes at most), never stored in the database.</td>
+          </tr>
+          <tr>
+            <td>Technical error reports</td>
+            <td>{{ conservationRapportsErreurEn }}.</td>
+          </tr>
+          <tr>
+            <td>Account deletion notice sent to the team (name, email, reason)</td>
+            <td>Kept in the administration area while the request is being handled.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>5. Your rights</h2>
+    <p>Under the GDPR, you have the following rights, directly from your personal area:</p>
+    <ul>
+      <li><strong>Access and portability</strong>: “My account” → “Download my data” (reusable JSON file).</li>
+      <li><strong>Rectification</strong>: “My profile” and “My account” let you change your information.</li>
+      <li><strong>Erasure</strong>: “My account” → “Delete my account” (immediate and permanent deletion).</li>
+    </ul>
+    <p>
+      You can also ask for the processing to be restricted, or object to it, by writing to
+      <span [class.a-completer]="aCompleter(editeur.email)">{{ editeur.email }}</span>.
+      We reply within one month. If you believe your rights are not respected,
+      you can lodge a complaint with the
+      <a href="https://www.cnil.fr/en/complaints" target="_blank" rel="noopener noreferrer">CNIL</a>
+      (the French data protection authority).
+    </p>
+  </section>
+
+  <section>
+    <h2>6. Cookies and browser storage</h2>
+    <p>
+      The website uses <strong>no advertising cookies, no audience measurement tools and no embedded social networks</strong>.
+      The font is hosted by the website itself.
+    </p>
+    <p>
+      It only stores in your browser (local storage) what is strictly necessary:
+      your login token, your first name for display, the time of your last activity
+      (automatic logout after inactivity) and the language you chose. These items do not require
+      consent and are erased when you log out (except the language).
+    </p>
+  </section>
+
+  <section>
+    <h2>7. Security</h2>
+    <ul>
+      <li>Encrypted connection (HTTPS) and irreversibly encrypted passwords.</li>
+      <li>Strong passwords required (recommendations of the CNIL and ANSSI, the French cybersecurity agency).</li>
+      <li>Temporary lock after several failed login attempts.</li>
+      <li>Automatic logout after a period of inactivity.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>8. Minimum age</h2>
+    <p>
+      The service is intended for students. You must be at least 15 years old to create an account;
+      below that age, the consent of a person with parental authority is required.
+    </p>
+  </section>
+
+  <section>
+    <h2>9. Changes</h2>
+    <p>
+      This policy may change. In case of a significant change, you will be informed in the application.
+      The version you accepted when signing up is recorded with your account.
+    </p>
+  </section>
+
+</article>
+
+} @else {
+
+<!-- ======================================================== -->
+<!-- VERSION FRANÇAISE (fait foi)                              -->
+<!-- ======================================================== -->
+
 <article class="legal-page" lang="fr">
 
   <header class="legal-header">
     <span class="eyebrow">Vos données</span>
     <h1>Politique de confidentialité</h1>
-    <p class="maj">Version {{ version }} — mise à jour le {{ dateMiseAJour }}</p>
+    <p class="maj">Version {{ version }} — mise à jour le {{ dateMiseAJour | dateL: 'd MMMM y' }}</p>
   </header>
-
-  @if (langue.langue() === 'en') {
-    <p class="langue-note" lang="en">
-      ℹ️ This page is only available in French, which is the legally binding version.
-      In short: we only collect what is needed to guide you, never sell or share your data
-      for advertising, and you can download or delete all your data at any time from “My account”.
-    </p>
-  }
 
   <div class="resume">
     <h2>En bref</h2>
@@ -54,8 +285,8 @@
             <td>Exécution du service que vous demandez (conditions d'utilisation)</td>
           </tr>
           <tr>
-            <td><strong>Profil</strong> (facultatif) : nationalité, téléphone, niveau d'études, établissement, ville d'études, type de visa ou de séjour, première arrivée en France, type de logement, adresse</td>
-            <td>Vous suggérer les démarches adaptées à votre situation et trouver votre préfecture</td>
+            <td><strong>Profil</strong> (facultatif) : nationalité, téléphone, niveau d'études, établissement, ville d'études, type de visa ou de séjour, première arrivée en France, type de logement, adresse, date d'arrivée en France, date de fin du visa ou du titre de séjour</td>
+            <td>Vous suggérer les démarches adaptées à votre situation, trouver votre préfecture et calculer vos dates limites personnelles</td>
             <td>Exécution du service ; vous pouvez utiliser le site sans compléter votre profil</td>
           </tr>
           <tr>
@@ -225,3 +456,5 @@
   </section>
 
 </article>
+
+}

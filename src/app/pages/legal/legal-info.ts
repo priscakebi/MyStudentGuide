@@ -15,8 +15,15 @@
 
 export const VERSION_CONDITIONS = '2026-10';
 
-/** Date de mise à jour affichée en haut des pages. */
-export const DATE_MISE_A_JOUR = '16 octobre 2026';
+/**
+ * Date de mise à jour affichée en haut des pages (AAAA-MM-JJ), dans la
+ * langue de l'interface (« 16 octobre 2026 » / « 16 October 2026 »).
+ */
+export const DATE_MISE_A_JOUR = '2026-10-16';
+
+// Les pages existent en français et en anglais : les textes qui dépendent
+// de la langue ont une version anglaise (suffixe « En »). La version
+// française fait foi en cas de différence.
 
 export const EDITEUR = {
   /** Personne ou structure qui publie le site (nom et prénom pour une personne physique). */
@@ -24,6 +31,9 @@ export const EDITEUR = {
 
   /** Ex. « Projet étudiant à titre personnel », « Association loi 1901 »… */
   statut: '[À compléter : statut (ex. projet personnel non commercial)]',
+
+  /** Le même statut en anglais (ex. « non-commercial personal project », « non-profit association »). */
+  statutEn: '[À compléter : statut en anglais (ex. non-commercial personal project)]',
 
   /** Adresse de contact (exigée par la loi pour l'éditeur). */
   adresse: '[À compléter : adresse postale de l’éditeur]',
@@ -42,28 +52,36 @@ export const EDITEUR = {
 export const HEBERGEURS = [
   {
     role: 'Hébergement du site et de l’API',
+    roleEn: 'Website and API hosting',
     nom: 'Render Services, Inc.',
     adresse: '525 Brannan Street, Suite 300, San Francisco, CA 94107, États-Unis',
+    adresseEn: '525 Brannan Street, Suite 300, San Francisco, CA 94107, United States',
     site: 'https://render.com'
   },
   {
     role: 'Base de données',
+    roleEn: 'Database',
     nom: '[À compléter : hébergeur de la base de données MySQL]',
     adresse: '[À compléter : adresse et pays d’hébergement]',
+    adresseEn: '[À compléter : adresse et pays d’hébergement, en anglais]',
     site: ''
   },
   {
     role: 'Envoi des e-mails (inscription, mot de passe oublié)',
+    roleEn: 'Sending emails (sign-up, forgotten password)',
     nom: 'Brevo (Sendinblue SAS)',
     adresse: '106 boulevard Haussmann, 75008 Paris, France',
+    adresseEn: '106 boulevard Haussmann, 75008 Paris, France',
     site: 'https://www.brevo.com'
   },
   {
     // Seulement si SENTRY_DSN (API) ou sentryDsn (site) est renseigné.
     // Choisir la région « EU » à la création de l'organisation Sentry.
     role: 'Suivi des erreurs techniques (rapports d’erreur, sans nom ni adresse e-mail)',
+    roleEn: 'Technical error monitoring (error reports, without name or email address)',
     nom: 'Functional Software, Inc. (Sentry)',
     adresse: '45 Fremont Street, 8th Floor, San Francisco, CA 94105, États-Unis ; données hébergées dans l’Union européenne (Francfort)',
+    adresseEn: '45 Fremont Street, 8th Floor, San Francisco, CA 94105, United States; data hosted in the European Union (Frankfurt)',
     site: 'https://sentry.io'
   }
 ];
@@ -73,6 +91,7 @@ export const HEBERGEURS = [
  * (à vérifier dans Sentry : Settings → Subscription / Data retention).
  */
 export const CONSERVATION_RAPPORTS_ERREUR = '30 jours (offre gratuite de Sentry), puis suppression automatique';
+export const CONSERVATION_RAPPORTS_ERREUR_EN = '30 days (Sentry free plan), then automatically deleted';
 
 /**
  * Render (hébergeur) est une société américaine. Si les serveurs sont dans la
@@ -83,6 +102,10 @@ export const CONSERVATION_RAPPORTS_ERREUR = '30 jours (offre gratuite de Sentry)
  */
 export const GARANTIES_TRANSFERT =
   '[À compléter : région des serveurs Render (ex. Francfort, Union européenne) ou garanties du transfert vers les États-Unis]';
+
+/** La même information en anglais (ex. « Render servers in Frankfurt, European Union »). */
+export const GARANTIES_TRANSFERT_EN =
+  '[À compléter : la même information en anglais (ex. Render servers in Frankfurt, European Union)]';
 
 /** Vrai si une valeur n'a pas encore été renseignée. */
 export function aCompleter(valeur: string): boolean {

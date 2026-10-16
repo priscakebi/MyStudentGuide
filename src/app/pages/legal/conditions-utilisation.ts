@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LangueService } from '../../i18n/langue.service';
+import { DateLPipe } from '../../i18n/t.pipe';
 import { DATE_MISE_A_JOUR, EDITEUR, VERSION_CONDITIONS, aCompleter } from './legal-info';
 
 /**
@@ -9,7 +10,7 @@ import { DATE_MISE_A_JOUR, EDITEUR, VERSION_CONDITIONS, aCompleter } from './leg
 @Component({
   selector: 'app-conditions-utilisation',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, DateLPipe],
   templateUrl: './conditions-utilisation.html',
   styleUrl: './legal.scss'
 })

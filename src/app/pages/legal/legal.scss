@@ -54,6 +54,19 @@ $border: #e6eaf0;
   font-size: 0.9rem;
 }
 
+// « Lire en français » : bouton présenté comme un lien.
+.lien-langue {
+  margin-left: 4px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #1646a0;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 // Résumé en tête de page.
 .resume {
   margin: 0 0 32px;

@@ -441,3 +441,13 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
   utiliser `npx npm@11.20.0 install` si besoin.
 - Restent 3 alertes dans les outils de build uniquement (piscina, SDK MCP du CLI, http-cache-semantics),
   déjà présentes avant : elles disparaîtront avec une prochaine version du CLI Angular.
+
+## 31. Pages légales en anglais
+- Mentions légales, politique de confidentialité et conditions d'utilisation existent en **version anglaise
+  complète** (bloc `@if (langue.langue() === 'en')` dans chaque page), avec un encadré « In case of any
+  discrepancy, the French version prevails » et un bouton « Lire en français ».
+- `legal-info.ts` : versions anglaises des textes qui dépendent de la langue (`statutEn`, `roleEn`,
+  `adresseEn`, `GARANTIES_TRANSFERT_EN`, `CONSERVATION_RAPPORTS_ERREUR_EN`) ; la date de mise à jour est
+  une vraie date (`2026-10-16`), affichée dans la langue de l'interface.
+- Politique de confidentialité (FR et EN) : le profil mentionne désormais la date d'arrivée et la date de fin
+  du titre de séjour, utilisées pour calculer les dates limites personnelles (oubli de la section 25).

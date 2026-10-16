@@ -1,18 +1,137 @@
+@if (langue.langue() === 'en') {
+
+<!-- ======================================================== -->
+<!-- ENGLISH VERSION (translation: the French version prevails) -->
+<!-- ======================================================== -->
+
+<article class="legal-page" lang="en">
+
+  <header class="legal-header">
+    <span class="eyebrow">Service rules</span>
+    <h1>Terms of use</h1>
+    <p class="maj">Version {{ version }} — updated on {{ dateMiseAJour | dateL: 'd MMMM y' }}</p>
+  </header>
+
+  <p class="langue-note">
+    ℹ️ This English translation is provided for convenience. In case of any discrepancy,
+    the French version prevails.
+    <button type="button" class="lien-langue" lang="fr" (click)="langue.changer('fr')">Lire en français</button>
+  </p>
+
+  <section>
+    <h2>1. Purpose</h2>
+    <p>
+      MyStudentGuide helps international students understand and keep track of their administrative
+      procedures in France: steps, documents to prepare, official links, deadline reminders.
+      These terms govern the use of the website. Creating an account means accepting them, as well as the
+      <a routerLink="/confidentialite">privacy policy</a>.
+    </p>
+  </section>
+
+  <section>
+    <h2>2. Access to the service</h2>
+    <ul>
+      <li>The service is <strong>free</strong>.</li>
+      <li>Procedure guides can be read without an account; personal tracking requires an account.</li>
+      <li>You must be at least 15 years old to create an account, or have the consent of a person with parental authority.</li>
+      <li>
+        The website may be temporarily unavailable (maintenance, incident); the publisher tries to keep
+        such interruptions short but does not guarantee uninterrupted operation.
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>3. Your account</h2>
+    <ul>
+      <li>You agree to provide accurate information and to keep it up to date.</li>
+      <li>Your password is personal: do not share it with anyone. Let us know if your account is used fraudulently.</li>
+      <li>You can delete your account at any time from “My account”: deletion is immediate and permanent.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4. Nature of the information</h2>
+    <p class="encadre">
+      MyStudentGuide <strong>is not an official service of the French administration</strong> and does not replace
+      the prefecture, OFII, CAF or any other organisation. The information, mainly taken from
+      Service-Public.gouv.fr, is provided <strong>for guidance only</strong> and may change.
+      Always check the official websites before starting a procedure or relying on a deadline.
+    </p>
+    <p>
+      The deadlines and reminders shown are an aid; they do not replace the time limits set by the
+      administration, which remain your responsibility.
+    </p>
+  </section>
+
+  <section>
+    <h2>5. Liability</h2>
+    <p>
+      The publisher takes great care to ensure the information is accurate, but cannot be held liable
+      for any error, omission, change in regulations or decision of the administration. Links to external
+      websites are provided to help you; their content is the responsibility of their respective publishers.
+    </p>
+  </section>
+
+  <section>
+    <h2>6. Your contributions</h2>
+    <p>Reviews, error reports and help requests must remain respectful and related to the service. It is forbidden:</p>
+    <ul>
+      <li>to post insulting, discriminatory, unlawful or advertising content;</li>
+      <li>to post another person's personal data;</li>
+      <li>
+        to send sensitive data: passport or residence permit number, bank details,
+        health information, password.
+      </li>
+    </ul>
+    <p>
+      The team may hide a review or delete a message that does not follow these rules, and
+      suspend an account in case of abuse. By posting a review, you agree that it is displayed
+      on the home page with your first name and the initial of your last name.
+    </p>
+  </section>
+
+  <section>
+    <h2>7. Intellectual property</h2>
+    <p>
+      Content taken from Service-Public.gouv.fr is reused under the Open Licence 2.0.
+      The other elements of the website (own texts, interface, illustrations) belong to the publisher
+      and may not be reproduced without permission.
+    </p>
+  </section>
+
+  <section>
+    <h2>8. Changes to these terms</h2>
+    <p>
+      These terms may change. In case of a significant change, you will be informed in the
+      application. The version you accepted when signing up is recorded with your account.
+    </p>
+  </section>
+
+  <section>
+    <h2>9. Applicable law and contact</h2>
+    <p>
+      These terms are governed by French law. For any question:
+      <span [class.a-completer]="aCompleter(editeur.email)">{{ editeur.email }}</span>.
+      See also the <a routerLink="/mentions-legales">legal notice</a>.
+    </p>
+  </section>
+
+</article>
+
+} @else {
+
+<!-- ======================================================== -->
+<!-- VERSION FRANÇAISE (fait foi)                              -->
+<!-- ======================================================== -->
+
 <article class="legal-page" lang="fr">
 
   <header class="legal-header">
     <span class="eyebrow">Règles du service</span>
     <h1>Conditions d'utilisation</h1>
-    <p class="maj">Version {{ version }} — mise à jour le {{ dateMiseAJour }}</p>
+    <p class="maj">Version {{ version }} — mise à jour le {{ dateMiseAJour | dateL: 'd MMMM y' }}</p>
   </header>
-
-  @if (langue.langue() === 'en') {
-    <p class="langue-note" lang="en">
-      ℹ️ This page is only available in French, which is the legally binding version.
-      In short: the service is free, the information is for guidance only (always check official
-      websites), keep your password secret, and post respectful messages without sensitive data.
-    </p>
-  }
 
   <section>
     <h2>1. Objet</h2>
@@ -115,3 +234,5 @@
   </section>
 
 </article>
+
+}

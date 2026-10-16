@@ -1,14 +1,115 @@
+@if (langue.langue() === 'en') {
+
+<!-- ======================================================== -->
+<!-- ENGLISH VERSION (translation: the French version prevails) -->
+<!-- ======================================================== -->
+
+<article class="legal-page" lang="en">
+
+  <header class="legal-header">
+    <span class="eyebrow">Legal information</span>
+    <h1>Legal notice</h1>
+    <p class="maj">Updated on {{ dateMiseAJour | dateL: 'd MMMM y' }}</p>
+  </header>
+
+  <p class="langue-note">
+    ℹ️ This English translation is provided for convenience. In case of any discrepancy,
+    the French version prevails.
+    <button type="button" class="lien-langue" lang="fr" (click)="langue.changer('fr')">Lire en français</button>
+  </p>
+
+  <section>
+    <h2>Website publisher</h2>
+    <p>
+      The MyStudentGuide website is published by
+      <span [class.a-completer]="aCompleter(editeur.nom)">{{ editeur.nom }}</span>
+      (<span [class.a-completer]="aCompleter(editeur.statutEn)">{{ editeur.statutEn }}</span>).
+    </p>
+    <ul>
+      <li>Address: <span [class.a-completer]="aCompleter(editeur.adresse)">{{ editeur.adresse }}</span></li>
+      <li>Contact: <span [class.a-completer]="aCompleter(editeur.email)">{{ editeur.email }}</span></li>
+      <li>
+        Publication director:
+        <span [class.a-completer]="aCompleter(editeur.directeurPublication)">{{ editeur.directeurPublication }}</span>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Hosting</h2>
+    <ul>
+      @for (h of hebergeurs; track h.role) {
+        <li>
+          <strong>{{ h.roleEn }}</strong>:
+          <span [class.a-completer]="aCompleter(h.nom)">{{ h.nom }}</span> —
+          <span [class.a-completer]="aCompleter(h.adresseEn)">{{ h.adresseEn }}</span>
+          @if (h.site) {
+            (<a [href]="h.site" target="_blank" rel="noopener noreferrer">{{ h.site }}</a>)
+          }
+        </li>
+      }
+    </ul>
+  </section>
+
+  <section>
+    <h2>Source of the information</h2>
+    <p>
+      The procedure guides mainly come from
+      <a href="https://www.service-public.gouv.fr" target="_blank" rel="noopener noreferrer">Service-Public.gouv.fr</a>
+      (French Directorate of Legal and Administrative Information, DILA), reused under the
+      <a href="https://www.etalab.gouv.fr/licence-ouverte-open-licence/" target="_blank" rel="noopener noreferrer">Open Licence 2.0</a>.
+      The source and the date of the last update are shown on each guide concerned.
+      Prefecture contact details come from the French public administration directory (Service-Public.gouv.fr).
+    </p>
+    <p class="encadre">
+      MyStudentGuide is not an official service of the French administration.
+      The information is provided for guidance only: always check the official
+      websites before starting a procedure.
+    </p>
+  </section>
+
+  <section>
+    <h2>Intellectual property</h2>
+    <p>
+      The structure of the website, its own texts, its interface and its illustrations belong to the
+      publisher, unless otherwise stated. Content taken from Service-Public.gouv.fr remains subject to
+      the Open Licence. Any reproduction of the other elements without permission is prohibited.
+    </p>
+  </section>
+
+  <section>
+    <h2>Personal data</h2>
+    <p>
+      How your data is processed is described in the
+      <a routerLink="/confidentialite">privacy policy</a>.
+      Use of the website is governed by the
+      <a routerLink="/conditions-utilisation">terms of use</a>.
+    </p>
+  </section>
+
+  <section>
+    <h2>Report a problem</h2>
+    <p>
+      Does some information seem wrong? Use “Report an error” on the procedure page,
+      or write to the contact address above.
+    </p>
+  </section>
+
+</article>
+
+} @else {
+
+<!-- ======================================================== -->
+<!-- VERSION FRANÇAISE (fait foi)                              -->
+<!-- ======================================================== -->
+
 <article class="legal-page" lang="fr">
 
   <header class="legal-header">
     <span class="eyebrow">Informations légales</span>
     <h1>Mentions légales</h1>
-    <p class="maj">Mise à jour le {{ dateMiseAJour }}</p>
+    <p class="maj">Mise à jour le {{ dateMiseAJour | dateL: 'd MMMM y' }}</p>
   </header>
-
-  @if (langue.langue() === 'en') {
-    <p class="langue-note" lang="en">ℹ️ This page is only available in French, which is the legally binding version.</p>
-  }
 
   <section>
     <h2>Éditeur du site</h2>
@@ -88,3 +189,5 @@
   </section>
 
 </article>
+
+}
