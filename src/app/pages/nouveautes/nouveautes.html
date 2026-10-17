@@ -1,0 +1,47 @@
+<article class="nouveautes">
+
+  <header class="entete">
+    <span class="surtitre">{{ 'nouveautes.surtitre' | t }}</span>
+    <h1>{{ 'titre.nouveautes' | t }}</h1>
+    <p>{{ 'nouveautes.intro' | t }}</p>
+  </header>
+
+  <ol class="chronologie">
+    @for (groupe of groupes; track groupe.date) {
+      <li class="jour">
+        <h2>
+          <time [attr.datetime]="groupe.date">{{ groupe.date | dateL: 'd MMMM y' }}</time>
+        </h2>
+
+        <ul>
+          @for (nouveaute of groupe.nouveautes; track nouveaute.titre) {
+            <li class="carte" [class.recente]="estNouvelle(nouveaute)">
+              <div class="etiquettes">
+                <span class="type" [class.amelioration]="nouveaute.type === 'amelioration'">
+                  {{ (nouveaute.type === 'nouveau' ? 'nouveautes.type.nouveau' : 'nouveautes.type.amelioration') | t }}
+                </span>
+                @if (estNouvelle(nouveaute)) {
+                  <span class="depuis">{{ 'nouveautes.depuisVisite' | t }}</span>
+                }
+              </div>
+              <h3>{{ nouveaute | tc: 'titre' }}</h3>
+              <p>{{ nouveaute | tc: 'texte' }}</p>
+              @if (nouveaute.lien) {
+                <a class="lien" [routerLink]="nouveaute.lien">
+                  {{ 'nouveautes.decouvrir' | t }}<span class="sr-only"> : {{ nouveaute | tc: 'titre' }}</span> →
+                </a>
+              }
+            </li>
+          }
+        </ul>
+      </li>
+    }
+  </ol>
+
+  <p class="suggestion">
+    <app-icone nom="ampoule" />
+    {{ 'nouveautes.suggestion' | t }}
+    <a routerLink="/dashboard/aide">{{ 'nouveautes.ecrire' | t }}</a>
+  </p>
+
+</article>

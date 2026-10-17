@@ -238,6 +238,15 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./pages/legal/conditions-utilisation')
             .then(m => m.ConditionsUtilisation)
+      },
+
+      // Nouveautés du site (lien dans le pied de page et le menu de l'espace étudiant)
+      {
+        path: 'nouveautes',
+        title: 'titre.nouveautes',
+        loadComponent: () =>
+          import('./pages/nouveautes/nouveautes')
+            .then(m => m.Nouveautes)
       }
     ]
   },

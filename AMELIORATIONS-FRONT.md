@@ -543,3 +543,13 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
 - Au passage : l'empreinte du mot de passe n'apparaît plus dans la liste des utilisateurs renvoyée à l'admin
   (`@JsonIgnore`), et sur téléphone l'en-tête de l'espace admin est de nouveau au-dessus du contenu
   (il occupait une colonne vide à gauche sur toutes les pages admin).
+
+## 39. Page « Nouveautés »
+- Page publique `/nouveautes` (FR / EN) : chronologie des nouveautés visibles par les étudiants, regroupées
+  par date, avec l'étiquette « Nouveau » ou « Amélioration » et un lien « Découvrir » vers la page concernée.
+- Liens : pied de page (Navigation) et menu de l'espace étudiant (section Explorer), avec une pastille
+  « Nouveau » tant que la page n'a pas été ouverte depuis la dernière entrée (mémorisé dans le navigateur ;
+  sans visite enregistrée, seules les entrées de moins de 30 jours comptent). Les entrées publiées depuis
+  la dernière visite sont mises en valeur sur la page.
+- **Pour ajouter une nouveauté** : une entrée en haut de `src/app/pages/nouveautes/nouveautes.data.ts`
+  (date, type, titre/texte en français et en anglais, lien facultatif). Aucune base de données ni API.

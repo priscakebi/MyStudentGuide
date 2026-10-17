@@ -20,5 +20,6 @@ export const TITRES = {
   'titre.aide': { fr: "Besoin d'aide ?", en: 'Need help?' },
   'titre.mentionsLegales': { fr: 'Mentions légales', en: 'Legal notice' },
   'titre.confidentialite': { fr: 'Politique de confidentialité', en: 'Privacy policy' },
-  'titre.conditions': { fr: "Conditions d'utilisation", en: 'Terms of use' }
+  'titre.conditions': { fr: "Conditions d'utilisation", en: 'Terms of use' },
+  'titre.nouveautes': { fr: 'Nouveautés', en: "What's new" }
 } satisfies Traductions;

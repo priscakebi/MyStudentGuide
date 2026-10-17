@@ -192,6 +192,19 @@
         <span class="menu-label">{{ 'espace.menu.documents' | t }}</span>
       </a>
 
+      <a routerLink="/nouveautes" class="menu-item">
+        <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M11 4l1.8 5.2L18 11l-5.2 1.8L11 18l-1.8-5.2L4 11l5.2-1.8Z" />
+          <path d="M18 3v4M16 5h4" />
+        </svg>
+        <span class="menu-label">{{ 'titre.nouveautes' | t }}</span>
+        @if (nouveautes.nonVues() > 0) {
+          <span class="nouveau-badge" [attr.aria-label]="'nouveautes.badgeAria' | t: { n: nouveautes.nonVues() }">
+            {{ 'nouveautes.badge' | t }}
+          </span>
+        }
+      </a>
+
       <p class="menu-section">{{ 'espace.section.compte' | t }}</p>
 
       <a

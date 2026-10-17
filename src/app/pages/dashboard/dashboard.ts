@@ -37,6 +37,7 @@ import { Icone } from '../../components/icone/icone';
 import { BandeauVerificationEmail } from '../../components/bandeau-verification-email/bandeau-verification-email';
 import { ParcoursAccueil } from '../../components/parcours-accueil/parcours-accueil';
 import { EtatCompteService } from '../../services/etat-compte.service';
+import { NouveautesService } from '../../services/nouveautes.service';
 
 
 /** Notification de suggestion de démarche (envoyée par un administrateur). */
@@ -103,6 +104,7 @@ export class Dashboard implements OnInit, OnDestroy {
   protected readonly allerAuContenu = allerAuContenu;
 
   protected readonly etatCompte = inject(EtatCompteService);
+  protected readonly nouveautes = inject(NouveautesService);
 
   // ==========================================================
   // PROGRESSION DES DÉMARCHES (page « Mon espace »)
