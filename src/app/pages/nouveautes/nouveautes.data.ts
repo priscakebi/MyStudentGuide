@@ -26,6 +26,48 @@ export const NOUVEAUTES: Nouveaute[] = [
   {
     date: '2026-10-17',
     type: 'nouveau',
+    titre: 'Conseils pratiques et astuce du jour',
+    titreEn: 'Practical tips and tip of the day',
+    texte: 'Des astuces de terrain sur la fiche des démarches, et chaque jour sur Mon espace une astuce '
+      + 'tirée des démarches que vous suivez.',
+    texteEn: 'Hands-on tips on procedure pages, and every day in My space a tip '
+      + 'from the procedures you follow.',
+    lien: '/dashboard'
+  },
+  {
+    date: '2026-10-17',
+    type: 'nouveau',
+    titre: 'Imprimer une démarche ou l\'enregistrer en PDF',
+    titreEn: 'Print a procedure or save it as a PDF',
+    texte: 'Le bouton « Imprimer / PDF » de chaque fiche donne une page claire avec les étapes, '
+      + 'votre checklist de documents et les liens officiels, à emporter en préfecture.',
+    texteEn: 'The “Print / PDF” button on each procedure gives a clean page with the steps, '
+      + 'your document checklist and the official links, to take to the prefecture.',
+    lien: '/demarches'
+  },
+  {
+    date: '2026-10-17',
+    type: 'amelioration',
+    titre: 'Tout marquer comme lu',
+    titreEn: 'Mark all as read',
+    texte: 'Un seul clic suffit pour marquer toutes vos notifications comme lues.',
+    texteEn: 'One click is enough to mark all your notifications as read.',
+    lien: '/dashboard/notifications'
+  },
+  {
+    date: '2026-10-17',
+    type: 'nouveau',
+    titre: 'Rappels avant la fin de votre titre de séjour',
+    titreEn: 'Reminders before your residence permit expires',
+    texte: 'Avec la date de fin de votre titre de séjour dans votre profil, vous êtes prévenu 4 mois, 2 mois, '
+      + '1 mois et 1 semaine avant, pour demander le renouvellement à temps.',
+    texteEn: 'With your residence permit end date in your profile, you are notified 4 months, 2 months, '
+      + '1 month and 1 week before, so you can request the renewal in time.',
+    lien: '/dashboard/profile'
+  },
+  {
+    date: '2026-10-17',
+    type: 'nouveau',
     titre: '« Bien démarrer » sur Mon espace',
     titreEn: '“Getting started” in My space',
     texte: 'Quatre étapes pour que le site vous guide vraiment : confirmer votre e-mail, compléter votre profil, '
