@@ -35,6 +35,7 @@ import { DateLPipe, TPipe, TcPipe } from '../../i18n/t.pipe';
 import { LangueSwitch } from '../../components/langue-switch/langue-switch';
 import { Icone } from '../../components/icone/icone';
 import { BandeauVerificationEmail } from '../../components/bandeau-verification-email/bandeau-verification-email';
+import { ParcoursAccueil } from '../../components/parcours-accueil/parcours-accueil';
 import { EtatCompteService } from '../../services/etat-compte.service';
 
 
@@ -79,6 +80,7 @@ interface SuggestionNotification {
   imports: [
     Icone,
     BandeauVerificationEmail,
+    ParcoursAccueil,
     CommonModule,
     RouterLink,
     RouterLinkActive,
@@ -100,7 +102,7 @@ export class Dashboard implements OnInit, OnDestroy {
 
   protected readonly allerAuContenu = allerAuContenu;
 
-  private readonly etatCompte = inject(EtatCompteService);
+  protected readonly etatCompte = inject(EtatCompteService);
 
   // ==========================================================
   // PROGRESSION DES DÉMARCHES (page « Mon espace »)
@@ -168,6 +170,9 @@ export class Dashboard implements OnInit, OnDestroy {
 
   /** null tant que le profil n'est pas chargé. */
   profilComplet: boolean | null = null;
+
+  /** Date d'arrivée ou de fin de titre de séjour renseignée (dates limites personnalisées). */
+  datesRenseignees: boolean | null = null;
 
   /** Démarches en cours, les plus avancées en premier (3 max). */
   get demarchesActives(): StudentDemarche[] {
@@ -261,16 +266,18 @@ export class Dashboard implements OnInit, OnDestroy {
       return;
     }
 
-    this.http.get<{ profileCompleted?: boolean }>(
+    this.http.get<{ profileCompleted?: boolean; dateArrivee?: string | null; dateFinTitreSejour?: string | null }>(
       `${this.apiUrl}/student-profiles/me`,
       { headers }
     ).subscribe({
       next: (profil) => {
         this.profilComplet = !!profil?.profileCompleted;
+        this.datesRenseignees = !!(profil?.dateArrivee || profil?.dateFinTitreSejour);
       },
       // 404 : aucun profil créé.
       error: () => {
         this.profilComplet = false;
+        this.datesRenseignees = false;
       }
     });
   }

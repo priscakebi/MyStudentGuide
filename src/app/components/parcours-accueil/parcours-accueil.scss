@@ -1,0 +1,174 @@
+// Carte « Bien démarrer » (Mon espace).
+
+.parcours {
+  margin: 0 0 22px;
+  padding: 20px 22px;
+
+  border: 1px solid #dbe5f8;
+  border-radius: 18px;
+
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(16, 24, 40, 0.05);
+}
+
+.entete {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+
+  h2 {
+    margin: 0 0 4px;
+    color: #172033;
+    font-size: 18px;
+  }
+
+  p {
+    margin: 0;
+    color: #5b6474;
+    font-size: 13.5px;
+  }
+}
+
+.masquer {
+  flex-shrink: 0;
+  padding: 6px 10px;
+
+  border: 1px solid #e4e7ec;
+  border-radius: 8px;
+
+  background: #ffffff;
+  color: #5b6474;
+
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  &:hover {
+    color: #172033;
+  }
+}
+
+.progression {
+  height: 8px;
+  margin: 16px 0 6px;
+  overflow: hidden;
+
+  border-radius: 99px;
+  background: #eaf1ff;
+
+  span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: #1646a0;
+    transition: width 0.3s ease;
+  }
+}
+
+.compteur {
+  margin: 0 0 12px;
+  color: #5b6474;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.etapes {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 14px;
+
+    padding: 12px 14px;
+
+    border: 1px solid #eef1f6;
+    border-radius: 12px;
+
+    background: #fbfcfe;
+
+    &.fait {
+      background: #f3fbf7;
+
+      strong {
+        color: #11704d;
+      }
+    }
+  }
+}
+
+.puce {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+
+  width: 30px;
+  height: 30px;
+
+  border-radius: 50%;
+
+  background: #eaf1ff;
+  color: #1646a0;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  .fait & {
+    background: #e2f5eb;
+    color: #11704d;
+    font-size: 17px;
+  }
+}
+
+.contenu {
+  flex: 1 1 260px;
+  min-width: 0;
+
+  strong {
+    display: block;
+    color: #172033;
+    font-size: 14px;
+  }
+
+  p {
+    margin: 2px 0 0;
+    color: #5b6474;
+    font-size: 13px;
+    line-height: 1.45;
+  }
+}
+
+.action {
+  flex-shrink: 0;
+  padding: 7px 12px;
+
+  border-radius: 9px;
+
+  background: #1646a0;
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+
+  &:hover {
+    background: #0d2f70;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

@@ -514,3 +514,11 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
   séjour ; à défaut d'adresse, celle de la ville d'études. La carte indique laquelle a servi.
 - API : `POST /api/auth/verify-email`, `POST /api/account/verification-email`, `EmailVerificationService`,
   `LieuPrefecture`.
+
+## 37. « Bien démarrer » : parcours d'accueil sur Mon espace
+- Carte `app-parcours-accueil` sous l'en-tête de « Mon espace » : quatre étapes cochées d'après les vraies
+  données (e-mail confirmé, profil complet, dates de séjour renseignées, au moins une démarche suivie),
+  barre de progression (`role="progressbar"`) et lien d'action vers l'étape suivante.
+- La carte attend que toutes les données soient chargées (pas de clignotement), disparaît quand tout est fait,
+  et peut être masquée (choix mémorisé par compte dans ce navigateur).
+- Textes FR / EN (`parcours.*` dans `textes/espace.ts`).

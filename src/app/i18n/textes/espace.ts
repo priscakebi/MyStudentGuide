@@ -71,5 +71,23 @@ export const ESPACE = {
   'espace.raccourcis': { fr: 'Raccourcis', en: 'Shortcuts' },
   'espace.raccourci.demarches.texte': { fr: 'Séjour, santé, logement, banque…', en: 'Residence, health, housing, banking…' },
   'espace.raccourci.documents.texte': { fr: "Préparez vos pièces à l'avance", en: 'Prepare your documents in advance' },
-  'espace.raccourci.compte.texte': { fr: 'Mot de passe et sécurité', en: 'Password and security' }
+  'espace.raccourci.compte.texte': { fr: 'Mot de passe et sécurité', en: 'Password and security' },
+
+  // « Bien démarrer » : parcours d'accueil des nouveaux étudiants (Mon espace)
+  'parcours.titre': { fr: 'Bien démarrer sur MyStudentGuide', en: 'Getting started with MyStudentGuide' },
+  'parcours.intro': { fr: 'Quatre étapes pour que le site vous guide vraiment.', en: 'Four steps so the site can really guide you.' },
+  'parcours.masquer': { fr: 'Masquer', en: 'Hide' },
+  'parcours.progression': { fr: '{n} étape(s) sur {total} faite(s)', en: '{n} of {total} steps done' },
+  'parcours.fait': { fr: '(fait)', en: '(done)' },
+  'parcours.email.titre': { fr: 'Confirmer mon adresse e-mail', en: 'Confirm my email address' },
+  'parcours.email.texte': { fr: 'Ouvrez le lien reçu par e-mail pour recevoir vos rappels de dates limites.', en: 'Open the link we emailed you to receive your deadline reminders.' },
+  'parcours.profil.titre': { fr: 'Compléter mon profil', en: 'Complete my profile' },
+  'parcours.profil.texte': { fr: 'Nationalité, visa, logement, adresse : pour des démarches adaptées et la bonne préfecture.', en: 'Nationality, visa, housing, address: for tailored procedures and the right prefecture.' },
+  'parcours.profil.action': { fr: 'Mon profil', en: 'My profile' },
+  'parcours.dates.titre': { fr: 'Ajouter mes dates de séjour', en: 'Add my stay dates' },
+  'parcours.dates.texte': { fr: "Date d'arrivée en France ou fin de votre titre de séjour : pour calculer vos propres dates limites.", en: 'Date of arrival in France or residence permit expiry: to work out your own deadlines.' },
+  'parcours.dates.action': { fr: 'Ajouter mes dates', en: 'Add my dates' },
+  'parcours.demarche.titre': { fr: 'Commencer ma première démarche', en: 'Start my first procedure' },
+  'parcours.demarche.texte': { fr: 'Suivez-la étape par étape, avec les documents à préparer et des rappels.', en: 'Follow it step by step, with the documents to prepare and reminders.' },
+  'parcours.demarche.action': { fr: 'Voir les démarches', en: 'See procedures' }
 } satisfies Traductions;

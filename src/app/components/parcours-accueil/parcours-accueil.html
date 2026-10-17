@@ -1,0 +1,51 @@
+@if (visible()) {
+  <section class="parcours" aria-labelledby="parcours-titre">
+
+    <header class="entete">
+      <div>
+        <h2 id="parcours-titre">{{ 'parcours.titre' | t }}</h2>
+        <p>{{ 'parcours.intro' | t }}</p>
+      </div>
+      <button type="button" class="masquer" (click)="masquer()">{{ 'parcours.masquer' | t }}</button>
+    </header>
+
+    <div
+      class="progression"
+      role="progressbar"
+      aria-valuemin="0"
+      [attr.aria-valuemax]="etapes().length"
+      [attr.aria-valuenow]="faites()"
+      [attr.aria-label]="'parcours.progression' | t: { n: faites(), total: etapes().length }"
+    >
+      <span [style.width.%]="(faites() / etapes().length) * 100"></span>
+    </div>
+    <p class="compteur">{{ 'parcours.progression' | t: { n: faites(), total: etapes().length } }}</p>
+
+    <ol class="etapes">
+      @for (etape of etapes(); track etape.titre; let i = $index) {
+        <li [class.fait]="etape.fait">
+          <span class="puce" aria-hidden="true">
+            @if (etape.fait) {
+              <app-icone nom="valide" />
+            } @else {
+              {{ i + 1 }}
+            }
+          </span>
+          <div class="contenu">
+            <strong>
+              {{ etape.titre | t }}
+              @if (etape.fait) {
+                <span class="sr-only">{{ 'parcours.fait' | t }}</span>
+              }
+            </strong>
+            <p>{{ etape.texte | t }}</p>
+          </div>
+          @if (!etape.fait && etape.lien && etape.action) {
+            <a class="action" [routerLink]="etape.lien">{{ etape.action | t }} →</a>
+          }
+        </li>
+      }
+    </ol>
+
+  </section>
+}

@@ -326,6 +326,16 @@
         </section>
 
 
+        <!-- « Bien démarrer » : premières étapes des nouveaux étudiants. -->
+        <app-parcours-accueil
+          [emailVerifie]="etatCompte.emailVerifie()"
+          [profilComplet]="profilComplet"
+          [datesRenseignees]="datesRenseignees"
+          [aCommence]="progressionChargee ? mesDemarches.length > 0 : null"
+          [email]="userEmail"
+        />
+
+
         <!-- ==================================================
              CHIFFRES CLÉS
              ================================================== -->
