@@ -57,6 +57,22 @@ describe('AuthService', () => {
     expect(service.isLoggedIn()).toBe(false);
   });
 
+  it('double authentification : rien n’est enregistré avant le code, puis la session l’est', () => {
+    service.login({ email: 'admin@email.com', password: 'x' }).subscribe();
+    http.expectOne(`${environment.apiUrl}/auth/login`)
+      .flush({ token: null, userId: null, email: 'admin@email.com', role: null, deuxFacteurs: true, defi: 'defi' });
+
+    expect(service.getToken()).toBeNull();
+
+    const token = fakeJwt(3600);
+    service.loginDeuxFacteurs('defi', '123456').subscribe();
+    const req = http.expectOne(`${environment.apiUrl}/auth/login/2fa`);
+    expect(req.request.body).toEqual({ defi: 'defi', code: '123456' });
+    req.flush({ token, userId: 1, email: 'admin@email.com', role: 'ADMIN' });
+
+    expect(service.isAdmin()).toBe(true);
+  });
+
   it('un token expiré n’est pas une session valide et est nettoyé', () => {
     service.saveSession({ token: fakeJwt(-60), userId: 1, email: 'a@b.com', role: 'ETUDIANT' } as any);
 

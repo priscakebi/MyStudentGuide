@@ -48,6 +48,7 @@
 
       <span class="auth-eyebrow">Espace administrateur</span>
       <h1 class="auth-title">Connexion</h1>
+      @if (!defi) {
       <p class="auth-subtitle">Connexion réservée à l'équipe de gestion de la plateforme.</p>
 
       <form (ngSubmit)="onLogin()" novalidate>
@@ -144,6 +145,61 @@
         </p>
 
       </form>
+      } @else {
+
+      <!-- Seconde étape : double authentification -->
+      <p class="auth-subtitle">
+        Ouvrez votre application d'authentification et saisissez le code affiché pour MyStudentGuide.
+      </p>
+
+      <form (ngSubmit)="onCode()" novalidate>
+
+        <div class="form-group">
+
+          <label for="admin-code">Code de vérification</label>
+
+          <div class="field">
+            <svg class="field-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3l8 3v6c0 4.5-3.2 8.3-8 9-4.8-.7-8-4.5-8-9V6l8-3Z" />
+              <path d="M9 12l2 2 4-4" />
+            </svg>
+            <input
+              #champCode
+              id="admin-code"
+              type="text"
+              name="code"
+              inputmode="numeric"
+              autocomplete="one-time-code"
+              maxlength="20"
+              spellcheck="false"
+              [(ngModel)]="code"
+              placeholder="123456"
+              aria-describedby="admin-code-aide"
+              required
+            >
+          </div>
+
+          <p id="admin-code-aide" class="code-aide">
+            Code à 6 chiffres, renouvelé toutes les 30 secondes.
+            Sans votre téléphone, saisissez l'un de vos codes de secours (ex. ABCD-EFGH).
+          </p>
+
+        </div>
+
+        @if (errorMessage) {
+          <p class="error" role="alert">{{ errorMessage }}</p>
+        }
+
+        <button type="submit" class="login-button" [disabled]="loading">
+          {{ loading ? 'Vérification...' : 'Vérifier et se connecter' }}
+        </button>
+
+        <p class="auth-switch">
+          <button type="button" class="lien-retour" (click)="recommencer()">← Changer de compte</button>
+        </p>
+
+      </form>
+      }
 
     </div>
 

@@ -1,0 +1,174 @@
+@if (etat(); as etat) {
+
+  <!-- État -->
+  <div class="statut" [class.active]="etat.active">
+    <span class="pastille" aria-hidden="true"><app-icone [nom]="etat.active ? 'valide' : 'alerte'" /></span>
+    <div>
+      <strong>{{ etat.active ? 'Activée' : 'Désactivée' }}</strong>
+      <p>
+        @if (etat.active) {
+          Un code de votre application d'authentification est demandé à chaque connexion.
+          @if (!codesSecours()) {
+            Codes de secours restants : <b>{{ etat.codesSecoursRestants }}</b>.
+          }
+        } @else {
+          Seul votre mot de passe protège ce compte. Ajoutez un code à 6 chiffres, généré par
+          votre téléphone, pour qu'un mot de passe volé ne suffise pas.
+        }
+      </p>
+    </div>
+  </div>
+
+  @if (etat.active && !codesSecours() && etat.codesSecoursRestants <= 3) {
+    <p class="avertissement" role="note">
+      Il vous reste peu de codes de secours : créez-en de nouveaux.
+    </p>
+  }
+
+  <!-- Messages -->
+  @if (succes()) {
+    <p class="message succes" role="status">{{ succes() }}</p>
+  }
+  @if (erreur()) {
+    <p class="message erreur" role="alert">{{ erreur() }}</p>
+  }
+
+  <!-- Codes de secours (affichés une seule fois) -->
+  @if (codesSecours(); as codes) {
+    <section class="codes" aria-labelledby="codes-titre">
+      <h3 id="codes-titre">Vos codes de secours</h3>
+      <p>
+        Sans votre téléphone, chacun de ces codes permet <b>une</b> connexion.
+        Enregistrez-les maintenant (gestionnaire de mots de passe, fichier en lieu sûr) :
+        ils ne seront plus affichés.
+      </p>
+      <ul>
+        @for (code of codes; track code) {
+          <li><code>{{ code }}</code></li>
+        }
+      </ul>
+      <div class="actions">
+        <button type="button" class="secondaire" (click)="copierCodes()">Copier</button>
+        <button type="button" class="secondaire" (click)="telechargerCodes()">Télécharger (.txt)</button>
+        <button type="button" class="principal" (click)="fermerCodes()">J'ai enregistré mes codes</button>
+      </div>
+    </section>
+  }
+
+  <!-- Activation -->
+  @if (!etat.active) {
+    @if (preparation(); as preparation) {
+      <ol class="etapes">
+        <li>
+          <strong>Installez une application d'authentification</strong>
+          <p>Google Authenticator, Microsoft Authenticator, 1Password, Bitwarden…</p>
+        </li>
+        <li>
+          <strong>Scannez ce QR code avec l'application</strong>
+          @if (qr(); as qr) {
+            <svg
+              class="qr"
+              role="img"
+              aria-label="QR code à scanner avec votre application d'authentification"
+              [attr.viewBox]="'-4 -4 ' + (qr.taille + 8) + ' ' + (qr.taille + 8)"
+              shape-rendering="crispEdges"
+            >
+              <rect x="-4" y="-4" [attr.width]="qr.taille + 8" [attr.height]="qr.taille + 8" fill="#ffffff" />
+              <path [attr.d]="qr.chemin" fill="#111827" />
+            </svg>
+          }
+          <p>
+            Impossible de scanner ? Saisissez cette clé dans l'application :
+            <code class="cle">{{ cleLisible() }}</code>
+          </p>
+        </li>
+        <li>
+          <strong>Saisissez le code affiché pour confirmer</strong>
+          <form class="ligne" (ngSubmit)="confirmerActivation()" novalidate>
+            <label class="sr-only" for="code-activation">Code à 6 chiffres</label>
+            <input
+              id="code-activation"
+              name="code"
+              inputmode="numeric"
+              autocomplete="one-time-code"
+              maxlength="20"
+              placeholder="123456"
+              [(ngModel)]="code"
+            >
+            <button type="submit" class="principal" [disabled]="chargement()">
+              {{ chargement() ? 'Vérification...' : 'Activer' }}
+            </button>
+            <button type="button" class="secondaire" (click)="annulerPreparation()">Annuler</button>
+          </form>
+        </li>
+      </ol>
+    } @else {
+      <div class="actions">
+        <button type="button" class="principal" [disabled]="chargement()" (click)="commencer()">
+          Activer la double authentification
+        </button>
+      </div>
+    }
+  }
+
+  <!-- Gestion une fois activée -->
+  @if (etat.active && !codesSecours()) {
+    @switch (formulaire()) {
+      @case ('codes') {
+        <form class="formulaire" (ngSubmit)="regenererCodes()" novalidate>
+          <p>Les codes de secours actuels ne fonctionneront plus.</p>
+          <label for="code-regeneration">Code de l'application (ou code de secours)</label>
+          <input
+            id="code-regeneration"
+            name="code"
+            autocomplete="one-time-code"
+            maxlength="20"
+            [(ngModel)]="code"
+          >
+          <div class="actions">
+            <button type="button" class="secondaire" (click)="ouvrir(null)">Annuler</button>
+            <button type="submit" class="principal" [disabled]="chargement()">Créer de nouveaux codes</button>
+          </div>
+        </form>
+      }
+      @case ('desactiver') {
+        <form class="formulaire" (ngSubmit)="desactiver()" novalidate>
+          <p>Votre compte ne sera plus protégé que par son mot de passe.</p>
+          <label for="mdp-desactivation">Mot de passe</label>
+          <input
+            id="mdp-desactivation"
+            type="password"
+            name="motDePasse"
+            autocomplete="current-password"
+            [(ngModel)]="motDePasse"
+          >
+          <label for="code-desactivation">Code de l'application (ou code de secours)</label>
+          <input
+            id="code-desactivation"
+            name="code"
+            autocomplete="one-time-code"
+            maxlength="20"
+            [(ngModel)]="code"
+          >
+          <div class="actions">
+            <button type="button" class="secondaire" (click)="ouvrir(null)">Annuler</button>
+            <button type="submit" class="danger" [disabled]="chargement()">Désactiver</button>
+          </div>
+        </form>
+      }
+      @default {
+        <div class="actions">
+          <button type="button" class="secondaire" (click)="ouvrir('codes')">Nouveaux codes de secours</button>
+          <button type="button" class="secondaire danger-texte" (click)="ouvrir('desactiver')">Désactiver</button>
+        </div>
+      }
+    }
+  }
+
+} @else {
+  @if (erreur()) {
+    <p class="message erreur" role="alert">{{ erreur() }}</p>
+  } @else {
+    <p class="chargement">Chargement…</p>
+  }
+}

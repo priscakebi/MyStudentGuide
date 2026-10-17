@@ -27,6 +27,7 @@ import {
   passwordChecks
 } from '../../../utils/form-rules';
 import { Icone } from '../../../components/icone/icone';
+import { DoubleAuthentification } from '../../../components/double-authentification/double-authentification';
 
 
 // ============================================================
@@ -73,6 +74,7 @@ interface UserAccount {
    */
   imports: [
     Icone,
+    DoubleAuthentification,
     CommonModule,
     ReactiveFormsModule
   ],

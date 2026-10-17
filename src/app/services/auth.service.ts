@@ -26,6 +26,12 @@ export interface LoginResponse {
   userId: number;
   email: string;
   role: string;
+  /**
+   * Double authentification activée (administrateurs) : le mot de passe est bon
+   * mais aucun JWT n'est encore remis ; le code est à envoyer avec `defi`.
+   */
+  deuxFacteurs?: boolean;
+  defi?: string;
 }
 
 /**
@@ -43,10 +49,25 @@ export class AuthService {
 
   private apiUrl = `${environment.apiUrl}/auth`;
 
-  /** Connexion : enregistre la session si l'API répond OK. */
+  /**
+   * Connexion : enregistre la session si l'API répond OK.
+   * Si un code de double authentification est demandé, rien n'est encore
+   * enregistré (voir loginDeuxFacteurs).
+   */
   login(credentials: LoginRequest): Observable<LoginResponse> {
     return this.http
       .post<LoginResponse>(`${this.apiUrl}/login`, credentials)
+      .pipe(tap((response) => {
+        if (!response.deuxFacteurs) {
+          this.saveSession(response);
+        }
+      }));
+  }
+
+  /** Seconde étape : code de l'application d'authentification (ou code de secours). */
+  loginDeuxFacteurs(defi: string, code: string): Observable<LoginResponse> {
+    return this.http
+      .post<LoginResponse>(`${this.apiUrl}/login/2fa`, { defi, code })
       .pipe(tap((response) => this.saveSession(response)));
   }
 

@@ -522,3 +522,24 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
 - La carte attend que toutes les données soient chargées (pas de clignotement), disparaît quand tout est fait,
   et peut être masquée (choix mémorisé par compte dans ce navigateur).
 - Textes FR / EN (`parcours.*` dans `textes/espace.ts`).
+
+## 38. Double authentification du compte administrateur
+- **Activation** (« Mon compte » admin, section « Double authentification ») en deux temps : QR code à scanner
+  avec une application d'authentification (Google/Microsoft Authenticator, 1Password, Bitwarden…) ou clé à
+  saisir, puis premier code à 6 chiffres pour confirmer. Le compte n'est donc jamais bloqué par une
+  configuration ratée. Le QR code est dessiné dans le navigateur (`qrcode-generator`, sans dépendance) :
+  le secret ne passe par aucun service tiers.
+- **Dix codes de secours** affichés une seule fois (copier / télécharger en .txt), chacun valable pour une
+  connexion ; seule leur empreinte SHA-256 est stockée. Avertissement quand il en reste 3 ou moins,
+  nouveaux codes possibles. Désactivation : mot de passe **et** code exigés.
+- **Connexion** (`/admin-login`) : après le mot de passe, l'API ne renvoie pas de session mais un « défi »
+  (JWT de 5 minutes refusé par le filtre d'authentification) ; la page demande le code. Les codes faux
+  comptent comme des échecs de connexion (blocage après 5) et le mot de passe seul ne remet plus le
+  compteur à zéro. Un même code ne sert qu'une fois.
+- **Secours** si le téléphone et les codes sont perdus : `ADMIN_2FA_RESET=true` sur Render désactive la
+  double authentification de `ADMIN_EMAIL` au redémarrage (à remettre à `false` ensuite).
+- API : `TotpService` (RFC 6238, testé avec les vecteurs officiels), `DeuxFacteursService`,
+  `POST /api/auth/login/2fa`, `/api/account/2fa` (`preparer`, `activer`, `codes-secours`, `desactiver`).
+- Au passage : l'empreinte du mot de passe n'apparaît plus dans la liste des utilisateurs renvoyée à l'admin
+  (`@JsonIgnore`), et sur téléphone l'en-tête de l'espace admin est de nouveau au-dessus du contenu
+  (il occupait une colonne vide à gauche sur toutes les pages admin).

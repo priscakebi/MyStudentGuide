@@ -6,3 +6,25 @@
 // avec la variante .admin : panneau de marque bleu nuit.
 
 @use '../auth-layout';
+
+// Double authentification : aide sous le champ du code, retour à la première étape.
+.code-aide {
+  margin: 7px 0 0;
+  color: #5b6474;
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.lien-retour {
+  padding: 0;
+  border: none;
+  background: none;
+  color: #1646a0;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, inject, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -16,6 +16,10 @@ import { AuthService } from '../../services/auth.service';
  * 3. si le compte n'a PAS le rôle ADMIN, la session est immédiatement supprimée
  *    et un message explicite est affiché : un étudiant ne reste jamais connecté ici ;
  * 4. si le compte est ADMIN, redirection vers la page demandée (returnUrl) ou /admin.
+ *
+ * Double authentification : si elle est activée, l'API ne renvoie pas encore
+ * de session mais un « défi » ; la page demande alors le code à 6 chiffres
+ * de l'application d'authentification (ou un code de secours).
  *
  * Cette vérification du rôle améliore l'expérience, mais la vraie sécurité
  * reste côté backend : toutes les routes /api/admin... sont protégées par
@@ -42,6 +46,11 @@ export class AdminLogin {
 
   passwordVisible = false;
   loading = false;
+
+  /** Double authentification : défi reçu après le mot de passe (null = première étape). */
+  defi: string | null = null;
+  code = '';
+  private readonly champCode = viewChild<ElementRef<HTMLInputElement>>('champCode');
 
   constructor() {
     // Message affiché quand l'interceptor a déconnecté l'admin (token expiré).
@@ -77,20 +86,18 @@ export class AdminLogin {
 
     this.authService.login({ email, password: this.password }).subscribe({
 
-      next: () => {
+      next: (response) => {
         this.loading = false;
+        this.password = '';
 
-        // Compte valide mais pas administrateur : on supprime la session.
-        if (!this.authService.isAdmin()) {
-          this.authService.logout();
-          this.password = '';
-          this.errorMessage =
-            "Ce compte n'a pas les droits administrateur. " +
-            "Utilisez la connexion étudiant.";
+        // Double authentification : le code de l'application est demandé.
+        if (response.deuxFacteurs && response.defi) {
+          this.defi = response.defi;
+          setTimeout(() => this.champCode()?.nativeElement.focus());
           return;
         }
 
-        this.router.navigateByUrl(this.getSafeReturnUrl());
+        this.terminerConnexion();
       },
 
       error: (error: HttpErrorResponse) => {
@@ -111,6 +118,74 @@ export class AdminLogin {
         }
       }
     });
+  }
+
+  /** Seconde étape : code de l'application d'authentification ou code de secours. */
+  onCode(): void {
+
+    this.errorMessage = '';
+    const code = this.code.trim();
+
+    if (!this.defi) {
+      return;
+    }
+    if (!code) {
+      this.errorMessage = 'Saisissez le code affiché par votre application.';
+      return;
+    }
+
+    this.loading = true;
+
+    this.authService.loginDeuxFacteurs(this.defi, code).subscribe({
+
+      next: () => {
+        this.loading = false;
+        this.terminerConnexion();
+      },
+
+      error: (error: HttpErrorResponse) => {
+        this.loading = false;
+        this.code = '';
+        const message: string | undefined = error.error?.message;
+
+        if (error.status === 0) {
+          this.errorMessage = 'Impossible de joindre le serveur. Réessayez plus tard.';
+        } else if (error.status === 429) {
+          // Trop de codes faux : retour à la première étape.
+          this.recommencer();
+          this.errorMessage = message
+            || 'Trop de tentatives de connexion. Réessayez dans quelques minutes.';
+        } else if (message?.includes('expiré')) {
+          this.recommencer();
+          this.errorMessage = message;
+        } else {
+          this.errorMessage = 'Code incorrect. Saisissez le code actuellement affiché par votre application.';
+          setTimeout(() => this.champCode()?.nativeElement.focus());
+        }
+      }
+    });
+  }
+
+  /** Retour à la saisie de l'e-mail et du mot de passe. */
+  recommencer(): void {
+    this.defi = null;
+    this.code = '';
+    this.errorMessage = '';
+  }
+
+  /** Session ouverte : vérifie le rôle puis redirige. */
+  private terminerConnexion(): void {
+    // Compte valide mais pas administrateur : on supprime la session.
+    if (!this.authService.isAdmin()) {
+      this.authService.logout();
+      this.recommencer();
+      this.errorMessage =
+        "Ce compte n'a pas les droits administrateur. " +
+        "Utilisez la connexion étudiant.";
+      return;
+    }
+
+    this.router.navigateByUrl(this.getSafeReturnUrl());
   }
 
   /**
