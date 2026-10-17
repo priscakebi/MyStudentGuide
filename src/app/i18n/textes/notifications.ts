@@ -29,6 +29,8 @@ export const NOTIFICATIONS = {
   'notif.nonLues.1': { fr: 'non lue', en: 'unread' },
   'notif.nonLues.n': { fr: 'non lues', en: 'unread' },
   'notif.actualiser': { fr: '↻ Actualiser', en: '↻ Refresh' },
+  'notif.toutLire': { fr: 'Tout marquer comme lu', en: 'Mark all as read' },
+  'notif.toutLu': { fr: 'Toutes vos notifications sont marquées comme lues.', en: 'All your notifications are marked as read.' },
   'notif.chargement': { fr: 'Chargement des notifications...', en: 'Loading notifications...' },
   'notif.vide.titre': { fr: 'Aucune notification', en: 'No notifications' },
   'notif.vide.texte': { fr: "Vous n'avez actuellement aucune notification.", en: 'You have no notifications at the moment.' },

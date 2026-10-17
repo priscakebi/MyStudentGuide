@@ -121,6 +121,11 @@ export class NotificationService {
    * @param id identifiant de la notification.
    * @returns Observable contenant la notification modifiée.
    */
+  /** « Tout marquer comme lu » : toutes les notifications de l'utilisateur connecté. */
+  markAllAsRead(): Observable<{ marquees: number }> {
+    return this.http.patch<{ marquees: number }>(`${this.apiUrl}/read-all`, {});
+  }
+
   markAsRead(
     id: number
   ): Observable<Notification> {

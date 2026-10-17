@@ -7,7 +7,7 @@
 
 <button
 type="button"
-class="back-button"
+class="back-button no-print"
 [attr.aria-label]="'detail.retour' | t"
 (click)="retourAuxDemarches()">
 
@@ -152,7 +152,7 @@ class="back-button"
       }
 
       @if (dateACompleter) {
-        <a class="deadline-hint" routerLink="/dashboard/profile">
+        <a class="deadline-hint no-print" routerLink="/dashboard/profile">
           {{ (suivi ? 'detail.dateLimite.completerProfil' : 'detail.dateLimite.commencer') | t }}
         </a>
       }
@@ -160,7 +160,7 @@ class="back-button"
       @if (dateLimiteAVenir) {
         <button
           type="button"
-          class="agenda-button"
+          class="agenda-button no-print"
           (click)="ajouterAgenda()"
           [title]="'detail.agenda.aide' | t"
         >
@@ -199,7 +199,13 @@ class="back-button"
        Réservé aux étudiants connectés ; un visiteur est
        invité à se connecter.
        ------------------------------------------------------- -->
-  <div class="start-section">
+  <div class="start-section no-print">
+    <!-- Imprimer ou enregistrer en PDF (étapes, checklist, liens) -->
+    <button type="button" class="print-button" (click)="imprimer()">
+      <span aria-hidden="true"><app-icone nom="document" /></span>
+      {{ 'detail.imprimer' | t }}
+    </button>
+
 
     @if (suivi?.statut === 'EN_COURS' || suivi?.statut === 'TERMINEE') {
 
@@ -480,7 +486,7 @@ class="back-button"
 
 
   <!-- Bouton vers la page générale des documents -->
-  <div class="documents-action">
+  <div class="documents-action no-print">
 
     <button
       type="button"
@@ -578,6 +584,11 @@ class="back-button"
 </section>
 
 
+<!-- Pied de page imprimé uniquement -->
+<p class="print-only print-footer">
+  {{ 'detail.imprime' | t: { date: (aujourdHui | dateL: 'd MMMM y') } }}
+</p>
+
 <!-- =======================================================
      BOUTON RETOUR FINAL
      ======================================================= -->
@@ -598,7 +609,7 @@ class="back-button"
      ======================================================= -->
 @if (peutCommencer) {
 
-  <section class="report-section">
+  <section class="report-section no-print">
 
     @if (!signalementOuvert && !signalementEnvoye) {
 

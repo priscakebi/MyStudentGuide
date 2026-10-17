@@ -513,6 +513,17 @@ export class DemarcheDetailComponent implements OnInit {
     return !!date && date >= new Date().toLocaleDateString('sv-SE'); // « AAAA-MM-JJ » local
   }
 
+  /** Date du jour, imprimée en bas de la fiche. */
+  readonly aujourdHui = new Date();
+
+  /**
+   * Imprime la fiche (ou l'enregistre en PDF depuis la fenêtre d'impression) :
+   * étapes, checklist des documents et liens officiels ; menus et boutons masqués.
+   */
+  imprimer(): void {
+    window.print();
+  }
+
   /** Télécharge la date limite au format agenda (.ics), avec rappels. */
   ajouterAgenda(): void {
     const dateLimite = this.dateLimiteAffichee;

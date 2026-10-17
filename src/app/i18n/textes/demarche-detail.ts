@@ -46,6 +46,11 @@ export const DEMARCHE_DETAIL = {
     en: '{n} days after your visa or residence permit expires'
   },
   'detail.agenda': { fr: 'Ajouter à mon agenda', en: 'Add to my calendar' },
+  'detail.imprimer': { fr: 'Imprimer / PDF', en: 'Print / PDF' },
+  'detail.imprime': {
+    fr: 'Fiche imprimée depuis MyStudentGuide le {date}. Vérifiez les informations sur les sites officiels avant vos démarches.',
+    en: 'Printed from MyStudentGuide on {date}. Check the information on the official websites before you start.'
+  },
   'detail.agenda.aide': {
     fr: 'Télécharge un fichier .ics avec un rappel une semaine avant et la veille',
     en: 'Downloads an .ics file with a reminder one week before and the day before'

@@ -565,3 +565,15 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
 - **Statistiques admin** (tableau de bord, « Profil des étudiants ») : part de profils complets, étudiants sans
   profil, e-mails non confirmés, titres de séjour expirant sous 60 jours, et répartition par nationalité,
   ville d'études et type de visa (sans tenir compte de la casse : « lyon » et « Lyon » comptent ensemble).
+
+## 41. « Tout marquer comme lu », annonces aux étudiants, fiche imprimable
+- **Tout marquer comme lu** (page Notifications, étudiant et admin) : `PATCH /api/notifications/read-all`,
+  une seule requête. Le compteur du menu étudiant se met à jour tout de suite (aussi après une seule
+  notification lue), grâce à `CompteurNotificationsService`.
+- **Annonce aux étudiants** (admin, en haut de la page Notifications) : titre (120 caractères) et message
+  (2 000), envoyés en notification à chaque étudiant, et par e-mail si la case est cochée (adresses
+  confirmées uniquement). Une confirmation est demandée : l'envoi ne peut pas être annulé.
+  API : `POST /api/admin/annonces`, `AnnonceService`.
+- **Imprimer / PDF** sur la fiche d'une démarche : étapes, checklist des documents (cases cochées
+  conservées) et liens officiels avec leur adresse écrite en clair ; menus, pied de page et boutons masqués
+  (`@media print` dans `styles.scss`, classe `no-print`), date d'impression en bas de la fiche.

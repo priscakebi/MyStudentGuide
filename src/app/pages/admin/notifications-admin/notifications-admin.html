@@ -38,11 +38,21 @@
 
 
 
+  <!-- Annonce à tous les étudiants -->
+  <app-annonce-etudiants />
+
+
   <!-- ============================= -->
   <!-- BOUTON ACTUALISER              -->
   <!-- ============================= -->
 
   <div class="actions">
+
+    @if (unreadCount > 0) {
+      <button type="button" (click)="markAllAsRead()" [disabled]="loading">
+        Tout marquer comme lu
+      </button>
+    }
 
     <button
       type="button"

@@ -270,6 +270,12 @@
 
     <div class="actions">
 
+      @if (unreadCount > 0) {
+        <button type="button" (click)="markAllAsRead()" [disabled]="loading">
+          {{ 'notif.toutLire' | t }}
+        </button>
+      }
+
       <button
         type="button"
         (click)="refresh()"

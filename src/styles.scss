@@ -265,3 +265,48 @@ textarea {
     scroll-behavior: auto !important;
   }
 }
+
+
+/* ============================================================
+   IMPRESSION (« Imprimer / PDF » sur la fiche d'une démarche)
+   ============================================================
+   Seul le contenu utile est imprimé : menus, pied de page,
+   boutons et formulaires sont masqués, les couleurs de fond
+   retirées, et l'adresse des liens officiels est écrite en clair. */
+
+.print-only {
+  display: none;
+}
+
+@media print {
+  app-navbar,
+  app-footer,
+  .skip-link,
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block;
+  }
+
+  body {
+    background: #ffffff !important;
+  }
+
+  * {
+    box-shadow: none !important;
+  }
+
+  section,
+  article,
+  li {
+    break-inside: avoid;
+  }
+
+  a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.8em;
+    word-break: break-all;
+  }
+}

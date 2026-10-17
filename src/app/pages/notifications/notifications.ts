@@ -6,6 +6,7 @@ import { environment } from '../../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 import { StudentDemarcheService } from '../../services/student-demarche.service';
 import { LangueService } from '../../i18n/langue.service';
+import { CompteurNotificationsService } from '../../services/compteur-notifications.service';
 import { DateLPipe, TPipe } from '../../i18n/t.pipe';
 import { Icone } from '../../components/icone/icone';
 
@@ -95,6 +96,7 @@ export class Notifications implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
   protected langue = inject(LangueService);
+  private compteur = inject(CompteurNotificationsService);
 
   /**
    * Visiteur non connecté (route publique /notifications) :
@@ -437,6 +439,30 @@ export class Notifications implements OnInit {
    * Contrairement à openNotification(), cette méthode
    * ne sélectionne pas la notification.
    */
+  /**
+   * « Tout marquer comme lu » : PATCH /api/notifications/read-all.
+   */
+  markAllAsRead(): void {
+    this.http.patch<{ marquees: number }>(
+      `${this.apiUrl}/notifications/read-all`,
+      {},
+      { headers: this.getHeaders() }
+    ).subscribe({
+      next: () => {
+        this.notifications.forEach((n) => (n.lu = true));
+        if (this.selectedNotification) {
+          this.selectedNotification.lu = true;
+        }
+        this.unreadCount = 0;
+        this.compteur.signalerLecture();
+        this.answerMessage = this.langue.t('notif.toutLu');
+      },
+      error: () => {
+        this.answerError = this.langue.t('form.serveurInjoignable');
+      }
+    });
+  }
+
   markAsRead(notification: Notification): void {
 
     /**
@@ -501,6 +527,7 @@ export class Notifications implements OnInit {
          * de notifications non lues.
          */
         this.loadUnreadCount();
+        this.compteur.signalerLecture();
 
       },
 

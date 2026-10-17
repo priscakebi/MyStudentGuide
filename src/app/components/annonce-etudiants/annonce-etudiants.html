@@ -1,0 +1,81 @@
+<section class="annonce" aria-labelledby="annonce-titre">
+
+  <div class="entete">
+    <span class="icone" aria-hidden="true"><app-icone nom="cloche" /></span>
+    <div>
+      <h2 id="annonce-titre">Annonce aux étudiants</h2>
+      <p>Prévenez tous les étudiants d'une information importante (fermeture, nouvelle démarche…).</p>
+    </div>
+    <button
+      type="button"
+      class="basculer"
+      [attr.aria-expanded]="ouvert()"
+      aria-controls="annonce-formulaire"
+      (click)="basculer()"
+    >
+      {{ ouvert() ? 'Fermer' : 'Écrire une annonce' }}
+    </button>
+  </div>
+
+  @if (succes()) {
+    <p class="message succes" role="status">{{ succes() }}</p>
+  }
+
+  @if (ouvert()) {
+    <form id="annonce-formulaire" (ngSubmit)="preparer()" novalidate>
+
+      <label for="annonce-titre-champ">Titre</label>
+      <input
+        id="annonce-titre-champ"
+        name="titre"
+        [maxlength]="titreMax"
+        [(ngModel)]="titre"
+        [disabled]="confirmation()"
+        aria-describedby="annonce-titre-compte"
+      >
+      <small id="annonce-titre-compte" class="compte">{{ titre.length }} / {{ titreMax }}</small>
+
+      <label for="annonce-message">Message</label>
+      <textarea
+        id="annonce-message"
+        name="message"
+        rows="5"
+        [maxlength]="messageMax"
+        [(ngModel)]="message"
+        [disabled]="confirmation()"
+        aria-describedby="annonce-message-compte"
+      ></textarea>
+      <small id="annonce-message-compte" class="compte">{{ message.length }} / {{ messageMax }}</small>
+
+      <label class="case">
+        <input type="checkbox" name="email" [(ngModel)]="parEmail" [disabled]="confirmation()">
+        Envoyer aussi par e-mail (adresses confirmées uniquement)
+      </label>
+
+      @if (erreur()) {
+        <p class="message erreur" role="alert">{{ erreur() }}</p>
+      }
+
+      @if (confirmation()) {
+        <div class="confirmation" role="alert">
+          <p>
+            Cette annonce sera envoyée à <strong>tous les étudiants</strong>{{ parEmail ? ', aussi par e-mail' : '' }}.
+            L'envoi ne peut pas être annulé.
+          </p>
+          <div class="actions">
+            <button type="button" class="secondaire" [disabled]="envoi()" (click)="confirmation.set(false)">Modifier</button>
+            <button type="button" class="principal" [disabled]="envoi()" (click)="envoyer()">
+              {{ envoi() ? 'Envoi…' : "Confirmer l'envoi" }}
+            </button>
+          </div>
+        </div>
+      } @else {
+        <div class="actions">
+          <button type="submit" class="principal">Envoyer à tous les étudiants</button>
+        </div>
+      }
+
+    </form>
+  }
+
+</section>

@@ -38,6 +38,7 @@ import { BandeauVerificationEmail } from '../../components/bandeau-verification-
 import { ParcoursAccueil } from '../../components/parcours-accueil/parcours-accueil';
 import { EtatCompteService } from '../../services/etat-compte.service';
 import { NouveautesService } from '../../services/nouveautes.service';
+import { CompteurNotificationsService } from '../../services/compteur-notifications.service';
 
 
 /** Notification de suggestion de démarche (envoyée par un administrateur). */
@@ -105,6 +106,7 @@ export class Dashboard implements OnInit, OnDestroy {
 
   protected readonly etatCompte = inject(EtatCompteService);
   protected readonly nouveautes = inject(NouveautesService);
+  private readonly compteurNotifications = inject(CompteurNotificationsService);
 
   // ==========================================================
   // PROGRESSION DES DÉMARCHES (page « Mon espace »)
@@ -113,6 +115,7 @@ export class Dashboard implements OnInit, OnDestroy {
   private studentDemarcheService = inject(StudentDemarcheService);
   private langue = inject(LangueService);
   private navigationSub?: Subscription;
+  private lectureSub?: Subscription;
 
   /** Démarches commencées par l'étudiant (pour la barre de progression). */
   mesDemarches: StudentDemarche[] = [];
@@ -315,6 +318,7 @@ export class Dashboard implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.navigationSub?.unsubscribe();
+    this.lectureSub?.unsubscribe();
   }
 
 
@@ -431,6 +435,10 @@ export class Dashboard implements OnInit, OnDestroy {
      * on rafraîchit le compteur de notifications à chaque navigation
      * et la progression à chaque retour sur « Mon espace ».
      */
+    // Notification lue sur la page Notifications : compteur du menu à jour tout de suite.
+    this.lectureSub = this.compteurNotifications.changement$
+      .subscribe(() => this.loadUnreadNotifications());
+
     this.navigationSub = this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {

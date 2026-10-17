@@ -9,6 +9,7 @@ import {
   Notification
 } from '../../../services/notifiaction.service';
 import { Icone } from '../../../components/icone/icone';
+import { AnnonceEtudiants } from '../../../components/annonce-etudiants/annonce-etudiants';
 
 /**
  * Composant permettant d'afficher et de gérer
@@ -25,6 +26,7 @@ import { Icone } from '../../../components/icone/icone';
    */
   imports: [
     Icone,
+    AnnonceEtudiants,
     CommonModule,
     RouterLink
   ],
@@ -256,6 +258,19 @@ export class NotificationsAdmin implements OnInit {
   /**
    * Marque une notification comme lue.
    */
+  /** « Tout marquer comme lu ». */
+  markAllAsRead(): void {
+    this.notificationService.markAllAsRead().subscribe({
+      next: () => {
+        this.notifications.forEach((n) => (n.lu = true));
+        this.unreadCount = 0;
+      },
+      error: () => {
+        this.errorMessage = 'Impossible de marquer les notifications comme lues. Réessayez.';
+      }
+    });
+  }
+
   markAsRead(notification: Notification): void {
 
     /**

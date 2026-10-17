@@ -1397,3 +1397,34 @@ margin-top: 14px;
 margin: 32px 0 0;
 max-width: 560px;
 }
+
+// Imprimer / PDF : à droite des actions.
+.print-button {
+  order: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-left: auto;
+  padding: 10px 14px;
+
+  border: 1px solid #d0d5dd;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #344054;
+
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    border-color: #98a2b3;
+    background: #f9fafb;
+  }
+}
+
+.print-footer {
+  margin-top: 24px;
+  color: #475467;
+  font-size: 0.8rem;
+}
