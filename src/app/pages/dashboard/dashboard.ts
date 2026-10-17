@@ -34,6 +34,8 @@ import { LangueService } from '../../i18n/langue.service';
 import { DateLPipe, TPipe, TcPipe } from '../../i18n/t.pipe';
 import { LangueSwitch } from '../../components/langue-switch/langue-switch';
 import { Icone } from '../../components/icone/icone';
+import { BandeauVerificationEmail } from '../../components/bandeau-verification-email/bandeau-verification-email';
+import { EtatCompteService } from '../../services/etat-compte.service';
 
 
 /** Notification de suggestion de démarche (envoyée par un administrateur). */
@@ -76,6 +78,7 @@ interface SuggestionNotification {
   // Modules et directives utilisés dans le HTML.
   imports: [
     Icone,
+    BandeauVerificationEmail,
     CommonModule,
     RouterLink,
     RouterLinkActive,
@@ -96,6 +99,8 @@ interface SuggestionNotification {
 export class Dashboard implements OnInit, OnDestroy {
 
   protected readonly allerAuContenu = allerAuContenu;
+
+  private readonly etatCompte = inject(EtatCompteService);
 
   // ==========================================================
   // PROGRESSION DES DÉMARCHES (page « Mon espace »)
@@ -595,6 +600,9 @@ export class Dashboard implements OnInit, OnDestroy {
        * Requête réussie.
        */
       next: (user) => {
+
+        // Adresse e-mail à confirmer ? (bandeau de l'espace étudiant)
+        this.etatCompte.mettreAJour(user);
 
         // Mise à jour du prénom.
         if (user.prenom) {

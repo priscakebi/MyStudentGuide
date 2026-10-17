@@ -1,0 +1,94 @@
+// Bandeau « Confirmez votre adresse e-mail » (ambre : à faire, pas une erreur).
+
+.bandeau {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 18px;
+
+  margin: 0 0 20px;
+  padding: 16px 18px;
+
+  border: 1px solid #f5d79e;
+  border-radius: 14px;
+
+  background: #fff8e8;
+}
+
+.icone {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+
+  width: 40px;
+  height: 40px;
+
+  border-radius: 12px;
+
+  background: #ffefc7;
+  color: #b45309;
+  font-size: 1.25rem;
+}
+
+.texte {
+  flex: 1 1 320px;
+  min-width: 0;
+
+  h2 {
+    margin: 0 0 4px;
+    color: #172033;
+    font-size: 15px;
+  }
+
+  p {
+    margin: 0;
+    color: #5b4a1f;
+    font-size: 13.5px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+
+  .retour {
+    margin-top: 6px;
+    color: #11704d;
+    font-weight: 600;
+
+    &.erreur {
+      color: #b42323;
+    }
+  }
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+
+  a {
+    color: #1646a0;
+    font-size: 13.5px;
+    font-weight: 600;
+  }
+}
+
+.principal {
+  padding: 9px 16px;
+
+  border: 0;
+  border-radius: 10px;
+
+  background: #1646a0;
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: wait;
+  }
+}

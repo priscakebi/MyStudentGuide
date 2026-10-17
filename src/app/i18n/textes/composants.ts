@@ -40,19 +40,27 @@ export const COMPOSANTS = {
     fr: "D'après votre ville d'études : {ville} ({departement}).",
     en: 'Based on your city of study: {ville} ({departement}).'
   },
-  'prefecture.source.pasBonne': {
-    fr: "Ce n'est pas la bonne ? Ajoutez le code postal dans",
-    en: 'Not the right one? Add the postcode in'
+  'prefecture.source.adresse': {
+    fr: "D'après votre adresse : {ville} ({departement}). C'est la préfecture de votre domicile qui est compétente pour votre titre de séjour.",
+    en: 'Based on your address: {ville} ({departement}). The prefecture where you live is the one handling your residence permit.'
+  },
+  'prefecture.source.adresse.verifier': { fr: "Ce n'est pas la bonne ? Vérifiez votre adresse dans", en: 'Not the right one? Check your address in' },
+  'prefecture.source.sansAdresse': {
+    fr: "Ajoutez votre adresse dans",
+    en: 'Add your address in'
+  },
+  'prefecture.source.sansAdresse.fin': {
+    fr: "pour obtenir la préfecture de votre domicile : c'est elle qui est compétente pour votre titre de séjour.",
+    en: 'to get the prefecture where you live: it is the one handling your residence permit.'
   },
   'prefecture.source.profil': { fr: 'votre profil', en: 'your profile' },
-  'prefecture.source.exemple': { fr: '(ex. : Saint-Denis 93200).', en: '(e.g. Saint-Denis 93200).' },
   'prefecture.source.annuaire': {
     fr: "Source : Annuaire de l'administration, Service-Public.gouv.fr.",
     en: 'Source: French government directory, Service-Public.gouv.fr.'
   },
   'prefecture.villeManquante': {
-    fr: "Renseignez votre ville d'études pour connaître l'adresse, les horaires et la prise de rendez-vous de votre préfecture.",
-    en: 'Enter your city of study to see the address, opening hours and appointment booking for your prefecture.'
+    fr: "Renseignez votre adresse dans votre profil pour connaître l'adresse, les horaires et la prise de rendez-vous de votre préfecture.",
+    en: 'Enter your address in your profile to see the address, opening hours and appointment booking for your prefecture.'
   },
   'prefecture.completerProfil': { fr: 'Compléter mon profil', en: 'Complete my profile' },
   'prefecture.indisponible': {

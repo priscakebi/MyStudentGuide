@@ -1,0 +1,79 @@
+<!-- ===================================================== -->
+<!-- CONFIRMATION DE L'ADRESSE E-MAIL                       -->
+<!-- Lien reçu par e-mail : /verifier-email?token=...       -->
+<!-- Mise en page commune : pages/_auth-layout.scss         -->
+<!-- ===================================================== -->
+
+<div class="auth-shell">
+
+  <!-- Panneau de marque (bandeau compact sur téléphone) -->
+  <aside class="auth-brand">
+
+    <a routerLink="/home" class="auth-logo">
+      <span class="brand-mark" aria-hidden="true">🎓</span>
+      MyStudentGuide
+    </a>
+
+    <div class="auth-brand-body">
+      <h2>{{ 'authBrand.titre' | t }}</h2>
+      <p>{{ 'authBrand.texte' | t }}</p>
+    </div>
+
+    <p class="auth-brand-foot">{{ 'authBrand.pied' | t }}</p>
+
+  </aside>
+
+  <main class="auth-main">
+
+    <div class="auth-top">
+      <a routerLink="/home" class="auth-back">{{ 'authBrand.retour' | t }}</a>
+      <app-langue-switch></app-langue-switch>
+    </div>
+
+    <div class="auth-card">
+
+      <span class="auth-eyebrow">{{ 'verif.eyebrow' | t }}</span>
+      <h1 class="auth-title">{{ 'verif.titre' | t }}</h1>
+
+      @switch (etat()) {
+
+        @case ('enCours') {
+          <p class="auth-subtitle" role="status">{{ 'verif.enCours' | t }}</p>
+        }
+
+        @case ('ok') {
+          <div class="success" role="status">
+            <span class="success-icon" aria-hidden="true">✅</span>
+            <div>
+              <strong>{{ 'verif.ok' | t }}</strong>
+              <p>{{ 'verif.ok.texte' | t }}</p>
+            </div>
+          </div>
+          <a class="login-button" [routerLink]="connecte ? '/dashboard' : '/login'">
+            {{ (connecte ? 'verif.espace' : 'commun.seConnecter') | t }}
+          </a>
+        }
+
+        @case ('erreur') {
+          <p class="error" role="alert">
+            <strong>{{ 'verif.erreur' | t }}</strong>
+            {{ 'verif.erreur.texte' | t }}
+          </p>
+          <a class="login-button" [routerLink]="connecte ? '/dashboard' : '/login'">
+            {{ (connecte ? 'verif.espace' : 'commun.seConnecter') | t }}
+          </a>
+        }
+
+        @case ('lienIncomplet') {
+          <p class="error" role="alert">{{ 'verif.lienIncomplet' | t }}</p>
+          <a class="login-button" [routerLink]="connecte ? '/dashboard' : '/login'">
+            {{ (connecte ? 'verif.espace' : 'commun.seConnecter') | t }}
+          </a>
+        }
+      }
+
+    </div>
+
+  </main>
+
+</div>

@@ -44,9 +44,17 @@
     </div>
 
     <p class="source">
-      {{ 'prefecture.source.ville' | t: { ville: prefecture.ville, departement: prefecture.departement } }}
-      {{ 'prefecture.source.pasBonne' | t }}
-      <a routerLink="/dashboard/profile">{{ 'prefecture.source.profil' | t }}</a> {{ 'prefecture.source.exemple' | t }}
+      <!-- Préfecture du domicile (adresse du profil) ; à défaut, de la ville d'études. -->
+      @if (prefecture.base === 'ADRESSE') {
+        {{ 'prefecture.source.adresse' | t: { ville: prefecture.ville, departement: prefecture.departement } }}
+        {{ 'prefecture.source.adresse.verifier' | t }}
+        <a routerLink="/dashboard/profile">{{ 'prefecture.source.profil' | t }}</a>.
+      } @else {
+        {{ 'prefecture.source.ville' | t: { ville: prefecture.ville, departement: prefecture.departement } }}
+        {{ 'prefecture.source.sansAdresse' | t }}
+        <a routerLink="/dashboard/profile">{{ 'prefecture.source.profil' | t }}</a>
+        {{ 'prefecture.source.sansAdresse.fin' | t }}
+      }
       <br>{{ 'prefecture.source.annuaire' | t }}
     </p>
 

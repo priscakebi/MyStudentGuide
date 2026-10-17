@@ -34,6 +34,8 @@ export interface PrefectureInfo {
   ficheAnnuaire: string | null;
   latitude: string | null;
   longitude: string | null;
+  /** Lieu du profil utilisé : ADRESSE (domicile) ou VILLE_ETUDES. */
+  base?: 'ADRESSE' | 'VILLE_ETUDES' | null;
 }
 
 @Component({

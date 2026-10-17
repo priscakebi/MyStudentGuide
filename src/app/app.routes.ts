@@ -328,6 +328,21 @@ export const routes: Routes = [
 
   {
     /*
+     * URL :
+     * /verifier-email?token=...
+     *
+     * Confirmation de l'adresse e-mail (lien reçu à l'inscription
+     * ou après un changement d'adresse).
+     */
+    path: 'verifier-email',
+    title: 'titre.verifierEmail',
+    loadComponent: () =>
+      import('./pages/verifier-email/verifier-email')
+        .then(m => m.VerifierEmail)
+  },
+
+  {
+    /*
      * MOT DE PASSE OUBLIÉ (administrateur)
      *
      * Routes publiques, hors de /admin (protégée) : l'administrateur

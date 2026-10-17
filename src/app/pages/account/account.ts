@@ -31,6 +31,7 @@ import {
   passwordChecks
 } from '../../utils/form-rules';
 import { Icone } from '../../components/icone/icone';
+import { EtatCompteService } from '../../services/etat-compte.service';
 
 
 // ============================================================
@@ -45,6 +46,9 @@ import { Icone } from '../../components/icone/icone';
  * le mot de passe.
  */
 interface UserAccount {
+
+  /** Faux tant que la nouvelle adresse n'a pas été confirmée. */
+  emailVerified?: boolean;
 
   /**
    * Identifiant de l'utilisateur.
@@ -253,6 +257,7 @@ export class Account implements OnInit {
 
   private authService = inject(AuthService);
   private langue = inject(LangueService);
+  private etatCompte = inject(EtatCompteService);
 
 
   // ============================================================
@@ -709,9 +714,13 @@ export class Account implements OnInit {
         this.showEditAccountForm = false;
 
 
-        // Message de réussite.
-        this.accountSuccessMessage =
-          this.langue.t('compte.infosModifiees');
+        // Bandeau « Confirmez votre adresse e-mail » de l'espace étudiant.
+        this.etatCompte.mettreAJour(user);
+
+        // Message de réussite (nouvelle adresse : lien de confirmation envoyé).
+        this.accountSuccessMessage = user.emailVerified === false
+          ? this.langue.t('compte.infosModifiees.emailAConfirmer', { email: user.email })
+          : this.langue.t('compte.infosModifiees');
       },
 
 

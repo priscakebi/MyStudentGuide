@@ -11,6 +11,7 @@ export const TITRES = {
   'titre.inscription': { fr: 'Inscription', en: 'Sign up' },
   'titre.motDePasseOublie': { fr: 'Mot de passe oublié', en: 'Forgot password' },
   'titre.nouveauMotDePasse': { fr: 'Nouveau mot de passe', en: 'New password' },
+  'titre.verifierEmail': { fr: 'Confirmation de l’adresse e-mail', en: 'Email confirmation' },
   'titre.monEspace': { fr: 'Mon espace', en: 'My space' },
   'titre.monProfil': { fr: 'Mon profil', en: 'My profile' },
   'titre.mesDemarches': { fr: 'Mes démarches', en: 'My procedures' },

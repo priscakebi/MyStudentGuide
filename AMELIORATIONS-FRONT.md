@@ -500,3 +500,17 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
   déjà installés (suggestions de démarches erronées). Les profils existants gardent leur réponse ;
   « Non renseigné » s'affiche si aucune réponse n'a été donnée.
 - Contour de focus visible au clavier sur les cartes (l'input natif est masqué).
+
+## 36. Confirmation de l'adresse e-mail et préfecture du domicile
+- **Confirmation de l'e-mail** : à l'inscription, l'e-mail de bienvenue contient un lien de confirmation
+  (48 h, à usage unique, seule l'empreinte SHA-256 est stockée). Page `/verifier-email?token=…`.
+  Le compte est utilisable tout de suite ; tant que l'adresse n'est pas confirmée, un bandeau ambre
+  s'affiche dans l'espace étudiant (« Renvoyer le lien », une fois par minute ; « Pas la bonne adresse ? »)
+  et les rappels d'échéance ne partent pas par e-mail (notification dans l'application uniquement).
+  Les comptes existants restent confirmés.
+- **Changement d'adresse** (« Mon compte ») : adresse mise en minuscules et vérifiée libre, à confirmer de
+  nouveau ; l'API renvoie un nouveau jeton de connexion (l'adresse en est l'identifiant), l'étudiant reste connecté.
+- **Préfecture** : celle du **domicile** (code postal de l'adresse du profil), compétente pour le titre de
+  séjour ; à défaut d'adresse, celle de la ville d'études. La carte indique laquelle a servi.
+- API : `POST /api/auth/verify-email`, `POST /api/account/verification-email`, `EmailVerificationService`,
+  `LieuPrefecture`.

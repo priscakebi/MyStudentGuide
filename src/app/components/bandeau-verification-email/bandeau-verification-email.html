@@ -1,0 +1,25 @@
+@if (!compte.emailVerifie()) {
+  <section class="bandeau" aria-labelledby="bandeau-email-titre">
+
+    <span class="icone" aria-hidden="true"><app-icone nom="alerte" /></span>
+
+    <div class="texte">
+      <h2 id="bandeau-email-titre">{{ 'verif.bandeau.titre' | t }}</h2>
+      <p>{{ 'verif.bandeau.texte' | t: { email: compte.email() } }}</p>
+
+      @if (retour(); as cle) {
+        <p class="retour" [class.erreur]="cle !== 'verif.bandeau.envoye'" role="status">
+          {{ cle | t: { email: compte.email() } }}
+        </p>
+      }
+    </div>
+
+    <div class="actions">
+      <button type="button" class="principal" [disabled]="envoi()" (click)="renvoyer()">
+        {{ 'verif.bandeau.renvoyer' | t }}
+      </button>
+      <a routerLink="/dashboard/account">{{ 'verif.bandeau.modifier' | t }}</a>
+    </div>
+
+  </section>
+}

@@ -71,6 +71,16 @@ export class AuthService {
     return this.http.post<{ message: string }>(`${this.apiUrl}/reset-password`, { token, newPassword });
   }
 
+  /** Confirme l'adresse e-mail à partir du jeton reçu par e-mail (/verifier-email?token=…). */
+  verifierEmail(token: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.apiUrl}/verify-email`, { token });
+  }
+
+  /** Renvoie le lien de confirmation à l'adresse du compte connecté (une fois par minute au plus). */
+  renvoyerLienVerification(): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${environment.apiUrl}/account/verification-email`, {});
+  }
+
   /** Enregistre le token et les informations de l'utilisateur. */
   /** Renouvelle le JWT (appelé tant que l'utilisateur est actif). */
   /**

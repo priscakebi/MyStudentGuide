@@ -151,5 +151,26 @@ export const AUTH = {
   'reset.repetez': { fr: 'Répétez le mot de passe', en: 'Repeat the password' },
   'reset.enregistrement': { fr: 'Enregistrement...', en: 'Saving...' },
   'reset.enregistrer': { fr: 'Enregistrer le mot de passe', en: 'Save the password' },
-  'reset.lienInvalide': { fr: 'Ce lien est invalide ou a expiré.', en: 'This link is invalid or has expired.' }
+  'reset.lienInvalide': { fr: 'Ce lien est invalide ou a expiré.', en: 'This link is invalid or has expired.' },
+
+  // Confirmation de l'adresse e-mail (/verifier-email et bandeau de l'espace étudiant)
+  'verif.eyebrow': { fr: 'Mon compte', en: 'My account' },
+  'verif.titre': { fr: 'Confirmation de votre adresse e-mail', en: 'Email address confirmation' },
+  'verif.enCours': { fr: 'Confirmation en cours…', en: 'Confirming…' },
+  'verif.ok': { fr: 'Votre adresse e-mail est confirmée.', en: 'Your email address is confirmed.' },
+  'verif.ok.texte': { fr: 'Vous recevrez désormais vos rappels de dates limites par e-mail.', en: 'You will now receive your deadline reminders by email.' },
+  'verif.erreur': { fr: 'Ce lien de confirmation est invalide ou a expiré.', en: 'This confirmation link is invalid or has expired.' },
+  'verif.erreur.texte': { fr: 'Connectez-vous : votre espace vous permet de recevoir un nouveau lien.', en: 'Log in: from your account you can receive a new link.' },
+  'verif.lienIncomplet': { fr: "Le lien de confirmation est incomplet : copiez l'adresse complète reçue par e-mail.", en: 'The confirmation link is incomplete: copy the full address from the email.' },
+  'verif.espace': { fr: 'Aller à mon espace', en: 'Go to my space' },
+  'verif.bandeau.titre': { fr: 'Confirmez votre adresse e-mail', en: 'Confirm your email address' },
+  'verif.bandeau.texte': {
+    fr: 'Nous avons envoyé un lien à {email}. Sans confirmation, vous ne recevrez pas vos rappels de dates limites par e-mail.',
+    en: 'We sent a link to {email}. Until you confirm it, you will not receive your deadline reminders by email.'
+  },
+  'verif.bandeau.renvoyer': { fr: 'Renvoyer le lien', en: 'Resend the link' },
+  'verif.bandeau.envoye': { fr: 'Nouveau lien envoyé à {email} : pensez à regarder vos courriers indésirables.', en: 'New link sent to {email}: remember to check your spam folder.' },
+  'verif.bandeau.tropTot': { fr: 'Un lien vient d’être envoyé : patientez une minute avant d’en demander un autre.', en: 'A link was just sent: please wait a minute before requesting another one.' },
+  'verif.bandeau.erreur': { fr: "Le lien n'a pas pu être envoyé. Réessayez plus tard.", en: 'The link could not be sent. Please try again later.' },
+  'verif.bandeau.modifier': { fr: 'Pas la bonne adresse ? La modifier', en: 'Wrong address? Change it' }
 } satisfies Traductions;

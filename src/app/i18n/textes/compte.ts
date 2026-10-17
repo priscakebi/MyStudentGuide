@@ -113,6 +113,10 @@ export const COMPTE = {
     en: 'Unable to load your account information.'
   },
   'compte.infosModifiees': { fr: 'Vos informations ont été modifiées avec succès.', en: 'Your information has been updated.' },
+  'compte.infosModifiees.emailAConfirmer': {
+    fr: 'Vos informations ont été modifiées. Un lien de confirmation a été envoyé à {email} : ouvrez-le pour recevoir vos rappels par e-mail.',
+    en: 'Your information has been updated. A confirmation link was sent to {email}: open it to receive your reminders by email.'
+  },
   'compte.erreur.modification': {
     fr: 'Impossible de modifier les informations de votre compte.',
     en: 'Unable to update your account information.'
