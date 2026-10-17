@@ -467,3 +467,18 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
   profil recevait une erreur 500, car d'anciennes contraintes NOT NULL (`student_profiles.nationalite`,
   `type_visa`, `date_arrivee_france`) refusaient le profil vide créé automatiquement. `CorrectionsSchema`
   (API, au démarrage) rend ces colonnes facultatives si besoin.
+
+## 33. Profil : suggestions pendant la saisie
+- Composant `app-champ-suggestions` (motif ARIA « combobox », compatible `ngModel`) : la liste se remplit
+  pendant la frappe ; ↑ / ↓, Entrée, Échap ; nombre de suggestions annoncé aux lecteurs d'écran.
+- **Nationalité** : liste intégrée (`data/nationalites.ts`, ~200 entrées, FR / EN, recherche aussi par pays).
+  Choix obligatoire dans la liste ; valeur enregistrée en français au féminin (« Ivoirienne »), affichée en
+  anglais si l'interface est en anglais. Un test vérifie la cohérence avec la règle « hors UE » de l'API.
+- **Université / établissement** : 245 établissements officiels (`data/etablissements-superieur.ts`, ministère de
+  l'Enseignement supérieur, Licence Ouverte), recherche par nom, sigle ou ville ; saisie libre possible.
+- **Ville d'études** : geo.api.gouv.fr ; valeur « Saint-Denis 93200 » (le code postal lève l'ambiguïté pour
+  trouver la préfecture). **Adresse** : Base Adresse Nationale (Géoplateforme IGN).
+- Requêtes vers ces deux services sans l'intercepteur d'authentification (jamais de jeton envoyé) ;
+  mention ajoutée dans la politique de confidentialité (FR / EN).
+- Mettre à jour la liste des établissements : `node scripts/generer-etablissements.mjs src/app/data/etablissements-superieur.ts` (API
+  `data.enseignementsup-recherche.gouv.fr`, jeu « fr-esr-principaux-etablissements-enseignement-superieur »).

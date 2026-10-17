@@ -23,6 +23,10 @@ import { LangueService } from '../../i18n/langue.service';
 import { DateLPipe, TPipe } from '../../i18n/t.pipe';
 import { Cle } from '../../i18n/textes';
 import { Icone } from '../../components/icone/icone';
+import { ChampSuggestions } from '../../components/champ-suggestions/champ-suggestions';
+import { SuggestionsService } from '../../services/suggestions.service';
+import { NATIONALITES } from '../../data/nationalites';
+import { of } from 'rxjs';
 
 
 /**
@@ -75,6 +79,7 @@ interface StudentProfile {
 
   imports: [
     Icone,
+    ChampSuggestions,
     CommonModule,
     FormsModule,
     TPipe,
@@ -99,6 +104,26 @@ export class Profile implements OnInit {
   private readonly apiUrl = environment.apiUrl;
 
   private readonly langue = inject(LangueService);
+
+  private readonly suggestions = inject(SuggestionsService);
+
+  /*
+   * Saisie assistée : suggestions de nationalité, d'établissement,
+   * de ville et d'adresse (app-champ-suggestions).
+   */
+  readonly sourceNationalites = (texte: string) => this.suggestions.nationalites(texte);
+  readonly sourceEtablissements = (texte: string) => this.suggestions.etablissements(texte);
+  readonly sourceVilles = (texte: string) => this.suggestions.villes(texte);
+  readonly sourceAdresses = (texte: string) => this.suggestions.adresses(texte);
+  readonly libelleNationaliteAsync = (valeur: string) => of(this.libelleNationalite(valeur));
+
+  /** Nationalité enregistrée (en français) affichée dans la langue de l'interface. */
+  libelleNationalite(valeur: string | null | undefined): string {
+    if (!valeur || this.langue.langue() === 'fr') {
+      return valeur ?? '';
+    }
+    return NATIONALITES.find(([fr]) => fr === valeur)?.[1] ?? valeur;
+  }
 
 
   /*
@@ -502,7 +527,9 @@ export class Profile implements OnInit {
       return false;
     }
 
-    return /^[A-Za-zÀ-ÖØ-öø-ÿ' -]+$/.test(value);
+    // Choisie dans la liste, ou saisie avant la liste (profils plus anciens).
+    return NATIONALITES.some(([fr]) => fr === value)
+      || /^[A-Za-zÀ-ÖØ-öø-ÿ' ()-]+$/.test(value);
   }
 
 
@@ -545,7 +572,8 @@ export class Profile implements OnInit {
       return false;
     }
 
-    return /^[A-Za-zÀ-ÖØ-öø-ÿ0-9' .,&()/-]+$/.test(value);
+    // ’ et – : présents dans certains noms officiels (« École d’ingénieurs… – La Rochelle »).
+    return /^[A-Za-zÀ-ÖØ-öø-ÿ0-9'’ .,&()/–-]+$/.test(value);
   }
 
 
@@ -565,12 +593,14 @@ export class Profile implements OnInit {
    * - les apostrophes ;
    * - les tirets.
    *
+   * - le code postal (ville choisie dans les suggestions).
+   *
    * Exemple valide :
    * "Paris"
-   * "Saint-Germain-en-Laye"
+   * "Saint-Denis 93200"
    *
    * Exemple invalide :
-   * "Paris123"
+   * "Paris!"
    */
   isVilleValid(): boolean {
 
@@ -580,7 +610,7 @@ export class Profile implements OnInit {
       return false;
     }
 
-    return /^[A-Za-zÀ-ÖØ-öø-ÿ' -]+$/.test(value);
+    return /^[A-Za-zÀ-ÖØ-öø-ÿ0-9'’ -]+$/.test(value);
   }
 
 

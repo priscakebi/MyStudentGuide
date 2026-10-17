@@ -1,0 +1,62 @@
+<div class="champ">
+
+  <input
+    [id]="inputId()"
+    type="text"
+    role="combobox"
+    aria-autocomplete="list"
+    [attr.aria-expanded]="ouverte()"
+    [attr.aria-controls]="listeId"
+    [attr.aria-activedescendant]="active() >= 0 ? idOption(active()) : null"
+    [attr.aria-describedby]="describedBy()"
+    [attr.autocomplete]="autocomplete()"
+    [attr.maxlength]="maxlength()"
+    [placeholder]="placeholder()"
+    [value]="texte()"
+    [disabled]="desactive()"
+    (input)="saisir($any($event.target).value)"
+    (keydown)="clavier($event)"
+    (blur)="quitter()"
+  />
+
+  @if (chargement() && texte().trim().length >= minCaracteres()) {
+    <span class="chargement" aria-hidden="true"></span>
+  }
+
+  <ul
+    [id]="listeId"
+    role="listbox"
+    class="liste"
+    [class.visible]="ouverte() && (suggestions().length > 0 || recherche())"
+  >
+    @for (s of suggestions(); track s.valeur; let i = $index) {
+      <li
+        [id]="idOption(i)"
+        role="option"
+        [attr.aria-selected]="i === active()"
+        [class.active]="i === active()"
+        (mousedown)="$event.preventDefault()"
+        (click)="choisir(s)"
+      >
+        <span class="libelle">{{ s.libelle }}</span>
+        @if (s.detail) {
+          <span class="detail">{{ s.detail }}</span>
+        }
+      </li>
+    } @empty {
+      @if (recherche()) {
+        <li class="vide" role="presentation">
+          {{ (libre() ? 'suggestions.aucune.libre' : 'suggestions.aucune') | t }}
+        </li>
+      }
+    }
+  </ul>
+
+  <!-- Annonce pour les lecteurs d'écran -->
+  <span class="sr-only" aria-live="polite">
+    @if (ouverte() && suggestions().length) {
+      {{ 'suggestions.nombre' | t: { n: suggestions().length } }}
+    }
+  </span>
+
+</div>

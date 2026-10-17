@@ -98,5 +98,10 @@ export const COMPOSANTS = {
     fr: 'sur les derniers avis laissés après une démarche terminée.',
     en: 'from the latest reviews left after completing a procedure.'
   },
-  'avisPublics.surCinq': { fr: '{n} sur 5', en: '{n} out of 5' }
+  'avisPublics.surCinq': { fr: '{n} sur 5', en: '{n} out of 5' },
+
+  // Champ avec suggestions (profil : nationalité, université, ville, adresse)
+  'suggestions.nombre': { fr: '{n} suggestion(s), flèches haut et bas pour parcourir', en: '{n} suggestion(s), use up and down arrows to browse' },
+  'suggestions.aucune': { fr: 'Aucun résultat : essayez une autre orthographe.', en: 'No results: try another spelling.' },
+  'suggestions.aucune.libre': { fr: 'Aucune suggestion : votre saisie sera conservée telle quelle.', en: 'No suggestions: what you typed will be kept as is.' }
 } satisfies Traductions;

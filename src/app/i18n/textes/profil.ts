@@ -21,10 +21,10 @@ export const PROFIL = {
   'profil.section.perso': { fr: 'Informations personnelles', en: 'Personal information' },
   'profil.section.perso.texte': { fr: 'Quelques informations générales sur vous.', en: 'A few general details about you.' },
   'profil.nationalite': { fr: 'Nationalité', en: 'Nationality' },
-  'profil.nationalite.placeholder': { fr: 'Ex. Ivoirienne', en: 'E.g. Ivorian' },
+  'profil.nationalite.placeholder': { fr: "Commencez à écrire : Ivoirienne, Côte d'Ivoire…", en: 'Start typing: Ivorian, Ivory Coast…' },
   'profil.nationalite.erreur': {
-    fr: 'La nationalité doit contenir uniquement des lettres, espaces, apostrophes ou tirets.',
-    en: 'The nationality may only contain letters, spaces, apostrophes or hyphens.'
+    fr: 'Choisissez votre nationalité dans la liste proposée.',
+    en: 'Choose your nationality from the suggested list.'
   },
   'profil.telephone.label': { fr: 'Numéro de téléphone', en: 'Phone number' },
   'profil.telephone': { fr: 'Téléphone', en: 'Phone' },
@@ -48,16 +48,16 @@ export const PROFIL = {
   'profil.niveau.Doctorat': { fr: 'Doctorat', en: 'PhD' },
   'profil.niveau.Autre': { fr: 'Autre', en: 'Other' },
   'profil.universite': { fr: 'Université / établissement', en: 'University / institution' },
-  'profil.universite.placeholder': { fr: 'Ex. Université Paris Cité', en: 'E.g. Université Paris Cité' },
+  'profil.universite.placeholder': { fr: 'Commencez à écrire : Sorbonne, Lyon, INSA…', en: 'Start typing: Sorbonne, Lyon, INSA…' },
   'profil.universite.erreur': {
     fr: "Le nom de l'établissement contient des caractères non autorisés.",
     en: 'The institution name contains characters that are not allowed.'
   },
   'profil.ville': { fr: "Ville d'études", en: 'City of study' },
-  'profil.ville.placeholder': { fr: 'Ex. Paris', en: 'E.g. Paris' },
+  'profil.ville.placeholder': { fr: 'Commencez à écrire : Lyon, Saint-Denis…', en: 'Start typing: Lyon, Saint-Denis…' },
   'profil.ville.erreur': {
-    fr: 'La ville doit contenir uniquement des lettres, espaces, apostrophes ou tirets.',
-    en: 'The city may only contain letters, spaces, apostrophes or hyphens.'
+    fr: 'Choisissez votre ville dans la liste, ou écrivez son nom et son code postal.',
+    en: 'Choose your city from the list, or type its name and postcode.'
   },
 
   'profil.section.situation': { fr: 'Situation administrative', en: 'Administrative status' },
@@ -101,7 +101,7 @@ export const PROFIL = {
   'profil.logement.AUTRE': { fr: 'Autre', en: 'Other' },
   'profil.logement.NON_RENSEIGNE': { fr: 'Je préfère ne pas renseigner', en: 'I prefer not to say' },
   'profil.adresse': { fr: 'Adresse', en: 'Address' },
-  'profil.adresse.placeholder': { fr: 'Ex. 10 rue de Paris, 75000 Paris', en: 'E.g. 10 rue de Paris, 75000 Paris' },
+  'profil.adresse.placeholder': { fr: 'Commencez à écrire : 5 rue Bancel, Lyon…', en: 'Start typing: 5 rue Bancel, Lyon…' },
   'profil.adresse.erreur': {
     fr: "Veuillez saisir une adresse valide. Les lettres, chiffres, espaces, tirets et caractères d'adresse courants sont autorisés.",
     en: 'Please enter a valid address. Letters, numbers, spaces, hyphens and common address characters are allowed.'

@@ -193,15 +193,17 @@
               </label>
 
 
-              <input
-                id="nationalite"
+              <!-- Nationalité : à choisir dans la liste (valeur enregistrée en français). -->
+              <app-champ-suggestions
+                inputId="nationalite"
                 name="nationalite"
-                type="text"
                 [(ngModel)]="profileForm.nationalite"
                 [placeholder]="'profil.nationalite.placeholder' | t"
-                autocomplete="country-name"
-                minlength="2"
-                pattern="[A-Za-zÀ-ÖØ-öø-ÿ' -]+"
+                autocomplete="off"
+                [source]="sourceNationalites"
+                [libelleDe]="libelleNationaliteAsync"
+                [libre]="false"
+                [minCaracteres]="1"
                 required
               />
 
@@ -359,15 +361,15 @@
               </label>
 
 
-              <input
-                id="universite"
+              <!-- Établissement : liste officielle, ou saisie libre (BTS, écoles privées…). -->
+              <app-champ-suggestions
+                inputId="universite"
                 name="universite"
-                type="text"
                 [(ngModel)]="profileForm.universite"
                 [placeholder]="'profil.universite.placeholder' | t"
                 autocomplete="organization"
+                [source]="sourceEtablissements"
                 minlength="2"
-                pattern="[A-Za-zÀ-ÖØ-öø-ÿ0-9' .,&()/-]+"
                 required
               />
 
@@ -404,15 +406,15 @@
               </label>
 
 
-              <input
-                id="villeEtudes"
+              <!-- Ville : « Saint-Denis 93200 », le code postal évite toute ambiguïté pour la préfecture. -->
+              <app-champ-suggestions
+                inputId="villeEtudes"
                 name="villeEtudes"
-                type="text"
                 [(ngModel)]="profileForm.villeEtudes"
                 [placeholder]="'profil.ville.placeholder' | t"
                 autocomplete="address-level2"
+                [source]="sourceVilles"
                 minlength="2"
-                pattern="[A-Za-zÀ-ÖØ-öø-ÿ' -]+"
                 required
               />
 
@@ -693,15 +695,16 @@
               </label>
 
 
-              <input
-                id="adresse"
+              <!-- Adresse : Base Adresse Nationale (adresses en France). -->
+              <app-champ-suggestions
+                inputId="adresse"
                 name="adresse"
-                type="text"
                 [(ngModel)]="profileForm.adresse"
                 [placeholder]="'profil.adresse.placeholder' | t"
                 autocomplete="street-address"
+                [source]="sourceAdresses"
+                [minCaracteres]="3"
                 minlength="5"
-                pattern="[A-Za-zÀ-ÖØ-öø-ÿ0-9' .,\/-]+"
                 required
               />
 
@@ -877,7 +880,7 @@
               </span>
 
               <strong>
-                {{ profile.nationalite || ('profil.nonRenseignee' | t) }}
+                {{ libelleNationalite(profile.nationalite) || ('profil.nonRenseignee' | t) }}
               </strong>
 
             </div>
