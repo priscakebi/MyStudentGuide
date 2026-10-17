@@ -240,17 +240,12 @@
               </label>
 
 
-              <input
-                id="telephone"
+              <!-- Indicatif du pays + numéro (enregistré au format international). -->
+              <app-champ-telephone
+                inputId="telephone"
                 name="telephone"
-                type="tel"
                 [(ngModel)]="profileForm.telephone"
                 [placeholder]="'profil.telephone.placeholder' | t"
-                inputmode="numeric"
-                maxlength="10"
-                minlength="10"
-                pattern="^0[1-9][0-9]{8}$"
-                autocomplete="tel"
                 required
               />
 
@@ -893,7 +888,7 @@
               </span>
 
               <strong>
-                {{ profile.telephone || ('profil.nonRenseigne' | t) }}
+                {{ telephoneLisible(profile.telephone) || ('profil.nonRenseigne' | t) }}
               </strong>
 
             </div>

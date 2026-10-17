@@ -1,0 +1,60 @@
+// ============================================================
+// CHAMP TÉLÉPHONE INTERNATIONAL
+// ============================================================
+// Reprend l'apparence des champs du profil : indicatif à gauche,
+// numéro à droite (empilés sur petit écran).
+
+:host {
+  display: block;
+}
+
+.telephone {
+  display: grid;
+  grid-template-columns: minmax(0, 42%) minmax(0, 1fr);
+  gap: 8px;
+}
+
+select,
+input {
+  width: 100%;
+  min-height: 48px;
+  box-sizing: border-box;
+  padding: 0 12px;
+
+  border: 1px solid #d9dde2;
+  border-radius: 10px;
+
+  background: #ffffff;
+  color: #172033;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:focus {
+    border-color: var(--msg-focus);
+    box-shadow: var(--msg-focus-ring);
+  }
+
+  &:disabled {
+    background: #f5f7fb;
+    cursor: not-allowed;
+  }
+}
+
+select {
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+input::placeholder {
+  color: #6b7280;
+}
+
+@media (max-width: 420px) {
+  .telephone {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

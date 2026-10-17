@@ -28,10 +28,10 @@ export const PROFIL = {
   },
   'profil.telephone.label': { fr: 'Numéro de téléphone', en: 'Phone number' },
   'profil.telephone': { fr: 'Téléphone', en: 'Phone' },
-  'profil.telephone.placeholder': { fr: 'Ex. 0612345678', en: 'E.g. 0612345678' },
+  'profil.telephone.placeholder': { fr: 'Ex. 06 12 34 56 78', en: 'E.g. 06 12 34 56 78' },
   'profil.telephone.erreur': {
-    fr: 'Le numéro doit contenir exactement 10 chiffres et commencer par 01 à 09.',
-    en: 'The number must be a French number with exactly 10 digits, starting with 01 to 09.'
+    fr: "Ce numéro n'est pas valide pour le pays choisi : vérifiez l'indicatif et le nombre de chiffres.",
+    en: 'This number is not valid for the selected country: check the country code and the number of digits.'
   },
 
   'profil.section.etudes': { fr: 'Mes études', en: 'My studies' },

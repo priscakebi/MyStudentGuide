@@ -24,6 +24,7 @@ import { DateLPipe, TPipe } from '../../i18n/t.pipe';
 import { Cle } from '../../i18n/textes';
 import { Icone } from '../../components/icone/icone';
 import { ChampSuggestions } from '../../components/champ-suggestions/champ-suggestions';
+import { ChampTelephone, telephoneLisible, telephoneValide } from '../../components/champ-telephone/champ-telephone';
 import { SuggestionsService } from '../../services/suggestions.service';
 import { NATIONALITES } from '../../data/nationalites';
 import { of } from 'rxjs';
@@ -80,6 +81,7 @@ interface StudentProfile {
   imports: [
     Icone,
     ChampSuggestions,
+    ChampTelephone,
     CommonModule,
     FormsModule,
     TPipe,
@@ -115,7 +117,10 @@ export class Profile implements OnInit {
   readonly sourceEtablissements = (texte: string) => this.suggestions.etablissements(texte);
   readonly sourceVilles = (texte: string) => this.suggestions.villes(texte);
   readonly sourceAdresses = (texte: string) => this.suggestions.adresses(texte);
-  readonly libelleNationaliteAsync = (valeur: string) => of(this.libelleNationalite(valeur));
+  /** Numéro lisible : « +33 6 12 34 56 78 ». */
+  readonly telephoneLisible = telephoneLisible;
+
+  readonly libelleNationaliteAsync =(valeur: string) => of(this.libelleNationalite(valeur));
 
   /** Nationalité enregistrée (en français) affichée dans la langue de l'interface. */
   libelleNationalite(valeur: string | null | undefined): string {
@@ -674,7 +679,8 @@ export class Profile implements OnInit {
 
     const value = this.profileForm.telephone?.trim() || '';
 
-    return /^0[1-9]\d{8}$/.test(value);
+    // Tous pays (libphonenumber-js) ; les anciens numéros « 0612345678 » restent valides (France).
+    return telephoneValide(value);
   }
 
 

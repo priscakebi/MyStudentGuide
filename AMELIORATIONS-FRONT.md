@@ -482,3 +482,12 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
   mention ajoutée dans la politique de confidentialité (FR / EN).
 - Mettre à jour la liste des établissements : `node scripts/generer-etablissements.mjs src/app/data/etablissements-superieur.ts` (API
   `data.enseignementsup-recherche.gouv.fr`, jeu « fr-esr-principaux-etablissements-enseignement-superieur »).
+
+## 34. Profil : téléphone international
+- Composant `app-champ-telephone` : choix du pays (« +225 · Côte d'Ivoire », noms de pays traduits par le
+  navigateur) et numéro. Validation pour tous les pays avec **libphonenumber-js** (1.13.14) : avant, seuls les
+  numéros français à 10 chiffres étaient acceptés.
+- Valeur enregistrée au format international E.164 (`+33612345678`) ; « +225… » tapé directement choisit le
+  pays ; affichage lisible en consultation (`+33 6 12 34 56 78`). Les anciens numéros `0612345678` restent
+  valides (France).
+- Coût : environ 34 Ko compressés de plus, uniquement sur la page Profil (chargée à la demande).

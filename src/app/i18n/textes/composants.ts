@@ -101,6 +101,7 @@ export const COMPOSANTS = {
   'avisPublics.surCinq': { fr: '{n} sur 5', en: '{n} out of 5' },
 
   // Champ avec suggestions (profil : nationalité, université, ville, adresse)
+  'telephone.pays': { fr: 'Indicatif du pays', en: 'Country code' },
   'suggestions.nombre': { fr: '{n} suggestion(s), flèches haut et bas pour parcourir', en: '{n} suggestion(s), use up and down arrows to browse' },
   'suggestions.aucune': { fr: 'Aucun résultat : essayez une autre orthographe.', en: 'No results: try another spelling.' },
   'suggestions.aucune.libre': { fr: 'Aucune suggestion : votre saisie sera conservée telle quelle.', en: 'No suggestions: what you typed will be kept as is.' }
