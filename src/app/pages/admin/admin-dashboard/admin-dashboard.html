@@ -603,6 +603,72 @@
 
 
         <!-- =================================================== -->
+        <!-- PROFIL DES ÉTUDIANTS                                -->
+        <!-- =================================================== -->
+
+        @if (stats?.profils; as profils) {
+          <section class="profils-section" aria-labelledby="profils-titre">
+
+            <header class="profils-entete">
+              <h2 id="profils-titre">Profil des étudiants</h2>
+              <p>Pour adapter les démarches à ceux qui utilisent le site.</p>
+            </header>
+
+            <ul class="profils-chiffres">
+              <li>
+                <strong>{{ tauxProfilsComplets }} %</strong>
+                <span>profils complets ({{ profils.complets }} sur {{ stats!.etudiants }})</span>
+              </li>
+              <li>
+                <strong>{{ profils.sansProfil }}</strong>
+                <span>étudiant{{ profils.sansProfil > 1 ? 's' : '' }} sans profil</span>
+              </li>
+              <li [class.alerte]="profils.emailsNonConfirmes > 0">
+                <strong>{{ profils.emailsNonConfirmes }}</strong>
+                <span>e-mail{{ profils.emailsNonConfirmes > 1 ? 's' : '' }} non confirmé{{ profils.emailsNonConfirmes > 1 ? 's' : '' }}</span>
+              </li>
+              <li [class.alerte]="profils.titresExpirant60j > 0">
+                <strong>{{ profils.titresExpirant60j }}</strong>
+                <span>titre{{ profils.titresExpirant60j > 1 ? 's' : '' }} de séjour expirant sous 60 jours</span>
+              </li>
+            </ul>
+
+            <div class="charts-grid profils-grille">
+              @for (bloc of [
+                { titre: 'Nationalités', liste: profils.nationalites, visa: false },
+                { titre: 'Villes d’études', liste: profils.villes, visa: false },
+                { titre: 'Types de visa', liste: profils.visas, visa: true }
+              ]; track bloc.titre) {
+                <article class="panel">
+                  <header class="panel-header">
+                    <h3>{{ bloc.titre }}</h3>
+                  </header>
+                  @if (bloc.liste.length) {
+                    <ol class="bar-list">
+                      @for (r of bloc.liste; track r.libelle) {
+                        <li>
+                          <div class="bar-row">
+                            <span class="bar-name">{{ bloc.visa ? libelleVisa(r.libelle) : r.libelle }}</span>
+                            <span class="bar-value">{{ r.nombre }}</span>
+                          </div>
+                          <div class="bar-track" aria-hidden="true">
+                            <div class="bar-fill" [style.width.%]="largeurRepartition(bloc.liste, r.nombre)"></div>
+                          </div>
+                        </li>
+                      }
+                    </ol>
+                  } @else {
+                    <p class="panel-empty">Pas encore de données.</p>
+                  }
+                </article>
+              }
+            </div>
+
+          </section>
+        }
+
+
+        <!-- =================================================== -->
         <!-- À FAIRE                                             -->
         <!-- =================================================== -->
 

@@ -1729,3 +1729,80 @@ a.stat-card {
 
 .todo-banner .todo-icon { color: var(--msg-blue); }
 .todo-banner.warning .todo-icon { color: #b45309; }
+
+
+// ============================================================
+// PROFIL DES ÉTUDIANTS
+// ============================================================
+
+.profils-section {
+  margin-bottom: 30px;
+}
+
+.profils-entete {
+  margin-bottom: 14px;
+
+  h2 {
+    margin: 0;
+    color: #172033;
+    font-size: 18px;
+  }
+
+  p {
+    margin: 4px 0 0;
+    color: #5b6474;
+    font-size: 13px;
+  }
+}
+
+.profils-chiffres {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0 0 20px;
+  padding: 0;
+  list-style: none;
+
+  li {
+    padding: 14px 16px;
+    border: 1px solid #e6eaf0;
+    border-radius: 14px;
+    background: #ffffff;
+
+    &.alerte {
+      border-color: #fde2c4;
+      background: #fff8ef;
+
+      strong {
+        color: #8a4b08;
+      }
+    }
+  }
+
+  strong {
+    display: block;
+    color: #172033;
+    font-size: 22px;
+    font-weight: 800;
+  }
+
+  span {
+    color: #5b6474;
+    font-size: 12.5px;
+  }
+}
+
+.profils-grille {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 0;
+}
+
+@media (max-width: 1100px) {
+  .profils-chiffres {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .profils-grille {
+    grid-template-columns: 1fr;
+  }
+}

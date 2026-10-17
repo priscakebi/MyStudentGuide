@@ -553,3 +553,15 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
   la dernière visite sont mises en valeur sur la page.
 - **Pour ajouter une nouveauté** : une entrée en haut de `src/app/pages/nouveautes/nouveautes.data.ts`
   (date, type, titre/texte en français et en anglais, lien facultatif). Aucune base de données ni API.
+
+## 40. « Profil complet » corrigé, rappels de fin de titre de séjour, statistiques des étudiants
+- **Correction** : l'étape « Compléter mon profil » de « Bien démarrer » (et la carte « Mon profil ») restait
+  « à compléter » même pour un profil rempli : la valeur n'était jamais calculée (le front ne l'envoyait pas).
+  L'API la calcule désormais elle-même à partir des 9 champs obligatoires du formulaire, à l'enregistrement
+  et à la lecture : les profils déjà remplis sont reconnus sans rien ressaisir.
+- **Rappels de fin de titre de séjour** (`RappelTitreSejourService`) : à partir de la date de fin saisie dans le
+  profil, notification (et e-mail si l'adresse est confirmée) à 120, 60, 30 et 7 jours, puis si la date est
+  dépassée (jusqu'à 30 jours après). Seul le palier le plus proche est envoyé, une seule fois par date.
+- **Statistiques admin** (tableau de bord, « Profil des étudiants ») : part de profils complets, étudiants sans
+  profil, e-mails non confirmés, titres de séjour expirant sous 60 jours, et répartition par nationalité,
+  ville d'études et type de visa (sans tenir compte de la casse : « lyon » et « Lyon » comptent ensemble).

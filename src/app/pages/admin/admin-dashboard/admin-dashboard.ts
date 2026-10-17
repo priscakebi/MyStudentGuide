@@ -51,7 +51,33 @@ export interface AdminStats {
   activiteRecente: { titre: string; message: string; date: string; lu: boolean }[];
   signalementsOuverts: number;
   demandesAideOuvertes: number;
+  /** Qui sont les étudiants (absent si l'API n'est pas encore à jour). */
+  profils?: ProfilEtudiants;
 }
+
+/** Valeur et nombre d'étudiants (nationalité, ville, visa). */
+export interface Repartition {
+  libelle: string;
+  nombre: number;
+}
+
+export interface ProfilEtudiants {
+  complets: number;
+  sansProfil: number;
+  emailsNonConfirmes: number;
+  titresExpirant60j: number;
+  nationalites: Repartition[];
+  villes: Repartition[];
+  visas: Repartition[];
+}
+
+/** Libellés des types de visa (enum VisaType de l'API). */
+const LIBELLES_VISA: Record<string, string> = {
+  VLS_TS_ETUDIANT: 'VLS-TS étudiant',
+  TITRE_SEJOUR_ETUDIANT: 'Titre de séjour étudiant',
+  COURT_SEJOUR: 'Visa court séjour',
+  AUTRE: 'Autre'
+};
 
 
 /**
@@ -132,6 +158,22 @@ export class AdminDashboard implements OnInit {
   largeurBarre(valeur: number): number {
     const max = Math.max(...(this.stats?.topDemarches ?? []).map((d) => d.commencees), 1);
     return (valeur / max) * 100;
+  }
+
+  /** Largeur d'une barre de répartition, relative à la plus grande de sa liste. */
+  largeurRepartition(liste: Repartition[], valeur: number): number {
+    const max = Math.max(...liste.map((r) => r.nombre), 1);
+    return (valeur / max) * 100;
+  }
+
+  libelleVisa(code: string): string {
+    return LIBELLES_VISA[code] ?? code;
+  }
+
+  /** Part des étudiants ayant un profil complet, en %. */
+  get tauxProfilsComplets(): number {
+    const etudiants = this.stats?.etudiants ?? 0;
+    return etudiants ? Math.round((100 * (this.stats?.profils?.complets ?? 0)) / etudiants) : 0;
   }
 
 
