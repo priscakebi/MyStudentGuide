@@ -50,7 +50,8 @@ interface StudentProfile {
 
   villeEtudes: string;
 
-  premiereArrivee: boolean;
+  /** null : pas encore répondu (Oui / Non obligatoire avant l'enregistrement). */
+  premiereArrivee: boolean | null;
 
   typeLogement: string;
 
@@ -387,7 +388,7 @@ export class Profile implements OnInit {
 
       villeEtudes: '',
 
-      premiereArrivee: false,
+      premiereArrivee: null,
 
       typeLogement: '',
 
@@ -699,6 +700,7 @@ export class Profile implements OnInit {
     return !!(
       this.profileForm.nationalite?.trim() &&
       this.profileForm.typeVisa &&
+      typeof this.profileForm.premiereArrivee === 'boolean' &&
       this.profileForm.universite?.trim() &&
       this.profileForm.niveauEtudes &&
       this.profileForm.villeEtudes?.trim() &&

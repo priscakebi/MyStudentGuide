@@ -507,9 +507,14 @@
                  PREMIÈRE ARRIVÉE
                  ================================================== -->
 
+            <!--
+              Oui / Non, réponse obligatoire mais aucune présélectionnée :
+              une case non cochée ne permettait pas de distinguer « non »
+              de « pas répondu » (suggestions de démarches erronées).
+            -->
             <div class="form-group arrival-group">
 
-              <label>
+              <label id="arrivee-titre">
 
                 {{ 'profil.arrivee' | t }}
 
@@ -520,36 +525,53 @@
               </label>
 
 
-              <label
-                class="checkbox-card"
-                [class.checked]="profileForm.premiereArrivee"
+              <div
+                class="choix-arrivee"
+                role="radiogroup"
+                aria-labelledby="arrivee-titre"
+                aria-describedby="arrivee-aide"
+                aria-required="true"
               >
 
-                <input
-                  type="checkbox"
-                  name="premiereArrivee"
-                  [(ngModel)]="profileForm.premiereArrivee"
-                />
+                <label
+                  class="checkbox-card"
+                  [class.checked]="profileForm.premiereArrivee === true"
+                >
+                  <input
+                    type="radio"
+                    name="premiereArrivee"
+                    [value]="true"
+                    [(ngModel)]="profileForm.premiereArrivee"
+                    required
+                  />
+                  <span class="custom-checkbox radio" aria-hidden="true"></span>
+                  <span class="checkbox-content">
+                    <strong>{{ 'profil.arrivee.oui' | t }}</strong>
+                    <small>{{ 'profil.arrivee.oui.texte' | t }}</small>
+                  </span>
+                </label>
 
+                <label
+                  class="checkbox-card"
+                  [class.checked]="profileForm.premiereArrivee === false"
+                >
+                  <input
+                    type="radio"
+                    name="premiereArrivee"
+                    [value]="false"
+                    [(ngModel)]="profileForm.premiereArrivee"
+                    required
+                  />
+                  <span class="custom-checkbox radio" aria-hidden="true"></span>
+                  <span class="checkbox-content">
+                    <strong>{{ 'profil.arrivee.non' | t }}</strong>
+                    <small>{{ 'profil.arrivee.non.texte' | t }}</small>
+                  </span>
+                </label>
 
-                <span class="custom-checkbox">
-                  ✓
-                </span>
+              </div>
 
-
-                <span class="checkbox-content">
-
-                  <strong>
-                    {{ 'profil.arrivee.oui' | t }}
-                  </strong>
-
-                  <small>
-                    {{ 'profil.arrivee.texte' | t }}
-                  </small>
-
-                </span>
-
-              </label>
+              <small id="arrivee-aide" class="field-hint">{{ 'profil.arrivee.texte' | t }}</small>
 
             </div>
 
@@ -1005,11 +1027,13 @@
               </span>
 
               <strong
-                [class.status-yes]="profile.premiereArrivee"
-                [class.status-no]="!profile.premiereArrivee"
+                [class.status-yes]="profile.premiereArrivee === true"
+                [class.status-no]="profile.premiereArrivee === false"
               >
 
-                {{ (profile.premiereArrivee ? 'commun.oui' : 'commun.non') | t }}
+                {{ (profile.premiereArrivee === true ? 'commun.oui'
+                  : profile.premiereArrivee === false ? 'commun.non'
+                  : 'profil.nonRenseigne') | t }}
 
               </strong>
 

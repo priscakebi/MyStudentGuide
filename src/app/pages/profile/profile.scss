@@ -1461,3 +1461,23 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 // Icônes au trait (app-icone) : teinte de leur pastille.
 .information-icon { color: var(--msg-blue); }
 .empty-icon { color: var(--msg-red); }
+
+// Première arrivée : deux choix Oui / Non (boutons radio en forme de cartes).
+.choix-arrivee {
+  display: grid;
+  gap: 8px;
+}
+
+.custom-checkbox.radio {
+  border-radius: 50%;
+}
+
+.checkbox-card.checked .custom-checkbox.radio {
+  box-shadow: inset 0 0 0 4px $white;
+}
+
+// Choix pris au clavier : contour visible (l'input natif est masqué).
+.checkbox-card:has(input:focus-visible) {
+  outline: 2px solid var(--msg-focus);
+  outline-offset: 2px;
+}

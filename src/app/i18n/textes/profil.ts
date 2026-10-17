@@ -74,6 +74,9 @@ export const PROFIL = {
   'profil.visa.NON_RENSEIGNE': { fr: 'Non renseigné', en: 'Not specified' },
   'profil.arrivee': { fr: 'Première arrivée en France', en: 'First arrival in France' },
   'profil.arrivee.oui': { fr: "Oui, c'est ma première arrivée", en: "Yes, it's my first arrival" },
+  'profil.arrivee.oui.texte': { fr: "Je viens d'arriver en France, ou j'arrive bientôt.", en: 'I have just arrived in France, or I am arriving soon.' },
+  'profil.arrivee.non': { fr: 'Non, je vis déjà en France', en: 'No, I already live in France' },
+  'profil.arrivee.non.texte': { fr: "J'y ai déjà un titre de séjour ou j'y ai déjà étudié.", en: 'I already have a residence permit or have already studied here.' },
   'profil.dateArrivee': { fr: "Date d'arrivée en France", en: 'Date of arrival in France' },
   'profil.dateFinTitre': { fr: 'Fin de validité de votre visa ou titre de séjour', en: 'Expiry date of your visa or residence permit' },
   'profil.dates.aide': {
@@ -81,8 +84,8 @@ export const PROFIL = {
     en: 'These dates are used to work out your own deadlines (e.g. validating your VLS-TS within 3 months of arrival) and to remind you of them.'
   },
   'profil.arrivee.texte': {
-    fr: 'Cette information peut être utilisée pour adapter certaines démarches.',
-    en: 'This information may be used to tailor some procedures.'
+    fr: 'Votre réponse sert à vous proposer les bonnes démarches : validation du VLS-TS après une première arrivée, renouvellement du titre de séjour sinon.',
+    en: 'Your answer is used to suggest the right procedures: validating your VLS-TS after a first arrival, renewing your residence permit otherwise.'
   },
 
   'profil.section.logement': { fr: 'Mon logement', en: 'My housing' },

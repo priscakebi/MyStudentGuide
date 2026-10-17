@@ -491,3 +491,12 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
   pays ; affichage lisible en consultation (`+33 6 12 34 56 78`). Les anciens numéros `0612345678` restent
   valides (France).
 - Coût : environ 34 Ko compressés de plus, uniquement sur la page Profil (chargée à la demande).
+
+## 35. Profil : « Première arrivée en France » en Oui / Non
+- La case à cocher (marquée obligatoire mais en réalité facultative) est remplacée par deux choix
+  **Oui / Non** (boutons radio en cartes), avec une phrase d'aide sur leur effet.
+- Réponse obligatoire, mais **aucune présélectionnée** pour un nouveau profil (`premiereArrivee: null`) :
+  une case non cochée valait « Non » et classait à tort un nouvel arrivant distrait parmi les étudiants
+  déjà installés (suggestions de démarches erronées). Les profils existants gardent leur réponse ;
+  « Non renseigné » s'affiche si aucune réponse n'a été donnée.
+- Contour de focus visible au clavier sur les cartes (l'input natif est masqué).
