@@ -38,6 +38,7 @@ import { BandeauVerificationEmail } from '../../components/bandeau-verification-
 import { ParcoursAccueil } from '../../components/parcours-accueil/parcours-accueil';
 import { EtatCompteService } from '../../services/etat-compte.service';
 import { NouveautesService } from '../../services/nouveautes.service';
+import { AstuceDuJourCarte } from '../../components/astuce-du-jour/astuce-du-jour';
 import { CompteurNotificationsService } from '../../services/compteur-notifications.service';
 
 
@@ -81,6 +82,7 @@ interface SuggestionNotification {
   // Modules et directives utilisés dans le HTML.
   imports: [
     Icone,
+    AstuceDuJourCarte,
     BandeauVerificationEmail,
     ParcoursAccueil,
     CommonModule,

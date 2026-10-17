@@ -1,0 +1,12 @@
+@if (astuce(); as astuce) {
+  <section class="astuce" aria-labelledby="astuce-titre">
+    <h2 id="astuce-titre">
+      <span class="icone" aria-hidden="true"><app-icone nom="ampoule" /></span>
+      {{ 'astuce.titre' | t }}
+    </h2>
+    <p class="texte">{{ astuce | tc: 'texte' }}</p>
+    <a class="source" [routerLink]="['/demarches', astuce.demarcheId]">
+      {{ astuce | tc: 'demarcheTitre' }} →
+    </a>
+  </section>
+}

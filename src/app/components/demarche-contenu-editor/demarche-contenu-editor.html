@@ -136,6 +136,64 @@
 
       </section>
 
+
+      <!-- ================================================== -->
+      <!-- CONSEILS PRATIQUES                                 -->
+      <!-- ================================================== -->
+
+      <section>
+
+        <h4>Conseils pratiques <span class="count">{{ conseils.length }}</span></h4>
+        <p class="muted">
+          Astuces de terrain affichées sur la fiche (encadré « Conseils pratiques ») et dans
+          « Astuce du jour » des étudiants qui suivent cette démarche.
+        </p>
+
+        <ul class="items">
+          @for (conseil of conseils; track conseil.id) {
+            <li class="item">
+
+              @if (conseilEdite?.id === conseil.id) {
+
+                <form class="edit-form" (ngSubmit)="modifierConseil()">
+                  <textarea name="texte" [(ngModel)]="conseilEdite!.texte" rows="2" maxlength="500" required aria-label="Conseil"></textarea>
+                  <textarea name="texteEn" [(ngModel)]="conseilEdite!.texteEn" rows="2" maxlength="500" placeholder="Version anglaise (facultatif)" aria-label="Version anglaise du conseil"></textarea>
+                  <div class="row-actions">
+                    <button type="submit" class="btn primary" [disabled]="enCours || !conseilEdite!.texte.trim()">Enregistrer</button>
+                    <button type="button" class="btn" (click)="conseilEdite = null">Annuler</button>
+                  </div>
+                </form>
+
+              } @else {
+
+                <span class="numero link" aria-hidden="true">💡</span>
+                <div class="item-text">
+                  <strong>{{ conseil.texte }}</strong>
+                  @if (conseil.texteEn) {
+                    <p lang="en">EN : {{ conseil.texteEn }}</p>
+                  } @else {
+                    <p>Pas de version anglaise : le texte français sera affiché.</p>
+                  }
+                </div>
+                <div class="icon-actions">
+                  <button type="button" class="icon" title="Modifier" aria-label="Modifier le conseil" (click)="editerConseil(conseil)">✎</button>
+                  <button type="button" class="icon danger" title="Supprimer" aria-label="Supprimer le conseil" [disabled]="enCours" (click)="supprimerConseil(conseil)">🗑</button>
+                </div>
+
+              }
+
+            </li>
+          }
+        </ul>
+
+        <form class="add-form" (ngSubmit)="ajouterConseil()">
+          <textarea name="nouveauConseil" [(ngModel)]="nouveauConseil.texte" rows="2" maxlength="500" placeholder="Ex. : les créneaux de l'ANEF se libèrent souvent tôt le matin." aria-label="Nouveau conseil"></textarea>
+          <textarea name="nouveauConseilEn" [(ngModel)]="nouveauConseil.texteEn" rows="2" maxlength="500" placeholder="Version anglaise (facultatif)" aria-label="Version anglaise du nouveau conseil"></textarea>
+          <button type="submit" class="btn primary" [disabled]="enCours || !nouveauConseil.texte.trim()">+ Ajouter le conseil</button>
+        </form>
+
+      </section>
+
     </div>
   }
 

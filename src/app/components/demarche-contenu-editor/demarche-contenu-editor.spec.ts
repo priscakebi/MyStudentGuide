@@ -32,6 +32,25 @@ describe('DemarcheContenuEditor', () => {
     fixture.detectChanges();
 
     http.expectOne(`${base}/contenu`).flush(contenu);
+    http.expectOne(`${base}/conseils`).flush([{ id: 31, texte: 'Venez tôt.', texteEn: null }]);
+  });
+
+  it('charge les conseils et en ajoute un', () => {
+    expect(editor.conseils.length).toBe(1);
+
+    editor.nouveauConseil = { texte: 'Gardez le récépissé.', texteEn: 'Keep the receipt.' };
+    editor.ajouterConseil();
+
+    const req = http.expectOne(`${base}/conseils`);
+    expect(req.request.method).toBe('POST');
+    req.flush([
+      { id: 31, texte: 'Venez tôt.', texteEn: null },
+      { id: 32, texte: 'Gardez le récépissé.', texteEn: 'Keep the receipt.' }
+    ]);
+
+    expect(editor.conseils.length).toBe(2);
+    expect(editor.nouveauConseil.texte).toBe('');
+    expect(editor.message).toBe('Conseil ajouté.');
   });
 
   afterEach(() => http.verify());

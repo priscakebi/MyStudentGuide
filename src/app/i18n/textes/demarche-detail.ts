@@ -47,6 +47,7 @@ export const DEMARCHE_DETAIL = {
   },
   'detail.agenda': { fr: 'Ajouter à mon agenda', en: 'Add to my calendar' },
   'detail.imprimer': { fr: 'Imprimer / PDF', en: 'Print / PDF' },
+  'detail.conseils.titre': { fr: 'Conseils pratiques', en: 'Practical tips' },
   'detail.imprime': {
     fr: 'Fiche imprimée depuis MyStudentGuide le {date}. Vérifiez les informations sur les sites officiels avant vos démarches.',
     en: 'Printed from MyStudentGuide on {date}. Check the information on the official websites before you start.'

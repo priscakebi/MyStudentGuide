@@ -63,6 +63,13 @@ interface LienOfficiel {
  * Cette structure correspond au DemarcheDetailDTO
  * envoyé par le backend Spring Boot.
  */
+/** Conseil pratique rédigé par l'admin (texteEn : version anglaise facultative). */
+interface Conseil {
+  id: number;
+  texte: string;
+  texteEn: string | null;
+}
+
 interface DemarcheDetail {
   id: number;
   titre: string;
@@ -77,6 +84,7 @@ interface DemarcheDetail {
   documentsRequis: DocumentRequis[];
   etapes: EtapeDemarche[];
   liensOfficiels: LienOfficiel[];
+  conseils?: Conseil[];
 
   /** Fiche Service-Public d'origine (null si saisie à la main). */
   sourceUrl?: string | null;

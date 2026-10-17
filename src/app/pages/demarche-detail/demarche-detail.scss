@@ -1428,3 +1428,33 @@ max-width: 560px;
   color: #475467;
   font-size: 0.8rem;
 }
+
+// Conseils pratiques : encadré entre les étapes et les documents.
+.conseils {
+  margin: 32px 0 0;
+  padding: 20px 24px;
+
+  border: 1px solid #fde7b0;
+  border-left: 4px solid #e8a317;
+  border-radius: 14px;
+  background: #fffaeb;
+
+  h2 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 10px;
+    color: #7a4a04;
+    font-size: 1.05rem;
+  }
+
+  ul {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding-left: 20px;
+    color: #4a3200;
+    font-size: 0.93rem;
+    line-height: 1.55;
+  }
+}

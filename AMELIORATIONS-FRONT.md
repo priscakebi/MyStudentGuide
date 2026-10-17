@@ -577,3 +577,14 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
 - **Imprimer / PDF** sur la fiche d'une démarche : étapes, checklist des documents (cases cochées
   conservées) et liens officiels avec leur adresse écrite en clair ; menus, pied de page et boutons masqués
   (`@media print` dans `styles.scss`, classe `no-print`), date d'impression en bas de la fiche.
+
+## 42. Conseils pratiques des démarches et « Astuce du jour »
+- **Admin** (« Gestion des démarches » → « Contenu ») : nouvelle rubrique « Conseils pratiques » sous les
+  étapes et les liens. Chaque conseil : un texte (500 caractères) et sa version anglaise facultative.
+  API : `/api/admin/demarches/{id}/conseils` (GET, POST, PUT, DELETE), table `conseils_demarche`.
+- **Fiche d'une démarche** : encadré « Conseils pratiques » entre les étapes et les documents (FR / EN,
+  le français s'affiche si le conseil n'est pas traduit). Il est aussi imprimé avec la fiche.
+- **Mon espace** : carte « Astuce du jour » (colonne de droite), tirée des conseils des démarches que
+  l'étudiant suit (en cours d'abord) : la même toute la journée, une autre le lendemain, avec un lien vers la
+  démarche. Rien ne s'affiche tant qu'aucune démarche suivie n'a de conseil.
+  API : `GET /api/conseils/astuce-du-jour` (204 s'il n'y en a pas).

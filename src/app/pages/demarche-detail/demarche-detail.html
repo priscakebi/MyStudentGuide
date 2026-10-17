@@ -333,6 +333,24 @@ class="back-button no-print"
 
 
 <!-- =======================================================
+     CONSEILS PRATIQUES (rédigés par l'équipe)
+     ======================================================= -->
+@if (demarche.conseils?.length) {
+  <aside class="conseils" aria-labelledby="conseils-titre">
+    <h2 id="conseils-titre">
+      <span aria-hidden="true"><app-icone nom="ampoule" /></span>
+      {{ 'detail.conseils.titre' | t }}
+    </h2>
+    <ul>
+      @for (conseil of demarche.conseils; track conseil.id) {
+        <li>{{ conseil | tc: 'texte' }}</li>
+      }
+    </ul>
+  </aside>
+}
+
+
+<!-- =======================================================
      DOCUMENTS REQUIS
      ======================================================= -->
 <section class="content-section">

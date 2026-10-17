@@ -2,6 +2,7 @@ import { Traductions } from './type';
 
 /** Composants partagés : inactivité, écran de chargement, préfecture, avis. */
 export const COMPOSANTS = {
+  'astuce.titre': { fr: 'Astuce du jour', en: 'Tip of the day' },
   // Déconnexion pour inactivité (app.html)
   'inactif.titre': { fr: 'Toujours là ?', en: 'Still there?' },
   'inactif.texte': {

@@ -1,5 +1,5 @@
 // ============================================================
-// ÉDITEUR DES ÉTAPES ET DES LIENS OFFICIELS D'UNE DÉMARCHE
+// ÉDITEUR DES ÉTAPES, DES LIENS OFFICIELS ET DES CONSEILS D'UNE DÉMARCHE
 // ============================================================
 //
 // Utilisé dans « Gestion des démarches » (bouton « 📝 Contenu »).
@@ -28,6 +28,13 @@ interface Lien {
   description: string | null;
 }
 
+/** Conseil pratique (texteEn : version anglaise facultative). */
+interface Conseil {
+  id: number;
+  texte: string;
+  texteEn: string | null;
+}
+
 interface Contenu {
   etapes: Etape[];
   liens: Lien[];
@@ -51,6 +58,7 @@ export class DemarcheContenuEditor implements OnInit {
 
   etapes: Etape[] = [];
   liens: Lien[] = [];
+  conseils: Conseil[] = [];
 
   chargement = true;
   enCours = false;
@@ -60,10 +68,12 @@ export class DemarcheContenuEditor implements OnInit {
   /** Formulaires d'ajout. */
   nouvelleEtape = { titre: '', description: '' };
   nouveauLien = { nom: '', url: '', description: '' };
+  nouveauConseil = { texte: '', texteEn: '' };
 
   /** Élément en cours de modification (copie éditée). */
   etapeEditee: Etape | null = null;
   lienEdite: Lien | null = null;
+  conseilEdite: Conseil | null = null;
 
   private get url(): string {
     return `${environment.apiUrl}/admin/demarches/${this.demarcheId}`;
@@ -79,6 +89,11 @@ export class DemarcheContenuEditor implements OnInit {
         this.chargement = false;
         this.erreur = 'Impossible de charger les étapes et les liens.';
       }
+    });
+
+    this.http.get<Conseil[]>(`${this.url}/conseils`).subscribe({
+      next: (conseils) => this.conseils = conseils ?? [],
+      error: () => this.erreur = 'Impossible de charger les conseils.'
     });
   }
 
@@ -171,10 +186,64 @@ export class DemarcheContenuEditor implements OnInit {
 
 
   // ==========================================================
+  // CONSEILS PRATIQUES
+  // ==========================================================
+
+  ajouterConseil(): void {
+    this.executer(
+      this.http.post<Conseil[]>(`${this.url}/conseils`, this.nouveauConseil),
+      'Conseil ajouté.',
+      () => this.nouveauConseil = { texte: '', texteEn: '' },
+      (conseils) => this.conseils = conseils
+    );
+  }
+
+  modifierConseil(): void {
+    if (!this.conseilEdite) {
+      return;
+    }
+    const { id, texte, texteEn } = this.conseilEdite;
+    this.executer(
+      this.http.put<Conseil[]>(`${this.url}/conseils/${id}`, { texte, texteEn }),
+      'Conseil modifié.',
+      () => this.conseilEdite = null,
+      (conseils) => this.conseils = conseils
+    );
+  }
+
+  supprimerConseil(conseil: Conseil): void {
+    if (!confirm(`Supprimer le conseil « ${conseil.texte} » ?`)) {
+      return;
+    }
+    this.executer(
+      this.http.delete<Conseil[]>(`${this.url}/conseils/${conseil.id}`),
+      'Conseil supprimé.',
+      undefined,
+      (conseils) => this.conseils = conseils
+    );
+  }
+
+  editerConseil(conseil: Conseil): void {
+    this.etapeEditee = null;
+    this.lienEdite = null;
+    this.conseilEdite = { ...conseil, texteEn: conseil.texteEn ?? '' };
+  }
+
+
+  // ==========================================================
   // OUTILS
   // ==========================================================
 
-  private executer(requete: Observable<Contenu>, succes: string, ensuite?: () => void): void {
+  /**
+   * Lance une opération ; par défaut la réponse est le contenu (étapes + liens),
+   * `appliquerReponse` sert aux autres réponses (liste des conseils).
+   */
+  private executer<T = Contenu>(
+    requete: Observable<T>,
+    succes: string,
+    ensuite?: () => void,
+    appliquerReponse: (reponse: T) => void = (reponse) => this.appliquer(reponse as Contenu)
+  ): void {
     if (this.enCours) {
       return;
     }
@@ -186,7 +255,7 @@ export class DemarcheContenuEditor implements OnInit {
     requete.subscribe({
       next: (contenu) => {
         this.enCours = false;
-        this.appliquer(contenu);
+        appliquerReponse(contenu);
         this.message = succes;
         ensuite?.();
       },

@@ -1,0 +1,46 @@
+// « Astuce du jour » : même famille de couleurs que l'encadré « Conseils pratiques » de la fiche.
+
+.astuce {
+  padding: 20px 22px;
+
+  border: 1px solid #fde7b0;
+  border-radius: 18px;
+  background: #fffaeb;
+
+  h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 10px;
+    color: #7a4a04;
+    font-size: 16px;
+  }
+}
+
+.icone {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: #fdecc2;
+  font-size: 17px;
+}
+
+.texte {
+  margin: 0 0 12px;
+  color: #4a3200;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.source {
+  color: #7a4a04;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
