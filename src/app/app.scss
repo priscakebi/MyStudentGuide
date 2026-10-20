@@ -14,8 +14,8 @@
   width: min(92vw, 420px);
   padding: 28px 24px;
   border-radius: 16px;
-  background: #fff;
-  color: #0f172a;
+  background: var(--bffffff);
+  color: var(--f0f172a);
   text-align: center;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
 
@@ -33,15 +33,15 @@
 .idle-btn {
   padding: 10px 18px;
   border-radius: 10px;
-  border: 1px solid #cbd5e1;
-  background: #fff;
-  color: #0f172a;
+  border: 1px solid var(--lcbd5e1);
+  background: var(--bffffff);
+  color: var(--f0f172a);
   font: inherit;
   cursor: pointer;
 
   &.primary {
-    background: #2563eb;
-    border-color: #2563eb;
-    color: #fff;
+    background: var(--b2563eb);
+    border-color: var(--l2563eb);
+    color: var(--fffffff);
   }
 }

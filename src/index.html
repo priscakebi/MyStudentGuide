@@ -9,6 +9,21 @@
   <meta name="theme-color" content="#1646a0">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 
+  <!--
+    Mode sombre appliqué AVANT l'affichage (évite un éclair blanc) :
+    choix enregistré du visiteur, sinon réglage de l'appareil.
+    Même logique que ThemeService (src/app/services/theme.service.ts).
+  -->
+  <script>
+    (function () {
+      var choix = null;
+      try { choix = localStorage.getItem('theme'); } catch (e) {}
+      var sombre = choix === 'dark'
+        || (choix !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      if (sombre) { document.documentElement.setAttribute('data-theme', 'dark'); }
+    })();
+  </script>
+
   <!-- Police de la charte graphique, hébergée par le site (voir styles.scss) -->
   <link rel="preload" href="fonts/plus-jakarta-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 </head>

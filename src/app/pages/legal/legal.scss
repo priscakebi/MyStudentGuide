@@ -13,7 +13,7 @@ $border: #e6eaf0;
   max-width: 860px;
   margin: 0 auto;
   padding: 48px 20px 72px;
-  color: $text-soft;
+  color: var(--f344054);
   line-height: 1.7;
 }
 
@@ -30,7 +30,7 @@ $border: #e6eaf0;
 
   h1 {
     margin: 6px 0 8px;
-    color: $text;
+    color: var(--f172033);
     font-size: clamp(1.8rem, 4vw, 2.4rem);
     font-weight: 800;
     line-height: 1.2;
@@ -39,7 +39,7 @@ $border: #e6eaf0;
 
   .maj {
     margin: 0;
-    color: $muted;
+    color: var(--f667085);
     font-size: 0.9rem;
   }
 }
@@ -49,8 +49,8 @@ $border: #e6eaf0;
   margin: 0 0 24px;
   padding: 10px 14px;
   border-radius: 10px;
-  background: #eff4ff;
-  color: #1e3a8a;
+  background: var(--beff4ff);
+  color: var(--f1e3a8a);
   font-size: 0.9rem;
 }
 
@@ -60,7 +60,7 @@ $border: #e6eaf0;
   padding: 0;
   border: 0;
   background: none;
-  color: #1646a0;
+  color: var(--f1646a0);
   font: inherit;
   font-weight: 700;
   text-decoration: underline;
@@ -71,9 +71,9 @@ $border: #e6eaf0;
 .resume {
   margin: 0 0 32px;
   padding: 18px 20px;
-  border: 1px solid #c7d7fe;
+  border: 1px solid var(--lc7d7fe);
   border-radius: 14px;
-  background: #f5f8ff;
+  background: var(--bf5f8ff);
 
   h2 {
     margin: 0 0 8px;
@@ -88,18 +88,18 @@ $border: #e6eaf0;
 
 section {
   padding: 24px 0;
-  border-top: 1px solid $border;
+  border-top: 1px solid var(--le6eaf0);
 
   h2 {
     margin: 0 0 12px;
-    color: $text;
+    color: var(--f172033);
     font-size: 1.25rem;
     font-weight: 800;
   }
 
   h3 {
     margin: 18px 0 6px;
-    color: $text;
+    color: var(--f172033);
     font-size: 1rem;
   }
 
@@ -118,7 +118,7 @@ section {
 }
 
 a {
-  color: $blue;
+  color: var(--f1646a0);
   font-weight: 600;
 }
 
@@ -126,7 +126,7 @@ a {
 .table-wrap {
   overflow-x: auto;
   margin: 8px 0 12px;
-  border: 1px solid $border;
+  border: 1px solid var(--le6eaf0);
   border-radius: 12px;
 }
 
@@ -139,14 +139,14 @@ table {
   th,
   td {
     padding: 10px 12px;
-    border-bottom: 1px solid $border;
+    border-bottom: 1px solid var(--le6eaf0);
     text-align: left;
     vertical-align: top;
   }
 
   th {
-    background: #f9fafb;
-    color: $text;
+    background: var(--bf9fafb);
+    color: var(--f172033);
     font-weight: 700;
   }
 
@@ -159,14 +159,14 @@ table {
 .a-completer {
   padding: 1px 6px;
   border-radius: 6px;
-  background: #fff4e5;
-  color: #9a4b00;
+  background: var(--bfff4e5);
+  color: var(--f9a4b00);
   font-weight: 700;
 }
 
 .encadre {
   padding: 14px 16px;
-  border-left: 4px solid $blue;
+  border-left: 4px solid var(--l1646a0);
   border-radius: 0 10px 10px 0;
-  background: #f5f8ff;
+  background: var(--bf5f8ff);
 }

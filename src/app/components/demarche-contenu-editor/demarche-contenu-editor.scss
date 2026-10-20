@@ -5,10 +5,10 @@
 .editor {
   padding: 18px 20px;
 
-  border: 1px solid #dbe5f8;
+  border: 1px solid var(--ldbe5f8);
   border-radius: 12px;
 
-  background: #f8faff;
+  background: var(--bf8faff);
 }
 
 .columns {
@@ -29,15 +29,15 @@ h4 {
 
   margin: 0 0 10px;
 
-  color: #172033;
+  color: var(--f172033);
   font-size: 15px;
 }
 
 .count {
   padding: 1px 8px;
   border-radius: 50px;
-  background: #eaf1ff;
-  color: #1646a0;
+  background: var(--beaf1ff);
+  color: var(--f1646a0);
   font-size: 12px;
 }
 
@@ -45,8 +45,8 @@ h4 {
   margin: 0 0 12px;
   padding: 9px 12px;
   border-radius: 8px;
-  background: #fff8e8;
-  color: #92400e;
+  background: var(--bfff8e8);
+  color: var(--f92400e);
   font-size: 13px;
 }
 
@@ -56,13 +56,13 @@ h4 {
   border-radius: 8px;
   font-size: 13px;
 
-  &.success { background: #e9f8ee; color: #217a3c; }
-  &.error { background: #fdecec; color: #b42323; }
+  &.success { background: var(--be9f8ee); color: var(--f217a3c); }
+  &.error { background: var(--bfdecec); color: var(--fb42323); }
 }
 
 .muted {
   margin: 0 0 10px;
-  color: #697386;
+  color: var(--f697386);
   font-size: 13px;
 }
 
@@ -84,10 +84,10 @@ h4 {
 
   padding: 10px 12px;
 
-  border: 1px solid #e4e7ec;
+  border: 1px solid var(--le4e7ec);
   border-radius: 10px;
 
-  background: white;
+  background: var(--bffffff);
 }
 
 .numero {
@@ -100,15 +100,15 @@ h4 {
 
   border-radius: 8px;
 
-  background: #1646a0;
-  color: white;
+  background: var(--b1646a0);
+  color: var(--fffffff);
 
   font-size: 12px;
   font-weight: 700;
 
   &.link {
-    background: #eaf1ff;
-    color: #1646a0;
+    background: var(--beaf1ff);
+    color: var(--f1646a0);
   }
 }
 
@@ -118,14 +118,14 @@ h4 {
 
   strong {
     display: block;
-    color: #172033;
+    color: var(--f172033);
     font-size: 14px;
   }
 
   a {
     display: block;
     overflow: hidden;
-    color: #1646a0;
+    color: var(--f1646a0);
     font-size: 12px;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -135,7 +135,7 @@ h4 {
     display: -webkit-box;
     margin: 4px 0 0;
     overflow: hidden;
-    color: #555;
+    color: var(--f555555);
     font-size: 12.5px;
     line-height: 1.5;
     white-space: pre-line;
@@ -155,19 +155,19 @@ h4 {
   width: 30px;
   height: 30px;
 
-  border: 1px solid #e4e7ec;
+  border: 1px solid var(--le4e7ec);
   border-radius: 8px;
 
-  background: white;
-  color: #3f4755;
+  background: var(--bffffff);
+  color: var(--f3f4755);
 
   font-size: 14px;
 
   cursor: pointer;
 
-  &:hover:not(:disabled) { border-color: #1646a0; color: #1646a0; }
+  &:hover:not(:disabled) { border-color: var(--l1646a0); color: var(--f1646a0); }
   &:disabled { opacity: 0.35; cursor: default; }
-  &.danger:hover:not(:disabled) { border-color: #b42323; color: #b42323; }
+  &.danger:hover:not(:disabled) { border-color: var(--lb42323); color: var(--fb42323); }
 }
 
 .add-form,
@@ -181,7 +181,7 @@ h4 {
     width: 100%;
     box-sizing: border-box;
     padding: 9px 11px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--ldddddd);
     border-radius: 8px;
     font-family: inherit;
     font-size: 13.5px;
@@ -196,7 +196,7 @@ h4 {
 
 .add-form {
   padding-top: 10px;
-  border-top: 1px dashed #dbe5f8;
+  border-top: 1px dashed var(--ldbe5f8);
 
   .btn { align-self: flex-start; }
 }
@@ -209,11 +209,11 @@ h4 {
 .btn {
   padding: 8px 14px;
 
-  border: 1px solid #ddd;
+  border: 1px solid var(--ldddddd);
   border-radius: 8px;
 
-  background: white;
-  color: #3f4755;
+  background: var(--bffffff);
+  color: var(--f3f4755);
 
   font-family: inherit;
   font-size: 13px;
@@ -224,9 +224,9 @@ h4 {
   &:disabled { opacity: 0.55; cursor: not-allowed; }
 
   &.primary {
-    border-color: #1646a0;
-    background: #1646a0;
-    color: white;
+    border-color: var(--l1646a0);
+    background: var(--b1646a0);
+    color: var(--fffffff);
   }
 }
 

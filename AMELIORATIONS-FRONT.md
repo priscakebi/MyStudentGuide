@@ -588,3 +588,18 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
   l'étudiant suit (en cours d'abord) : la même toute la journée, une autre le lendemain, avec un lien vers la
   démarche. Rien ne s'affiche tant qu'aucune démarche suivie n'a de conseil.
   API : `GET /api/conseils/astuce-du-jour` (204 s'il n'y en a pas).
+
+## 43. Mode sombre
+- **Bouton soleil / lune** à côté du choix FR / EN (barre de navigation, espace étudiant, pages de connexion)
+  et dans la barre du haut de l'administration. Sans choix du visiteur, le site suit le réglage de
+  l'appareil ; le choix est mémorisé dans le navigateur (`ThemeService`). Un petit script de `index.html`
+  applique le thème avant l'affichage : pas d'éclair blanc au chargement.
+- **Couleurs** : les ~1 400 couleurs écrites en dur dans les 40 fichiers de style passent par des variables CSS
+  selon leur usage (`--b…` fond, `--f…` texte, `--l…` bordure / ombre). Valeurs sombres calculées par
+  `tools/mode-sombre.mjs` (espace OKLCH, teinte conservée) : fonds clairs → surfaces sombres, textes foncés →
+  clairs, textes colorés éclaircis ; boutons de couleur et surfaces bleu nuit inchangés.
+  Palette générée : `src/styles/_palette.scss` ; réglages à la main : `src/styles/_theme-sombre.scss`.
+- **Contrastes vérifiés** : audit axe à 0 erreur sur 34 pages, en mode sombre comme en mode clair
+  (ordinateur FR et mobile EN).
+- **Pour ajouter une couleur** : l'écrire normalement (`#1646a0`, `$blue`), puis lancer
+  `node tools/mode-sombre.mjs` qui la convertit et met la palette à jour.

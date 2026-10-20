@@ -9,10 +9,10 @@
   margin: 0 0 20px;
   padding: 16px 18px;
 
-  border: 1px solid #f5d79e;
+  border: 1px solid var(--lf5d79e);
   border-radius: 14px;
 
-  background: #fff8e8;
+  background: var(--bfff8e8);
 }
 
 .icone {
@@ -25,8 +25,8 @@
 
   border-radius: 12px;
 
-  background: #ffefc7;
-  color: #b45309;
+  background: var(--bffefc7);
+  color: var(--fb45309);
   font-size: 1.25rem;
 }
 
@@ -36,13 +36,13 @@
 
   h2 {
     margin: 0 0 4px;
-    color: #172033;
+    color: var(--f172033);
     font-size: 15px;
   }
 
   p {
     margin: 0;
-    color: #5b4a1f;
+    color: var(--f5b4a1f);
     font-size: 13.5px;
     line-height: 1.5;
     overflow-wrap: anywhere;
@@ -50,11 +50,11 @@
 
   .retour {
     margin-top: 6px;
-    color: #11704d;
+    color: var(--f11704d);
     font-weight: 600;
 
     &.erreur {
-      color: #b42323;
+      color: var(--fb42323);
     }
   }
 }
@@ -66,7 +66,7 @@
   gap: 10px 14px;
 
   a {
-    color: #1646a0;
+    color: var(--f1646a0);
     font-size: 13.5px;
     font-weight: 600;
   }
@@ -78,8 +78,8 @@
   border: 0;
   border-radius: 10px;
 
-  background: #1646a0;
-  color: #ffffff;
+  background: var(--b1646a0);
+  color: var(--fffffff);
 
   font-family: inherit;
   font-size: 13.5px;

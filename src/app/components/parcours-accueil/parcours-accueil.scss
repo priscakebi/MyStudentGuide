@@ -4,10 +4,10 @@
   margin: 0 0 22px;
   padding: 20px 22px;
 
-  border: 1px solid #dbe5f8;
+  border: 1px solid var(--ldbe5f8);
   border-radius: 18px;
 
-  background: #ffffff;
+  background: var(--bffffff);
   box-shadow: 0 6px 18px rgba(16, 24, 40, 0.05);
 }
 
@@ -19,13 +19,13 @@
 
   h2 {
     margin: 0 0 4px;
-    color: #172033;
+    color: var(--f172033);
     font-size: 18px;
   }
 
   p {
     margin: 0;
-    color: #5b6474;
+    color: var(--f5b6474);
     font-size: 13.5px;
   }
 }
@@ -34,11 +34,11 @@
   flex-shrink: 0;
   padding: 6px 10px;
 
-  border: 1px solid #e4e7ec;
+  border: 1px solid var(--le4e7ec);
   border-radius: 8px;
 
-  background: #ffffff;
-  color: #5b6474;
+  background: var(--bffffff);
+  color: var(--f5b6474);
 
   font-family: inherit;
   font-size: 12.5px;
@@ -47,7 +47,7 @@
   cursor: pointer;
 
   &:hover {
-    color: #172033;
+    color: var(--f172033);
   }
 }
 
@@ -57,20 +57,20 @@
   overflow: hidden;
 
   border-radius: 99px;
-  background: #eaf1ff;
+  background: var(--beaf1ff);
 
   span {
     display: block;
     height: 100%;
     border-radius: inherit;
-    background: #1646a0;
+    background: var(--b1646a0);
     transition: width 0.3s ease;
   }
 }
 
 .compteur {
   margin: 0 0 12px;
-  color: #5b6474;
+  color: var(--f5b6474);
   font-size: 12.5px;
   font-weight: 600;
 }
@@ -90,16 +90,16 @@
 
     padding: 12px 14px;
 
-    border: 1px solid #eef1f6;
+    border: 1px solid var(--leef1f6);
     border-radius: 12px;
 
-    background: #fbfcfe;
+    background: var(--bfbfcfe);
 
     &.fait {
-      background: #f3fbf7;
+      background: var(--bf3fbf7);
 
       strong {
-        color: #11704d;
+        color: var(--f11704d);
       }
     }
   }
@@ -115,15 +115,15 @@
 
   border-radius: 50%;
 
-  background: #eaf1ff;
-  color: #1646a0;
+  background: var(--beaf1ff);
+  color: var(--f1646a0);
 
   font-size: 13px;
   font-weight: 800;
 
   .fait & {
-    background: #e2f5eb;
-    color: #11704d;
+    background: var(--be2f5eb);
+    color: var(--f11704d);
     font-size: 17px;
   }
 }
@@ -134,13 +134,13 @@
 
   strong {
     display: block;
-    color: #172033;
+    color: var(--f172033);
     font-size: 14px;
   }
 
   p {
     margin: 2px 0 0;
-    color: #5b6474;
+    color: var(--f5b6474);
     font-size: 13px;
     line-height: 1.45;
   }
@@ -152,15 +152,15 @@
 
   border-radius: 9px;
 
-  background: #1646a0;
-  color: #ffffff;
+  background: var(--b1646a0);
+  color: var(--fffffff);
 
   font-size: 13px;
   font-weight: 700;
   text-decoration: none;
 
   &:hover {
-    background: #0d2f70;
+    background: var(--b0d2f70);
   }
 }
 

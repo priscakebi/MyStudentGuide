@@ -11,9 +11,9 @@ $border: #e5e7eb;
   margin-bottom: 25px;
   padding: 20px 22px;
 
-  border: 1px solid $border;
+  border: 1px solid var(--le5e7eb);
   border-radius: 14px;
-  background: #ffffff;
+  background: var(--bffffff);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
 }
 
@@ -29,13 +29,13 @@ $border: #e5e7eb;
 
   h2 {
     margin: 0;
-    color: $dark;
+    color: var(--f1f2937);
     font-size: 17px;
   }
 
   p {
     margin: 4px 0 0;
-    color: $muted;
+    color: var(--f5b6474);
     font-size: 13px;
   }
 }
@@ -46,10 +46,10 @@ $border: #e5e7eb;
   flex-shrink: 0;
   width: 42px;
   height: 42px;
-  border: 1px solid #f2cccc;
+  border: 1px solid var(--lf2cccc);
   border-radius: 12px;
-  background: #fff1f1;
-  color: $red;
+  background: var(--bfff1f1);
+  color: var(--fc62828);
   font-size: 20px;
 }
 
@@ -58,12 +58,12 @@ form {
   gap: 6px;
   margin-top: 18px;
   padding-top: 18px;
-  border-top: 1px solid $border;
+  border-top: 1px solid var(--le5e7eb);
 }
 
 label {
   margin-top: 6px;
-  color: $dark;
+  color: var(--f1f2937);
   font-size: 14px;
   font-weight: 600;
 }
@@ -74,10 +74,10 @@ textarea {
   width: 100%;
   padding: 11px 14px;
 
-  border: 1px solid #d7dbe0;
+  border: 1px solid var(--ld7dbe0);
   border-radius: 9px;
-  background: #ffffff;
-  color: $dark;
+  background: var(--bffffff);
+  color: var(--f1f2937);
 
   font: inherit;
   font-size: 14px;
@@ -90,13 +90,13 @@ textarea {
   }
 
   &:disabled {
-    background: #f3f4f6;
+    background: var(--bf3f4f6);
   }
 }
 
 .compte {
   justify-self: end;
-  color: $muted;
+  color: var(--f5b6474);
   font-size: 12px;
 }
 
@@ -109,7 +109,7 @@ textarea {
   input {
     width: 17px;
     height: 17px;
-    accent-color: $red;
+    accent-color: var(--fc62828);
   }
 }
 
@@ -120,15 +120,15 @@ textarea {
   font-size: 13.5px;
 
   &.succes {
-    border: 1px solid #b9ebcd;
-    background: #ecfdf3;
-    color: #16803c;
+    border: 1px solid var(--lb9ebcd);
+    background: var(--becfdf3);
+    color: var(--f16803c);
   }
 
   &.erreur {
-    border: 1px solid #f0c7c7;
-    background: #fff1f1;
-    color: $red;
+    border: 1px solid var(--lf0c7c7);
+    background: var(--bfff1f1);
+    color: var(--fc62828);
   }
 }
 
@@ -136,10 +136,10 @@ textarea {
   margin-top: 10px;
   padding: 14px 16px;
 
-  border: 1px solid #fde2c4;
+  border: 1px solid var(--lfde2c4);
   border-radius: 12px;
-  background: #fff8ef;
-  color: #6b3a05;
+  background: var(--bfff8ef);
+  color: var(--f6b3a05);
 
   p {
     margin: 0;
@@ -173,22 +173,22 @@ button {
 
 .principal {
   border: none;
-  background: $red;
-  color: #ffffff;
+  background: var(--bc62828);
+  color: var(--fffffff);
 
   &:hover:not(:disabled) {
-    background: $red-dark;
+    background: var(--ba91f1f);
   }
 }
 
 .secondaire,
 .basculer {
-  border: 1px solid #d7dbe0;
-  background: #ffffff;
-  color: $text;
+  border: 1px solid var(--ld7dbe0);
+  background: var(--bffffff);
+  color: var(--f374151);
 
   &:hover:not(:disabled) {
-    border-color: #bfc4ca;
-    background: #f8f9fa;
+    border-color: var(--lbfc4ca);
+    background: var(--bf8f9fa);
   }
 }

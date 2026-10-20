@@ -26,7 +26,7 @@ margin-bottom: 24px;
 .notifications-header h1 {
 margin: 0 0 8px;
 
-color: #1f2937;
+color: var(--f1f2937);
 font-size: 2rem;
 font-weight: 700;
 }
@@ -34,7 +34,7 @@ font-weight: 700;
 .notifications-header p {
 margin: 0;
 
-color: #6b7280;
+color: var(--f6b7280);
 font-size: 0.95rem;
 }
 
@@ -49,11 +49,11 @@ gap: 9px;
 
 padding: 10px 15px;
 
-background: #fff5f5;
-border: 1px solid #ffd6d6;
+background: var(--bfff5f5);
+border: 1px solid var(--lffd6d6);
 border-radius: 10px;
 
-color: #b91c1c;
+color: var(--fb91c1c);
 }
 
 .notification-counter span {
@@ -65,10 +65,10 @@ min-width: 30px;
 height: 30px;
 padding: 0 7px;
 
-background: #d71920;
+background: var(--bd71920);
 border-radius: 50%;
 
-color: #ffffff;
+color: var(--fffffff);
 font-size: 0.8rem;
 font-weight: 700;
 }
@@ -98,11 +98,11 @@ gap: 7px;
 
 padding: 9px 15px;
 
-background: #ffffff;
-border: 1px solid #d71920;
+background: var(--bffffff);
+border: 1px solid var(--ld71920);
 border-radius: 8px;
 
-color: #d71920;
+color: var(--fd71920);
 
 font-family: inherit;
 font-size: 0.82rem;
@@ -117,8 +117,8 @@ transform 0.2s ease;
 }
 
 .actions button:hover:not(:disabled) {
-background: #d71920;
-color: #ffffff;
+background: var(--bd71920);
+color: var(--fffffff);
 transform: translateY(-1px);
 }
 
@@ -135,11 +135,11 @@ MESSAGE D'ERREUR
 margin-bottom: 20px;
 padding: 14px 16px;
 
-background: #fef2f2;
-border: 1px solid #fecaca;
+background: var(--bfef2f2);
+border: 1px solid var(--lfecaca);
 border-radius: 9px;
 
-color: #991b1b;
+color: var(--f991b1b);
 
 font-size: 0.88rem;
 }
@@ -155,7 +155,7 @@ justify-content: center;
 
 min-height: 250px;
 
-color: #6b7280;
+color: var(--f6b7280);
 font-size: 0.9rem;
 }
 
@@ -172,8 +172,8 @@ justify-content: center;
 min-height: 300px;
 padding: 40px;
 
-background: #ffffff;
-border: 1px solid #eeeeee;
+background: var(--bffffff);
+border: 1px solid var(--leeeeee);
 border-radius: 16px;
 
 text-align: center;
@@ -191,7 +191,7 @@ height: 65px;
 
 margin-bottom: 18px;
 
-background: #fff5f5;
+background: var(--bfff5f5);
 border-radius: 50%;
 
 font-size: 1.7rem;
@@ -200,14 +200,14 @@ font-size: 1.7rem;
 .empty-state h2 {
 margin: 0 0 8px;
 
-color: #1f2937;
+color: var(--f1f2937);
 font-size: 1.15rem;
 }
 
 .empty-state p {
 margin: 0;
 
-color: #6b7280;
+color: var(--f6b7280);
 font-size: 0.88rem;
 }
 
@@ -237,9 +237,9 @@ box-sizing: border-box;
 
 padding: 20px;
 
-background: #ffffff;
+background: var(--bffffff);
 
-border: 1px solid #eeeeee;
+border: 1px solid var(--leeeeee);
 border-radius: 13px;
 
 cursor: pointer;
@@ -261,11 +261,11 @@ background-color 0.2s ease;
   .notification-card:hover {
   transform: translateY(-2px);
 
-border-color: #f0a0a3;
+border-color: var(--lf0a0a3);
 
 box-shadow: 0 7px 22px rgba(215, 25, 32, 0.08);
 
-background: #fffdfd;
+background: var(--bfffdfd);
 }
 
 /* ================================================================
@@ -273,9 +273,9 @@ NOTIFICATION NON LUE
 ================================================================ */
 
 .notification-card.unread {
-background: #fffafa;
+background: var(--bfffafa);
 
-border-left: 4px solid #d71920;
+border-left: 4px solid var(--ld71920);
 }
 
 /*
@@ -284,7 +284,7 @@ border-left: 4px solid #d71920;
 * au survol.
   */
   .notification-card.unread:hover {
-  background: #fff6f6;
+  background: var(--bfff6f6);
   }
 
 /* ================================================================
@@ -301,7 +301,7 @@ height: 45px;
 
 flex-shrink: 0;
 
-background: #f5f5f5;
+background: var(--bf5f5f5);
 border-radius: 12px;
 
 font-size: 1.1rem;
@@ -312,12 +312,12 @@ transform 0.2s ease;
 }
 
 .notification-card:hover .notification-icon {
-background: #ffe5e5;
+background: var(--bffe5e5);
 transform: scale(1.05);
 }
 
 .notification-card.unread .notification-icon {
-background: #ffe5e5;
+background: var(--bffe5e5);
 }
 
 /* ================================================================
@@ -341,7 +341,7 @@ margin-bottom: 7px;
 .notification-title-row h2 {
 margin: 0;
 
-color: #1f2937;
+color: var(--f1f2937);
 
 font-size: 0.98rem;
 font-weight: 700;
@@ -351,7 +351,7 @@ line-height: 1.4;
 .notification-content > p {
 margin: 0 0 8px;
 
-color: #6b7280;
+color: var(--f6b7280);
 
 font-size: 0.87rem;
 line-height: 1.6;
@@ -360,11 +360,11 @@ overflow-wrap: anywhere;
 }
 
 .notification-card.unread .notification-content > p {
-color: #4b5563;
+color: var(--f4b5563);
 }
 
 .notification-content > small {
-color: #667085;
+color: var(--f667085);
 font-size: 0.75rem;
 }
 
@@ -378,10 +378,10 @@ align-items: center;
 
 padding: 4px 8px;
 
-background: #ffe5e5;
+background: var(--bffe5e5);
 border-radius: 20px;
 
-color: #c5161d;
+color: var(--fc5161d);
 
 font-size: 0.67rem;
 font-weight: 700;
@@ -409,11 +409,11 @@ BOUTON "MARQUER COMME LUE"
 .read-button {
 padding: 8px 12px;
 
-background: #fff5f5;
-border: 1px solid #f2b5b7;
+background: var(--bfff5f5);
+border: 1px solid var(--lf2b5b7);
 border-radius: 7px;
 
-color: #c5161d;
+color: var(--fc5161d);
 
 font-family: inherit;
 font-size: 0.75rem;
@@ -428,10 +428,10 @@ color 0.2s ease;
 }
 
 .read-button:hover {
-background: #d71920;
-border-color: #d71920;
+background: var(--bd71920);
+border-color: var(--ld71920);
 
-color: #ffffff;
+color: var(--fffffff);
 }
 
 /* ================================================================
@@ -441,11 +441,11 @@ BOUTON "SUPPRIMER"
 .delete-button {
 padding: 8px 12px;
 
-background: #ffffff;
-border: 1px solid #e5e7eb;
+background: var(--bffffff);
+border: 1px solid var(--le5e7eb);
 border-radius: 7px;
 
-color: #6b7280;
+color: var(--f6b7280);
 
 font-family: inherit;
 font-size: 0.75rem;
@@ -460,10 +460,10 @@ color 0.2s ease;
 }
 
 .delete-button:hover {
-background: #fef2f2;
-border-color: #fecaca;
+background: var(--bfef2f2);
+border-color: var(--lfecaca);
 
-color: #dc2626;
+color: var(--fdc2626);
 }
 
 /* ================================================================
@@ -601,7 +601,7 @@ justify-content: center;
   background: transparent;
   border: none;
 
-  color: #d71920;
+  color: var(--fd71920);
 
   font-family: inherit;
   font-size: 0.88rem;
@@ -615,7 +615,7 @@ justify-content: center;
 }
 
 .back-button:hover {
-  color: #a80f15;
+  color: var(--fa80f15);
   transform: translateX(-3px);
 }
 
@@ -630,9 +630,9 @@ justify-content: center;
 
   padding: 32px;
 
-  background: #ffffff;
+  background: var(--bffffff);
 
-  border: 1px solid #eeeeee;
+  border: 1px solid var(--leeeeee);
   border-radius: 16px;
 
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
@@ -653,7 +653,7 @@ justify-content: center;
 
   margin-bottom: 20px;
 
-  background: #ffe5e5;
+  background: var(--bffe5e5);
   border-radius: 14px;
 
   font-size: 1.4rem;
@@ -674,7 +674,7 @@ justify-content: center;
 .notification-detail-title h1 {
   margin: 0;
 
-  color: #1f2937;
+  color: var(--f1f2937);
 
   font-size: 1.5rem;
   font-weight: 700;
@@ -688,7 +688,7 @@ justify-content: center;
 .notification-detail-date {
   margin-top: 10px;
 
-  color: #667085;
+  color: var(--f667085);
 
   font-size: 0.8rem;
 }
@@ -704,7 +704,7 @@ justify-content: center;
 
   margin: 24px 0;
 
-  background: #eeeeee;
+  background: var(--beeeeee);
 }
 
 
@@ -719,7 +719,7 @@ justify-content: center;
 .notification-detail-message p {
   margin: 0;
 
-  color: #4b5563;
+  color: var(--f4b5563);
 
   font-size: 0.95rem;
   line-height: 1.8;
@@ -777,14 +777,14 @@ justify-content: center;
 .documents-question {
   margin: 18px 0 0;
   padding: 16px 18px;
-  border: 1px solid #c9d8f5;
+  border: 1px solid var(--lc9d8f5);
   border-radius: 14px;
-  background: #eaf1ff;
+  background: var(--beaf1ff);
 
   p {
     margin: 0 0 12px;
     font-weight: 700;
-    color: #172033;
+    color: var(--f172033);
   }
 }
 
@@ -811,14 +811,14 @@ justify-content: center;
 
   .answer-yes {
     border: none;
-    background: #16845b;
-    color: #fff;
+    background: var(--b16845b);
+    color: var(--fffffff);
   }
 
   .answer-no {
-    border: 1px solid #d0d5dd;
-    background: #fff;
-    color: #344054;
+    border: 1px solid var(--ld0d5dd);
+    background: var(--bffffff);
+    color: var(--f344054);
   }
 
   // Suggestion déjà commencée
@@ -827,8 +827,8 @@ justify-content: center;
     align-items: center;
     padding: 8px 14px;
     border-radius: 10px;
-    background: #eaf8f2;
-    color: #16845b;
+    background: var(--beaf8f2);
+    color: var(--f16845b);
     font-size: 0.85rem;
     font-weight: 700;
   }
@@ -855,14 +855,14 @@ justify-content: center;
   }
 
   .visitor-primary {
-    background: #1646a0;
-    color: #fff;
+    background: var(--b1646a0);
+    color: var(--fffffff);
   }
 
   .visitor-secondary {
-    border: 1px solid #d0d5dd;
-    background: #fff;
-    color: #344054;
+    border: 1px solid var(--ld0d5dd);
+    background: var(--bffffff);
+    color: var(--f344054);
   }
 }
 
@@ -873,8 +873,8 @@ justify-content: center;
   font-size: 0.9rem;
   font-weight: 600;
 
-  &.success { background: #eaf8f2; color: #16845b; }
-  &.error { background: #fff0f1; color: #c92535; }
+  &.success { background: var(--beaf8f2); color: var(--f16845b); }
+  &.error { background: var(--bfff0f1); color: var(--fc92535); }
 }
 
 
@@ -883,8 +883,8 @@ justify-content: center;
   margin: 10px 0 0;
   padding: 8px 12px;
   border-radius: 10px;
-  background: #eff4ff;
-  color: #1e3a8a;
+  background: var(--beff4ff);
+  color: var(--f1e3a8a);
   font-size: 13px;
   line-height: 1.5;
 }

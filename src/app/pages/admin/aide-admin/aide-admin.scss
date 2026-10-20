@@ -13,7 +13,7 @@
 .intro p {
   max-width: 760px;
   margin: 0 0 20px;
-  color: #555;
+  color: var(--f555555);
   font-size: 14px;
   line-height: 1.6;
 }
@@ -27,19 +27,19 @@
 
 .filter {
   padding: 8px 14px;
-  border: 1px solid #e4e7ec;
+  border: 1px solid var(--le4e7ec);
   border-radius: 50px;
-  background: white;
-  color: #3f4755;
+  background: var(--bffffff);
+  color: var(--f3f4755);
   font-family: inherit;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
 
   &.active {
-    border-color: #1646a0;
-    background: #1646a0;
-    color: white;
+    border-color: var(--l1646a0);
+    background: var(--b1646a0);
+    color: var(--fffffff);
   }
 }
 
@@ -49,26 +49,26 @@
   border-radius: 8px;
   font-size: 14px;
 
-  &.success { background: #e9f8ee; color: #217a3c; }
-  &.error { background: #fdecec; color: #b42323; }
+  &.success { background: var(--be9f8ee); color: var(--f217a3c); }
+  &.error { background: var(--bfdecec); color: var(--fb42323); }
 }
 
 .state {
-  color: #697386;
+  color: var(--f697386);
 }
 
 .empty {
   padding: 40px 20px;
-  border: 1px solid #e4e7ec;
+  border: 1px solid var(--le4e7ec);
   border-radius: 12px;
-  background: white;
+  background: var(--bffffff);
   text-align: center;
 
   span { font-size: 32px; }
 
   p {
     margin: 10px 0 0;
-    color: #697386;
+    color: var(--f697386);
   }
 }
 
@@ -83,15 +83,15 @@
 
 .item {
   padding: 20px 22px;
-  border: 1px solid #e4e7ec;
-  border-left: 4px solid #e8a33d;
+  border: 1px solid var(--le4e7ec);
+  border-left: 4px solid var(--le8a33d);
   border-radius: 12px;
-  background: white;
+  background: var(--bffffff);
 
-  &.statut-REPONDUE { border-left-color: #217a3c; }
+  &.statut-REPONDUE { border-left-color: var(--l217a3c); }
 
   &.statut-FERMEE {
-    border-left-color: #cfd5df;
+    border-left-color: var(--lcfd5df);
     opacity: 0.85;
   }
 
@@ -99,8 +99,8 @@
     margin: 12px 0 0;
     padding: 12px 14px;
     border-radius: 8px;
-    background: #f8f9fc;
-    color: #3f4755;
+    background: var(--bf8f9fc);
+    color: var(--f3f4755);
     font-size: 14px;
     line-height: 1.6;
     white-space: pre-line;
@@ -114,7 +114,7 @@
   gap: 8px;
 
   time {
-    color: #667085;
+    color: var(--f667085);
     font-size: 12px;
   }
 }
@@ -125,41 +125,41 @@
   font-size: 11.5px;
   font-weight: 700;
 
-  &.sujet { background: #eaf1ff; color: #1646a0; }
-  &.badge-OUVERTE { background: #fdecec; color: #b42323; }
-  &.badge-REPONDUE { background: #e9f8ee; color: #217a3c; }
-  &.badge-FERMEE { background: #f1f3f6; color: #697386; }
+  &.sujet { background: var(--beaf1ff); color: var(--f1646a0); }
+  &.badge-OUVERTE { background: var(--bfdecec); color: var(--fb42323); }
+  &.badge-REPONDUE { background: var(--be9f8ee); color: var(--f217a3c); }
+  &.badge-FERMEE { background: var(--bf1f3f6); color: var(--f697386); }
 }
 
 .author {
   margin: 12px 0 0;
-  color: #697386;
+  color: var(--f697386);
   font-size: 13.5px;
 
-  strong { color: #172033; }
+  strong { color: var(--f172033); }
 
-  a { color: #1646a0; }
+  a { color: var(--f1646a0); }
 }
 
 .reponse {
   margin-top: 12px;
   padding: 12px 14px;
   border-radius: 8px;
-  background: #f0f7f2;
+  background: var(--bf0f7f2);
 
   strong {
-    color: #217a3c;
+    color: var(--f217a3c);
     font-size: 13px;
 
     span {
-      color: #697386;
+      color: var(--f697386);
       font-weight: 500;
     }
   }
 
   p {
     margin: 6px 0 0;
-    color: #3f4755;
+    color: var(--f3f4755);
     font-size: 14px;
     line-height: 1.6;
     white-space: pre-line;
@@ -180,7 +180,7 @@
   label {
     display: block;
     margin-bottom: 7px;
-    color: #172033;
+    color: var(--f172033);
     font-size: 14px;
     font-weight: 600;
   }
@@ -188,9 +188,9 @@
   textarea {
     width: 100%;
     padding: 11px 13px;
-    border: 1px solid #d0d5dd;
+    border: 1px solid var(--ld0d5dd);
     border-radius: 10px;
-    color: #172033;
+    color: var(--f172033);
     font-size: 14px;
 
     &:focus {
@@ -215,23 +215,23 @@
 }
 
 .btn-primary {
-  border: 1px solid #1646a0;
-  background: #1646a0;
-  color: white;
+  border: 1px solid var(--l1646a0);
+  background: var(--b1646a0);
+  color: var(--fffffff);
 
-  &:hover:not(:disabled) { background: #0d2f70; }
+  &:hover:not(:disabled) { background: var(--b0d2f70); }
 }
 
 .btn-light {
-  border: 1px solid #ddd;
-  background: white;
-  color: #3f4755;
+  border: 1px solid var(--ldddddd);
+  background: var(--bffffff);
+  color: var(--f3f4755);
 }
 
 .btn-reject {
-  border: 1px solid #ddd;
-  background: white;
-  color: #b42323;
+  border: 1px solid var(--ldddddd);
+  background: var(--bffffff);
+  color: var(--fb42323);
 }
 
 @media (max-width: 700px) {

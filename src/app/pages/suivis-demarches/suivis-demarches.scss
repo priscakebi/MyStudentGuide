@@ -52,8 +52,8 @@ $transition: 0.25s ease;
   width: 100%;
   min-height: 100vh;
   overflow-x: hidden;
-  background: $background;
-  color: $text;
+  background: var(--bf7f8fa);
+  color: var(--f344054);
 }
 
 
@@ -65,8 +65,8 @@ $transition: 0.25s ease;
   position: relative;
   width: 100%;
   padding: 55px 8% 50px;
-  background: $white;
-  border-bottom: 1px solid $border;
+  background: var(--bffffff);
+  border-bottom: 1px solid var(--le7e9ee);
   overflow: hidden;
 }
 
@@ -77,7 +77,7 @@ $transition: 0.25s ease;
   left: 8%;
   width: 70px;
   height: 4px;
-  background: $red;
+  background: var(--bd0222f);
   border-radius: 0 0 5px 5px;
 }
 
@@ -101,7 +101,7 @@ $transition: 0.25s ease;
 .page-header h1 {
   margin: 0;
   max-width: 100%;
-  color: $text-dark;
+  color: var(--f172033);
   font-size: clamp(2rem, 4vw, 3rem);
   line-height: 1.15;
   font-weight: 800;
@@ -112,7 +112,7 @@ $transition: 0.25s ease;
 .page-header p {
   max-width: 650px;
   margin: 15px 0 0;
-  color: $text-light;
+  color: var(--f667085);
   font-size: 0.98rem;
   line-height: 1.7;
   overflow-wrap: break-word;
@@ -148,8 +148,8 @@ $transition: 0.25s ease;
   width: fit-content;
   max-width: 100%;
   padding: 5px;
-  background: $white;
-  border: 1px solid $border;
+  background: var(--bffffff);
+  border: 1px solid var(--le7e9ee);
   border-radius: 12px;
   box-shadow: $shadow-sm;
 }
@@ -164,7 +164,7 @@ $transition: 0.25s ease;
   border: none;
   border-radius: 8px;
   background: transparent;
-  color: $text-light;
+  color: var(--f667085);
   font-family: inherit;
   font-size: 0.82rem;
   font-weight: 700;
@@ -178,13 +178,13 @@ $transition: 0.25s ease;
 }
 
 .filter-button:hover {
-  background: $red-light;
+  background: var(--bfff0f1);
   color: var(--msg-red);
 }
 
 .filter-button.active {
-  background: $red;
-  color: $white;
+  background: var(--bd0222f);
+  color: var(--fffffff);
 }
 
 .filter-count {
@@ -195,15 +195,15 @@ $transition: 0.25s ease;
   height: 20px;
   padding: 0 5px;
   border-radius: 20px;
-  background: #f1f2f5;
-  color: $text-light;
+  background: var(--bf1f2f5);
+  color: var(--f667085);
   font-size: 0.65rem;
   font-weight: 800;
 }
 
 .filter-button.active .filter-count {
   background: rgba(255, 255, 255, 0.2);
-  color: $white;
+  color: var(--fffffff);
 }
 
 
@@ -231,7 +231,7 @@ $transition: 0.25s ease;
 
 .list-header h2 {
   margin: 0;
-  color: $text-dark;
+  color: var(--f172033);
   font-size: 1.7rem;
   font-weight: 800;
   letter-spacing: -0.02em;
@@ -239,7 +239,7 @@ $transition: 0.25s ease;
 
 .results-count {
   flex-shrink: 0;
-  color: $text-light;
+  color: var(--f667085);
   font-size: 0.8rem;
   font-weight: 600;
 }
@@ -266,8 +266,8 @@ $transition: 0.25s ease;
   min-width: 0;
   width: 100%;
   padding: 25px;
-  background: $white;
-  border: 1px solid $border;
+  background: var(--bffffff);
+  border: 1px solid var(--le7e9ee);
   border-radius: $radius-md;
   box-shadow: $shadow-sm;
   overflow: hidden;
@@ -280,7 +280,7 @@ $transition: 0.25s ease;
 
 .demarche-card:hover {
   transform: translateY(-3px);
-  border-color: #dddfe5;
+  border-color: var(--ldddfe5);
   box-shadow: $shadow-md;
 }
 
@@ -326,7 +326,7 @@ $transition: 0.25s ease;
   height: 46px;
   flex-shrink: 0;
   border-radius: 12px;
-  background: $red-light;
+  background: var(--bfff0f1);
   font-size: 1.25rem;
 }
 
@@ -347,7 +347,7 @@ $transition: 0.25s ease;
 
 .card-title-wrapper h3 {
   margin: 0;
-  color: $text-dark;
+  color: var(--f172033);
   font-size: 1.05rem;
   line-height: 1.35;
   font-weight: 750;
@@ -384,44 +384,44 @@ $transition: 0.25s ease;
    ================================================================ */
 
 .status-todo {
-  background: #f1f3f6;
-  color: $text;
+  background: var(--bf1f3f6);
+  color: var(--f344054);
 }
 
 .card-status-bar.status-todo {
-  background: #98a2b3;
+  background: var(--b98a2b3);
 }
 
 .status-badge.status-todo .status-dot {
-  background: #98a2b3;
+  background: var(--b98a2b3);
 }
 
 
 .status-progress {
-  background: $red-light;
+  background: var(--bfff0f1);
   color: var(--msg-red);
 }
 
 .card-status-bar.status-progress {
-  background: $red;
+  background: var(--bd0222f);
 }
 
 .status-badge.status-progress .status-dot {
-  background: $red;
+  background: var(--bd0222f);
 }
 
 
 .status-complete {
-  background: $success-light;
-  color: $success;
+  background: var(--beaf8f2);
+  color: var(--f11704d);
 }
 
 .card-status-bar.status-complete {
-  background: $success;
+  background: var(--b11704d);
 }
 
 .status-badge.status-complete .status-dot {
-  background: $success;
+  background: var(--b11704d);
 }
 
 
@@ -432,7 +432,7 @@ $transition: 0.25s ease;
 .demarche-description {
   width: 100%;
   margin: 18px 0 0;
-  color: $text-light;
+  color: var(--f667085);
   font-size: 0.86rem;
   line-height: 1.65;
   overflow-wrap: break-word;
@@ -467,13 +467,13 @@ $transition: 0.25s ease;
 }
 
 .progress-header span {
-  color: $text-light;
+  color: var(--f667085);
   font-size: 0.74rem;
   font-weight: 600;
 }
 
 .progress-header strong {
-  color: $text-dark;
+  color: var(--f172033);
   font-size: 0.74rem;
   font-weight: 800;
 }
@@ -483,7 +483,7 @@ $transition: 0.25s ease;
   height: 6px;
   overflow: hidden;
   border-radius: 20px;
-  background: #eceef2;
+  background: var(--beceef2);
 }
 
 .progress-value {
@@ -506,7 +506,7 @@ $transition: 0.25s ease;
   min-width: 0;
   margin-top: 22px;
   padding-top: 18px;
-  border-top: 1px solid $border;
+  border-top: 1px solid var(--le7e9ee);
 }
 
 
@@ -524,8 +524,8 @@ $transition: 0.25s ease;
   padding: 8px 14px;
   border: none;
   border-radius: 8px;
-  background: $red;
-  color: $white;
+  background: var(--bd0222f);
+  color: var(--fffffff);
   font-family: inherit;
   font-size: 0.75rem;
   font-weight: 800;
@@ -539,7 +539,7 @@ $transition: 0.25s ease;
 }
 
 .view-button:hover {
-  background: $red-dark;
+  background: var(--bb51d29);
   transform: translateY(-2px);
   box-shadow: 0 6px 15px rgba(230, 57, 70, 0.18);
 }
@@ -566,10 +566,10 @@ $transition: 0.25s ease;
 .remove-button {
   min-height: 37px;
   padding: 8px 14px;
-  border: 1px solid $border;
+  border: 1px solid var(--le7e9ee);
   border-radius: 8px;
-  background: $white;
-  color: $text-light;
+  background: var(--bffffff);
+  color: var(--f667085);
   font-family: inherit;
   font-size: 0.75rem;
   font-weight: 700;
@@ -580,7 +580,7 @@ $transition: 0.25s ease;
     color $transition;
 
   &:hover {
-    border-color: $red;
+    border-color: var(--ld0222f);
     color: var(--msg-red);
   }
 
@@ -608,8 +608,8 @@ a.reset-filter-button {
   min-height: 300px;
   padding: 45px 25px;
   text-align: center;
-  background: $white;
-  border: 1px solid $border;
+  background: var(--bffffff);
+  border: 1px solid var(--le7e9ee);
   border-radius: $radius-md;
   box-shadow: $shadow-sm;
 }
@@ -627,18 +627,18 @@ a.reset-filter-button {
 }
 
 .error-icon {
-  background: $red-light;
+  background: var(--bfff0f1);
   color: var(--msg-red);
 }
 
 .empty-icon {
-  background: $success-light;
-  color: $success;
+  background: var(--beaf8f2);
+  color: var(--f11704d);
 }
 
 .state-container h2 {
   margin: 0;
-  color: $text-dark;
+  color: var(--f172033);
   font-size: 1.2rem;
   font-weight: 800;
 }
@@ -646,7 +646,7 @@ a.reset-filter-button {
 .state-container p {
   max-width: 480px;
   margin: 9px 0 0;
-  color: $text-light;
+  color: var(--f667085);
   font-size: 0.86rem;
   line-height: 1.65;
   overflow-wrap: break-word;
@@ -661,8 +661,8 @@ a.reset-filter-button {
   width: 38px;
   height: 38px;
   margin-bottom: 18px;
-  border: 3px solid $red-light;
-  border-top-color: $red;
+  border: 3px solid var(--lfff0f1);
+  border-top-color: var(--ld0222f);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -689,8 +689,8 @@ a.reset-filter-button {
   padding: 8px 16px;
   border: none;
   border-radius: 8px;
-  background: $red;
-  color: $white;
+  background: var(--bd0222f);
+  color: var(--fffffff);
   font-family: inherit;
   font-size: 0.77rem;
   font-weight: 800;
@@ -703,7 +703,7 @@ a.reset-filter-button {
 
 .retry-button:hover,
 .reset-filter-button:hover {
-  background: $red-dark;
+  background: var(--bb51d29);
   transform: translateY(-2px);
 }
 
@@ -909,17 +909,17 @@ a.reset-filter-button {
    ================================================================ */
 
 /* La barre reprenait la couleur claire des badges : presque invisible. */
-.progress-value.status-progress { background: $red; }
-.progress-value.status-complete { background: $success; }
+.progress-value.status-progress { background: var(--bd0222f); }
+.progress-value.status-complete { background: var(--b11704d); }
 
 .global-progress {
   position: relative;
   max-width: 520px;
   margin-top: 26px;
   padding: 16px 18px;
-  border: 1px solid $border;
+  border: 1px solid var(--le7e9ee);
   border-radius: $radius-md;
-  background: $background;
+  background: var(--bf7f8fa);
 
   .progress-header span,
   .progress-header strong { font-size: 0.85rem; }
@@ -934,8 +934,8 @@ a.reset-filter-button {
   font-size: 0.9rem;
   font-weight: 600;
 
-  &.success { background: $success-light; color: $success; }
-  &.error { background: $red-light; color: $red-dark; }
+  &.success { background: var(--beaf8f2); color: var(--f11704d); }
+  &.error { background: var(--bfff0f1); color: var(--fb51d29); }
 }
 
 .demarche-card.busy { opacity: 0.7; }
@@ -952,13 +952,13 @@ a.reset-filter-button {
     min-width: 0;
     padding: 5px 6px;
     border-radius: 8px;
-    background: #f1f3f6;
-    color: #5b6474; // contraste ≥ 4,5:1 sur le fond gris
+    background: var(--bf1f3f6);
+    color: var(--f5b6474); // contraste ≥ 4,5:1 sur le fond gris
     font-size: 0.7rem;
     font-weight: 700;
     text-align: center;
 
-    &.done { background: $success-light; color: #11704d; }
+    &.done { background: var(--beaf8f2); color: var(--f11704d); }
     &.done::before { content: "✓ "; }
   }
 }
@@ -986,32 +986,32 @@ a.reset-filter-button {
   &:hover:not(:disabled) { transform: translateY(-2px); }
   &:disabled { opacity: 0.6; cursor: wait; }
 
-  &.success { background: $success; color: $white; }
-  &.outline { border-color: $blue; background: $white; color: $blue; }
-  &.avis { background: #fff6e5; border-color: #f5a524; color: #9a5b00; }
+  &.success { background: var(--b11704d); color: var(--fffffff); }
+  &.outline { border-color: var(--l1646a0); background: var(--bffffff); color: var(--f1646a0); }
+  &.avis { background: var(--bfff6e5); border-color: var(--lf5a524); color: var(--f9a5b00); }
 }
 
 .avis-done {
   font-size: 0.85rem;
   font-weight: 700;
-  color: #9a5b00;
+  color: var(--f9a5b00);
 }
 
 .status-select {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: $text-light;
+  color: var(--f667085);
   font-size: 0.78rem;
   font-weight: 600;
 
   select {
     min-height: 34px;
     padding: 4px 10px;
-    border: 1px solid $border;
+    border: 1px solid var(--le7e9ee);
     border-radius: 8px;
-    background: $white;
-    color: $text-dark;
+    background: var(--bffffff);
+    color: var(--f172033);
     font: inherit;
   }
 }

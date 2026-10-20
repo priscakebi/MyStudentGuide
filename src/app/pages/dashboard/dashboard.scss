@@ -66,9 +66,9 @@ $transition: 0.25s ease;
    */
   display: flex;
 
-  background: $background;
+  background: var(--bf5f7fb);
 
-  color: $text-dark;
+  color: var(--f172033);
 }
 
 
@@ -90,8 +90,8 @@ $transition: 0.25s ease;
   flex-shrink: 0;
   width: 272px;
   height: 100vh;
-  background: $white;
-  border-right: 1px solid $border;
+  background: var(--bffffff);
+  border-right: 1px solid var(--le6eaf0);
 }
 
 /* Logo commun à la sidebar et à la barre mobile */
@@ -103,8 +103,8 @@ $transition: 0.25s ease;
   height: 40px;
   flex-shrink: 0;
   border-radius: 12px;
-  background: linear-gradient(135deg, $blue, $blue-dark);
-  color: $white;
+  background: linear-gradient(135deg, var(--b1646a0), var(--b0d2f70));
+  color: var(--fffffff);
   font-size: 19px;
   box-shadow: 0 6px 14px rgba(22, 70, 160, 0.2);
 }
@@ -122,7 +122,7 @@ $transition: 0.25s ease;
   align-items: center;
   gap: 12px;
   min-width: 0;
-  color: $text-dark;
+  color: var(--f172033);
   text-decoration: none;
 }
 
@@ -132,14 +132,14 @@ $transition: 0.25s ease;
   gap: 2px;
 
   strong {
-    color: $blue-dark;
+    color: var(--f0d2f70);
     font-size: 16px;
     font-weight: 800;
     letter-spacing: -0.3px;
   }
 
   span {
-    color: $text-light;
+    color: var(--f667085);
     font-size: 12px;
   }
 }
@@ -157,15 +157,15 @@ $transition: 0.25s ease;
   gap: 12px;
   margin: 0 14px 8px;
   padding: 12px;
-  border: 1px solid #dce7ff;
+  border: 1px solid var(--ldce7ff);
   border-radius: $radius-md;
-  background: linear-gradient(135deg, $blue-light, #f8faff);
+  background: linear-gradient(135deg, var(--beaf1ff), var(--bf8faff));
   color: inherit;
   text-decoration: none;
   transition: border-color $transition, box-shadow $transition;
 
   &:hover {
-    border-color: #b9cdf5;
+    border-color: var(--lb9cdf5);
     box-shadow: $shadow-sm;
   }
 }
@@ -178,8 +178,8 @@ $transition: 0.25s ease;
   height: 40px;
   flex-shrink: 0;
   border-radius: 50%;
-  background: linear-gradient(135deg, $red, $red-dark);
-  color: $white;
+  background: linear-gradient(135deg, var(--bd0222f), var(--bb51d29));
+  color: var(--fffffff);
   font-size: 16px;
   font-weight: 800;
 }
@@ -198,13 +198,13 @@ $transition: 0.25s ease;
   }
 
   strong {
-    color: $text-dark;
+    color: var(--f172033);
     font-size: 14px;
     font-weight: 700;
   }
 
   span {
-    color: $text-light;
+    color: var(--f667085);
     font-size: 12px;
   }
 }
@@ -226,7 +226,7 @@ $transition: 0.25s ease;
 /* Titre de groupe : Mon parcours, Explorer, Mon compte */
 .menu-section {
   margin: 16px 12px 6px;
-  color: #667085;
+  color: var(--f667085);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -246,7 +246,7 @@ $transition: 0.25s ease;
   border: none;
   border-radius: 10px;
   background: transparent;
-  color: $text;
+  color: var(--f344054);
   font-family: inherit;
   font-size: 14px;
   font-weight: 600;
@@ -265,7 +265,7 @@ $transition: 0.25s ease;
   stroke-width: 1.8;
   stroke-linecap: round;
   stroke-linejoin: round;
-  color: $text-light;
+  color: var(--f667085);
   transition: color $transition;
 }
 
@@ -276,21 +276,21 @@ $transition: 0.25s ease;
 
 .menu-item:hover,
 .footer-link:hover {
-  background: #f2f5fb;
-  color: $blue-dark;
+  background: var(--bf2f5fb);
+  color: var(--f0d2f70);
 
   .menu-icon {
-    color: $blue;
+    color: var(--f1646a0);
   }
 }
 
 /* Page en cours : fond bleu clair et liseré à gauche */
 .menu-item.active {
-  background: $blue-light;
-  color: $blue-dark;
+  background: var(--beaf1ff);
+  color: var(--f0d2f70);
 
   .menu-icon {
-    color: $blue;
+    color: var(--f1646a0);
   }
 
   &::before {
@@ -301,7 +301,7 @@ $transition: 0.25s ease;
     bottom: 10px;
     width: 4px;
     border-radius: 0 4px 4px 0;
-    background: $blue;
+    background: var(--b1646a0);
   }
 }
 
@@ -313,8 +313,8 @@ $transition: 0.25s ease;
   height: 20px;
   padding: 0 6px;
   border-radius: 20px;
-  background: $red;
-  color: $white;
+  background: var(--bd0222f);
+  color: var(--fffffff);
   font-size: 11px;
   font-weight: 800;
 }
@@ -326,8 +326,8 @@ $transition: 0.25s ease;
   height: 20px;
   padding: 0 8px;
   border-radius: 20px;
-  background: #eaf1ff;
-  color: #1646a0;
+  background: var(--beaf1ff);
+  color: var(--f1646a0);
   font-size: 10.5px;
   font-weight: 800;
   letter-spacing: 0.04em;
@@ -341,7 +341,7 @@ $transition: 0.25s ease;
   flex-direction: column;
   gap: 2px;
   padding: 12px 14px 18px;
-  border-top: 1px solid $border;
+  border-top: 1px solid var(--le6eaf0);
 }
 
 // Choix de la langue (FR / EN), au-dessus de « Retour au site ».
@@ -351,7 +351,7 @@ $transition: 0.25s ease;
 }
 
 .logout-button:hover {
-  background: $red-light;
+  background: var(--bfff0f1);
   color: var(--msg-red);
 
   .menu-icon {
@@ -389,7 +389,7 @@ $transition: 0.25s ease;
       rgba(22, 70, 160, 0.05),
       transparent 32%
     ),
-    $background;
+    var(--bf5f7fb);
 }
 
 
@@ -435,8 +435,8 @@ $transition: 0.25s ease;
     gap: 12px;
     height: 60px;
     padding: 0 12px;
-    background: rgba(255, 255, 255, 0.96);
-    border-bottom: 1px solid $border;
+    background: color-mix(in srgb, var(--bffffff) 96%, transparent);
+    border-bottom: 1px solid var(--le6eaf0);
     backdrop-filter: blur(8px);
   }
 
@@ -453,7 +453,7 @@ $transition: 0.25s ease;
     border: none;
     border-radius: 10px;
     background: transparent;
-    color: $text-dark;
+    color: var(--f172033);
     cursor: pointer;
 
     svg {
@@ -467,7 +467,7 @@ $transition: 0.25s ease;
     }
 
     &:hover {
-      background: #f1f3f6;
+      background: var(--bf1f3f6);
     }
   }
 
@@ -477,9 +477,9 @@ $transition: 0.25s ease;
     right: 9px;
     width: 9px;
     height: 9px;
-    border: 2px solid $white;
+    border: 2px solid var(--lffffff);
     border-radius: 50%;
-    background: $red;
+    background: var(--bd0222f);
   }
 
   .mobile-logo {
@@ -488,7 +488,7 @@ $transition: 0.25s ease;
     align-items: center;
     gap: 10px;
     min-width: 0;
-    color: $blue-dark;
+    color: var(--f0d2f70);
     text-decoration: none;
 
     .brand-mark {
@@ -633,16 +633,16 @@ $border-soft: #e6eaf0;
   &:disabled { opacity: 0.6; cursor: wait; }
 
   &.primary {
-    background: $red;
-    color: $white;
+    background: var(--bd0222f);
+    color: var(--fffffff);
 
-    &:hover:not(:disabled) { background: $red-dark; }
+    &:hover:not(:disabled) { background: var(--bb51d29); }
   }
 
   &.ghost {
     border-color: rgba(255, 255, 255, 0.6);
     background: rgba(255, 255, 255, 0.08);
-    color: $white;
+    color: var(--fffffff);
   }
 
   &.small {
@@ -653,11 +653,11 @@ $border-soft: #e6eaf0;
 
 // Bouton « ghost » posé sur fond blanc.
 .home-panel .hero-btn.ghost {
-  border-color: $border-soft;
-  background: $white;
-  color: $text-dark;
+  border-color: var(--le6eaf0);
+  background: var(--bffffff);
+  color: var(--f172033);
 
-  &:hover { border-color: $blue; color: $blue; }
+  &:hover { border-color: var(--l1646a0); color: var(--f1646a0); }
 }
 
 
@@ -679,9 +679,9 @@ $border-soft: #e6eaf0;
 
   background:
     radial-gradient(circle at 90% 10%, rgba(255, 255, 255, 0.12), transparent 40%),
-    linear-gradient(120deg, $blue-dark, $blue);
+    linear-gradient(120deg, var(--b0d2f70), var(--b1646a0));
 
-  color: $white;
+  color: var(--fffffff);
 
   overflow: hidden;
 
@@ -693,7 +693,7 @@ $border-soft: #e6eaf0;
     right: 0;
     bottom: 0;
     height: 4px;
-    background: linear-gradient(90deg, #0055a4 0 33%, #ffffff 33% 66%, #ef4135 66%);
+    background: linear-gradient(90deg, var(--b0055a4) 0 33%, var(--bffffff) 33% 66%, var(--bef4135) 66%);
   }
 
   h1 {
@@ -742,7 +742,7 @@ $border-soft: #e6eaf0;
 
   border-radius: 50%;
 
-  background: conic-gradient($white calc(var(--pct) * 1%), rgba(255, 255, 255, 0.18) 0);
+  background: conic-gradient(var(--bffffff) calc(var(--pct) * 1%), rgba(255, 255, 255, 0.18) 0);
 
   mask: radial-gradient(farthest-side, transparent 74%, #000 75%);
   -webkit-mask: radial-gradient(farthest-side, transparent 74%, #000 75%);
@@ -787,10 +787,10 @@ $border-soft: #e6eaf0;
 
   padding: 18px;
 
-  border: 1px solid $border-soft;
+  border: 1px solid var(--le6eaf0);
   border-radius: 16px;
 
-  background: $white;
+  background: var(--bffffff);
   box-shadow: 0 6px 18px rgba(20, 44, 90, 0.05);
 
   color: inherit;
@@ -805,7 +805,7 @@ $border-soft: #e6eaf0;
 
   strong {
     display: block;
-    color: $text-dark;
+    color: var(--f172033);
     font-size: 1.55rem;
     line-height: 1.1;
   }
@@ -813,7 +813,7 @@ $border-soft: #e6eaf0;
   .kpi-text { font-size: 1.05rem; }
 
   span:not(.kpi-icon) {
-    color: $text-light;
+    color: var(--f667085);
     font-size: 0.8rem;
   }
 }
@@ -831,10 +831,10 @@ $border-soft: #e6eaf0;
   font-size: 1.3rem;
 
   // Icône au trait (app-icone) : teinte de la pastille.
-  &.doing { background: $blue-light; color: $blue; }
-  &.done { background: $green-light; color: #11704d; }
-  &.notif { background: $red-light; color: var(--msg-red); }
-  &.profil { background: $orange-light; color: #b45309; }
+  &.doing { background: var(--beaf1ff); color: var(--f1646a0); }
+  &.done { background: var(--be8f7ed); color: var(--f11704d); }
+  &.notif { background: var(--bfff0f1); color: var(--msg-red); }
+  &.profil { background: var(--bfff3e3); color: var(--fb45309); }
 }
 
 
@@ -859,15 +859,15 @@ $border-soft: #e6eaf0;
 .home-panel {
   padding: 22px 24px;
 
-  border: 1px solid $border-soft;
+  border: 1px solid var(--le6eaf0);
   border-radius: 18px;
 
-  background: $white;
+  background: var(--bffffff);
   box-shadow: 0 6px 18px rgba(20, 44, 90, 0.05);
 
   h2 {
     margin: 0;
-    color: $text-dark;
+    color: var(--f172033);
     font-size: 1.05rem;
   }
 }
@@ -881,7 +881,7 @@ $border-soft: #e6eaf0;
   margin-bottom: 16px;
 
   a {
-    color: $blue;
+    color: var(--f1646a0);
     font-size: 0.82rem;
     font-weight: 700;
     text-decoration: none;
@@ -896,7 +896,7 @@ $border-soft: #e6eaf0;
   border: none;
   background: none;
 
-  color: $blue;
+  color: var(--f1646a0);
   font: inherit;
   font-size: 0.82rem;
   font-weight: 700;
@@ -908,7 +908,7 @@ $border-soft: #e6eaf0;
   }
 
   &:focus-visible {
-    outline: 2px solid $blue;
+    outline: 2px solid var(--l1646a0);
     outline-offset: 2px;
     border-radius: 4px;
   }
@@ -916,7 +916,7 @@ $border-soft: #e6eaf0;
 
 .home-empty {
   margin: 0;
-  color: $text-light;
+  color: var(--f667085);
   font-size: 0.88rem;
 }
 
@@ -924,8 +924,8 @@ $border-soft: #e6eaf0;
   margin: 0 0 12px;
   padding: 9px 12px;
   border-radius: 9px;
-  background: $red-light;
-  color: $red-dark;
+  background: var(--bfff0f1);
+  color: var(--fb51d29);
   font-size: 0.85rem;
 }
 
@@ -943,7 +943,7 @@ $border-soft: #e6eaf0;
 
   p {
     margin: 0;
-    color: $text-light;
+    color: var(--f667085);
   }
 }
 
@@ -968,7 +968,7 @@ $border-soft: #e6eaf0;
 
   padding: 16px;
 
-  border: 1px solid $border-soft;
+  border: 1px solid var(--le6eaf0);
   border-radius: 14px;
 
   color: inherit;
@@ -977,8 +977,8 @@ $border-soft: #e6eaf0;
   transition: border-color 0.2s ease, background 0.2s ease;
 
   &:hover {
-    border-color: #cbd9f5;
-    background: #fafbff;
+    border-color: var(--lcbd9f5);
+    background: var(--bfafbff);
   }
 }
 
@@ -989,7 +989,7 @@ $border-soft: #e6eaf0;
   gap: 12px;
 
   strong {
-    color: $text-dark;
+    color: var(--f172033);
     font-size: 0.95rem;
   }
 }
@@ -997,7 +997,7 @@ $border-soft: #e6eaf0;
 .active-category {
   display: block;
   margin-bottom: 3px;
-  color: $blue;
+  color: var(--f1646a0);
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -1005,7 +1005,7 @@ $border-soft: #e6eaf0;
 }
 
 .active-pct {
-  color: $text-dark;
+  color: var(--f172033);
   font-size: 0.95rem;
   font-weight: 800;
 }
@@ -1014,19 +1014,19 @@ $border-soft: #e6eaf0;
   height: 8px;
   margin: 12px 0 10px;
   border-radius: 4px;
-  background: $track;
+  background: var(--be9edf3);
 }
 
 .active-fill {
   height: 100%;
   border-radius: 4px;
-  background: $blue;
+  background: var(--b1646a0);
   transition: width 0.4s ease;
 }
 
 .active-next {
   margin: 0;
-  color: $text-light;
+  color: var(--f667085);
   font-size: 0.8rem;
 }
 
@@ -1039,12 +1039,12 @@ $border-soft: #e6eaf0;
   display: flex;
   gap: 14px;
 
-  border-color: #f5d9b3;
-  background: $orange-light;
+  border-color: var(--lf5d9b3);
+  background: var(--bfff3e3);
 
   p {
     margin: 6px 0 14px;
-    color: $text;
+    color: var(--f344054);
     font-size: 0.85rem;
     line-height: 1.55;
   }
@@ -1076,7 +1076,7 @@ $border-soft: #e6eaf0;
 
     > div:last-child strong {
       display: block;
-      color: $text-dark;
+      color: var(--f172033);
       font-size: 0.88rem;
     }
   }
@@ -1093,8 +1093,8 @@ $border-soft: #e6eaf0;
 
   border-radius: 11px;
 
-  background: $blue-light;
-  color: $blue;
+  background: var(--beaf1ff);
+  color: var(--f1646a0);
 
   strong {
     font-size: 1.15rem;
@@ -1108,17 +1108,17 @@ $border-soft: #e6eaf0;
   }
 
   .urgent & {
-    background: $red-light;
-    color: $red-dark;
+    background: var(--bfff0f1);
+    color: var(--fb51d29);
   }
 }
 
 .deadline-left {
-  color: $text-light;
+  color: var(--f667085);
   font-size: 0.78rem;
 
   .urgent & {
-    color: $red-dark;
+    color: var(--fb51d29);
     font-weight: 700;
   }
 }
@@ -1141,12 +1141,12 @@ $border-soft: #e6eaf0;
   li {
     padding: 14px;
     border-radius: 12px;
-    background: $blue-light;
+    background: var(--beaf1ff);
   }
 
   p {
     margin: 0 0 10px;
-    color: $text;
+    color: var(--f344054);
     font-size: 0.84rem;
     line-height: 1.5;
   }
@@ -1176,7 +1176,7 @@ $border-soft: #e6eaf0;
 
   padding: 16px 18px;
 
-  border: 1px dashed #cbd5e3;
+  border: 1px dashed var(--lcbd5e3);
   border-radius: 14px;
 
   color: inherit;
@@ -1185,24 +1185,24 @@ $border-soft: #e6eaf0;
   transition: border-color 0.2s ease, background 0.2s ease;
 
   &:hover {
-    border-color: $blue;
+    border-color: var(--l1646a0);
     border-style: solid;
-    background: $white;
+    background: var(--bffffff);
   }
 
   > span {
-    color: $blue;
+    color: var(--f1646a0);
     font-size: 1.5rem;
   }
 
   strong {
     display: block;
-    color: $text-dark;
+    color: var(--f172033);
     font-size: 0.9rem;
   }
 
   small {
-    color: $text-light;
+    color: var(--f667085);
     font-size: 0.78rem;
   }
 }

@@ -26,9 +26,9 @@ $star: #f5a524;
   overflow-y: auto;
   padding: 28px;
   border-radius: 18px;
-  background: #fff;
+  background: var(--bffffff);
   box-shadow: 0 20px 50px rgba(15, 23, 42, 0.25);
-  color: $text;
+  color: var(--f344054);
 }
 
 .avis-close {
@@ -39,8 +39,8 @@ $star: #f5a524;
   height: 34px;
   border: none;
   border-radius: 50%;
-  background: #f1f3f6;
-  color: $text;
+  background: var(--bf1f3f6);
+  color: var(--f344054);
   cursor: pointer;
 }
 
@@ -54,13 +54,13 @@ $star: #f5a524;
 h2 {
   margin: 6px 0 4px;
   font-size: 1.35rem;
-  color: $text-dark;
+  color: var(--f172033);
 }
 
 .avis-demarche {
   margin: 0 0 18px;
   font-weight: 600;
-  color: $blue;
+  color: var(--f1646a0);
 }
 
 .avis-stars {
@@ -74,7 +74,7 @@ h2 {
   legend {
     margin-bottom: 6px;
     font-weight: 700;
-    color: $text-dark;
+    color: var(--f172033);
   }
 }
 
@@ -84,12 +84,12 @@ h2 {
   background: none;
   font-size: 2rem;
   line-height: 1;
-  color: #d0d5dd;
+  color: var(--fd0d5dd);
   cursor: pointer;
   transition: transform 0.15s ease, color 0.15s ease;
 
   &.filled {
-    color: $star;
+    color: var(--ff5a524);
   }
 
   &:hover {
@@ -101,28 +101,28 @@ h2 {
   margin-left: 10px;
   font-size: 0.9rem;
   font-weight: 600;
-  color: $text-light;
+  color: var(--f667085);
 }
 
 label {
   display: block;
   margin-bottom: 6px;
   font-weight: 700;
-  color: $text-dark;
+  color: var(--f172033);
 }
 
 textarea {
   width: 100%;
   box-sizing: border-box;
   padding: 12px 14px;
-  border: 1px solid $border;
+  border: 1px solid var(--le7e9ee);
   border-radius: 12px;
   font: inherit;
   resize: vertical;
 
   &:focus {
     outline: 2px solid rgba(22, 70, 160, 0.25);
-    border-color: $blue;
+    border-color: var(--l1646a0);
   }
 }
 
@@ -132,15 +132,15 @@ textarea {
   gap: 12px;
   margin-top: 6px;
   font-size: 0.8rem;
-  color: $text-light;
+  color: var(--f667085);
 }
 
 .avis-error {
   margin: 14px 0 0;
   padding: 10px 12px;
   border-radius: 10px;
-  background: #fff0f1;
-  color: $red-dark;
+  background: var(--bfff0f1);
+  color: var(--fb51d29);
   font-size: 0.9rem;
 }
 
@@ -169,18 +169,18 @@ textarea {
 
 .btn-primary {
   border: none;
-  background: $red;
-  color: #fff;
+  background: var(--bd0222f);
+  color: var(--fffffff);
 
   &:hover:not(:disabled) {
-    background: $red-dark;
+    background: var(--bb51d29);
   }
 }
 
 .btn-secondary {
-  border: 1px solid $border;
-  background: #fff;
-  color: $text;
+  border: 1px solid var(--le7e9ee);
+  background: var(--bffffff);
+  color: var(--f344054);
 }
 
 @media (max-width: 480px) {

@@ -8,7 +8,7 @@
 
   padding: 40px;
 
-  background-color: #f8f8f8;
+  background-color: var(--bf8f8f8);
 
   box-sizing: border-box;
 
@@ -38,7 +38,7 @@
 
   margin: 0;
 
-  color: #c00000;
+  color: var(--fc00000);
 
   font-size: 32px;
 
@@ -52,7 +52,7 @@
 
   margin-top: 8px;
 
-  color: #666;
+  color: var(--f666666);
 
 }
 
@@ -68,9 +68,9 @@
 
   gap: 8px;
 
-  background-color: #ffffff;
+  background-color: var(--bffffff);
 
-  border: 2px solid #c00000;
+  border: 2px solid var(--lc00000);
 
   border-radius: 10px;
 
@@ -88,7 +88,7 @@
 
   font-weight: bold;
 
-  color: #c00000;
+  color: var(--fc00000);
 
 }
 
@@ -98,7 +98,7 @@
  */
 .notification-counter small {
 
-  color: #555;
+  color: var(--f555555);
 
 }
 
@@ -121,9 +121,9 @@
  */
 .actions button {
 
-  background-color: #c00000;
+  background-color: var(--bc00000);
 
-  color: white;
+  color: var(--fffffff);
 
   border: none;
 
@@ -143,7 +143,7 @@
  */
 .actions button:hover {
 
-  background-color: #990000;
+  background-color: var(--b990000);
 
 }
 
@@ -165,11 +165,11 @@
  */
 .error-message {
 
-  background-color: #ffe5e5;
+  background-color: var(--bffe5e5);
 
-  color: #b00000;
+  color: var(--fb00000);
 
-  border-left: 4px solid #c00000;
+  border-left: 4px solid var(--lc00000);
 
   padding: 15px;
 
@@ -189,7 +189,7 @@
 
   padding: 40px;
 
-  color: #666;
+  color: var(--f666666);
 
 }
 
@@ -199,7 +199,7 @@
  */
 .empty-state {
 
-  background-color: #ffffff;
+  background-color: var(--bffffff);
 
   border-radius: 12px;
 
@@ -231,7 +231,7 @@
 
   margin-bottom: 10px;
 
-  color: #333;
+  color: var(--f333333);
 
 }
 
@@ -241,7 +241,7 @@
  */
 .empty-state p {
 
-  color: #666;
+  color: var(--f666666);
 
 }
 
@@ -269,7 +269,7 @@
 
   gap: 18px;
 
-  background-color: #ffffff;
+  background-color: var(--bffffff);
 
   padding: 20px;
 
@@ -289,9 +289,9 @@
  */
 .notification-card.unread {
 
-  border-left-color: #c00000;
+  border-left-color: var(--lc00000);
 
-  background-color: #fffafa;
+  background-color: var(--bfffafa);
 
 }
 
@@ -325,7 +325,7 @@
 
   align-items: center;
 
-  background-color: #ffe5e5;
+  background-color: var(--bffe5e5);
 
   border-radius: 50%;
 
@@ -366,7 +366,7 @@
 
   margin: 0;
 
-  color: #333;
+  color: var(--f333333);
 
 }
 
@@ -376,9 +376,9 @@
  */
 .unread-badge {
 
-  background-color: #c00000;
+  background-color: var(--bc00000);
 
-  color: white;
+  color: var(--fffffff);
 
   font-size: 12px;
 
@@ -396,7 +396,7 @@
 
   margin: 10px 0;
 
-  color: #555;
+  color: var(--f555555);
 
   line-height: 1.5;
 
@@ -408,7 +408,7 @@
  */
 .notification-content small {
 
-  color: #666;
+  color: var(--f666666);
 
 }
 
@@ -432,9 +432,9 @@
  */
 .read-button {
 
-  background-color: #c00000;
+  background-color: var(--bc00000);
 
-  color: white;
+  color: var(--fffffff);
 
   border: none;
 
@@ -452,11 +452,11 @@
  */
 .delete-button {
 
-  background-color: white;
+  background-color: var(--bffffff);
 
-  color: #c00000;
+  color: var(--fc00000);
 
-  border: 1px solid #c00000;
+  border: 1px solid var(--lc00000);
 
   border-radius: 6px;
 
@@ -472,14 +472,14 @@
  */
 .read-button:hover {
 
-  background-color: #990000;
+  background-color: var(--b990000);
 
 }
 
 
 .delete-button:hover {
 
-  background-color: #ffe5e5;
+  background-color: var(--bffe5e5);
 
 }
 
@@ -550,8 +550,8 @@
 .open-link {
   padding: 8px 14px;
   border-radius: 8px;
-  background: #eaf1ff;
-  color: #1646a0;
+  background: var(--beaf1ff);
+  color: var(--f1646a0);
   font-size: 13px;
   font-weight: 700;
   text-decoration: none;
@@ -565,7 +565,7 @@
   }
 
   &:hover {
-    background: #dbe7ff;
+    background: var(--bdbe7ff);
   }
 }
 

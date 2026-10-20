@@ -25,9 +25,9 @@ $white: #ffffff;
   background:
     radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.10), transparent 40%),
     radial-gradient(circle at 85% 80%, rgba(230, 57, 70, 0.25), transparent 45%),
-    linear-gradient(135deg, $blue-dark, $blue);
+    linear-gradient(135deg, var(--b0d2f70), var(--b1646a0));
 
-  color: $white;
+  color: var(--fffffff);
 
   animation: fade-in 0.3s ease;
 }
@@ -47,9 +47,9 @@ $white: #ffffff;
   height: 6px;
 
   span { flex: 1; }
-  span:nth-child(1) { background: #0055a4; }
-  span:nth-child(2) { background: $white; }
-  span:nth-child(3) { background: #ef4135; }
+  span:nth-child(1) { background: var(--b0055a4); }
+  span:nth-child(2) { background: var(--bffffff); }
+  span:nth-child(3) { background: var(--bef4135); }
 }
 
 
@@ -115,7 +115,7 @@ $white: #ffffff;
 
   border-radius: inherit;
 
-  background: linear-gradient(90deg, $white, #ffb4bb);
+  background: linear-gradient(90deg, var(--bffffff), var(--bffb4bb));
 
   animation: fill var(--loader-duration, 2800ms) ease-in-out forwards;
 }
@@ -167,8 +167,8 @@ $white: #ffffff;
   white-space: nowrap;
 
   &.light {
-    background: $white;
-    color: $blue-dark;
+    background: var(--bffffff);
+    color: var(--f0d2f70);
   }
 }
 

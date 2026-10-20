@@ -17,8 +17,8 @@ $line: rgba(255, 255, 255, 0.1);
 .footer {
   position: relative;
   margin-top: 40px;
-  background: $bg;
-  color: $text;
+  background: var(--b0f1d3d);
+  color: var(--fc3cbe0);
 
   // Liseré bleu / blanc / rouge en haut du footer.
   &::before {
@@ -28,7 +28,7 @@ $line: rgba(255, 255, 255, 0.1);
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, $blue 0 33.3%, $white 33.3% 66.6%, $red 66.6%);
+    background: linear-gradient(90deg, var(--b1646a0) 0 33.3%, var(--bffffff) 33.3% 66.6%, var(--bd0222f) 66.6%);
   }
 }
 
@@ -49,7 +49,7 @@ $line: rgba(255, 255, 255, 0.1);
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  color: $white;
+  color: var(--fffffff);
   text-decoration: none;
 
   strong {
@@ -66,7 +66,7 @@ $line: rgba(255, 255, 255, 0.1);
   width: 40px;
   height: 40px;
   border-radius: 12px;
-  background: linear-gradient(135deg, $blue, $blue-dark 70%, #c92535);
+  background: linear-gradient(135deg, var(--b1646a0), var(--b0d2f70) 70%, var(--bc92535));
   font-size: 19px;
 }
 
@@ -80,7 +80,7 @@ $line: rgba(255, 255, 255, 0.1);
 .footer-notice {
   padding-left: 12px;
   border-left: 3px solid rgba(255, 255, 255, 0.2);
-  color: $muted;
+  color: var(--f8f9ab5);
   font-size: 13px !important;
 }
 
@@ -92,7 +92,7 @@ $line: rgba(255, 255, 255, 0.1);
 
   h2 {
     margin: 4px 0 16px;
-    color: $white;
+    color: var(--fffffff);
     font-size: 13px;
     font-weight: 700;
     letter-spacing: 0.08em;
@@ -109,13 +109,13 @@ $line: rgba(255, 255, 255, 0.1);
   }
 
   a {
-    color: $text;
+    color: var(--fc3cbe0);
     font-size: 14px;
     text-decoration: none;
     transition: color 0.2s ease;
 
     &:hover {
-      color: $white;
+      color: var(--fffffff);
       text-decoration: underline;
       text-underline-offset: 3px;
     }
@@ -124,7 +124,7 @@ $line: rgba(255, 255, 255, 0.1);
 
 .external {
   margin-left: 2px;
-  color: $muted;
+  color: var(--f8f9ab5);
   font-size: 12px;
 }
 
@@ -161,7 +161,7 @@ button:focus-visible {
 
   p {
     margin: 0;
-    color: $muted;
+    color: var(--f8f9ab5);
     font-size: 13px;
   }
 }
@@ -173,12 +173,12 @@ button:focus-visible {
   gap: 6px 18px;
 
   a {
-    color: $muted;
+    color: var(--f8f9ab5);
     font-size: 13px;
     text-decoration: none;
 
     &:hover {
-      color: $text;
+      color: var(--fc3cbe0);
       text-decoration: underline;
     }
   }
@@ -192,7 +192,7 @@ button:focus-visible {
   border: 1px solid $line;
   border-radius: 999px;
   background: transparent;
-  color: $text;
+  color: var(--fc3cbe0);
   font-family: inherit;
   font-size: 13px;
   cursor: pointer;
@@ -200,7 +200,7 @@ button:focus-visible {
 
   &:hover {
     background: rgba(255, 255, 255, 0.08);
-    color: $white;
+    color: var(--fffffff);
   }
 }
 

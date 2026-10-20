@@ -12,7 +12,7 @@ $star: #f5a524;
 
 .avis-section {
   padding: 85px 8%;
-  background: #f7f8fa;
+  background: var(--bf7f8fa);
 }
 
 .avis-heading {
@@ -25,7 +25,7 @@ $star: #f5a524;
     font-size: clamp(1.8rem, 3.5vw, 2.5rem);
     line-height: 1.2;
     font-weight: 800;
-    color: $text-dark;
+    color: var(--f172033);
 
     span {
       color: var(--msg-red);
@@ -34,12 +34,12 @@ $star: #f5a524;
 
   p {
     margin: 0;
-    color: $text-light;
+    color: var(--f667085);
     line-height: 1.6;
   }
 
   strong {
-    color: $text-dark;
+    color: var(--f172033);
   }
 }
 
@@ -64,25 +64,25 @@ $star: #f5a524;
   gap: 16px;
   min-width: 0;
   padding: 26px;
-  border: 1px solid $border;
+  border: 1px solid var(--le7e9ee);
   border-radius: 18px;
-  background: #fff;
+  background: var(--bffffff);
   box-shadow: 0 8px 24px rgba(20, 30, 50, 0.06);
 }
 
 .avis-stars span {
   font-size: 1.15rem;
-  color: #d0d5dd;
+  color: var(--fd0d5dd);
 
   &.on {
-    color: $star;
+    color: var(--ff5a524);
   }
 }
 
 blockquote {
   flex: 1;
   margin: 0;
-  color: $text;
+  color: var(--f344054);
   line-height: 1.65;
   overflow-wrap: break-word;
 }
@@ -92,7 +92,7 @@ footer {
   align-items: center;
   gap: 12px;
   padding-top: 16px;
-  border-top: 1px solid $border;
+  border-top: 1px solid var(--le7e9ee);
 
   div {
     display: flex;
@@ -101,12 +101,12 @@ footer {
   }
 
   strong {
-    color: $text-dark;
+    color: var(--f172033);
   }
 
   span:not(.avatar) {
     font-size: 0.8rem;
-    color: $text-light;
+    color: var(--f667085);
     overflow-wrap: anywhere;
   }
 }
@@ -119,8 +119,8 @@ footer {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #eaf1ff;
-  color: $blue;
+  background: var(--beaf1ff);
+  color: var(--f1646a0);
   font-weight: 800;
 }
 

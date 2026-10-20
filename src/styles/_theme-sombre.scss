@@ -1,0 +1,51 @@
+// ============================================================
+// MODE SOMBRE : RÉGLAGES À LA MAIN
+// ============================================================
+//
+// La plupart des couleurs passent par la palette générée
+// (_palette.scss, tools/mode-sombre.mjs). Ce fichier règle le reste :
+// variables globales --msg-*, éléments natifs du navigateur et
+// quelques couleurs définies par des variables CSS locales.
+//
+// Le thème est appliqué par l'attribut data-theme="dark" de <html>
+// (script de src/index.html + ThemeService).
+// ============================================================
+
+:root[data-theme='dark'] {
+  // Barres de défilement, champs de date, cases à cocher... en version sombre.
+  color-scheme: dark;
+
+  --msg-blue: #98bcfd;
+  --msg-blue-dark: #c3d6ff;
+  --msg-blue-light: #242b3a;
+  --msg-red: #ff8f96;
+  --msg-red-light: #3a2326;
+  --msg-green: #75d6a8;
+  --msg-text-dark: #dbe3f3;
+  --msg-text: #ccd5e4;
+  --msg-text-light: #bac1cf;
+  --msg-background: #101419;
+  --msg-border: #34383e;
+
+  --msg-focus: #98bcfd;
+  --msg-focus-ring: 0 0 0 3px rgba(152, 188, 253, 0.3);
+  --msg-error: #fda399;
+
+  // Accueil : couleurs des cartes « thème » (variables locales de la page).
+  .theme-blue {
+    --theme-light: #242b3a;
+  }
+
+  .theme-red {
+    --theme-light: #3a2326;
+  }
+
+  .theme-green {
+    --theme-light: #1f3329;
+  }
+}
+
+// Images claires (logos, captures) : légèrement atténuées pour ne pas éblouir.
+:root[data-theme='dark'] img:not([src$='.svg']) {
+  filter: brightness(0.92);
+}

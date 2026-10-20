@@ -35,8 +35,8 @@ $success: #067647;
   display: grid;
   grid-template-columns: minmax(360px, 44%) minmax(0, 1fr);
   min-height: 100vh;
-  background: $background;
-  color: $text;
+  background: var(--bf5f7fb);
+  color: var(--f172033);
 }
 
 
@@ -51,11 +51,11 @@ $success: #067647;
   gap: 32px;
   overflow: hidden;
   padding: 40px 48px 36px;
-  color: #ffffff;
+  color: var(--fffffff);
   background:
     radial-gradient(circle at 12% 8%, rgba(255, 255, 255, 0.14), transparent 42%),
     radial-gradient(circle at 95% 85%, rgba(230, 57, 70, 0.22), transparent 38%),
-    linear-gradient(160deg, $blue-dark 0%, $blue 68%, #2563c9 100%);
+    linear-gradient(160deg, var(--b0d2f70) 0%, var(--b1646a0) 68%, var(--b2563c9) 100%);
 
   // Liseré bleu-blanc-rouge en haut du panneau.
   &::before {
@@ -63,7 +63,7 @@ $success: #067647;
     position: absolute;
     inset: 0 0 auto;
     height: 5px;
-    background: linear-gradient(90deg, #2f6fe4 0 33.3%, #ffffff 33.3% 66.6%, $red 66.6% 100%);
+    background: linear-gradient(90deg, var(--b2f6fe4) 0 33.3%, var(--bffffff) 33.3% 66.6%, var(--bd0222f) 66.6% 100%);
   }
 }
 
@@ -72,13 +72,13 @@ $success: #067647;
   align-items: center;
   align-self: flex-start;
   gap: 11px;
-  color: #ffffff;
+  color: var(--fffffff);
   font-size: 1.15rem;
   font-weight: 800;
   text-decoration: none;
 
   &:focus-visible {
-    outline: 2px solid #ffffff;
+    outline: 2px solid var(--lffffff);
     outline-offset: 4px;
     border-radius: 8px;
   }
@@ -162,7 +162,7 @@ $success: #067647;
   background:
     radial-gradient(circle at 12% 8%, rgba(255, 255, 255, 0.1), transparent 42%),
     radial-gradient(circle at 95% 85%, rgba(47, 111, 228, 0.25), transparent 40%),
-    linear-gradient(160deg, #0b1220 0%, #15203a 60%, #1d2b4d 100%);
+    linear-gradient(160deg, var(--b0b1220) 0%, var(--b15203a) 60%, var(--b1d2b4d) 100%);
 }
 
 .admin-emblem {
@@ -218,18 +218,18 @@ $success: #067647;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: $muted;
+  color: var(--f667085);
   font-size: 0.9rem;
   font-weight: 600;
   text-decoration: none;
   transition: color 0.15s ease;
 
   &:hover {
-    color: $blue;
+    color: var(--f1646a0);
   }
 
   &:focus-visible {
-    outline: 2px solid $blue;
+    outline: 2px solid var(--l1646a0);
     outline-offset: 3px;
     border-radius: 6px;
   }
@@ -240,9 +240,9 @@ $success: #067647;
   width: 100%;
   max-width: 440px;
   padding: 38px 38px 30px;
-  border: 1px solid #e6eaf0;
+  border: 1px solid var(--le6eaf0);
   border-radius: 22px;
-  background: #ffffff;
+  background: var(--bffffff);
   box-shadow: 0 24px 60px rgba(16, 24, 40, 0.08);
 
   &.wide {
@@ -262,7 +262,7 @@ $success: #067647;
 
 .auth-title {
   margin: 0 0 8px;
-  color: $text;
+  color: var(--f172033);
   font-size: 1.85rem;
   font-weight: 800;
   line-height: 1.2;
@@ -271,7 +271,7 @@ $success: #067647;
 
 .auth-subtitle {
   margin: 0 0 28px;
-  color: $muted;
+  color: var(--f667085);
   font-size: 0.95rem;
   line-height: 1.55;
 }
@@ -288,7 +288,7 @@ $success: #067647;
 label {
   display: block;
   margin-bottom: 7px;
-  color: $text-soft;
+  color: var(--f344054);
   font-size: 0.875rem;
   font-weight: 600;
 }
@@ -302,7 +302,7 @@ label {
   }
 
   &:focus-within .field-icon {
-    stroke: $blue;
+    stroke: var(--f1646a0);
   }
 }
 
@@ -314,7 +314,7 @@ label {
   height: 18px;
   transform: translateY(-50%);
   fill: none;
-  stroke: #98a2b3;
+  stroke: var(--f98a2b3);
   stroke-width: 1.8;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -327,31 +327,31 @@ input {
   width: 100%;
   height: 50px;
   padding: 0 14px;
-  border: 1px solid $border;
+  border: 1px solid var(--ld0d5dd);
   border-radius: 12px;
-  background: #ffffff;
-  color: $text;
+  background: var(--bffffff);
+  color: var(--f172033);
   font: inherit;
   font-size: 0.95rem;
   transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
 
   &::placeholder {
-    color: #667085;
+    color: var(--f667085);
   }
 
   &:hover {
-    border-color: #98a2b3;
+    border-color: var(--l98a2b3);
   }
 
   &:focus {
     outline: none;
-    border-color: var(--msg-focus, $blue);
+    border-color: var(--msg-focus, var(--l1646a0));
     box-shadow: var(--msg-focus-ring, 0 0 0 4px rgba(22, 70, 160, 0.14));
   }
 
   &.invalid {
-    border-color: $error;
-    background: #fffbfa;
+    border-color: var(--ld92d20);
+    background: var(--bfffbfa);
 
     &:focus {
       box-shadow: 0 0 0 4px rgba(217, 45, 32, 0.12);
@@ -361,7 +361,7 @@ input {
 
 .field-error {
   margin: 6px 0 0;
-  color: $error;
+  color: var(--fd92d20);
   font-size: 0.8rem;
   line-height: 1.4;
 }
@@ -389,7 +389,7 @@ input {
   border: none;
   border-radius: 9px;
   background: transparent;
-  color: $muted;
+  color: var(--f667085);
   font: inherit;
   font-size: 0.8rem;
   font-weight: 600;
@@ -397,12 +397,12 @@ input {
   transition: background 0.15s ease, color 0.15s ease;
 
   &:hover {
-    background: #f2f4f7;
-    color: $blue;
+    background: var(--bf2f4f7);
+    color: var(--f1646a0);
   }
 
   &:focus-visible {
-    outline: 2px solid $blue;
+    outline: 2px solid var(--l1646a0);
     outline-offset: 1px;
   }
 
@@ -437,12 +437,12 @@ input {
     display: flex;
     align-items: center;
     gap: 6px;
-    color: $muted;
+    color: var(--f667085);
     font-size: 0.78rem;
     line-height: 1.4;
 
     &.ok {
-      color: $success;
+      color: var(--f067647);
       font-weight: 600;
     }
   }
@@ -456,10 +456,10 @@ input {
   gap: 10px;
   margin: 0;
   padding: 12px 14px;
-  border: 1px solid #e6eaf0;
+  border: 1px solid var(--le6eaf0);
   border-radius: 12px;
-  background: #f9fafb;
-  color: $text-soft;
+  background: var(--bf9fafb);
+  color: var(--f344054);
   font-size: 0.85rem;
   font-weight: 500;
   line-height: 1.5;
@@ -471,19 +471,19 @@ input {
     height: 18px;
     margin: 1px 0 0;
     padding: 0;
-    accent-color: $blue;
+    accent-color: var(--f1646a0);
   }
 
   a {
-    color: $blue;
+    color: var(--f1646a0);
     font-weight: 700;
     text-decoration: underline;
     text-underline-offset: 2px;
   }
 
   &.invalid {
-    border-color: $error;
-    background: #fffbfa;
+    border-color: var(--ld92d20);
+    background: var(--bfffbfa);
   }
 }
 
@@ -499,7 +499,7 @@ input {
   text-align: right;
 
   a {
-    color: $blue;
+    color: var(--f1646a0);
     font-weight: 600;
     text-decoration: none;
 
@@ -519,15 +519,15 @@ input {
 }
 
 .error {
-  border: 1px solid #fecdca;
-  background: #fef3f2;
-  color: #b42318;
+  border: 1px solid var(--lfecdca);
+  background: var(--bfef3f2);
+  color: var(--fb42318);
 }
 
 .info {
-  border: 1px solid #c7d7fe;
-  background: #eff4ff;
-  color: #1e3a8a;
+  border: 1px solid var(--lc7d7fe);
+  background: var(--beff4ff);
+  color: var(--f1e3a8a);
 }
 
 .login-button,
@@ -536,8 +536,8 @@ input {
   height: 52px;
   border: none;
   border-radius: 12px;
-  background: $blue;
-  color: #ffffff;
+  background: var(--b1646a0);
+  color: var(--fffffff);
   font: inherit;
   font-size: 1rem;
   font-weight: 700;
@@ -546,7 +546,7 @@ input {
   transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
 
   &:hover:not(:disabled) {
-    background: $blue-dark;
+    background: var(--b0d2f70);
     transform: translateY(-1px);
     box-shadow: 0 14px 26px rgba(22, 70, 160, 0.3);
   }
@@ -570,14 +570,14 @@ input {
 .auth-switch {
   margin: 24px 0 0;
   padding-top: 20px;
-  border-top: 1px solid #eef0f4;
-  color: $muted;
+  border-top: 1px solid var(--leef0f4);
+  color: var(--f667085);
   font-size: 0.9rem;
   text-align: center;
 
   a {
     margin-left: 4px;
-    color: $blue;
+    color: var(--f1646a0);
     font-weight: 700;
     text-decoration: none;
 
@@ -593,11 +593,11 @@ input {
   text-align: center;
 
   a {
-    color: #667085;
+    color: var(--f667085);
     text-decoration: none;
 
     &:hover {
-      color: $muted;
+      color: var(--f667085);
       text-decoration: underline;
     }
   }

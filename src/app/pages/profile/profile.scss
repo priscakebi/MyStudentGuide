@@ -57,7 +57,7 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
   padding: 32px;
 
-  background: $background;
+  background: var(--bf7f8fa);
 
   box-sizing: border-box;
 
@@ -80,9 +80,9 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
   padding: 28px;
 
-  background: $white;
+  background: var(--bffffff);
 
-  border: 1px solid $border;
+  border: 1px solid var(--le5e7eb);
 
   border-radius: 18px;
 
@@ -105,7 +105,7 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
   border-radius: 16px;
 
-  background: $red-light;
+  background: var(--bfff1f1);
 
   color: var(--msg-red);
 
@@ -136,7 +136,7 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
     margin: 0 0 6px;
 
-    color: $text-dark;
+    color: var(--f20252b);
 
     font-size: 30px;
 
@@ -147,7 +147,7 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
     margin: 0;
 
-    color: $text-light;
+    color: var(--f667085);
 
     font-size: 14px;
 
@@ -174,13 +174,13 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
   padding: 30px;
 
-  background: $white;
+  background: var(--bffffff);
 
-  border: 1px solid $border;
+  border: 1px solid var(--le5e7eb);
 
   border-radius: 18px;
 
-  color: $text-light;
+  color: var(--f667085);
 }
 
 
@@ -193,9 +193,9 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
   width: 22px;
   height: 22px;
 
-  border: 3px solid #eeeeee;
+  border: 3px solid var(--leeeeee);
 
-  border-top-color: $red;
+  border-top-color: var(--ld62828);
 
   border-radius: 50%;
 
@@ -210,7 +210,7 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
   border: 2px solid rgba(255, 255, 255, 0.45);
 
-  border-top-color: $white;
+  border-top-color: var(--lffffff);
 
   border-radius: 50%;
 
@@ -269,11 +269,11 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
 .success-message {
 
-  background: $success-light;
+  background: var(--bedf9f1);
 
   border: 1px solid rgba(22, 128, 60, 0.15);
 
-  color: $success;
+  color: var(--f16803c);
 
   .message-icon {
 
@@ -284,11 +284,11 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
 .error-message {
 
-  background: $error-light;
+  background: var(--bfff1f1);
 
   border: 1px solid rgba(198, 40, 40, 0.15);
 
-  color: $error;
+  color: var(--fc62828);
 
   .message-icon {
 
@@ -307,9 +307,9 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
   box-sizing: border-box;
 
-  background: $white;
+  background: var(--bffffff);
 
-  border: 1px solid $border;
+  border: 1px solid var(--le5e7eb);
 
   border-radius: 18px;
 
@@ -325,7 +325,7 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
   padding: 28px 30px;
 
-  border-bottom: 1px solid $border;
+  border-bottom: 1px solid var(--le5e7eb);
 
   .section-label {
 
@@ -346,7 +346,7 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
     margin: 0 0 6px;
 
-    color: $text-dark;
+    color: var(--f20252b);
 
     font-size: 22px;
 
@@ -359,7 +359,7 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
     max-width: 700px;
 
-    color: $text-light;
+    color: var(--f667085);
 
     font-size: 14px;
 
@@ -376,7 +376,7 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
   padding: 30px;
 
-  border-bottom: 1px solid $border;
+  border-bottom: 1px solid var(--le5e7eb);
 
   &:last-of-type {
 
@@ -414,7 +414,7 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
   border-radius: 10px;
 
-  background: $red-light;
+  background: var(--bfff1f1);
 
   color: var(--msg-red);
 
@@ -430,7 +430,7 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
     margin: 0 0 4px;
 
-    color: $text-dark;
+    color: var(--f20252b);
 
     font-size: 17px;
 
@@ -441,7 +441,7 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
     margin: 0;
 
-    color: $text-light;
+    color: var(--f667085);
 
     font-size: 13px;
 
@@ -488,7 +488,7 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
     margin-bottom: 8px;
 
-    color: $text-dark;
+    color: var(--f20252b);
 
     font-size: 13px;
 
@@ -506,13 +506,13 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
     padding: 0 14px;
 
-    border: 1px solid #d9dde2;
+    border: 1px solid var(--ld9dde2);
 
     border-radius: 10px;
 
-    background: $white;
+    background: var(--bffffff);
 
-    color: $text-dark;
+    color: var(--f20252b);
 
     font-family: inherit;
 
@@ -534,7 +534,7 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
     &::placeholder {
 
-      color: #a2a7ad;
+      color: var(--fa2a7ad);
     }
   }
 
@@ -558,8 +558,8 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
   margin: -4px 0 0;
   padding: 10px 14px;
   border-radius: 10px;
-  background: #eff4ff;
-  color: #1e3a8a;
+  background: var(--beff4ff);
+  color: var(--f1e3a8a);
   font-size: 13px;
   line-height: 1.5;
 }
@@ -593,11 +593,11 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
   box-sizing: border-box;
 
-  border: 1px solid $border;
+  border: 1px solid var(--le5e7eb);
 
   border-radius: 10px;
 
-  background: #fafafa;
+  background: var(--bfafafa);
 
   cursor: pointer;
 
@@ -609,14 +609,14 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
     border-color: rgba(214, 40, 40, 0.35);
 
-    background: $red-light;
+    background: var(--bfff1f1);
   }
 
   &.checked {
 
     border-color: rgba(214, 40, 40, 0.35);
 
-    background: $red-light;
+    background: var(--bfff1f1);
   }
 }
 
@@ -647,11 +647,11 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
   flex: 0 0 22px;
 
-  border: 2px solid #cfd4d9;
+  border: 2px solid var(--lcfd4d9);
 
   border-radius: 6px;
 
-  background: $white;
+  background: var(--bffffff);
 
   color: transparent;
 
@@ -667,11 +667,11 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
   .custom-checkbox {
 
-    border-color: $red;
+    border-color: var(--ld62828);
 
-    background: $red;
+    background: var(--bd62828);
 
-    color: $white;
+    color: var(--fffffff);
   }
 }
 
@@ -690,7 +690,7 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
   strong {
 
-    color: $text-dark;
+    color: var(--f20252b);
 
     font-size: 13px;
 
@@ -699,7 +699,7 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
   small {
 
-    color: $text-light;
+    color: var(--f667085);
 
     font-size: 11px;
 
@@ -724,9 +724,9 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
   padding: 22px 30px;
 
-  background: #fafafa;
+  background: var(--bfafafa);
 
-  border-top: 1px solid $border;
+  border-top: 1px solid var(--le5e7eb);
 
   border-radius: 0 0 18px 18px;
 }
@@ -782,15 +782,15 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
 .btn-primary {
 
-  background: $red;
+  background: var(--bd62828);
 
-  color: $white;
+  color: var(--fffffff);
 
   box-shadow: 0 5px 14px rgba(214, 40, 40, 0.18);
 
   &:not(:disabled):hover {
 
-    background: $red-dark;
+    background: var(--bb71c1c);
 
     box-shadow: 0 7px 18px rgba(214, 40, 40, 0.22);
   }
@@ -799,15 +799,15 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
 .btn-secondary {
 
-  background: $white;
+  background: var(--bffffff);
 
-  color: $text;
+  color: var(--f3f464d);
 
-  border: 1px solid $border;
+  border: 1px solid var(--le5e7eb);
 
   &:not(:disabled):hover {
 
-    background: #f5f5f5;
+    background: var(--bf5f5f5);
   }
 }
 
@@ -836,7 +836,7 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
   padding: 28px 30px;
 
-  border-bottom: 1px solid $border;
+  border-bottom: 1px solid var(--le5e7eb);
 }
 
 
@@ -855,9 +855,9 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
   border-radius: 50%;
 
-  background: $red;
+  background: var(--bd62828);
 
-  color: $white;
+  color: var(--fffffff);
 
   font-size: 27px;
 
@@ -894,7 +894,7 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
     margin: 0 0 4px;
 
-    color: $text-dark;
+    color: var(--f20252b);
 
     font-size: 22px;
 
@@ -905,7 +905,7 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
     margin: 0;
 
-    color: $text-light;
+    color: var(--f667085);
 
     font-size: 13px;
   }
@@ -934,7 +934,7 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
   padding: 26px 0;
 
-  border-bottom: 1px solid $border;
+  border-bottom: 1px solid var(--le5e7eb);
 
   &:last-child {
 
@@ -959,7 +959,7 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
     margin: 0;
 
-    color: $text-dark;
+    color: var(--f20252b);
 
     font-size: 15px;
 
@@ -981,7 +981,7 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
   border-radius: 9px;
 
-  background: $blue-light;
+  background: var(--beef5f9);
 
   font-size: 16px;
 }
@@ -1020,7 +1020,7 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
     overflow-wrap: anywhere;
 
-    color: $text-dark;
+    color: var(--f20252b);
 
     font-size: 14px;
 
@@ -1035,7 +1035,7 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
 .information-label {
 
-  color: $text-light;
+  color: var(--f667085);
 
   font-size: 11px;
 
@@ -1051,13 +1051,13 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
 .status-yes {
 
-  color: $success !important;
+  color: var(--f16803c) !important;
 }
 
 
 .status-no {
 
-  color: $text-light !important;
+  color: var(--f667085) !important;
 }
 
 
@@ -1083,9 +1083,9 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
   text-align: center;
 
-  background: $white;
+  background: var(--bffffff);
 
-  border: 1px solid $border;
+  border: 1px solid var(--le5e7eb);
 
   border-radius: 18px;
 
@@ -1106,7 +1106,7 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
   border-radius: 50%;
 
-  background: $red-light;
+  background: var(--bfff1f1);
 
   font-size: 28px;
 }
@@ -1118,7 +1118,7 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
     margin: 0 0 8px;
 
-    color: $text-dark;
+    color: var(--f20252b);
 
     font-size: 20px;
   }
@@ -1129,7 +1129,7 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 
     margin: 0 0 22px;
 
-    color: $text-light;
+    color: var(--f667085);
 
     font-size: 14px;
 
@@ -1473,7 +1473,7 @@ $shadow: 0 10px 30px rgba(20, 25, 30, 0.06);
 }
 
 .checkbox-card.checked .custom-checkbox.radio {
-  box-shadow: inset 0 0 0 4px $white;
+  box-shadow: inset 0 0 0 4px var(--lffffff);
 }
 
 // Choix pris au clavier : contour visible (l'input natif est masqué).

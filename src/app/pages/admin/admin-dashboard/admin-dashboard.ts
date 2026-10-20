@@ -32,6 +32,7 @@ import { AuthService } from '../../../services/auth.service';
 import { allerAuContenu } from '../../../utils/aller-au-contenu';
 import { LienNotification, lienNotificationAdmin } from '../../../utils/lien-notification-admin';
 import { Icone } from '../../../components/icone/icone';
+import { ThemeSwitch } from '../../../components/theme-switch/theme-switch';
 
 
 /** Réponse de GET /api/admin/stats (AdminStatsResponse côté API). */
@@ -99,6 +100,7 @@ const LIBELLES_VISA: Record<string, string> = {
 
   imports: [
 
+    ThemeSwitch,
     Icone,
 
     CommonModule,

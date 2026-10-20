@@ -3,6 +3,9 @@ import { Traductions } from './type';
 /** Composants partagés : inactivité, écran de chargement, préfecture, avis. */
 export const COMPOSANTS = {
   'astuce.titre': { fr: 'Astuce du jour', en: 'Tip of the day' },
+  'theme.sombre': { fr: 'Mode sombre', en: 'Dark mode' },
+  'theme.passerSombre': { fr: 'Passer en mode sombre', en: 'Switch to dark mode' },
+  'theme.passerClair': { fr: 'Passer en mode clair', en: 'Switch to light mode' },
   // Déconnexion pour inactivité (app.html)
   'inactif.titre': { fr: 'Toujours là ?', en: 'Still there?' },
   'inactif.texte': {

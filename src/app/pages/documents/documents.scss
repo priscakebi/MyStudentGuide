@@ -98,7 +98,7 @@ $transition: 0.25s ease;
 
   border-radius: 18px;
 
-  background: $blue-light;
+  background: var(--beaf1ff);
 
   display: flex;
 
@@ -116,7 +116,7 @@ $transition: 0.25s ease;
 
   margin: 0 0 8px;
 
-  color: $text-dark;
+  color: var(--f172033);
 
   font-size: 32px;
 
@@ -128,7 +128,7 @@ $transition: 0.25s ease;
 
   margin: 0;
 
-  color: $text-light;
+  color: var(--f667085);
 
   font-size: 16px;
 
@@ -153,7 +153,7 @@ $transition: 0.25s ease;
 
   margin-bottom: 35px;
 
-  background: $blue-light;
+  background: var(--beaf1ff);
 
   border: 1px solid rgba(22, 70, 160, 0.10);
 
@@ -173,7 +173,7 @@ $transition: 0.25s ease;
 
   margin: 0 0 8px;
 
-  color: $blue-dark;
+  color: var(--f0d2f70);
 
   font-size: 17px;
 }
@@ -183,7 +183,7 @@ $transition: 0.25s ease;
 
   margin: 4px 0;
 
-  color: $text;
+  color: var(--f344054);
 
   font-size: 14px;
 
@@ -233,9 +233,9 @@ $transition: 0.25s ease;
  */
 .demarche-card {
 
-  background: $white;
+  background: var(--bffffff);
 
-  border: 1px solid $border;
+  border: 1px solid var(--le6eaf0);
 
   border-radius: $radius-lg;
 
@@ -284,11 +284,11 @@ $transition: 0.25s ease;
   background:
     linear-gradient(
       135deg,
-      $blue-light,
-      $white
+      var(--beaf1ff),
+      var(--bffffff)
     );
 
-  border-bottom: 1px solid $border;
+  border-bottom: 1px solid var(--le6eaf0);
 }
 
 
@@ -303,7 +303,7 @@ $transition: 0.25s ease;
 
   border-radius: 14px;
 
-  background: $white;
+  background: var(--bffffff);
 
   display: flex;
 
@@ -323,7 +323,7 @@ $transition: 0.25s ease;
 
   margin: 0 0 5px;
 
-  color: $text-dark;
+  color: var(--f172033);
 
   font-size: 19px;
 
@@ -333,7 +333,7 @@ $transition: 0.25s ease;
 
 .demarche-header span {
 
-  color: $text-light;
+  color: var(--f667085);
 
   font-size: 13px;
 }
@@ -367,7 +367,7 @@ $transition: 0.25s ease;
 
   padding: 20px 0;
 
-  border-bottom: 1px solid $border;
+  border-bottom: 1px solid var(--le6eaf0);
 }
 
 
@@ -389,9 +389,9 @@ $transition: 0.25s ease;
 
   border-radius: 12px;
 
-  background: #f8f9fc;
+  background: var(--bf8f9fc);
 
-  border: 1px solid $border;
+  border: 1px solid var(--le6eaf0);
 
   display: flex;
 
@@ -435,7 +435,7 @@ $transition: 0.25s ease;
 
   margin: 0;
 
-  color: $text-dark;
+  color: var(--f172033);
 
   font-size: 15px;
 
@@ -447,7 +447,7 @@ $transition: 0.25s ease;
 
   margin: 0 0 9px;
 
-  color: $text-light;
+  color: var(--f667085);
 
   font-size: 14px;
 
@@ -465,7 +465,7 @@ $transition: 0.25s ease;
 
   border-radius: 20px;
 
-  background: $red-light;
+  background: var(--bfff0f1);
 
   color: var(--msg-red);
 
@@ -491,9 +491,9 @@ $transition: 0.25s ease;
 
   border-radius: 7px;
 
-  background: #f2f4f7;
+  background: var(--bf2f4f7);
 
-  color: $text-light;
+  color: var(--f667085);
 
   font-size: 11px;
 
@@ -519,7 +519,7 @@ $transition: 0.25s ease;
 
   gap: 15px;
 
-  color: $text-light;
+  color: var(--f667085);
 }
 
 
@@ -532,9 +532,9 @@ $transition: 0.25s ease;
 
   height: 38px;
 
-  border: 4px solid $blue-light;
+  border: 4px solid var(--leaf1ff);
 
-  border-top-color: $blue;
+  border-top-color: var(--l1646a0);
 
   border-radius: 50%;
 
@@ -565,7 +565,7 @@ $transition: 0.25s ease;
 
   gap: 12px;
 
-  background: $red-light;
+  background: var(--bfff0f1);
 
   border: 1px solid rgba(230, 57, 70, 0.15);
 
@@ -597,9 +597,9 @@ $transition: 0.25s ease;
 
   padding: 70px 30px;
 
-  background: $white;
+  background: var(--bffffff);
 
-  border: 1px solid $border;
+  border: 1px solid var(--le6eaf0);
 
   border-radius: $radius-lg;
 
@@ -621,7 +621,7 @@ $transition: 0.25s ease;
 
   margin: 0 0 8px;
 
-  color: $text-dark;
+  color: var(--f172033);
 
   font-size: 20px;
 }
@@ -631,7 +631,7 @@ $transition: 0.25s ease;
 
   margin: 0;
 
-  color: $text-light;
+  color: var(--f667085);
 
   font-size: 14px;
 }
@@ -778,7 +778,7 @@ $transition: 0.25s ease;
 .demarche-icon,
 .document-icon { color: var(--msg-blue); }
 
-.empty-icon { color: #98a2b3; }
+.empty-icon { color: var(--f98a2b3); }
 
 .error-icon { color: var(--msg-red); }
 

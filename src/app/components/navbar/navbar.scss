@@ -41,15 +41,15 @@ $transition: 0.25s ease;
 
   padding: 0 5%;
 
-  background: $white;
+  background: var(--bffffff);
 
-  border-bottom: 1px solid $border;
+  border-bottom: 1px solid var(--le6eaf0);
 
   /*
     Petite touche rouge très discrète.
     La navbar reste principalement blanche et bleue.
   */
-  border-top: 3px solid $red;
+  border-top: 3px solid var(--ld0222f);
 
   box-shadow: $shadow;
 }
@@ -66,7 +66,7 @@ $transition: 0.25s ease;
 
   gap: 10px;
 
-  color: $blue-dark;
+  color: var(--f0d2f70);
 
   text-decoration: none;
 
@@ -89,20 +89,20 @@ $transition: 0.25s ease;
 
   background: linear-gradient(
     135deg,
-    $blue 0%,
-    $blue 65%,
-    $red 65%,
-    $red 100%
+    var(--b1646a0) 0%,
+    var(--b1646a0) 65%,
+    var(--bd0222f) 65%,
+    var(--bd0222f) 100%
   );
 
-  color: $white;
+  color: var(--fffffff);
 
   font-size: 1.15rem;
 }
 
 
 .logo-text {
-  color: $blue-dark;
+  color: var(--f0d2f70);
 }
 
 
@@ -124,7 +124,7 @@ $transition: 0.25s ease;
 
   padding: 25px 14px;
 
-  color: $text;
+  color: var(--f344054);
 
   text-decoration: none;
 
@@ -139,7 +139,7 @@ $transition: 0.25s ease;
 /* Effet au survol */
 
 .nav-link:hover {
-  color: $blue;
+  color: var(--f1646a0);
 }
 
 
@@ -159,7 +159,7 @@ $transition: 0.25s ease;
 
   border-radius: 4px 4px 0 0;
 
-  background: $red;
+  background: var(--bd0222f);
 
   transform: scaleX(0);
 
@@ -170,7 +170,7 @@ $transition: 0.25s ease;
 /* Page active */
 
 .nav-link.active {
-  color: $blue-dark;
+  color: var(--f0d2f70);
 
   font-weight: 750;
 }
@@ -215,7 +215,7 @@ $transition: 0.25s ease;
 
   gap: 9px;
 
-  color: $text-dark;
+  color: var(--f172033);
 
   text-decoration: none;
 
@@ -226,7 +226,7 @@ $transition: 0.25s ease;
 
 
 .profile-link:hover {
-  color: $blue;
+  color: var(--f1646a0);
 }
 
 
@@ -243,9 +243,9 @@ $transition: 0.25s ease;
 
   border-radius: 50%;
 
-  background: $red;
+  background: var(--bd0222f);
 
-  color: $white;
+  color: var(--fffffff);
 
   font-size: 0.82rem;
 
@@ -282,8 +282,8 @@ $transition: 0.25s ease;
 
   padding: 10px 20px;
 
-  background: $blue;
-  color: $white;
+  background: var(--b1646a0);
+  color: var(--fffffff);
 
   border-radius: 8px;
 
@@ -302,7 +302,7 @@ $transition: 0.25s ease;
  * Effet au survol.
  */
 .login-button:hover {
-  background: $blue-dark;
+  background: var(--b0d2f70);
 
   transform: translateY(-1px);
 
@@ -321,7 +321,7 @@ $transition: 0.25s ease;
 
   border-radius: 9px;
 
-  background: $white;
+  background: var(--bffffff);
 
   color: var(--msg-red);
 
@@ -341,9 +341,9 @@ $transition: 0.25s ease;
 
 
 .logout-button:hover {
-  background: $red;
+  background: var(--bd0222f);
 
-  color: $white;
+  color: var(--fffffff);
 
   transform: translateY(-1px);
 }
@@ -384,10 +384,10 @@ $transition: 0.25s ease;
 
   padding: 0 9px;
 
-  border: 1px solid $border;
+  border: 1px solid var(--le6eaf0);
   border-radius: 9px;
 
-  background: $white;
+  background: var(--bffffff);
 
   cursor: pointer;
 }
@@ -400,7 +400,7 @@ $transition: 0.25s ease;
 
   border-radius: 2px;
 
-  background: $blue-dark;
+  background: var(--b0d2f70);
 
   transition:
     transform $transition,
@@ -478,9 +478,9 @@ $transition: 0.25s ease;
 
     padding: 8px 0;
 
-    background: $white;
+    background: var(--bffffff);
 
-    border-bottom: 1px solid $border;
+    border-bottom: 1px solid var(--le6eaf0);
 
     box-shadow: $shadow;
   }
@@ -550,7 +550,7 @@ $transition: 0.25s ease;
   .mobile-logout {
     border: 1px solid rgba(230, 57, 70, 0.25);
 
-    background: $white;
+    background: var(--bffffff);
 
     color: var(--msg-red);
 
@@ -558,9 +558,9 @@ $transition: 0.25s ease;
   }
 
   .mobile-login {
-    background: $blue;
+    background: var(--b1646a0);
 
-    color: $white;
+    color: var(--fffffff);
   }
 
 }

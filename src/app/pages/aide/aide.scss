@@ -21,7 +21,7 @@ $white: #ffffff;
 
   h1 {
     margin: 0 0 8px;
-    color: $text-dark;
+    color: var(--f172033);
     font-size: 26px;
     letter-spacing: -0.3px;
   }
@@ -29,7 +29,7 @@ $white: #ffffff;
   p {
     max-width: 680px;
     margin: 0;
-    color: $text-light;
+    color: var(--f667085);
     line-height: 1.6;
   }
 }
@@ -43,14 +43,14 @@ $white: #ffffff;
 
 .card {
   padding: 24px;
-  border: 1px solid $border;
+  border: 1px solid var(--le6eaf0);
   border-radius: 16px;
-  background: $white;
+  background: var(--bffffff);
   box-shadow: 0 4px 16px rgba(20, 44, 90, 0.05);
 
   h2 {
     margin: 0 0 18px;
-    color: $text-dark;
+    color: var(--f172033);
     font-size: 18px;
   }
 }
@@ -65,7 +65,7 @@ $white: #ffffff;
   label {
     display: block;
     margin-bottom: 7px;
-    color: $text-dark;
+    color: var(--f172033);
     font-size: 14px;
     font-weight: 600;
   }
@@ -74,15 +74,15 @@ $white: #ffffff;
   textarea {
     width: 100%;
     padding: 11px 13px;
-    border: 1px solid #d0d5dd;
+    border: 1px solid var(--ld0d5dd);
     border-radius: 10px;
-    background: $white;
-    color: $text-dark;
+    background: var(--bffffff);
+    color: var(--f172033);
     font-size: 14px;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
     &:hover {
-      border-color: #98a2b3;
+      border-color: var(--l98a2b3);
     }
 
     &:focus {
@@ -92,8 +92,8 @@ $white: #ffffff;
     }
 
     &.invalid {
-      border-color: $red;
-      background: #fff7f7;
+      border-color: var(--lc62828);
+      background: var(--bfff7f7);
     }
   }
 
@@ -108,7 +108,7 @@ $white: #ffffff;
 
 .optional {
   margin-left: 6px;
-  color: $text-light;
+  color: var(--f667085);
   font-size: 12px;
   font-weight: 500;
 }
@@ -139,13 +139,13 @@ $white: #ffffff;
 
   &.privacy {
     margin: 10px 0 0;
-    background: #f8f9fc;
-    color: $text;
+    background: var(--bf8f9fc);
+    color: var(--f344054);
   }
 
-  &.success { background: #e9f8ee; color: #217a3c; }
-  &.error { background: #fdecec; color: #b42323; }
-  &.warning { background: #fff8e8; color: #92400e; }
+  &.success { background: var(--be9f8ee); color: var(--f217a3c); }
+  &.error { background: var(--bfdecec); color: var(--fb42323); }
+  &.warning { background: var(--bfff8e8); color: var(--f92400e); }
 }
 
 .btn-primary {
@@ -153,8 +153,8 @@ $white: #ffffff;
   padding: 0 22px;
   border: none;
   border-radius: 10px;
-  background: $blue;
-  color: $white;
+  background: var(--b1646a0);
+  color: var(--fffffff);
   font-family: inherit;
   font-size: 14px;
   font-weight: 700;
@@ -162,7 +162,7 @@ $white: #ffffff;
   transition: background 0.2s ease;
 
   &:hover:not(:disabled) {
-    background: $blue-dark;
+    background: var(--b0d2f70);
   }
 
   &:disabled {
@@ -175,7 +175,7 @@ $white: #ffffff;
 // ------------------------------------------------------------
 
 .tips {
-  background: linear-gradient(160deg, $blue-light, $white 60%);
+  background: linear-gradient(160deg, var(--beaf1ff), var(--bffffff) 60%);
 
   ul {
     display: flex;
@@ -183,13 +183,13 @@ $white: #ffffff;
     gap: 12px;
     margin: 0;
     padding-left: 18px;
-    color: $text;
+    color: var(--f344054);
     font-size: 14px;
     line-height: 1.55;
   }
 
   a {
-    color: $blue;
+    color: var(--f1646a0);
     font-weight: 600;
   }
 }
@@ -197,8 +197,8 @@ $white: #ffffff;
 .tips-note {
   margin: 18px 0 0;
   padding-top: 14px;
-  border-top: 1px solid $border;
-  color: $text-light;
+  border-top: 1px solid var(--le6eaf0);
+  color: var(--f667085);
   font-size: 13px;
   line-height: 1.55;
 }
@@ -212,19 +212,19 @@ $white: #ffffff;
 
   h2 {
     margin: 0 0 14px;
-    color: $text-dark;
+    color: var(--f172033);
     font-size: 18px;
   }
 }
 
 .muted,
 .empty {
-  color: $text-light;
+  color: var(--f667085);
 }
 
 .empty {
   padding: 24px;
-  border: 1px dashed #d0d5dd;
+  border: 1px dashed var(--ld0d5dd);
   border-radius: 12px;
   text-align: center;
 }
@@ -241,13 +241,13 @@ $white: #ffffff;
 .demande {
   position: relative;
   padding: 18px 20px;
-  border: 1px solid $border;
-  border-left: 4px solid #e8a33d;
+  border: 1px solid var(--le6eaf0);
+  border-left: 4px solid var(--le8a33d);
   border-radius: 12px;
-  background: $white;
+  background: var(--bffffff);
 
-  &.statut-REPONDUE { border-left-color: #217a3c; }
-  &.statut-FERMEE { border-left-color: #cfd5df; }
+  &.statut-REPONDUE { border-left-color: var(--l217a3c); }
+  &.statut-FERMEE { border-left-color: var(--lcfd5df); }
 }
 
 .demande-top {
@@ -258,7 +258,7 @@ $white: #ffffff;
   padding-right: 90px;
 
   time {
-    color: #667085;
+    color: var(--f667085);
     font-size: 12px;
   }
 }
@@ -269,23 +269,23 @@ $white: #ffffff;
   font-size: 11.5px;
   font-weight: 700;
 
-  &.sujet { background: $blue-light; color: $blue; }
-  &.badge-OUVERTE { background: #fff3cd; color: #856404; }
-  &.badge-REPONDUE { background: #e9f8ee; color: #217a3c; }
-  &.badge-FERMEE { background: #f1f3f6; color: $text-light; }
+  &.sujet { background: var(--beaf1ff); color: var(--f1646a0); }
+  &.badge-OUVERTE { background: var(--bfff3cd); color: var(--f856404); }
+  &.badge-REPONDUE { background: var(--be9f8ee); color: var(--f217a3c); }
+  &.badge-FERMEE { background: var(--bf1f3f6); color: var(--f667085); }
 }
 
 .demarche {
   margin: 10px 0 0;
-  color: $text-light;
+  color: var(--f667085);
   font-size: 13px;
 
-  a { color: $blue; }
+  a { color: var(--f1646a0); }
 }
 
 .texte {
   margin: 10px 0 0;
-  color: $text;
+  color: var(--f344054);
   font-size: 14px;
   line-height: 1.6;
   white-space: pre-line;
@@ -295,21 +295,21 @@ $white: #ffffff;
   margin-top: 14px;
   padding: 12px 14px;
   border-radius: 10px;
-  background: #f0f7f2;
+  background: var(--bf0f7f2);
 
   strong {
-    color: #217a3c;
+    color: var(--f217a3c);
     font-size: 13px;
 
     span {
-      color: $text-light;
+      color: var(--f667085);
       font-weight: 500;
     }
   }
 
   p {
     margin: 6px 0 0;
-    color: $text;
+    color: var(--f344054);
     font-size: 14px;
     line-height: 1.6;
     white-space: pre-line;
@@ -324,13 +324,13 @@ $white: #ffffff;
   border: 1px solid transparent;
   border-radius: 8px;
   background: transparent;
-  color: $text-light;
+  color: var(--f667085);
   font-family: inherit;
   font-size: 12.5px;
   cursor: pointer;
 
   &:hover:not(:disabled) {
-    border-color: #f3c7c7;
+    border-color: var(--lf3c7c7);
     color: var(--msg-red);
   }
 }

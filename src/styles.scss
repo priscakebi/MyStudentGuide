@@ -1,5 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
+// Mode sombre : palette générée (tools/mode-sombre.mjs) puis réglages à la main.
+@use 'styles/palette';
+@use 'styles/theme-sombre';
+
 /* ================================================================
    CHARTE GRAPHIQUE
    ----------------------------------------------------------------
@@ -144,7 +148,7 @@ a {
    ================================================================ */
 
 ::placeholder {
-  color: #98a2b3;
+  color: var(--f98a2b3);
   opacity: 1;
 }
 
@@ -200,7 +204,7 @@ textarea {
 }
 
 .field-counter.near-limit {
-  color: #b45309;
+  color: var(--fb45309);
   font-weight: 600;
 }
 
@@ -209,8 +213,8 @@ textarea {
   margin-left: 6px;
   padding: 1px 7px;
   border-radius: 999px;
-  background: #f2f4f7;
-  color: #667085;
+  background: var(--bf2f4f7);
+  color: var(--f667085);
   font-size: 11px;
   font-weight: 600;
 }
@@ -233,7 +237,7 @@ textarea {
   padding: 10px 16px;
   border-radius: 8px;
   background: var(--msg-blue);
-  color: white;
+  color: var(--fffffff);
   font-weight: 700;
   text-decoration: none;
   transform: translateY(-150%);
@@ -241,7 +245,7 @@ textarea {
 
   &:focus {
     transform: none;
-    outline: 3px solid #ffffff;
+    outline: 3px solid var(--lffffff);
     outline-offset: 2px;
   }
 }
@@ -291,7 +295,7 @@ textarea {
   }
 
   body {
-    background: #ffffff !important;
+    background: var(--bffffff) !important;
   }
 
   * {

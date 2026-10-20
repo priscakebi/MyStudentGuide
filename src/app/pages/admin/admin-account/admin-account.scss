@@ -34,7 +34,7 @@ $transition: 0.25s ease;
 
 .account-page {
   min-height: 100%;
-  background: $background;
+  background: var(--bf7f8fa);
 
   padding: 32px;
 }
@@ -65,9 +65,9 @@ $transition: 0.25s ease;
 
     flex-shrink: 0;
 
-    background: $red-light;
+    background: var(--bfff1f1);
 
-    border: 1px solid #f3cccc;
+    border: 1px solid var(--lf3cccc);
     border-radius: 14px;
 
     font-size: 24px;
@@ -90,7 +90,7 @@ $transition: 0.25s ease;
   h1 {
     margin: 0;
 
-    color: $dark;
+    color: var(--f1f2937);
 
     font-size: 30px;
     font-weight: 700;
@@ -99,7 +99,7 @@ $transition: 0.25s ease;
   p {
     margin: 7px 0 0;
 
-    color: $text-light;
+    color: var(--f6b7280);
 
     font-size: 14px;
   }
@@ -128,9 +128,9 @@ $transition: 0.25s ease;
 // ============================================================
 
 .account-card {
-  background: $white;
+  background: var(--bffffff);
 
-  border: 1px solid $border;
+  border: 1px solid var(--le5e7eb);
   border-radius: $radius;
 
   padding: 28px;
@@ -173,16 +173,16 @@ $transition: 0.25s ease;
     font-size: 20px;
 
     &.red {
-      background: $red-light;
+      background: var(--bfff1f1);
 
-      border: 1px solid #f2cccc;
+      border: 1px solid var(--lf2cccc);
     }
   }
 
   h2 {
     margin: 0;
 
-    color: $dark;
+    color: var(--f1f2937);
 
     font-size: 18px;
     font-weight: 700;
@@ -191,7 +191,7 @@ $transition: 0.25s ease;
   p {
     margin: 5px 0 0;
 
-    color: $text-light;
+    color: var(--f6b7280);
 
     font-size: 13px;
 
@@ -205,7 +205,7 @@ $transition: 0.25s ease;
 // ============================================================
 
 .account-information {
-  border-top: 1px solid $border;
+  border-top: 1px solid var(--le5e7eb);
 }
 
 
@@ -219,7 +219,7 @@ $transition: 0.25s ease;
 
   padding: 17px 4px;
 
-  border-bottom: 1px solid $border;
+  border-bottom: 1px solid var(--le5e7eb);
 
   &:last-child {
     border-bottom: none;
@@ -229,7 +229,7 @@ $transition: 0.25s ease;
 
 // Nom du champ
 .information-label {
-  color: $text-light;
+  color: var(--f6b7280);
 
   font-size: 14px;
   font-weight: 500;
@@ -238,7 +238,7 @@ $transition: 0.25s ease;
 
 // Valeur du champ
 .information-value {
-  color: $dark;
+  color: var(--f1f2937);
 
   font-size: 14px;
   font-weight: 600;
@@ -276,8 +276,8 @@ $transition: 0.25s ease;
   border: none;
   border-radius: 9px;
 
-  background: $red;
-  color: $white;
+  background: var(--bc62828);
+  color: var(--fffffff);
 
   font-size: 14px;
   font-weight: 600;
@@ -290,7 +290,7 @@ $transition: 0.25s ease;
     box-shadow $transition;
 
   &:hover {
-    background: $red-dark;
+    background: var(--ba91f1f);
 
     transform: translateY(-1px);
 
@@ -316,9 +316,9 @@ $transition: 0.25s ease;
 
   padding: 22px;
 
-  background: #fafafa;
+  background: var(--bfafafa);
 
-  border: 1px solid $border;
+  border: 1px solid var(--le5e7eb);
   border-radius: 12px;
 }
 
@@ -346,7 +346,7 @@ $transition: 0.25s ease;
   gap: 8px;
 
   label {
-    color: $dark;
+    color: var(--f1f2937);
 
     font-size: 14px;
     font-weight: 600;
@@ -362,12 +362,12 @@ $transition: 0.25s ease;
 
     padding: 0 14px;
 
-    background: $white;
+    background: var(--bffffff);
 
-    border: 1px solid #d7dbe0;
+    border: 1px solid var(--ld7dbe0);
     border-radius: 9px;
 
-    color: $dark;
+    color: var(--f1f2937);
 
     font-size: 14px;
 
@@ -378,7 +378,7 @@ $transition: 0.25s ease;
       box-shadow $transition;
 
     &::placeholder {
-      color: #9ca3af;
+      color: var(--f9ca3af);
     }
 
     &:focus {
@@ -389,7 +389,7 @@ $transition: 0.25s ease;
     }
 
     &:disabled {
-      background: #f3f4f6;
+      background: var(--bf3f4f6);
 
       cursor: not-allowed;
     }
@@ -402,7 +402,7 @@ $transition: 0.25s ease;
 // ============================================================
 
 .field-error {
-  color: $error;
+  color: var(--fc62828);
 
   font-size: 12px;
 
@@ -419,9 +419,9 @@ $transition: 0.25s ease;
 
   padding: 14px 16px;
 
-  background: #fafafa;
+  background: var(--bfafafa);
 
-  border: 1px solid $border;
+  border: 1px solid var(--le5e7eb);
   border-radius: 9px;
 
   // Texte d'introduction
@@ -430,7 +430,7 @@ $transition: 0.25s ease;
 
     margin-bottom: 9px;
 
-    color: $text-light;
+    color: var(--f6b7280);
 
     font-size: 12px;
   }
@@ -456,7 +456,7 @@ $transition: 0.25s ease;
 
     padding-left: 19px;
 
-    color: $text-light;
+    color: var(--f6b7280);
 
     font-size: 12px;
 
@@ -471,21 +471,21 @@ $transition: 0.25s ease;
       left: 0;
       top: 0;
 
-      color: #9ca3af;
+      color: var(--f9ca3af);
 
       font-size: 12px;
     }
 
     // Règle validée
     &.valid {
-      color: $success;
+      color: var(--f16803c);
 
       font-weight: 500;
 
       &::before {
         content: '✓';
 
-        color: $success;
+        color: var(--f16803c);
 
         font-weight: 700;
       }
@@ -536,28 +536,28 @@ $transition: 0.25s ease;
 
 // Message de succès
 .success-message {
-  background: $success-light;
+  background: var(--becfdf3);
 
-  border: 1px solid #b9ebcd;
+  border: 1px solid var(--lb9ebcd);
 
-  color: $success;
+  color: var(--f16803c);
 
   .message-icon {
-    background: #d9f7e5;
+    background: var(--bd9f7e5);
   }
 }
 
 
 // Message d'erreur
 .error-message {
-  background: $error-light;
+  background: var(--bfff1f1);
 
-  border: 1px solid #f0c7c7;
+  border: 1px solid var(--lf0c7c7);
 
-  color: $error;
+  color: var(--fc62828);
 
   .message-icon {
-    background: #ffe1e1;
+    background: var(--bffe1e1);
   }
 }
 
@@ -586,12 +586,12 @@ $transition: 0.25s ease;
 
   padding: 0 18px;
 
-  background: $white;
+  background: var(--bffffff);
 
-  border: 1px solid #d7dbe0;
+  border: 1px solid var(--ld7dbe0);
   border-radius: 9px;
 
-  color: $text;
+  color: var(--f374151);
 
   font-size: 14px;
   font-weight: 600;
@@ -601,9 +601,9 @@ $transition: 0.25s ease;
   transition: $transition;
 
   &:hover:not(:disabled) {
-    background: #f8f9fa;
+    background: var(--bf8f9fa);
 
-    border-color: #bfc4ca;
+    border-color: var(--lbfc4ca);
   }
 
   &:disabled {
@@ -623,8 +623,8 @@ $transition: 0.25s ease;
 
   padding: 0 20px;
 
-  background: $red;
-  color: $white;
+  background: var(--bc62828);
+  color: var(--fffffff);
 
   border: none;
   border-radius: 9px;
@@ -637,7 +637,7 @@ $transition: 0.25s ease;
   transition: $transition;
 
   &:hover:not(:disabled) {
-    background: $red-dark;
+    background: var(--ba91f1f);
 
     transform: translateY(-1px);
 
@@ -646,9 +646,9 @@ $transition: 0.25s ease;
   }
 
   &:disabled {
-    background: #d1d5db;
+    background: var(--bd1d5db);
 
-    color: #f9fafb;
+    color: var(--ff9fafb);
 
     cursor: not-allowed;
 
@@ -672,7 +672,7 @@ $transition: 0.25s ease;
   margin-top: 25px;
   padding-top: 22px;
 
-  border-top: 1px solid $border;
+  border-top: 1px solid var(--le5e7eb);
 }
 
 
@@ -687,8 +687,8 @@ $transition: 0.25s ease;
 
   flex-shrink: 0;
 
-  background: $red;
-  color: $white;
+  background: var(--bc62828);
+  color: var(--fffffff);
 
   border-radius: 50%;
 
@@ -705,13 +705,13 @@ $transition: 0.25s ease;
   gap: 3px;
 
   strong {
-    color: $dark;
+    color: var(--f1f2937);
 
     font-size: 14px;
   }
 
   span {
-    color: $text-light;
+    color: var(--f6b7280);
 
     font-size: 12px;
   }
@@ -737,7 +737,7 @@ $transition: 0.25s ease;
 
   padding: 18px 0;
 
-  border-bottom: 1px solid $border;
+  border-bottom: 1px solid var(--le5e7eb);
 
   &:first-child {
     padding-top: 0;
@@ -754,7 +754,7 @@ $transition: 0.25s ease;
 
     margin-bottom: 4px;
 
-    color: $dark;
+    color: var(--f1f2937);
 
     font-size: 14px;
   }
@@ -762,7 +762,7 @@ $transition: 0.25s ease;
   p {
     margin: 0;
 
-    color: $text-light;
+    color: var(--f6b7280);
 
     font-size: 13px;
 
@@ -782,7 +782,7 @@ $transition: 0.25s ease;
 
   flex-shrink: 0;
 
-  background: $red-light;
+  background: var(--bfff1f1);
 
   border-radius: 9px;
 
@@ -931,14 +931,14 @@ $transition: 0.25s ease;
   gap: 6px;
   margin: 4px 0 18px;
   font-size: 0.88rem;
-  color: #667085;
+  color: var(--f667085);
 }
 
 .forgot-password-link {
   padding: 0;
   border: none;
   background: none;
-  color: #1646a0;
+  color: var(--f1646a0);
   font: inherit;
   font-weight: 700;
   text-decoration: underline;

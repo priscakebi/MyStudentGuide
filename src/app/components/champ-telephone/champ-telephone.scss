@@ -21,11 +21,11 @@ input {
   box-sizing: border-box;
   padding: 0 12px;
 
-  border: 1px solid #d9dde2;
+  border: 1px solid var(--ld9dde2);
   border-radius: 10px;
 
-  background: #ffffff;
-  color: #172033;
+  background: var(--bffffff);
+  color: var(--f172033);
 
   font-family: inherit;
   font-size: 14px;
@@ -39,7 +39,7 @@ input {
   }
 
   &:disabled {
-    background: #f5f7fb;
+    background: var(--bf5f7fb);
     cursor: not-allowed;
   }
 }
@@ -50,7 +50,7 @@ select {
 }
 
 input::placeholder {
-  color: #6b7280;
+  color: var(--f6b7280);
 }
 
 @media (max-width: 420px) {

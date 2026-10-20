@@ -70,7 +70,7 @@ $transition: 0.25s ease;
 
   border-radius: $radius-md;
 
-  background: $blue-light;
+  background: var(--beaf1ff);
 
   font-size: 26px;
 }
@@ -93,7 +93,7 @@ $transition: 0.25s ease;
 .page-header h1 {
   margin: 0;
 
-  color: $text-dark;
+  color: var(--f172033);
 
   font-size: 30px;
   font-weight: 750;
@@ -103,7 +103,7 @@ $transition: 0.25s ease;
 .page-header p {
   margin: 7px 0 0;
 
-  color: $text-light;
+  color: var(--f667085);
 
   font-size: 15px;
 }
@@ -131,9 +131,9 @@ $transition: 0.25s ease;
 // ============================================================
 
 .account-card {
-  background: $white;
+  background: var(--bffffff);
 
-  border: 1px solid $border;
+  border: 1px solid var(--le6eaf0);
   border-radius: $radius-lg;
 
   padding: 28px;
@@ -173,24 +173,24 @@ $transition: 0.25s ease;
 
 
 .card-icon.blue {
-  background: $blue-light;
+  background: var(--beaf1ff);
 }
 
 
 .card-icon.red {
-  background: $red-light;
+  background: var(--bfff0f1);
 }
 
 
 .card-icon.danger {
-  background: $red-light;
+  background: var(--bfff0f1);
 }
 
 
 .card-header h2 {
   margin: 0;
 
-  color: $text-dark;
+  color: var(--f172033);
 
   font-size: 19px;
   font-weight: 700;
@@ -200,7 +200,7 @@ $transition: 0.25s ease;
 .card-header p {
   margin: 5px 0 0;
 
-  color: $text-light;
+  color: var(--f667085);
 
   font-size: 14px;
   line-height: 1.5;
@@ -223,9 +223,9 @@ $transition: 0.25s ease;
 .information-item {
   padding: 17px;
 
-  background: #fafbfc;
+  background: var(--bfafbfc);
 
-  border: 1px solid $border;
+  border: 1px solid var(--le6eaf0);
 
   border-radius: $radius-sm;
 }
@@ -236,7 +236,7 @@ $transition: 0.25s ease;
 
   margin-bottom: 7px;
 
-  color: $text-light;
+  color: var(--f667085);
 
   font-size: 12px;
   font-weight: 600;
@@ -246,7 +246,7 @@ $transition: 0.25s ease;
 .information-value {
   display: block;
 
-  color: $text-dark;
+  color: var(--f172033);
 
   font-size: 14px;
   font-weight: 600;
@@ -277,7 +277,7 @@ $transition: 0.25s ease;
 
 
 .form-group label {
-  color: $text-dark;
+  color: var(--f172033);
 
   font-size: 14px;
   font-weight: 650;
@@ -293,12 +293,12 @@ $transition: 0.25s ease;
 
   padding: 13px 14px;
 
-  background: $white;
+  background: var(--bffffff);
 
-  border: 1px solid $border;
+  border: 1px solid var(--le6eaf0);
   border-radius: $radius-sm;
 
-  color: $text-dark;
+  color: var(--f172033);
 
   font-family: inherit;
   font-size: 14px;
@@ -322,21 +322,21 @@ $transition: 0.25s ease;
 
 .form-group input::placeholder,
 .form-group textarea::placeholder {
-  color: #667085;
+  color: var(--f667085);
 }
 
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
-  border-color: $blue;
+  border-color: var(--l1646a0);
 
   box-shadow: 0 0 0 3px rgba(22, 70, 160, 0.10);
 }
 
 
 .field-help {
-  color: $text-light;
+  color: var(--f667085);
 
   font-size: 12px;
 
@@ -345,7 +345,7 @@ $transition: 0.25s ease;
 
 
 .field-error {
-  color: $red-dark;
+  color: var(--fb51d29);
 
   font-size: 12px;
   font-weight: 600;
@@ -355,7 +355,7 @@ $transition: 0.25s ease;
 .optional-label {
   margin-left: 5px;
 
-  color: $text-light;
+  color: var(--f667085);
 
   font-size: 12px;
   font-weight: 500;
@@ -400,30 +400,30 @@ $transition: 0.25s ease;
 
 
 .success-message {
-  background: #ecfdf3;
+  background: var(--becfdf3);
 
-  border: 1px solid #abefc6;
+  border: 1px solid var(--labefc6);
 
-  color: $success;
+  color: var(--f16845b);
 }
 
 
 .success-message .message-icon {
-  background: #d1fadf;
+  background: var(--bd1fadf);
 }
 
 
 .error-message {
-  background: $red-light;
+  background: var(--bfff0f1);
 
-  border: 1px solid #ffc7cc;
+  border: 1px solid var(--lffc7cc);
 
-  color: $red-dark;
+  color: var(--fb51d29);
 }
 
 
 .error-message .message-icon {
-  background: #ffdfe2;
+  background: var(--bffdfe2);
 }
 
 
@@ -468,28 +468,28 @@ $transition: 0.25s ease;
 
 
 .cancel-button {
-  background: #f2f4f7;
+  background: var(--bf2f4f7);
 
-  color: $text;
+  color: var(--f344054);
 }
 
 
 .cancel-button:hover {
-  background: #e4e7ec;
+  background: var(--be4e7ec);
 }
 
 
 .submit-button {
-  background: $blue;
+  background: var(--b1646a0);
 
-  color: $white;
+  color: var(--fffffff);
 
   box-shadow: 0 5px 14px rgba(22, 70, 160, 0.18);
 }
 
 
 .submit-button:hover {
-  background: $blue-dark;
+  background: var(--b0d2f70);
 
   transform: translateY(-1px);
 }
@@ -512,7 +512,7 @@ $transition: 0.25s ease;
 // ============================================================
 
 .danger-card {
-  border-color: #f5c2c7;
+  border-color: var(--lf5c2c7);
 }
 
 
@@ -541,9 +541,9 @@ $transition: 0.25s ease;
 
   padding: 16px;
 
-  background: $red-light;
+  background: var(--bfff0f1);
 
-  border: 1px solid #ffc7cc;
+  border: 1px solid var(--lffc7cc);
 
   border-radius: $radius-sm;
 }
@@ -559,9 +559,9 @@ $transition: 0.25s ease;
   align-items: center;
   justify-content: center;
 
-  background: $red;
+  background: var(--bd0222f);
 
-  color: $white;
+  color: var(--fffffff);
 
   border-radius: 50%;
 
@@ -575,7 +575,7 @@ $transition: 0.25s ease;
 
   margin-bottom: 4px;
 
-  color: $red-dark;
+  color: var(--fb51d29);
 
   font-size: 14px;
 }
@@ -584,7 +584,7 @@ $transition: 0.25s ease;
 .danger-warning p {
   margin: 0;
 
-  color: $text;
+  color: var(--f344054);
 
   font-size: 13px;
   line-height: 1.55;
@@ -598,16 +598,16 @@ $transition: 0.25s ease;
 .delete-account-button {
   align-self: flex-start;
 
-  background: $white;
+  background: var(--bffffff);
 
-  border: 1px solid $red;
+  border: 1px solid var(--ld0222f);
 
-  color: $red-dark;
+  color: var(--fb51d29);
 }
 
 
 .delete-account-button:hover {
-  background: $red-light;
+  background: var(--bfff0f1);
 
   box-shadow: 0 5px 15px rgba(230, 57, 70, 0.12);
 
@@ -634,9 +634,9 @@ $transition: 0.25s ease;
 
   padding: 15px;
 
-  background: $blue-light;
+  background: var(--beaf1ff);
 
-  border: 1px solid #cbdcff;
+  border: 1px solid var(--lcbdcff);
 
   border-radius: $radius-sm;
 }
@@ -652,9 +652,9 @@ $transition: 0.25s ease;
   align-items: center;
   justify-content: center;
 
-  background: $blue;
+  background: var(--b1646a0);
 
-  color: $white;
+  color: var(--fffffff);
 
   border-radius: 50%;
 
@@ -666,7 +666,7 @@ $transition: 0.25s ease;
 .delete-information p {
   margin: 0;
 
-  color: $text;
+  color: var(--f344054);
 
   font-size: 13px;
   line-height: 1.55;
@@ -680,9 +680,9 @@ $transition: 0.25s ease;
 .confirmation-box {
   padding: 15px;
 
-  background: #fafbfc;
+  background: var(--bfafbfc);
 
-  border: 1px solid $border;
+  border: 1px solid var(--le6eaf0);
 
   border-radius: $radius-sm;
 }
@@ -696,7 +696,7 @@ $transition: 0.25s ease;
 
   cursor: pointer;
 
-  color: $text;
+  color: var(--f344054);
 
   font-size: 13px;
   line-height: 1.5;
@@ -711,7 +711,7 @@ $transition: 0.25s ease;
 
   margin-top: 1px;
 
-  accent-color: $blue;
+  accent-color: var(--f1646a0);
 
   cursor: pointer;
 }
@@ -743,28 +743,28 @@ $transition: 0.25s ease;
 
 
 .cancel-delete-button {
-  background: #f2f4f7;
+  background: var(--bf2f4f7);
 
-  color: $text;
+  color: var(--f344054);
 }
 
 
 .cancel-delete-button:hover {
-  background: #e4e7ec;
+  background: var(--be4e7ec);
 }
 
 
 .confirm-delete-button {
-  background: $red;
+  background: var(--bd0222f);
 
-  color: $white;
+  color: var(--fffffff);
 
   box-shadow: 0 5px 14px rgba(230, 57, 70, 0.18);
 }
 
 
 .confirm-delete-button:hover {
-  background: $red-dark;
+  background: var(--bb51d29);
 
   transform: translateY(-1px);
 }
@@ -862,13 +862,13 @@ $transition: 0.25s ease;
 
 /* Les règles sont rouges par défaut */
 .password-rules ul li {
-  color: #dc2626;
+  color: var(--fdc2626);
   margin-bottom: 5px;
 }
 
 /* Une règle devient verte lorsqu'elle est respectée */
 .password-rules ul li.valid {
-  color: #16a34a;
+  color: var(--f16a34a);
 }
 
 /* Lien « Mot de passe actuel oublié ? » */
@@ -879,14 +879,14 @@ $transition: 0.25s ease;
   gap: 6px;
   margin: 4px 0 18px;
   font-size: 0.88rem;
-  color: #667085;
+  color: var(--f667085);
 }
 
 .forgot-password-link {
   padding: 0;
   border: none;
   background: none;
-  color: #1646a0;
+  color: var(--f1646a0);
   font: inherit;
   font-weight: 700;
   text-decoration: underline;
