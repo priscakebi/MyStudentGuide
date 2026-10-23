@@ -1,0 +1,296 @@
+// ============================================================
+// MES PAPIERS
+// ============================================================
+// Couleurs converties pour le mode sombre par tools/mode-sombre.mjs.
+
+.papiers-page {
+  max-width: 1100px;
+}
+
+.page-header {
+  margin-bottom: 20px;
+
+  h1 {
+    margin: 0 0 8px;
+    color: var(--f172033);
+    font-size: 26px;
+    letter-spacing: -0.3px;
+  }
+
+  p {
+    max-width: 700px;
+    margin: 0;
+    color: var(--f667085);
+    line-height: 1.6;
+  }
+
+  .confidentialite {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    color: var(--f11704d);
+    font-size: 13px;
+    font-weight: 600;
+  }
+}
+
+.message {
+  margin: 0 0 16px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+
+  &.succes {
+    border: 1px solid var(--lb9ebcd);
+    background: var(--becfdf3);
+    color: var(--f16803c);
+  }
+
+  &.erreur {
+    border: 1px solid var(--lf0c7c7);
+    background: var(--bfff1f1);
+    color: var(--fc62828);
+  }
+}
+
+.papiers-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.card {
+  padding: 24px;
+  border: 1px solid var(--le6eaf0);
+  border-radius: 16px;
+  background: var(--bffffff);
+  box-shadow: 0 4px 16px rgba(20, 44, 90, 0.05);
+
+  h2 {
+    margin: 0 0 16px;
+    color: var(--f172033);
+    font-size: 18px;
+  }
+}
+
+.muted,
+.vide {
+  margin: 0;
+  color: var(--f667085);
+  font-size: 14px;
+}
+
+// ---------- Liste ----------
+
+.liste {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.papier {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  padding: 14px 16px;
+
+  border: 1px solid var(--le6eaf0);
+  border-left: 4px solid var(--l16845b);
+  border-radius: 12px;
+  background: var(--bfbfcfe);
+
+  &.bientot {
+    border-left-color: var(--le8a317);
+  }
+
+  &.expire {
+    border-left-color: var(--lc62828);
+  }
+}
+
+.infos {
+  display: grid;
+  flex: 1 1 220px;
+  gap: 2px;
+
+  strong {
+    color: var(--f172033);
+    font-size: 15px;
+  }
+
+  .type,
+  .date {
+    color: var(--f667085);
+    font-size: 13px;
+  }
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 99px;
+  background: var(--be9f7ef);
+  color: var(--f11704d);
+  font-size: 12px;
+  font-weight: 800;
+
+  .bientot & {
+    background: var(--bfff4dc);
+    color: var(--f8a4b08);
+  }
+
+  .expire & {
+    background: var(--bfff1f1);
+    color: var(--fc62828);
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 6px;
+}
+
+.icone-btn {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+
+  border: 1px solid var(--ld0d5dd);
+  border-radius: 9px;
+  background: var(--bffffff);
+  color: var(--f344054);
+
+  font-size: 16px;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    border-color: var(--l1646a0);
+    color: var(--f1646a0);
+  }
+
+  &.danger:hover:not(:disabled) {
+    border-color: var(--lc62828);
+    color: var(--fc62828);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.titre-sejour {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 18px 0 0;
+  padding: 12px 14px;
+
+  border-radius: 10px;
+  background: var(--beaf1ff);
+  color: var(--f1e3a8a);
+  font-size: 13px;
+  line-height: 1.5;
+
+  a {
+    color: var(--f1646a0);
+    font-weight: 700;
+  }
+}
+
+// ---------- Formulaire ----------
+
+.form-group {
+  margin-bottom: 16px;
+
+  label {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--f172033);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  select,
+  input {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 44px;
+    padding: 0 13px;
+
+    border: 1px solid var(--ld0d5dd);
+    border-radius: 10px;
+    background: var(--bffffff);
+    color: var(--f172033);
+
+    font: inherit;
+    font-size: 14px;
+
+    &:focus {
+      outline: none;
+      border-color: var(--msg-focus);
+      box-shadow: var(--msg-focus-ring);
+    }
+  }
+
+  .aide {
+    margin: 6px 0 0;
+    color: var(--f667085);
+    font-size: 12.5px;
+  }
+}
+
+.required {
+  color: var(--msg-red);
+}
+
+.boutons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.principal,
+.secondaire {
+  min-height: 42px;
+  padding: 0 18px;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.principal {
+  border: none;
+  background: var(--b1646a0);
+  color: var(--fffffff);
+
+  &:hover:not(:disabled) {
+    background: var(--b0d2f70);
+  }
+}
+
+.secondaire {
+  border: 1px solid var(--ld0d5dd);
+  background: var(--bffffff);
+  color: var(--f344054);
+}
+
+@media (max-width: 900px) {
+  .papiers-layout {
+    grid-template-columns: 1fr;
+  }
+}

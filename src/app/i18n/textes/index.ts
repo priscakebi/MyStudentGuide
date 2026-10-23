@@ -23,6 +23,7 @@ import { ESPACE } from './espace';
 import { NAVIGATION } from './navigation';
 import { NOTIFICATIONS } from './notifications';
 import { NOUVEAUTES_TEXTES } from './nouveautes';
+import { PAPIERS } from './papiers';
 import { PROFIL } from './profil';
 import { SUIVIS } from './suivis';
 import { TITRES } from './titres';
@@ -43,7 +44,8 @@ export const TEXTES = {
   ...SUIVIS,
   ...PROFIL,
   ...COMPTE,
-  ...NOUVEAUTES_TEXTES
+  ...NOUVEAUTES_TEXTES,
+  ...PAPIERS
 };
 
 export type Cle = keyof typeof TEXTES;

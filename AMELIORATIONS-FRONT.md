@@ -603,3 +603,15 @@ Nouvelles colonnes sur `demarches` (ajoutées automatiquement) : `statut_publica
   (ordinateur FR et mobile EN).
 - **Pour ajouter une couleur** : l'écrire normalement (`#1646a0`, `$blue`), puis lancer
   `node tools/mode-sombre.mjs` qui la convertit et met la palette à jour.
+
+## 44. « Mes papiers » : dates d'expiration des documents
+- Nouvelle page de l'espace étudiant (`/dashboard/papiers`, menu « Mon parcours ») : l'étudiant note le type
+  de document (passeport, carte d'identité, visa, carte étudiante, assurance habitation, mutuelle, bail,
+  permis, autre), un nom facultatif et la date d'expiration. **Aucun fichier n'est envoyé.**
+- Liste triée par date, avec un état : « Expiré » (rouge), « Dans N jour(s) » à 90 jours ou moins (orange),
+  « Valide » (vert). Modifier / supprimer. Le titre de séjour reste suivi dans le profil (lien vers celui-ci).
+- **Rappels** (`DocumentPersonnelService`) : notification, et e-mail si l'adresse est confirmée, à 90, 30 et
+  7 jours, puis si la date est dépassée (jusqu'à 30 jours après) ; une seule fois par palier.
+- **RGPD** : inclus dans l'export des données (« mesPapiers ») et supprimés avec le compte
+  (clé étrangère ON DELETE CASCADE). 30 documents au maximum par compte.
+- API : `GET/POST /api/mes-papiers`, `PUT/DELETE /api/mes-papiers/{id}` (table `documents_personnels`).

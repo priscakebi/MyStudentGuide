@@ -24,6 +24,17 @@ export interface Nouveaute {
 
 export const NOUVEAUTES: Nouveaute[] = [
   {
+    date: '2026-10-21',
+    type: 'nouveau',
+    titre: 'Mes papiers : rappels avant expiration',
+    titreEn: 'My documents: reminders before expiry',
+    texte: 'Notez la date d\'expiration de votre passeport, de votre assurance ou de votre carte étudiante : '
+      + 'vous êtes prévenu 3 mois, 1 mois et 1 semaine avant. Aucun fichier n\'est envoyé.',
+    texteEn: 'Note the expiry date of your passport, insurance or student card: '
+      + 'you are notified 3 months, 1 month and 1 week before. No file is uploaded.',
+    lien: '/dashboard/papiers'
+  },
+  {
     date: '2026-10-17',
     type: 'nouveau',
     titre: 'Conseils pratiques et astuce du jour',

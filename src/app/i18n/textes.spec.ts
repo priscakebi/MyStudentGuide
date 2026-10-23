@@ -12,6 +12,7 @@ import { ESPACE } from './textes/espace';
 import { NAVIGATION } from './textes/navigation';
 import { NOTIFICATIONS } from './textes/notifications';
 import { NOUVEAUTES_TEXTES } from './textes/nouveautes';
+import { PAPIERS } from './textes/papiers';
 import { PROFIL } from './textes/profil';
 import { SUIVIS } from './textes/suivis';
 import { TITRES } from './textes/titres';
@@ -19,7 +20,7 @@ import { Traductions } from './textes/type';
 
 const DICTIONNAIRES: Record<string, Traductions> = {
   ACCUEIL, AIDE, AUTH, COMMUN, COMPOSANTS, COMPTE, DEMARCHE_DETAIL, DEMARCHES,
-  DOCUMENTS, ESPACE, NAVIGATION, NOTIFICATIONS, NOUVEAUTES_TEXTES, PROFIL, SUIVIS, TITRES
+  DOCUMENTS, ESPACE, NAVIGATION, NOTIFICATIONS, NOUVEAUTES_TEXTES, PAPIERS, PROFIL, SUIVIS, TITRES
 };
 
 /** Notes affichées seulement en anglais (« le contenu reste en français ») : texte français vide. */

@@ -1,0 +1,142 @@
+<!-- ============================================================
+     MES PAPIERS : DATES D'EXPIRATION
+     ============================================================ -->
+
+<section class="papiers-page">
+
+  <header class="page-header">
+    <h1>{{ 'papiers.titre' | t }}</h1>
+    <p>{{ 'papiers.intro' | t }}</p>
+    <p class="confidentialite">
+      <span aria-hidden="true"><app-icone nom="cadenas" /></span>
+      {{ 'papiers.confidentialite' | t }}
+    </p>
+  </header>
+
+  @if (succes()) {
+    <p class="message succes" role="status">{{ succes() }}</p>
+  }
+  @if (erreur()) {
+    <p class="message erreur" role="alert">{{ erreur() }}</p>
+  }
+
+  <div class="papiers-layout">
+
+    <!-- ========================================================
+         LISTE
+         ======================================================== -->
+
+    <section class="card" aria-labelledby="papiers-liste">
+      <h2 id="papiers-liste">{{ 'papiers.liste' | t }}</h2>
+
+      @if (chargement()) {
+        <p class="muted">…</p>
+      } @else if (papiers().length === 0) {
+        <p class="vide">{{ 'papiers.vide' | t }}</p>
+      } @else {
+        <ul class="liste">
+          @for (papier of papiers(); track papier.id) {
+            @let etat = statut(papier);
+            <li [class]="'papier ' + etat">
+              <div class="infos">
+                <strong>{{ nom(papier) }}</strong>
+                @if (papier.libelle) {
+                  <span class="type">{{ cleType(papier.type) | t }}</span>
+                }
+                <span class="date">
+                  {{ 'papiers.expireLe' | t: { date: (papier.dateExpiration | dateL: 'd MMMM y') } }}
+                </span>
+              </div>
+
+              <span class="badge">
+                @switch (etat) {
+                  @case ('expire') { {{ 'papiers.statut.expire' | t }} }
+                  @case ('bientot') { {{ 'papiers.statut.bientot' | t: { n: joursRestants(papier) } }} }
+                  @default { {{ 'papiers.statut.valide' | t }} }
+                }
+              </span>
+
+              <div class="actions">
+                <button
+                  type="button"
+                  class="icone-btn"
+                  [attr.aria-label]="'papiers.action.modifier' | t: { nom: nom(papier) }"
+                  [title]="'papiers.action.modifier' | t: { nom: nom(papier) }"
+                  (click)="editer(papier)"
+                ><app-icone nom="crayon" /></button>
+                <button
+                  type="button"
+                  class="icone-btn danger"
+                  [attr.aria-label]="'papiers.action.supprimer' | t: { nom: nom(papier) }"
+                  [title]="'papiers.action.supprimer' | t: { nom: nom(papier) }"
+                  [disabled]="enCours()"
+                  (click)="supprimer(papier)"
+                ><app-icone nom="corbeille" /></button>
+              </div>
+            </li>
+          }
+        </ul>
+      }
+
+      <p class="titre-sejour">
+        <span aria-hidden="true"><app-icone nom="info" /></span>
+        {{ 'papiers.titreSejour' | t }}
+        <a routerLink="/dashboard/profile">{{ 'papiers.titreSejour.lien' | t }}</a>
+      </p>
+    </section>
+
+
+    <!-- ========================================================
+         FORMULAIRE
+         ======================================================== -->
+
+    <section class="card" aria-labelledby="papiers-form">
+      <h2 id="papiers-form">{{ (formulaire.id === null ? 'papiers.ajouter' : 'papiers.modifier') | t }}</h2>
+
+      <form (ngSubmit)="enregistrer()" novalidate>
+
+        <div class="form-group">
+          <label for="papier-type">{{ 'papiers.type' | t }} <span class="required" aria-hidden="true">*</span></label>
+          <select id="papier-type" name="type" [(ngModel)]="formulaire.type" required>
+            <option value="" disabled>{{ 'papiers.type.choisir' | t }}</option>
+            @for (type of types; track type) {
+              <option [value]="type">{{ cleType(type) | t }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="papier-nom">
+            {{ 'papiers.nom' | t }}
+            @if (formulaire.type === 'AUTRE') {
+              <span class="required" aria-hidden="true">*</span>
+            }
+          </label>
+          <input
+            id="papier-nom"
+            name="libelle"
+            maxlength="100"
+            [(ngModel)]="formulaire.libelle"
+            aria-describedby="papier-nom-aide"
+          >
+          <p id="papier-nom-aide" class="aide">{{ 'papiers.nom.aide' | t }}</p>
+        </div>
+
+        <div class="form-group">
+          <label for="papier-date">{{ 'papiers.date' | t }} <span class="required" aria-hidden="true">*</span></label>
+          <input id="papier-date" name="dateExpiration" type="date" [(ngModel)]="formulaire.dateExpiration" required>
+        </div>
+
+        <div class="boutons">
+          @if (formulaire.id !== null) {
+            <button type="button" class="secondaire" (click)="annuler()">{{ 'papiers.annuler' | t }}</button>
+          }
+          <button type="submit" class="principal" [disabled]="enCours()">{{ 'papiers.enregistrer' | t }}</button>
+        </div>
+
+      </form>
+    </section>
+
+  </div>
+
+</section>

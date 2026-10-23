@@ -528,6 +528,20 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./pages/aide/aide')
             .then(m => m.Aide)
+      },
+
+
+      // ====================================================================
+      // MES PAPIERS (dates d'expiration des documents)
+      // ====================================================================
+
+      {
+        path: 'papiers',
+        title: 'titre.mesPapiers',
+
+        loadComponent: () =>
+          import('./pages/papiers/papiers')
+            .then(m => m.Papiers)
       }
     ]
   },
